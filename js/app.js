@@ -1,3 +1,6 @@
+console.log("Hello from Script"); // Kobling er good to go!
+
+
 import { FlowEngine } from "./engine/flowEngine.js";
 
 //Variabler
@@ -5,6 +8,4 @@ import { FlowEngine } from "./engine/flowEngine.js";
 const engine = new FlowEngine();
 
 engine.start();
-
-console.log("Hello from Script"); // Kobling er good to go!
 
