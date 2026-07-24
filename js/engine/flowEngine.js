@@ -18,5 +18,4 @@ export class FlowEngine {
     startQuiz(){
         console.log("Quizzen starter");
     }
-
 }

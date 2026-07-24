@@ -3,8 +3,16 @@ const app = document.querySelector("#app");
 function showWelcomeScreen(onStart){
     console.log("Velkomstskærm vises");
 
-    app.innerHTML = `<h1>Velkommen</h1>
-                    <button id="start-button">Start</button>`;
+    app.innerHTML = `
+                    <div class="welcome-card">
+                        <h1>Velkommen til Prøverummet</h1>
+
+                            <p>Her får du en lille smagsprøve på, hvordan vores vækstrum fungerer.</p>
+                            <p>Der findes ingen rigtige eller forkerte svar.</p>
+                            <p>Formålet er blot at finde ud af, hvor stærkt dit grundlag i forvejen er.</p>
+                    </div>
+
+                        <button id="start-button">Start</button>`;
 
         const startButton = document.querySelector("#start-button");
 
