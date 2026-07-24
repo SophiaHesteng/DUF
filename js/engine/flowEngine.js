@@ -12,7 +12,11 @@ export class FlowEngine {
     start() {
         console.log("FlowEngine er startet");
 
-        showWelcomeScreen();
+        showWelcomeScreen(this.startQuiz);
+    }
+
+    startQuiz(){
+        console.log("Quizzen starter");
     }
 
 }
