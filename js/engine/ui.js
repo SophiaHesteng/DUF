@@ -34,7 +34,15 @@ function showQuestion(questionObject){
     for (const answer of questionObject.answers) {
         console.log(answer.text);
 
-        answersContainer.innerHTML += `<button>${answer.text}</button>`;
+        const button = document.createElement("button");
+
+        button.textContent = answer.text;
+
+        answersContainer.appendChild(button);
+
+        button.addEventListener("click", () => {
+            console.log("Der blev klikket!");
+        })
     }
 }
 
