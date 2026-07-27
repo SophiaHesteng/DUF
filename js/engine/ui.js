@@ -22,7 +22,7 @@ function showWelcomeScreen(onStart){
         });
 }
 
-function showQuestion(questionObject){
+function showQuestion(questionObject, onAnswerSelected){
     console.log(questionObject.question);
     console.log(questionObject.answers);
 
@@ -41,7 +41,7 @@ function showQuestion(questionObject){
         answersContainer.appendChild(button);
 
         button.addEventListener("click", () => {
-            console.log("Der blev klikket!");
+            console.log(onAnswerSelected(answer));
         })
     }
 }

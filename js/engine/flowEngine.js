@@ -14,7 +14,7 @@ export class FlowEngine {
     start() {
         console.log("FlowEngine er startet");
 
-        showWelcomeScreen(this.startQuiz);
+        showWelcomeScreen(() => this.startQuiz());
     }
 
     startQuiz(){
@@ -22,6 +22,10 @@ export class FlowEngine {
 
         const firstQuestion = questions[0];
 
-        showQuestion(firstQuestion);
+        showQuestion(firstQuestion, (answer) => this.answerSelected(answer));
+    }
+
+    answerSelected(answers){
+        console.log(answers);
     }
 }
