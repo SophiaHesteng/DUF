@@ -7,6 +7,8 @@ import {
     showResult
 } from "./ui.js";
 
+import { questions } from "../data/proverummet.js";
+
 export class FlowEngine {
 
     start() {
