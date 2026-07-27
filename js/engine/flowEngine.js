@@ -19,5 +19,9 @@ export class FlowEngine {
 
     startQuiz(){
         console.log("Quizzen starter");
+
+        const firstQuestion = questions[0];
+
+        showQuestion(firstQuestion);
     }
 }

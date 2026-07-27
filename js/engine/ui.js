@@ -22,8 +22,20 @@ function showWelcomeScreen(onStart){
         });
 }
 
-function showQuestion(question){
+function showQuestion(questionObject){
+    console.log(questionObject.question);
+    console.log(questionObject.answers);
 
+    app.innerHTML = `<h2>${questionObject.question}</h2>
+        <div class="answers"></div>`;
+
+    const answersContainer = document.querySelector(".answers");
+
+    for (const answer of questionObject.answers) {
+        console.log(answer.text);
+
+        answersContainer.innerHTML += `<button>${answer.text}</button>`;
+    }
 }
 
 function showFeedback(feedback){
