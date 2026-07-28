@@ -9,7 +9,9 @@ import {
 
 import { questions } from "../data/proverummet.js";
 
-import { storeAnswer } from "./state.js";
+import { storeAnswer, retrieveAnswers } from "./state.js";
+
+import { calculateResult } from "./result.js";
 
 export class FlowEngine {
 
@@ -27,12 +29,18 @@ export class FlowEngine {
         const currentQuestion = questions[this.currentQuestionIndex];
 
         showQuestion(currentQuestion, (answer) => this.answerSelected(answer));
+
+         updateNavigation(this.currentQuestionIndex);
+
+         updateProgressBar(this.currentQuestionIndex, questions.length);
     }
 
     answerSelected(answer){
         console.log(answer);
 
         storeAnswer(answer);
+
+        showFeedback(answer.feedback);
 
         this.currentQuestionIndex++;
 
@@ -41,7 +49,11 @@ export class FlowEngine {
             }
             
             else {
-                console.log("Quizzen er slut");
+                const answers = retrieveAnswers();
+
+                const result = calculateResult(answers);
+                
+                showResult(result);
             }
     }
 }

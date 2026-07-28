@@ -61,6 +61,10 @@ function updateProgressBar(currentStep, totalSteps){
 
 function showResult(result){
 
+    console.log("Quizzen er slut");
+
+    console.log(result);
+
 }
 
 export {
