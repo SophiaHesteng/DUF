@@ -11,7 +11,7 @@ import { questions } from "../data/proverummet.js";
 
 import { storeAnswer, retrieveAnswers } from "./state.js";
 
-import { calculateResult } from "./result.js";
+import { calculateResult } from "./resultCalculator.js";
 
 export class FlowEngine {
 

@@ -59,11 +59,22 @@ function updateProgressBar(currentStep, totalSteps){
 
 }
 
-function showResult(result){
+function showResult(result) {
 
-    console.log("Quizzen er slut");
+    app.innerHTML = `
+        <section class="result-screen">
 
-    console.log(result);
+            <h2>${result.title}</h2>
+
+            <p>${result.description}</p>
+
+            <p>${result.recommendedRoom}</p>
+
+            <a href="${result.buttonLink}">
+                ${result.buttonText}
+            </a>
+
+        </section>`;
 
 }
 
