@@ -9,23 +9,39 @@ import {
 
 import { questions } from "../data/proverummet.js";
 
+import { storeAnswer } from "./state.js";
+
 export class FlowEngine {
+
+    currentQuestionIndex = 0;
 
     start() {
         console.log("FlowEngine er startet");
 
-        showWelcomeScreen(() => this.startQuiz());
+        showWelcomeScreen(() => this.displayCurrentQuestion());
     }
 
-    startQuiz(){
+    displayCurrentQuestion(){
         console.log("Quizzen starter");
 
-        const firstQuestion = questions[0];
+        const currentQuestion = questions[this.currentQuestionIndex];
 
-        showQuestion(firstQuestion, (answer) => this.answerSelected(answer));
+        showQuestion(currentQuestion, (answer) => this.answerSelected(answer));
     }
 
-    answerSelected(answers){
-        console.log(answers);
+    answerSelected(answer){
+        console.log(answer);
+
+        storeAnswer(answer);
+
+        this.currentQuestionIndex++;
+
+            if (this.currentQuestionIndex < questions.length) {
+                this.displayCurrentQuestion();
+            }
+            
+            else {
+                console.log("Quizzen er slut");
+            }
     }
 }

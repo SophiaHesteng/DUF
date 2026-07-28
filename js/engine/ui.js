@@ -41,8 +41,9 @@ function showQuestion(questionObject, onAnswerSelected){
         answersContainer.appendChild(button);
 
         button.addEventListener("click", () => {
-            console.log(onAnswerSelected(answer));
-        })
+        console.log("Answered!");
+        onAnswerSelected(answer);
+        });
     }
 }
 
