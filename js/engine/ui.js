@@ -1,3 +1,5 @@
+import { activateFocusTrap } from "./accessibility.js";
+
 const app = document.querySelector("#app");
 
 function renderExitDoor() {
@@ -27,6 +29,8 @@ function showWelcomeScreen(onStart, onExit){
 
                         <button id="start-button">Start</button>
                          ${renderExitDoor()}`;
+
+                        activateFocusTrap(app);
 
                         const exitButton = document.querySelector("#exit-button");
                             exitButton.addEventListener("click", onExit);
@@ -64,6 +68,9 @@ function showQuestion(questionObject, onAnswerSelected, onExit){
         onAnswerSelected(answer);
         });
     }
+
+    activateFocusTrap(app);
+    
         const exitButton = document.querySelector("#exit-button");
         exitButton.addEventListener("click", onExit);
 }
@@ -82,8 +89,9 @@ function showFeedback(feedback, onNext, onExit) {
             </button>
 
         </section>
-         ${renderExitDoor()}
-    `;
+         ${renderExitDoor()}`;
+
+         activateFocusTrap(app);
 
     const nextButton = document.querySelector("#next-button");
 
@@ -120,6 +128,7 @@ function showResult(result) {
             </a>
 
         </section>`;
+        activateFocusTrap(app);
 
 }
 
@@ -142,6 +151,8 @@ function showExitConfirmation(onStay, onExit){
             </button>
 
         </section>`;
+        
+        activateFocusTrap(app);
 
         const stayButton = document.querySelector("#stay-button");
 
