@@ -1,5 +1,14 @@
 export function activateFocusTrap(container) {
 
+    const heading = container.querySelector("h1, h2, h3");
+
+    if (heading) {
+
+        heading.setAttribute("tabindex", "-1");
+        heading.focus();
+
+    }
+
     const focusableElements = container.querySelectorAll(
         'button, a, input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
@@ -10,8 +19,6 @@ export function activateFocusTrap(container) {
 
     const firstElement = focusableElements[0];
     const lastElement = focusableElements[focusableElements.length - 1];
-
-    firstElement.focus();
 
     container.addEventListener("keydown", (event) => {
 
@@ -25,17 +32,20 @@ export function activateFocusTrap(container) {
 
                 event.preventDefault();
                 lastElement.focus();
+
             }
 
-        } 
-        
-        else {
+        } else {
 
             if (document.activeElement === lastElement) {
 
                 event.preventDefault();
                 firstElement.focus();
+
             }
+
         }
+
     });
+
 }

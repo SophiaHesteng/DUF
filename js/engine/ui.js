@@ -134,7 +134,7 @@ function showResult(result) {
 
 function showExitConfirmation(onStay, onExit){
     app.innerHTML = `
-        <section class="exit-confirmation" role="dialog" aria-modal="true" aria-labelledby="exit-title" aira-describedby="exit-description">
+        <section class="exit-confirmation" role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-describedby="exit-description">
 
             <h2 id="exit-title">Vil du forlade prøverummet?</h2>
 
