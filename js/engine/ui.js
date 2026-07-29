@@ -1,5 +1,18 @@
 const app = document.querySelector("#app");
 
+function renderExitDoor() {
+
+    return `
+        <button id="exit-button" aria-label="Gå ud af prøverummet">
+
+            <i class="fa-solid fa-door-closed closed-door"></i>
+
+            <i class="fa-solid fa-door-open open-door"></i>
+
+        </button>
+    `;
+}
+
 function showWelcomeScreen(onStart){
     console.log("Velkomstskærm vises");
 
@@ -12,7 +25,8 @@ function showWelcomeScreen(onStart){
                             <p>Formålet er blot at finde ud af, hvor stærkt dit grundlag i forvejen er.</p>
                     </div>
 
-                        <button id="start-button">Start</button>`;
+                        <button id="start-button">Start</button>
+                         ${renderExitDoor()}`;
 
         const startButton = document.querySelector("#start-button");
 
@@ -27,7 +41,9 @@ function showQuestion(questionObject, onAnswerSelected){
     console.log(questionObject.answers);
 
     app.innerHTML = `<h2>${questionObject.question}</h2>
-        <div class="answers"></div>`;
+        <div class="answers"></div>
+        
+        ${renderExitDoor()}`;
 
     const answersContainer = document.querySelector(".answers");
 
@@ -61,6 +77,7 @@ function showFeedback(feedback, onNext) {
             </button>
 
         </section>
+         ${renderExitDoor()}
     `;
 
     const nextButton = document.querySelector("#next-button");

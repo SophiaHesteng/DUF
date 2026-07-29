@@ -37,26 +37,26 @@ export class FlowEngine {
 
     answerSelected(answer) {
 
-    console.log(answer);
+        console.log(answer);
 
-    storeAnswer(answer);
+        storeAnswer(answer);
 
-    if (this.currentQuestionIndex === questions.length - 1) {
+        if (this.currentQuestionIndex === questions.length - 1) {
 
-        const answers = retrieveAnswers();
-        const result = calculateResult(answers);
+            const answers = retrieveAnswers();
+            const result = calculateResult(answers);
 
-        showResult(result);
+            showResult(result);
 
-        return;
+            return;
+        }
+
+        showFeedback(answer.feedback, () => {
+
+            this.currentQuestionIndex++;
+
+            this.displayCurrentQuestion();
+
+        });
     }
-
-    showFeedback(answer.feedback, () => {
-
-        this.currentQuestionIndex++;
-
-        this.displayCurrentQuestion();
-
-    });
-}
 }
