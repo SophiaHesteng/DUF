@@ -7,3 +7,7 @@ export function storeAnswer(answer){
 export function retrieveAnswers() {
     return selectedAnswers;
 }
+
+export function clearAnswers() {
+    selectedAnswers.length = 0;
+}

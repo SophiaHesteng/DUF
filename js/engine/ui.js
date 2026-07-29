@@ -13,7 +13,7 @@ function renderExitDoor() {
     `;
 }
 
-function showWelcomeScreen(onStart){
+function showWelcomeScreen(onStart, onExit){
     console.log("Velkomstskærm vises");
 
     app.innerHTML = `
@@ -28,6 +28,9 @@ function showWelcomeScreen(onStart){
                         <button id="start-button">Start</button>
                          ${renderExitDoor()}`;
 
+                        const exitButton = document.querySelector("#exit-button");
+                            exitButton.addEventListener("click", onExit);
+
         const startButton = document.querySelector("#start-button");
 
         startButton.addEventListener("click", function () {
@@ -36,7 +39,7 @@ function showWelcomeScreen(onStart){
         });
 }
 
-function showQuestion(questionObject, onAnswerSelected){
+function showQuestion(questionObject, onAnswerSelected, onExit){
     console.log(questionObject.question);
     console.log(questionObject.answers);
 
@@ -61,9 +64,11 @@ function showQuestion(questionObject, onAnswerSelected){
         onAnswerSelected(answer);
         });
     }
+        const exitButton = document.querySelector("#exit-button");
+        exitButton.addEventListener("click", onExit);
 }
 
-function showFeedback(feedback, onNext) {
+function showFeedback(feedback, onNext, onExit) {
 
     app.innerHTML = `
         <section class="feedback-screen">
@@ -85,6 +90,10 @@ function showFeedback(feedback, onNext) {
     nextButton.addEventListener("click", () => {
         onNext();
     });
+
+    const exitButton = document.querySelector("#exit-button");
+
+       exitButton.addEventListener("click", onExit);
 }
 
 function updateNavigation(currentStep){
@@ -114,11 +123,41 @@ function showResult(result) {
 
 }
 
+function showExitConfirmation(onStay, onExit){
+    app.innerHTML = `
+        <section class="exit-confirmation">
+
+            <h2>Vil du forlade prøverummet?</h2>
+
+            <p>
+                Hvis du går ud nu, bliver dine svar ikke gemt.
+            </p>
+
+            <button id="stay-button">
+                Bliv i prøverummet
+            </button>
+
+            <button id="leave-button">
+                Ja, gå ud
+            </button>
+
+        </section>`;
+
+        const stayButton = document.querySelector("#stay-button");
+
+        stayButton.addEventListener("click", onStay);
+
+        const leaveButton = document.querySelector("#leave-button");
+
+        leaveButton.addEventListener("click", onExit);
+}
+
 export {
     showWelcomeScreen,
     showQuestion,
     showFeedback,
     updateNavigation,
     updateProgressBar,
-    showResult
+    showResult,
+    showExitConfirmation
 };
