@@ -7,9 +7,9 @@ function renderExitDoor() {
     return `
         <button id="exit-button" aria-label="Gå ud af prøverummet">
 
-            <i class="fa-solid fa-door-closed closed-door"></i>
+            <i class="fa-solid fa-door-closed closed-door" aria-hidden="true"></i>
 
-            <i class="fa-solid fa-door-open open-door"></i>
+            <i class="fa-solid fa-door-open open-door" aria-hidden="true"></i>
 
         </button>
     `;
@@ -70,7 +70,7 @@ function showQuestion(questionObject, onAnswerSelected, onExit){
     }
 
     activateFocusTrap(app);
-    
+
         const exitButton = document.querySelector("#exit-button");
         exitButton.addEventListener("click", onExit);
 }
@@ -134,11 +134,11 @@ function showResult(result) {
 
 function showExitConfirmation(onStay, onExit){
     app.innerHTML = `
-        <section class="exit-confirmation">
+        <section class="exit-confirmation" role="dialog" aria-modal="true" aria-labelledby="exit-title" aira-describedby="exit-description">
 
-            <h2>Vil du forlade prøverummet?</h2>
+            <h2 id="exit-title">Vil du forlade prøverummet?</h2>
 
-            <p>
+            <p id="exit-description">
                 Hvis du går ud nu, bliver dine svar ikke gemt.
             </p>
 
