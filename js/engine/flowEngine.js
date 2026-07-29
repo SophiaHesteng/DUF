@@ -24,7 +24,7 @@ export class FlowEngine {
     }
 
     displayCurrentQuestion(){
-        console.log("Quizzen starter");
+        console.log(`Viser spørgsmål ${this.currentQuestionIndex + 1} af ${questions.length}`);
 
         const currentQuestion = questions[this.currentQuestionIndex];
 
@@ -35,25 +35,28 @@ export class FlowEngine {
          updateProgressBar(this.currentQuestionIndex, questions.length);
     }
 
-    answerSelected(answer){
-        console.log(answer);
+    answerSelected(answer) {
 
-        storeAnswer(answer);
+    console.log(answer);
 
-        showFeedback(answer.feedback);
+    storeAnswer(answer);
+
+    if (this.currentQuestionIndex === questions.length - 1) {
+
+        const answers = retrieveAnswers();
+        const result = calculateResult(answers);
+
+        showResult(result);
+
+        return;
+    }
+
+    showFeedback(answer.feedback, () => {
 
         this.currentQuestionIndex++;
 
-            if (this.currentQuestionIndex < questions.length) {
-                this.displayCurrentQuestion();
-            }
-            
-            else {
-                const answers = retrieveAnswers();
+        this.displayCurrentQuestion();
 
-                const result = calculateResult(answers);
-                
-                showResult(result);
-            }
-    }
+    });
+}
 }

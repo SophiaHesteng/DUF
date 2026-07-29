@@ -47,8 +47,27 @@ function showQuestion(questionObject, onAnswerSelected){
     }
 }
 
-function showFeedback(feedback){
+function showFeedback(feedback, onNext) {
 
+    app.innerHTML = `
+        <section class="feedback-screen">
+
+            <h2>Det fortæller dit svar os</h2>
+
+            <p>${feedback}</p>
+
+            <button id="next-button">
+                Næste skridt
+            </button>
+
+        </section>
+    `;
+
+    const nextButton = document.querySelector("#next-button");
+
+    nextButton.addEventListener("click", () => {
+        onNext();
+    });
 }
 
 function updateNavigation(currentStep){
