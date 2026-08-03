@@ -136,7 +136,7 @@ export const questions = [
     },
 
     {
-        question: "Hvilke er disse sætninger passer bedst på dig lige nu - i forhold til din praksis",
+        question: "Hvilke er disse sætninger passer bedst på dig lige nu - i forhold til din praksis?",
         answers: [
             {
                 text: "Jeg ved hvem jeg er som behandler.",
