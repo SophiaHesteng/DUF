@@ -7,9 +7,9 @@ import { renderHeader } from "./components/header.js";
 
 renderHeader();
 
-//Variabler
+if (document.body.dataset.flow) {
+    const engine = new FlowEngine();
 
-const engine = new FlowEngine();
-
-engine.start();
+    engine.start();
+}
 
