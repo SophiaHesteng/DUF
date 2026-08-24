@@ -1,17 +1,10 @@
 @use 'vaekstrum';
 @use 'colors';
+@use 'header';
+@use 'footer';
 
 *{
     box-sizing: border-box;
     margin: 0;
 }
 
-header{
-    background-color: colors.$navCTAColor;
-
-    .logo{
-        width: 70px;
-        height: auto;
-        margin: 20px;
-    }
-}
