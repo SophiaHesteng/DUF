@@ -12,6 +12,12 @@
     justify-content: space-between;
     width: 100%;
 
+    .header-logo img {
+        width: 60px;
+        height: auto;
+        margin: 25px;
+    }
+
     .header-title {
         font-family: "Nova Flat", sans-serif;
         font-size: 24px;
@@ -31,11 +37,52 @@
     top: 100%;
     right: 0;
     width: 100%;
-}
+    min-height: 300px;
+    background-color: colors.$primaryBgColor;
 
-.header-logo img {
-    width: 60px;
-    height: auto;
-    margin: 25px;
-}
+    .map-nav {
+        position: relative;
+        width: 100%;
+        min-height: 300px;
 
+        .map-place {
+            position: absolute;
+        }
+
+        .map-place-front {
+            position: absolute;
+            left: 32%;
+            top: 7%;
+        }
+
+        .map-place-about {
+            left: 67%;
+            top: 7%;
+        }
+
+        .map-place-contact {
+            left: 75%;
+            top: 18%;
+        }
+
+        .map-place-reception {
+            left: 31%;
+            top: 39%;
+        }
+
+        .map-place-questions {
+            left: 3%;
+            top: 53%;
+        }
+
+        .map-place-proeverum {
+            left: 51%;
+            top: 58%;
+        }
+
+        .map-place-library {
+            left: 31%;
+            top: 70%;
+        }
+    }
+}

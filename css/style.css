@@ -44,6 +44,11 @@
   justify-content: space-between;
   width: 100%;
 }
+.header-inner .header-logo img {
+  width: 60px;
+  height: auto;
+  margin: 25px;
+}
 .header-inner .header-title {
   font-family: "Nova Flat", sans-serif;
   font-size: 24px;
@@ -61,12 +66,45 @@
   top: 100%;
   right: 0;
   width: 100%;
+  min-height: 300px;
+  background-color: #FEF3E8;
 }
-
-.header-logo img {
-  width: 60px;
-  height: auto;
-  margin: 25px;
+.map-menu .map-nav {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+}
+.map-menu .map-nav .map-place {
+  position: absolute;
+}
+.map-menu .map-nav .map-place-front {
+  position: absolute;
+  left: 32%;
+  top: 7%;
+}
+.map-menu .map-nav .map-place-about {
+  left: 67%;
+  top: 7%;
+}
+.map-menu .map-nav .map-place-contact {
+  left: 75%;
+  top: 18%;
+}
+.map-menu .map-nav .map-place-reception {
+  left: 31%;
+  top: 39%;
+}
+.map-menu .map-nav .map-place-questions {
+  left: 3%;
+  top: 53%;
+}
+.map-menu .map-nav .map-place-proeverum {
+  left: 51%;
+  top: 58%;
+}
+.map-menu .map-nav .map-place-library {
+  left: 31%;
+  top: 70%;
 }
 
 * {

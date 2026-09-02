@@ -20,15 +20,15 @@ export function renderHeader() {
 
             <div class="map-menu" hidden>
 
-                <nav aria-label="Hovednavigation">
-                    <a href="forside.html">Forsiden</a>
-                    <a href="#">Om os</a>
-                    <a href="#">Kontakt</a>
-                    <a href="#">Receptionen</a>
-                    <a href="#">Spørgehjørnet</a>
-                    <a href="proeverummet.html">Prøverummet</a>
-                    <a href="#">Biblioteket</a>
-                </nav>
+            <nav class="map-nav" aria-label="Hovednavigation">
+                <a href="forside.html" class="map-place map-place-front">Forsiden</a>
+                <a href="#" class="map-place map-place-about">Om os</a>
+                <a href="#" class="map-place map-place-contact">Kontakt</a>
+                <a href="#" class="map-place map-place-reception">Receptionen</a>
+                <a href="#" class="map-place map-place-questions">Spørgehjørnet</a>
+                <a href="proeverummet.html" class="map-place map-place-proeverum">Prøverummet</a>
+                <a href="#" class="map-place map-place-library">Biblioteket</a>
+            </nav>
             </div>
         </div>
     `;
