@@ -112,6 +112,21 @@
   top: 60%;
 }
 
+.map-route {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.map-route path {
+  fill: none;
+  stroke: #DE5B23;
+  stroke-width: 2;
+  stroke-dasharray: 8 6;
+  stroke-linecap: round;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
