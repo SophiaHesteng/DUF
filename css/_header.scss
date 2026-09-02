@@ -1,9 +1,41 @@
-header{
-    background-color: colors.$navCTAColor;
+@use 'colors';
 
-    .logo{
-        width: 70px;
-        height: auto;
-        margin: 20px;
+#site-header {
+    position: relative;
+     background-color: colors.$navCTAColor;
+}
+
+.header-inner {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+
+    .header-title {
+        font-family: "Nova Flat", sans-serif;
+        font-size: 24px;
+        margin: 0;
+    }
+
+    .map-button {
+        font-family: "Nova Flat", sans-serif;
+        font-size: 18px;
+        padding: 8px 16px;
+        margin: 25px;
     }
 }
+
+.map-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 100%;
+}
+
+.header-logo img {
+    width: 60px;
+    height: auto;
+    margin: 25px;
+}
+

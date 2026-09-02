@@ -32,16 +32,44 @@
 /*---- Bruges også til handlingsrelaterede knapper ----*/
 /*---- Bruges også til dropshadow & outline ----*/
 /*---- Vækstrums variabel farver ----*/
+#site-header {
+  position: relative;
+  background-color: #0C3A2D;
+}
+
+.header-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+.header-inner .header-title {
+  font-family: "Nova Flat", sans-serif;
+  font-size: 24px;
+  margin: 0;
+}
+.header-inner .map-button {
+  font-family: "Nova Flat", sans-serif;
+  font-size: 18px;
+  padding: 8px 16px;
+  margin: 25px;
+}
+
+.map-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  width: 100%;
+}
+
+.header-logo img {
+  width: 60px;
+  height: auto;
+  margin: 25px;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
-}
-
-header {
-  background-color: #0C3A2D;
-}
-header .logo {
-  width: 70px;
-  height: auto;
-  margin: 20px;
 }/*# sourceMappingURL=style.css.map */
