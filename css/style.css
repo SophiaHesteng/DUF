@@ -66,45 +66,50 @@
   top: 100%;
   right: 0;
   width: 100%;
-  min-height: 300px;
+  min-height: 250px;
   background-color: #FEF3E8;
 }
 .map-menu .map-nav {
   position: relative;
   width: 100%;
-  min-height: 300px;
+  min-height: 250px;
 }
 .map-menu .map-nav .map-place {
   position: absolute;
+  display: flex;
+  align-items: center;
+  font-family: "Manrope";
+  text-decoration: none;
+  color: #0F201B;
 }
 .map-menu .map-nav .map-place-front {
   position: absolute;
-  left: 32%;
+  left: 12%;
   top: 7%;
 }
 .map-menu .map-nav .map-place-about {
   left: 67%;
-  top: 7%;
+  top: 20%;
 }
 .map-menu .map-nav .map-place-contact {
   left: 75%;
-  top: 18%;
+  top: 35%;
 }
 .map-menu .map-nav .map-place-reception {
-  left: 31%;
+  left: 20%;
   top: 39%;
 }
 .map-menu .map-nav .map-place-questions {
   left: 3%;
-  top: 53%;
+  top: 60%;
 }
 .map-menu .map-nav .map-place-proeverum {
-  left: 51%;
-  top: 58%;
+  left: 55%;
+  top: 76%;
 }
 .map-menu .map-nav .map-place-library {
-  left: 31%;
-  top: 70%;
+  left: 40%;
+  top: 60%;
 }
 
 * {

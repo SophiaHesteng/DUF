@@ -21,13 +21,13 @@ export function renderHeader() {
             <div class="map-menu" hidden>
 
             <nav class="map-nav" aria-label="Hovednavigation">
-                <a href="forside.html" class="map-place map-place-front">Forsiden</a>
-                <a href="#" class="map-place map-place-about">Om os</a>
-                <a href="#" class="map-place map-place-contact">Kontakt</a>
-                <a href="#" class="map-place map-place-reception">Receptionen</a>
-                <a href="#" class="map-place map-place-questions">Spørgehjørnet</a>
-                <a href="proeverummet.html" class="map-place map-place-proeverum">Prøverummet</a>
-                <a href="#" class="map-place map-place-library">Biblioteket</a>
+                <a href="forside.html" class="map-place map-place-front" data-page="forside.html">Forsiden</a>
+                <a href="about.html" class="map-place map-place-about" data-page="about.html">Om os</a>
+                <a href="contact.html" class="map-place map-place-contact" data-page="contact.html">Kontakt</a>
+                <a href="receptionen.html" class="map-place map-place-reception" data-page="receptionen.html">Receptionen</a>
+                <a href="faq.html" class="map-place map-place-questions" data-page="faq.html">Spørgehjørnet</a>
+                <a href="proeverummet.html" class="map-place map-place-proeverum" data-page="proeverummet.html">Prøverummet</a>
+                <a href="library.html" class="map-place map-place-library" data-page="library.html">Biblioteket</a>
             </nav>
             </div>
         </div>
@@ -35,6 +35,23 @@ export function renderHeader() {
 
     const mapButton = header.querySelector(".map-button");
     const mapMenu = header.querySelector(".map-menu");
+    function markCurrentPage() {
+    const currentPage = window.location.pathname.split("/").pop();
+
+    const currentPlace = header.querySelector(
+        `[data-page="${currentPage}"]`
+    );
+
+    if (!currentPlace) return;
+
+    const pin = document.createElement("img");
+    pin.src = "img/Pin.svg";
+    pin.alt = "";
+
+    currentPlace.prepend(pin);
+}
+
+markCurrentPage();
 
     mapButton.addEventListener("click", () => {
         mapMenu.hidden = !mapMenu.hidden;

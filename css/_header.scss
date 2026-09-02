@@ -37,52 +37,57 @@
     top: 100%;
     right: 0;
     width: 100%;
-    min-height: 300px;
+    min-height: 250px;
     background-color: colors.$primaryBgColor;
 
     .map-nav {
         position: relative;
         width: 100%;
-        min-height: 300px;
+        min-height: 250px;
 
         .map-place {
             position: absolute;
+            display: flex;
+            align-items: center;
+            font-family: colors.$regularFont;
+            text-decoration: none;
+            color: colors.$textColor;
         }
 
         .map-place-front {
             position: absolute;
-            left: 32%;
+            left: 12%;
             top: 7%;
         }
 
         .map-place-about {
             left: 67%;
-            top: 7%;
+            top: 20%;
         }
 
         .map-place-contact {
             left: 75%;
-            top: 18%;
+            top: 35%;
         }
 
         .map-place-reception {
-            left: 31%;
+            left: 20%;
             top: 39%;
         }
 
         .map-place-questions {
             left: 3%;
-            top: 53%;
+            top: 60%;
         }
 
         .map-place-proeverum {
-            left: 51%;
-            top: 58%;
+            left: 55%;
+            top: 76%;
         }
 
         .map-place-library {
-            left: 31%;
-            top: 70%;
+            left: 40%;
+            top: 60%;
         }
     }
 }
