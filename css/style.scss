@@ -57,6 +57,11 @@ main{
     margin-top: 24px;
 }
 
+.section-cta--row {
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
 .sticker {
     display: block;
     width: 100%;
@@ -126,4 +131,45 @@ main{
     font-size: 14px;
     margin: 0;
     color: colors.$textColor;
+}
+
+/*---- Receptionen ----*/
+
+.hero-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    margin: 24px 0;
+}
+
+.hero-scroll-cue {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-decoration: none;
+    color: colors.$textColor;
+    font-family: colors.$regularFont, sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    margin-top: 24px;
+}
+
+.hero-scroll-cue-icon {
+    width: 48px;
+    height: auto;
+}
+
+.hero-scroll-cue-arrow {
+    width: 32px;
+    height: 32px;
+    transform: rotate(90deg);
+}
+
+.choice-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 24px;
 }

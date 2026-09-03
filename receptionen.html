@@ -12,7 +12,7 @@
      <!-- Skrifttyper -->
       <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Nova+Flat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Nova+Flat&family=Outfit:wght@400&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
      <script src="https://kit.fontawesome.com/1cd7809a70.js" crossorigin="anonymous"></script>
@@ -22,6 +22,140 @@
     <header id="site-header"></header>
 
 
-    <main></main>
+    <main>
+        <section class="section">
+            <h1 class="section-heading">Velkommen til receptionen</h1>
+
+            <img class="hero-photo" src="img/receptionen-hero.png" alt="">
+
+            <p class="section-subheading">Herfra kan du gå videre til de vækstrum, der passer til det, du står med lige nu</p>
+
+            <a href="#vaelg-retning" class="hero-scroll-cue">
+                <img class="hero-scroll-cue-icon" src="img/gron-dor.png" alt="">
+                <span>Find din dør</span>
+                <img class="hero-scroll-cue-arrow" src="img/pil.svg" alt="">
+            </a>
+        </section>
+
+        <section class="section" id="vaelg-retning">
+            <h2 class="section-heading">Hvor vil du gerne begynde?</h2>
+            <p class="section-subheading">Vælg den dør, der passer bedst til det, du står med lige nu. Du behøver ikke vælge rigtigt. Du skal bare vælge det, der giver mest mening lige nu.</p>
+
+            <!-- TODO: bekræft destination for "Jeg ved ikke helt, hvor jeg skal begynde" - peger foreløbig på Spørgehjørnet -->
+            <!-- TODO: "Jeg har allerede taget de første skridt" mangler en destination - der findes endnu ikke en side for vækstrum-/vækstområde-oversigt -->
+            <div class="choice-list">
+                <a href="faq.html" class="choice-card choice-card--door">
+                    <img class="choice-card-icon" src="img/gron-dor.png" alt="">
+                    <span class="choice-card-body">
+                        <span class="choice-card-title">Jeg ved ikke helt, hvor jeg skal begynde</span>
+                        <span class="choice-card-description">Du har mange tanker, men mangler et sted at starte</span>
+                    </span>
+                    <img class="choice-card-arrow" src="img/pil.svg" alt="">
+                </a>
+
+                <a href="#" class="choice-card choice-card--door">
+                    <img class="choice-card-icon" src="img/gron-dor.png" alt="">
+                    <span class="choice-card-body">
+                        <span class="choice-card-title">Jeg har allerede taget de første skridt</span>
+                        <span class="choice-card-description">Du leder efter mere retning og har brug for hjælp til næste skridt</span>
+                    </span>
+                    <img class="choice-card-arrow" src="img/pil.svg" alt="">
+                </a>
+
+                <a href="proeverummet.html" class="choice-card choice-card--door">
+                    <img class="choice-card-icon" src="img/gron-dor.png" alt="">
+                    <span class="choice-card-body">
+                        <span class="choice-card-title">Jeg vil gerne prøve konceptet af først</span>
+                        <span class="choice-card-description">Oplev, hvordan vi arbejder, før du beslutter dig.</span>
+                    </span>
+                    <img class="choice-card-arrow" src="img/pil.svg" alt="">
+                </a>
+
+                <a href="about.html" class="choice-card choice-card--door">
+                    <img class="choice-card-icon" src="img/gron-dor.png" alt="">
+                    <span class="choice-card-body">
+                        <span class="choice-card-title">Jeg vil gerne lære jer bedre at kende</span>
+                        <span class="choice-card-description">Få et overblik over vores tilgang, værdier og univers</span>
+                    </span>
+                    <img class="choice-card-arrow" src="img/pil.svg" alt="">
+                </a>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="panel">
+                <h2 class="section-heading">Er du i tvivl om, hvilken dør du skal vælge?</h2>
+                <p class="section-subheading">Det er helt normalt.</p>
+
+                <div class="section-body">
+                    <p>Hvis ingen af dørene føles helt rigtige, kan du tage et kig i Biblioteket eller besøge Spørgehjørnet.</p>
+                </div>
+
+                <div class="section-cta section-cta--row">
+                    <a href="library.html" class="btn btn--slim btn--solid-green">Biblioteket</a>
+                    <a href="faq.html" class="btn btn--slim btn--solid-green">Spørgehjørnet</a>
+                </div>
+
+                <div class="section-body">
+                    <p>Du kan altid vende tilbage til Receptionen senere.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-heading">Der er plads til flere rum</h2>
+            <p class="section-subheading">Hvilket emne ville gøre den største forskel for dig lige nu?</p>
+
+            <div class="section-body">
+                <p>Der er plads til flere vækstrum i Din Ugentlige Fridag.</p>
+                <p>Din stemme hjælper os med at prioritere, hvad vi bygger som det næste.</p>
+            </div>
+
+            <div class="choice-list" role="radiogroup" aria-label="Afstemning om næste vækstrum">
+                <button type="button" class="choice-card choice-card--poll" aria-pressed="false">
+                    <img class="choice-card-icon" src="img/dør_fixed_1.svg" alt="">
+                    <span class="choice-card-title">Betalt annoncering</span>
+                    <img class="choice-card-arrow" src="img/pil.svg" alt="">
+                </button>
+
+                <button type="button" class="choice-card choice-card--poll" aria-pressed="false">
+                    <img class="choice-card-icon" src="img/dør_fixed_1.svg" alt="">
+                    <span class="choice-card-title">Må jeg bruge AI?</span>
+                    <img class="choice-card-arrow" src="img/pil.svg" alt="">
+                </button>
+
+                <button type="button" class="choice-card choice-card--poll" aria-pressed="false">
+                    <img class="choice-card-icon" src="img/dør_fixed_1.svg" alt="">
+                    <span class="choice-card-title">Opslag på sociale medier</span>
+                    <img class="choice-card-arrow" src="img/pil.svg" alt="">
+                </button>
+
+                <button type="button" class="choice-card choice-card--poll" aria-pressed="false">
+                    <img class="choice-card-icon" src="img/dør_fixed_1.svg" alt="">
+                    <span class="choice-card-title">Blog eller ej</span>
+                    <img class="choice-card-arrow" src="img/pil.svg" alt="">
+                </button>
+
+                <button type="button" class="choice-card choice-card--poll" aria-pressed="false">
+                    <img class="choice-card-icon" src="img/dør_fixed_1.svg" alt="">
+                    <span class="choice-card-title">Hvad skal mine behandlinger koste</span>
+                    <img class="choice-card-arrow" src="img/pil.svg" alt="">
+                </button>
+            </div>
+
+            <div class="section-cta">
+                <button type="button" id="vote-button" class="btn btn--regular btn--solid-green" disabled>Stem</button>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="panel">
+                <h2 class="section-heading">Receptionen står altid åben</h2>
+                <p class="section-subheading">Du kan altid vende tilbage hertil, hvis du får brug for at finde en ny retning eller vælge en anden dør</p>
+            </div>
+        </section>
+    </main>
+
+    <footer id="site-footer"></footer>
 </body>
 </html>
