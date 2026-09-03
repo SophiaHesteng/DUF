@@ -406,3 +406,84 @@
 .contact-card .section-subheading {
     margin: 0;
 }
+
+/*---- Værdikort ----*/
+
+.value-card {
+    background-color: colors.$coreBgColor;
+    border: 1px solid colors.$outlineColor;
+    border-radius: 20px;
+    box-shadow: 0 4px 4px 2px colors.$dropshadowColor;
+    padding: 20px;
+    margin-bottom: 16px;
+}
+
+.value-card-label {
+    display: block;
+    font-family: colors.$regularFont, sans-serif;
+    font-weight: 300;
+    font-size: 24px;
+    text-transform: uppercase;
+    color: colors.$textColor;
+    margin-bottom: 12px;
+}
+
+.value-card-description {
+    font-family: colors.$regularFont, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: colors.$textColor;
+    margin: 0;
+}
+
+.value-card--centered {
+    text-align: center;
+}
+
+.value-list .value-card {
+    margin-bottom: 24px;
+    padding-bottom: 40px;
+    border-bottom: 3px solid colors.$textColor;
+    border-radius: 20px;
+}
+
+/*---- Wireframe-placeholder (endnu ikke designet indhold) ----*/
+
+.wireframe-placeholder {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 20px;
+    margin: 24px 0;
+}
+
+.wireframe-placeholder img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.wireframe-placeholder-label {
+    position: absolute;
+    font-family: colors.$headingFont, sans-serif;
+    font-size: 28px;
+    text-transform: uppercase;
+    color: colors.$textColor;
+    transform: rotate(-8deg);
+}
+
+.wireframe-placeholder--insta {
+    background-color: colors.$stickerBgColor;
+    aspect-ratio: 320 / 154;
+}
+
+.wireframe-placeholder-label--flat {
+    transform: none;
+}
+
+.value-card-description--pending {
+    font-style: italic;
+    opacity: 0.7;
+}
