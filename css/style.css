@@ -1,4 +1,15 @@
 @charset "UTF-8";
+/*---- Velkomstskærmen viser den almindelige header/footer, men selve flowet (spørgsmål/feedback/resultat) er en immersiv oplevelse uden dem - jf. Figma har ingen af flow-skærmene navigationsbjælken, kun rummets egen dør ----*/
+body.in-flow #site-header,
+body.in-flow #site-footer {
+  display: none;
+}
+
+/*---- accessibility.js sætter tabindex="-1" og fokuserer skærmens overskrift ved hvert skift, så skærmlæsere annoncerer det nye indhold. Det er ikke et rigtigt tab-stop, så vi undlader browserens fokusring her - almindelige interaktive elementer beholder deres egen ----*/
+[tabindex="-1"]:focus {
+  outline: none;
+}
+
 #exit-button {
   position: fixed;
   bottom: 2rem;
@@ -208,6 +219,17 @@
 .choice-card--poll .choice-card-icon {
   width: 28px;
   height: 42px;
+}
+
+.choice-card-title--plain {
+  font-family: "Manrope", sans-serif;
+  font-weight: 200;
+  text-transform: none;
+}
+
+.choice-card-icon--large {
+  width: 60px;
+  height: 90px;
 }
 
 .choice-card--poll[aria-pressed=true] {
@@ -723,6 +745,12 @@ main {
 .section-cta--row {
   gap: 16px;
   flex-wrap: wrap;
+}
+
+.section-cta--column {
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
 }
 
 .sticker {

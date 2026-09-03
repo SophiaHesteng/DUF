@@ -62,6 +62,12 @@ main{
     flex-wrap: wrap;
 }
 
+.section-cta--column {
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
 .sticker {
     display: block;
     width: 100%;

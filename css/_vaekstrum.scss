@@ -1,3 +1,16 @@
+/*---- Velkomstskærmen viser den almindelige header/footer, men selve flowet (spørgsmål/feedback/resultat) er en immersiv oplevelse uden dem - jf. Figma har ingen af flow-skærmene navigationsbjælken, kun rummets egen dør ----*/
+
+body.in-flow #site-header,
+body.in-flow #site-footer {
+    display: none;
+}
+
+/*---- accessibility.js sætter tabindex="-1" og fokuserer skærmens overskrift ved hvert skift, så skærmlæsere annoncerer det nye indhold. Det er ikke et rigtigt tab-stop, så vi undlader browserens fokusring her - almindelige interaktive elementer beholder deres egen ----*/
+
+[tabindex="-1"]:focus {
+    outline: none;
+}
+
 #exit-button {
 
     position: fixed;

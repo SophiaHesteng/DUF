@@ -30,6 +30,8 @@ export class FlowEngine {
     displayCurrentQuestion(){
         console.log(`Viser spørgsmål ${this.currentQuestionIndex + 1} af ${questions.length}`);
 
+        document.body.classList.add("in-flow");
+
         this.previousScreen = () => this.displayCurrentQuestion();
 
         const currentQuestion = questions[this.currentQuestionIndex];

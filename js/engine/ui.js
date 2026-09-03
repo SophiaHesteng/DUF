@@ -19,37 +19,44 @@ function showWelcomeScreen(onStart, onExit){
     console.log("Velkomstskærm vises");
 
     app.innerHTML = `
-                    <div class="welcome-card">
-                        <h1>Velkommen til Prøverummet</h1>
+        <section class="section welcome-card">
+            <h1 class="section-heading">Velkommen til Prøverummet</h1>
 
-                            <p>Her får du en lille smagsprøve på, hvordan vores vækstrum fungerer.</p>
-                            <p>Der findes ingen rigtige eller forkerte svar.</p>
-                            <p>Formålet er blot at finde ud af, hvor stærkt dit grundlag i forvejen er.</p>
-                    </div>
+            <p class="section-subheading">Her får du en lille smagsprøve på, hvordan vores vækstrum fungerer.</p>
 
-                        <button id="start-button">Start</button>
-                         ${renderExitDoor()}`;
+            <div class="section-body">
+                <p>Der findes ingen rigtige eller forkerte svar.</p>
+                <p>Formålet er blot at finde ud af, hvor stærkt dit grundlag, i forvejen, er.</p>
+            </div>
 
-                        activateFocusTrap(app);
+            <img class="section-illustration" src="img/proeve-welcome-door.png" alt="">
 
-                        const exitButton = document.querySelector("#exit-button");
-                            exitButton.addEventListener("click", onExit);
+            <div class="section-cta">
+                <button id="start-button" type="button" class="btn btn--regular btn--solid-green">Gå ind her</button>
+            </div>
+        </section>`;
 
-        const startButton = document.querySelector("#start-button");
+    activateFocusTrap(app);
 
-        startButton.addEventListener("click", function () {
+    const startButton = document.querySelector("#start-button");
+
+    startButton.addEventListener("click", function () {
         console.log("Start was clicked");
         onStart();
-        });
+    });
 }
 
 function showQuestion(questionObject, onAnswerSelected, onExit){
     console.log(questionObject.question);
     console.log(questionObject.answers);
 
-    app.innerHTML = `<h2>${questionObject.question}</h2>
-        <div class="answers"></div>
-        
+    app.innerHTML = `
+        <section class="section">
+            <h2 class="section-subheading">${questionObject.question}</h2>
+
+            <div class="answers choice-list"></div>
+        </section>
+
         ${renderExitDoor()}`;
 
     const answersContainer = document.querySelector(".answers");
@@ -59,7 +66,14 @@ function showQuestion(questionObject, onAnswerSelected, onExit){
 
         const button = document.createElement("button");
 
-        button.textContent = answer.text;
+        button.type = "button";
+        button.className = "choice-card";
+
+        button.innerHTML = `
+            <img class="choice-card-icon choice-card-icon--large" src="img/proeve-door-icon.png" alt="">
+            <span class="choice-card-title choice-card-title--plain">${answer.text}</span>
+            <img class="choice-card-arrow" src="img/pil.svg" alt="">
+        `;
 
         answersContainer.appendChild(button);
 
@@ -78,15 +92,19 @@ function showQuestion(questionObject, onAnswerSelected, onExit){
 function showFeedback(feedback, onNext, onExit) {
 
     app.innerHTML = `
-        <section class="feedback-screen">
+        <section class="section feedback-screen">
 
-            <h2>Det fortæller dit svar os</h2>
+            <h2 class="section-subheading">Det fortæller dit svar os</h2>
 
-            <p>${feedback}</p>
+            <div class="section-body">
+                <p>${feedback}</p>
+            </div>
 
-            <button id="next-button">
-                Næste skridt
-            </button>
+            <div class="section-cta">
+                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">
+                    Næste skridt
+                </button>
+            </div>
 
         </section>
          ${renderExitDoor()}`;
@@ -115,17 +133,21 @@ function updateProgressBar(currentStep, totalSteps){
 function showResult(result) {
 
     app.innerHTML = `
-        <section class="result-screen">
+        <section class="section result-screen">
 
-            <h2>${result.title}</h2>
+            <h2 class="section-heading">${result.title}</h2>
 
-            <p>${result.description}</p>
+            <div class="panel">
+                <div class="section-body">
+                    <p>${result.description}</p>
+                </div>
+            </div>
 
-            <p>${result.recommendedRoom}</p>
-
-            <a href="${result.buttonLink}">
-                ${result.buttonText}
-            </a>
+            <div class="section-cta">
+                <a href="${result.buttonLink}" class="btn btn--regular btn--solid-green">
+                    ${result.buttonText}
+                </a>
+            </div>
 
         </section>`;
         activateFocusTrap(app);
@@ -134,24 +156,28 @@ function showResult(result) {
 
 function showExitConfirmation(onStay, onExit){
     app.innerHTML = `
-        <section class="exit-confirmation" role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-describedby="exit-description">
+        <section class="section exit-confirmation" role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-describedby="exit-description">
 
-            <h2 id="exit-title">Vil du forlade prøverummet?</h2>
+            <h2 id="exit-title" class="section-subheading">Vil du forlade prøverummet?</h2>
 
-            <p id="exit-description">
-                Hvis du går ud nu, bliver dine svar ikke gemt.
-            </p>
+            <div class="section-body">
+                <p id="exit-description">
+                    Hvis du går ud nu, bliver dine svar ikke gemt.
+                </p>
+            </div>
 
-            <button id="stay-button">
-                Bliv i prøverummet
-            </button>
+            <div class="section-cta section-cta--column">
+                <button id="stay-button" type="button" class="btn btn--regular btn--solid-green">
+                    Bliv i prøverummet
+                </button>
 
-            <button id="leave-button">
-                Ja, gå ud
-            </button>
+                <button id="leave-button" type="button" class="btn btn--regular btn--solid-green">
+                    Ja, gå ud
+                </button>
+            </div>
 
         </section>`;
-        
+
         activateFocusTrap(app);
 
         const stayButton = document.querySelector("#stay-button");

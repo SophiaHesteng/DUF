@@ -183,6 +183,17 @@
     height: 42px;
 }
 
+.choice-card-title--plain {
+    font-family: colors.$regularFont, sans-serif;
+    font-weight: 200;
+    text-transform: none;
+}
+
+.choice-card-icon--large {
+    width: 60px;
+    height: 90px;
+}
+
 .choice-card--poll[aria-pressed="true"] {
     outline: 3px solid colors.$navCTAColor;
     outline-offset: 1px;
