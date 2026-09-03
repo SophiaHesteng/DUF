@@ -1,5 +1,105 @@
 @use 'colors';
 
-/*---- buttons ----*/
+/*---- Sektionstypografi ----*/
 
-@mixin firstButton($bgColor: $actionRoomBgcolor, $)
+.section-heading {
+    font-family: colors.$headingFont, sans-serif;
+    font-size: 36px;
+    text-transform: uppercase;
+    color: colors.$textColor;
+    line-height: normal;
+    margin: 0 0 16px;
+}
+
+.section-subheading {
+    font-family: colors.$regularFont, sans-serif;
+    font-weight: 200;
+    font-size: 24px;
+    color: colors.$textColor;
+    line-height: normal;
+    margin: 0 0 16px;
+}
+
+.section-body {
+    font-family: colors.$regularFont, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: colors.$textColor;
+    line-height: normal;
+
+    p + p {
+        margin-top: 16px;
+    }
+}
+
+/*---- Knapper ----*/
+/*---- To størrelser (regular/slim) x fem fyld, jf. "Knapper"-komponenten i Figma ----*/
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: colors.$buttonFont, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    text-decoration: none;
+    cursor: pointer;
+    border: 2px solid;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.btn--regular {
+    padding: 10px 25px;
+}
+
+.btn--slim {
+    padding: 5px 32px;
+}
+
+.btn--solid-orange {
+    background-color: colors.$actionRoomBgColor;
+    border-color: colors.$actionRoomBgColor;
+    color: colors.$primaryBgColor;
+    box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+}
+
+.btn--solid-green {
+    background-color: colors.$navCTAColor;
+    border-color: colors.$navCTAColor;
+    color: colors.$primaryBgColor;
+    box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+}
+
+.btn--light-orange {
+    background-color: colors.$choiceBgColor;
+    border-color: colors.$actionRoomBgColor;
+    color: colors.$textColor;
+    box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+}
+
+.btn--outline-orange {
+    background-color: transparent;
+    border-color: colors.$actionRoomBgColor;
+    color: colors.$actionRoomBgColor;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.btn--outline-green {
+    background-color: transparent;
+    border-color: colors.$navCTAColor;
+    color: colors.$navCTAColor;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+/*---- Kort ----*/
+
+.panel {
+    position: relative;
+    background-color: colors.$contactBgColor;
+    border: 1px solid colors.$outlineColor;
+    border-radius: 20px;
+    box-shadow: 0 4px 4px 2px colors.$dropshadowColor;
+    padding: 32px 20px;
+}

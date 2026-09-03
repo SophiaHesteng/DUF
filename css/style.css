@@ -31,9 +31,112 @@
 /*---- Husk outline i mixin ----*/
 /*---- Bruges også til handlingsrelaterede knapper ----*/
 /*---- Bruges også til dropshadow & outline ----*/
+/*---- Bruges til kort/knap-outline ----*/
+/*---- Bruges til kort-dropshadow ----*/
 /*---- Vækstrums variabel farver ----*/
+/*---- Sektionstypografi ----*/
+.section-heading {
+  font-family: "Nova Flat", sans-serif;
+  font-size: 36px;
+  text-transform: uppercase;
+  color: #0F201B;
+  line-height: normal;
+  margin: 0 0 16px;
+}
+
+.section-subheading {
+  font-family: "Manrope", sans-serif;
+  font-weight: 200;
+  font-size: 24px;
+  color: #0F201B;
+  line-height: normal;
+  margin: 0 0 16px;
+}
+
+.section-body {
+  font-family: "Manrope", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #0F201B;
+  line-height: normal;
+}
+.section-body p + p {
+  margin-top: 16px;
+}
+
+/*---- Knapper ----*/
+/*---- To størrelser (regular/slim) x fem fyld, jf. "Knapper"-komponenten i Figma ----*/
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Outfit", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  cursor: pointer;
+  border: 2px solid;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.btn--regular {
+  padding: 10px 25px;
+}
+
+.btn--slim {
+  padding: 5px 32px;
+}
+
+.btn--solid-orange {
+  background-color: #DE5B23;
+  border-color: #DE5B23;
+  color: #FEF3E8;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+}
+
+.btn--solid-green {
+  background-color: #0C3A2D;
+  border-color: #0C3A2D;
+  color: #FEF3E8;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+}
+
+.btn--light-orange {
+  background-color: #FBCEB1;
+  border-color: #DE5B23;
+  color: #0F201B;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+}
+
+.btn--outline-orange {
+  background-color: transparent;
+  border-color: #DE5B23;
+  color: #DE5B23;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.btn--outline-green {
+  background-color: transparent;
+  border-color: #0C3A2D;
+  color: #0C3A2D;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+/*---- Kort ----*/
+.panel {
+  position: relative;
+  background-color: #E8ECD1;
+  border: 1px solid rgba(15, 32, 27, 0.6);
+  border-radius: 20px;
+  box-shadow: 0 4px 4px 2px rgba(15, 32, 27, 0.4);
+  padding: 32px 20px;
+}
+
 #site-header {
   position: relative;
+  z-index: 100;
   background-color: #0C3A2D;
 }
 
@@ -128,6 +231,59 @@
   stroke-linecap: round;
 }
 
+#site-footer {
+  background-color: #0C3A2D;
+  color: #FEF3E8;
+  padding: 32px 20px 24px;
+}
+
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  width: 60px;
+  height: auto;
+}
+
+.footer-wordmark {
+  font-family: "Nova Flat", sans-serif;
+  text-transform: uppercase;
+  font-size: 16px;
+  letter-spacing: 3.2px;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 24px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+}
+.footer-links a {
+  color: #FEF3E8;
+  text-decoration: underline;
+}
+
+.footer-copyright {
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  letter-spacing: 3.2px;
+  margin: 0;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -145,4 +301,107 @@ main {
   display: block;
   width: 100%;
   height: auto;
-}/*# sourceMappingURL=style.css.map */
+}
+
+/*---- Forside ----*/
+.hero {
+  position: relative;
+}
+
+.hero-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: -24px;
+  position: relative;
+}
+
+.section {
+  padding: 48px 0;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.section-illustration {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 24px 0;
+  border-radius: 20px;
+}
+
+.section-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.sticker {
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.team {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.team-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background-color: #E8ECD1;
+  border: 2px solid rgba(15, 32, 27, 0.6);
+  border-radius: 20px;
+  box-shadow: 0px 4px 4px 2px rgba(15, 32, 27, 0.4);
+  padding: 16px 16px 16px 56px;
+  margin-left: 40px;
+}
+.team-card:nth-child(odd) {
+  transform: rotate(-2deg);
+}
+.team-card:nth-child(even) {
+  transform: rotate(2deg);
+}
+
+.team-card-photo {
+  position: absolute;
+  left: -40px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(15, 32, 27, 0.6);
+}
+
+.team-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.team-card-name {
+  font-family: "Manrope", sans-serif;
+  font-weight: 200;
+  font-size: 20px;
+  margin: 0;
+  color: #0F201B;
+}
+
+.team-card-role {
+  font-family: "Manrope", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  margin: 0;
+  color: #0F201B;
+}
+
+/*# sourceMappingURL=style.css.map */

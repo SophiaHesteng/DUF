@@ -12,7 +12,7 @@
      <!-- Skrifttyper -->
       <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Nova+Flat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Nova+Flat&family=Outfit:wght@400&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
      <script src="https://kit.fontawesome.com/1cd7809a70.js" crossorigin="anonymous"></script>
@@ -23,9 +23,146 @@
 
 
     <main>
-        <video class="verden-larmer-animation" autoplay muted playsinline>
-            <source src="assets/Verden larmer.mp4" type="video/mp4">
-        </video>
+        <section class="hero">
+            <video class="verden-larmer-animation" autoplay muted playsinline>
+                <source src="assets/Verden larmer.mp4" type="video/mp4">
+            </video>
+
+            <div class="hero-cta">
+                <a href="proeverummet.html" class="btn btn--regular btn--solid-orange">Gå til prøverummet</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-heading">Du behøver ikke at holde styr på det hele</h2>
+            <p class="section-subheading">Små skridt. Mere retning. En praksis, der føles rigtig for dig</p>
+
+            <img class="section-illustration" src="img/illustration-introduktion.png" alt="">
+
+            <div class="section-body">
+                <p>Vores vækstrum er skabt for at hjælpe dig med at finde din retning, sætte ord på det, du kan, og blive tydelig for de mennesker, der har brug for dig.</p>
+            </div>
+        </section>
+
+        <img class="sticker" src="img/sticker-vaekstrum.png" alt="">
+
+        <section class="section">
+            <div class="panel">
+                <h2 class="section-heading">Hvert vækstrum åbner en ny dør</h2>
+                <p class="section-subheading">Du behøver ikke vide, hvor du er om seks måneder. Du behøver bare at vide, hvad dit næste skridt er.</p>
+
+                <div class="section-body">
+                    <p>Derfor er vores vækstrum bygget op omkring små, overskuelige skridt, der hjælper dig videre – ét ad gangen.</p>
+                </div>
+
+                <img class="section-illustration" src="img/illustration-vaekstrum.png" alt="">
+
+                <!-- TODO: bekræft at Receptionen er den rette indgang til at "finde sin dør" -->
+                <div class="section-cta">
+                    <a href="receptionen.html" class="btn btn--regular btn--solid-green">Find din dør</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-heading">Kig indenfor</h2>
+            <p class="section-subheading">Den bedste måde at forstå et vækstrum på er ved selv at opleve det.</p>
+
+            <div class="section-body">
+                <p>Vi har derfor åbnet døren til et lille prøverum, hvor du kan prøve konceptet i praksis – helt uforpligtende.</p>
+            </div>
+
+            <img class="section-illustration" src="img/illustration-kig-indenfor.png" alt="">
+
+            <div class="section-cta">
+                <a href="proeverummet.html" class="btn btn--regular btn--solid-green">Åbn prøverummet</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="panel">
+                <h2 class="section-heading">Hvorfor "Din Ugentlige Fridag"?</h2>
+                <p class="section-subheading">Forestil dig, at du gav din drøm én fast dag om ugen.</p>
+
+                <div class="section-body">
+                    <p>Ikke for at nå det hele.</p>
+                    <p>Men for at tage det næste skridt.</p>
+                    <p>Det er tanken bag Din Ugentlige Fridag.</p>
+                    <p>Et sted, hvor du kan udvikle din praksis i et tempo, der også giver plads til resten af livet.</p>
+                    <p>For vi tror ikke på, at succes handler om at løbe hurtigst.</p>
+                    <p>Vi tror på, at den bliver skabt af de små skridt, du bliver ved med at tage.</p>
+                </div>
+
+                <img class="section-illustration" src="img/illustration-hvorfor-duf.png" alt="">
+
+                <div class="section-cta">
+                    <a href="about.html" class="btn btn--regular btn--outline-green">Læs mere om os</a>
+                </div>
+            </div>
+        </section>
+
+        <img class="sticker" src="img/sticker-team.png" alt="">
+
+        <section class="section">
+            <h2 class="section-heading">Er du stadig i tvivl?</h2>
+
+            <p class="section-subheading">I Spørgehjørnet har vi samlet de spørgsmål, vi selv ville have stillet, hvis vi stod i dine sko.</p>
+
+            <div class="section-cta">
+                <a href="faq.html" class="btn btn--slim btn--solid-green">Gå til Spørgehjørnet</a>
+            </div>
+
+            <p class="section-subheading">DUF's Bibliotek rummer interessante artikler, udførlige guides og små øvelser.</p>
+
+            <div class="section-cta">
+                <a href="library.html" class="btn btn--slim btn--solid-orange">Gå til Biblioteket</a>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-heading">Mød dem, der bygger DUF</h2>
+
+            <!-- TODO: der findes endnu ingen selvstændige portrætsider - links er placeholders -->
+            <div class="team">
+                <article class="team-card">
+                    <img class="team-card-photo" src="img/marcus.png" alt="">
+                    <div class="team-card-body">
+                        <h3 class="team-card-name">Marcus Kjellingbro</h3>
+                        <p class="team-card-role">Kunstner, med interesse for design og visuelle effekter</p>
+                        <a href="#" class="btn btn--slim btn--solid-green">Læs portræt</a>
+                    </div>
+                </article>
+
+                <article class="team-card">
+                    <img class="team-card-photo" src="img/sophia.png" alt="">
+                    <div class="team-card-body">
+                        <h3 class="team-card-name">Sophia Hesteng</h3>
+                        <p class="team-card-role">Gamer med en evne til takle tekniske finesser.</p>
+                        <a href="#" class="btn btn--slim btn--solid-green">Læs portræt</a>
+                    </div>
+                </article>
+
+                <article class="team-card">
+                    <img class="team-card-photo" src="img/heidi.png" alt="">
+                    <div class="team-card-body">
+                        <h3 class="team-card-name">Heidi Kristoffersen</h3>
+                        <p class="team-card-role">Har fokus på ledelse, læring og mennesker i udvikling</p>
+                        <a href="#" class="btn btn--slim btn--solid-green">Læs portræt</a>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-heading">Døren står åben</h2>
+            <p class="section-subheading">Resten er op til dig. Når du er klar, står vi klar til at hjælpe dig med dit næste skridt.</p>
+
+            <div class="section-cta">
+                <a href="receptionen.html" class="btn btn--slim btn--solid-orange">Træd indenfor</a>
+            </div>
+        </section>
     </main>
+
+    <footer id="site-footer"></footer>
 </body>
 </html>

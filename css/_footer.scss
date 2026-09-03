@@ -1,0 +1,55 @@
+@use 'colors';
+
+#site-footer {
+    background-color: colors.$navCTAColor;
+    color: colors.$primaryBgColor;
+    padding: 32px 20px 24px;
+}
+
+.footer-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+    max-width: 480px;
+    margin: 0 auto;
+}
+
+.footer-logo {
+    width: 60px;
+    height: auto;
+}
+
+.footer-wordmark {
+    font-family: colors.$headingFont, sans-serif;
+    text-transform: uppercase;
+    font-size: 16px;
+    letter-spacing: 3.2px;
+    margin: 0;
+    line-height: 1.6;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px 24px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 16px;
+
+    a {
+        color: colors.$primaryBgColor;
+        text-decoration: underline;
+    }
+}
+
+.footer-copyright {
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 16px;
+    letter-spacing: 3.2px;
+    margin: 0;
+}
