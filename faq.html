@@ -12,7 +12,7 @@
      <!-- Skrifttyper -->
       <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Nova+Flat&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Nova+Flat&family=Outfit:wght@400&display=swap" rel="stylesheet">
 
     <!-- Font Awesome -->
      <script src="https://kit.fontawesome.com/1cd7809a70.js" crossorigin="anonymous"></script>
@@ -22,6 +22,218 @@
     <header id="site-header"></header>
 
 
-    <main></main>
+    <main>
+        <section class="section">
+            <h1 class="section-heading">Få svar på det, du er i tvivl om</h1>
+            <p class="section-subheading">Find hurtigt svar på de mest almindelige spørgsmål. Vælg et emne nedenfor.</p>
+            <img class="section-illustration" src="img/faq-hero-illustration.png" alt="">
+        </section>
+
+        <section class="section">
+            <div class="choice-list">
+                <div class="accordion-item" data-open="true">
+                    <button class="accordion-trigger" aria-expanded="true" aria-controls="faq-panel-1">
+                        <span>Hvem er DUF egentlig for?</span>
+                        <img class="accordion-icon" src="img/accordion-open.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-1">
+                        <p>DUF er først og fremmest for alternative behandlere, der gerne vil starte egen praksis eller allerede er i gang, men er gået lidt i stå. Du behøver ikke have det hele på plads. Du skal bare have lyst til at tage næste skridt.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-2">
+                        <span>Hvad er Din Ugentlige Fridag?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-2" hidden>
+                        <p>Din Ugentlige Fridag er et udviklingsunivers for alternative behandlere, hvor formålet er at gøre iværksætterdelen af din praksis lettere at gå til. Her arbejder vi med små skridt, refleksion og konkrete handlinger, så du kan finde mere retning og stå stærkere som behandler.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-3">
+                        <span>Er DUF også for mig, hvis jeg allerede er igang?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-3" hidden>
+                        <p>Ja. DUF er både for dig, der står på kanten af at starte, og dig, der allerede er i gang, men mangler retning, struktur eller momentum.</p>
+                    </div>
+                </div>
+            </div>
+
+            <img class="section-illustration" src="img/faq-banner-1.png" alt="">
+
+            <div class="choice-list">
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-4">
+                        <span>Hvordan kommer jeg igang?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-4" hidden>
+                        <p>Du behøver ikke vide præcis, hvor du skal starte. Begynd med at undersøge universet og find det sted, der giver mening for dig lige nu. Du kan altid tage næste skridt derfra.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-5">
+                        <span>Skal jeg allerede have klienter?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-5" hidden>
+                        <p>Nej. DUF er også for dig, der stadig er ved at finde din plads som behandler og endnu ikke har klienter.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-6">
+                        <span>Hvad hvis jeg kun har et par timer om ugen?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-6" hidden>
+                        <p>Det er helt okay. DUF bygger på idéen om, at udvikling godt må ske i små skridt. Du behøver ikke have en hel arbejdsdag til rådighed for at komme videre.</p>
+                    </div>
+                </div>
+            </div>
+
+            <img class="section-illustration" src="img/faq-banner-2.png" alt="">
+
+            <div class="choice-list">
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-7">
+                        <span>Hvad er et vækstrum?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-7" hidden>
+                        <p>Et vækstrum er et afgrænset område, hvor du arbejder med ét bestemt tema ad gangen. Du får mulighed for at reflektere, lære og tage konkrete skridt uden at skulle overskue det hele på én gang.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-8">
+                        <span>Hvad får jeg ud af et vækstrum?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-8" hidden>
+                        <p>Det afhænger af det enkelte vækstrum. Fælles for dem er, at du ikke bare skal læse dig til ny viden. Du skal bruge den til at blive klogere på din egen praksis og finde dit næste skridt.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-9">
+                        <span>Skal jeg tage dem i en bestemt rækkefølge?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-9" hidden>
+                        <p>Ikke nødvendigvis. Vækstrummene er lavet, så du kan tage udgangspunkt i det, der giver mening for dig. Nogle gange er det vigtigste næste skridt ikke det samme for alle. Hvis I senere beslutter en bestemt progression, kan dette svar selvfølgelig ændres.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-10">
+                        <span>Hvor lang tid tager et vækstrum?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-10" hidden>
+                        <p>Det afhænger af det enkelte vækstrum. Vi arbejder med korte bidder og konkrete øvelser, så du kan tage det i et tempo, der passer ind i din hverdag. Men du kan forvente, at hvert vækstrum tager cirka 6-8 timer at gennemføre.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-11">
+                        <span>Hvornår åbner de næste vækstrum?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-11" hidden>
+                        <p>Vækstrummene åbner løbende. Vi bygger og udvikler dem trin for trin, så nye rum kan komme til, når de er klar.</p>
+                    </div>
+                </div>
+            </div>
+
+            <img class="section-illustration" src="img/faq-banner-3.png" alt="">
+
+            <div class="choice-list">
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-12">
+                        <span>Er det et kursus?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-12" hidden>
+                        <p>Ja – men ikke helt som et traditionelt online-kursus. DUF kombinerer læring, refleksion og konkrete øvelser. Du skal ikke bare sidde og se undervisning – du skal kunne bruge det, du lærer, i din egen praksis.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-13">
+                        <span>Kan jeg prøve et rum inden jeg betaler?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-13" hidden>
+                        <p>Ja. Prøverummet er netop lavet, så du kan opleve DUF i praksis, før du tager stilling til næste skridt.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-14">
+                        <span>Hvad kan jeg opleve i Prøverummet?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-14" hidden>
+                        <p>Prøverummet giver dig mulighed for at snuse til DUF, før du beslutter dig for, om det er noget for dig. Her kan du opleve et lille udsnit af den måde, vi arbejder på.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-15">
+                        <span>Hvad hvis jeg ikke er teknisk stærk?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-15" hidden>
+                        <p>Det behøver du ikke være. DUF er skabt med fokus på mennesker – ikke på teknik. Du skal kunne koncentrere dig om din egen udvikling uden at skulle være ekspert i digitale værktøjer.</p>
+                    </div>
+                </div>
+
+                <!-- TODO: prisspørgsmålet mangler stadig et svar fra teamet (markeret som åbent i Figma-kilden) -->
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-16">
+                        <span>Hvad koster det?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-16" hidden>
+                        <p class="accordion-answer--pending">Svar på vej.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item" data-open="false">
+                    <button class="accordion-trigger" aria-expanded="false" aria-controls="faq-panel-17">
+                        <span>Hvad hvis jeg stadig er i tvivl om, hvor jeg skal starte?</span>
+                        <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+                    </button>
+                    <div class="accordion-panel" id="faq-panel-17" hidden>
+                        <p>Det er helt okay. Du behøver ikke have alle svarene, før du går i gang. Start med det, der fylder mest lige nu – så kan næste skridt blive tydeligere undervejs.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="panel">
+                <img class="section-illustration" src="img/faq-closing-banner.png" alt="">
+
+                <h2 class="section-heading">Mangler du stadig svar?</h2>
+                <p class="section-subheading">Nogle spørgsmål kræver lidt mere plads end en kort forklaring.</p>
+
+                <div class="section-body">
+                    <p>Så tag et kig i Biblioteket. Her finder du guides, artikler og uddybende indhold.</p>
+                </div>
+
+                <div class="section-cta">
+                    <a href="library.html" class="btn btn--regular btn--solid-green">Besøg Biblioteket</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="site-footer"></footer>
 </body>
 </html>
