@@ -30,6 +30,15 @@
     p + p {
         margin-top: 16px;
     }
+
+    ul {
+        margin: 16px 0;
+        padding-left: 24px;
+    }
+
+    li {
+        margin-bottom: 4px;
+    }
 }
 
 /*---- Knapper ----*/
@@ -230,4 +239,149 @@
 .accordion-answer--pending {
     font-style: italic;
     opacity: 0.7;
+}
+
+/*---- Biblioteks-hylde ----*/
+
+.library-row {
+    padding-bottom: 24px;
+    margin-bottom: 32px;
+    border-bottom: 3px solid colors.$textColor;
+}
+
+.library-row-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.library-row-heading {
+    font-family: colors.$regularFont, sans-serif;
+    font-weight: 200;
+    font-size: 24px;
+    color: colors.$textColor;
+    margin: 0;
+}
+
+.library-row-all {
+    flex-shrink: 0;
+    font-family: colors.$regularFont, sans-serif;
+    font-weight: 200;
+    font-size: 12px;
+    color: colors.$textColor;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.library-shelf {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scroll-snap-type: x proximity;
+}
+
+.book-card {
+    position: relative;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 110px;
+    min-height: 165px;
+    border-radius: 5px;
+    box-shadow: 4px 0 4px 0 rgba(0, 0, 0, 0.25);
+    padding: 12px 10px;
+    text-decoration: none;
+    color: colors.$textColor;
+}
+
+.book-card-title {
+    font-family: colors.$regularFont, sans-serif;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+.book-card-time {
+    font-family: colors.$regularFont, sans-serif;
+    font-weight: 200;
+    font-size: 11px;
+    line-height: 1.4;
+    margin-top: 12px;
+}
+
+.book-card-badge {
+    align-self: flex-start;
+    margin-top: auto;
+    width: 44px;
+    height: auto;
+}
+
+.library-shelf--core .book-card {
+    background-color: colors.$coreBgColor;
+}
+
+.library-shelf--visual .book-card {
+    background-color: colors.$visualColor;
+}
+
+.library-shelf--product .book-card {
+    background-color: colors.$productDevelopmentColor;
+}
+
+.library-shelf--web .book-card {
+    background-color: colors.$webDevelopmentColor;
+}
+
+.library-shelf--branding .book-card {
+    background-color: colors.$brandingColor;
+}
+
+.library-shelf--marketing .book-card {
+    background-color: colors.$marketingColor;
+}
+
+.library-shelf--some .book-card {
+    background-color: colors.$someColor;
+}
+
+/*---- Artikel ----*/
+
+.article-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-family: colors.$regularFont, sans-serif;
+    font-weight: 200;
+    font-size: 15px;
+    color: rgba(15, 32, 27, 0.8);
+    margin: 16px 0;
+}
+
+.article-meta a {
+    color: inherit;
+}
+
+.article-highlight {
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+.article-bookmark {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+.article-next-step-icon {
+    display: block;
+    width: 48px;
+    height: auto;
+    margin: 16px 0;
 }

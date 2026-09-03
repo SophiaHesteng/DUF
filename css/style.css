@@ -63,6 +63,13 @@
 .section-body p + p {
   margin-top: 16px;
 }
+.section-body ul {
+  margin: 16px 0;
+  padding-left: 24px;
+}
+.section-body li {
+  margin-bottom: 4px;
+}
 
 /*---- Knapper ----*/
 /*---- To størrelser (regular/slim) x fem fyld, jf. "Knapper"-komponenten i Figma ----*/
@@ -258,6 +265,149 @@
 .accordion-answer--pending {
   font-style: italic;
   opacity: 0.7;
+}
+
+/*---- Biblioteks-hylde ----*/
+.library-row {
+  padding-bottom: 24px;
+  margin-bottom: 32px;
+  border-bottom: 3px solid #0F201B;
+}
+
+.library-row-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.library-row-heading {
+  font-family: "Manrope", sans-serif;
+  font-weight: 200;
+  font-size: 24px;
+  color: #0F201B;
+  margin: 0;
+}
+
+.library-row-all {
+  flex-shrink: 0;
+  font-family: "Manrope", sans-serif;
+  font-weight: 200;
+  font-size: 12px;
+  color: #0F201B;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.library-shelf {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-snap-type: x proximity;
+}
+
+.book-card {
+  position: relative;
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 110px;
+  min-height: 165px;
+  border-radius: 5px;
+  box-shadow: 4px 0 4px 0 rgba(0, 0, 0, 0.25);
+  padding: 12px 10px;
+  text-decoration: none;
+  color: #0F201B;
+}
+
+.book-card-title {
+  font-family: "Manrope", sans-serif;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.3;
+}
+
+.book-card-time {
+  font-family: "Manrope", sans-serif;
+  font-weight: 200;
+  font-size: 11px;
+  line-height: 1.4;
+  margin-top: 12px;
+}
+
+.book-card-badge {
+  align-self: flex-start;
+  margin-top: auto;
+  width: 44px;
+  height: auto;
+}
+
+.library-shelf--core .book-card {
+  background-color: #B1BCA0;
+}
+
+.library-shelf--visual .book-card {
+  background-color: #FFE0C2;
+}
+
+.library-shelf--product .book-card {
+  background-color: #66D575;
+}
+
+.library-shelf--web .book-card {
+  background-color: #3DADFF;
+}
+
+.library-shelf--branding .book-card {
+  background-color: #F24822;
+}
+
+.library-shelf--marketing .book-card {
+  background-color: #DCCCFF;
+}
+
+.library-shelf--some .book-card {
+  background-color: #5AD8CC;
+}
+
+/*---- Artikel ----*/
+.article-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-family: "Manrope", sans-serif;
+  font-weight: 200;
+  font-size: 15px;
+  color: rgba(15, 32, 27, 0.8);
+  margin: 16px 0;
+}
+
+.article-meta a {
+  color: inherit;
+}
+
+.article-highlight {
+  font-weight: 500;
+  text-decoration: underline;
+}
+
+.article-bookmark {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.article-next-step-icon {
+  display: block;
+  width: 48px;
+  height: auto;
+  margin: 16px 0;
 }
 
 #site-header {
