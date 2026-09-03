@@ -410,6 +410,26 @@
   margin: 16px 0;
 }
 
+/*---- Kontaktkort ----*/
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+  background-color: #E8ECD1;
+  border: 2px solid rgba(15, 32, 27, 0.6);
+  border-radius: 20px;
+  box-shadow: 0 4px 4px 2px rgba(15, 32, 27, 0.4);
+  padding: 24px 20px;
+  margin: 24px 0;
+}
+
+.contact-card .section-heading,
+.contact-card .section-subheading {
+  margin: 0;
+}
+
 #site-header {
   position: relative;
   z-index: 100;

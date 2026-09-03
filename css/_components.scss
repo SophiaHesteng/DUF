@@ -385,3 +385,24 @@
     height: auto;
     margin: 16px 0;
 }
+
+/*---- Kontaktkort ----*/
+
+.contact-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    background-color: colors.$contactBgColor;
+    border: 2px solid colors.$outlineColor;
+    border-radius: 20px;
+    box-shadow: 0 4px 4px 2px colors.$dropshadowColor;
+    padding: 24px 20px;
+    margin: 24px 0;
+}
+
+.contact-card .section-heading,
+.contact-card .section-subheading {
+    margin: 0;
+}
