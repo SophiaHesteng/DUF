@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vælg din dør | Din Ugentlige Fridag</title>
+
+    <!-- Koblinger til CSS + JavaScript -->
+     <link rel="stylesheet" href="css/style.css">
+     <script type="module" src="js/app.js"></script>
+
+     <!-- Skrifttyper -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Nova+Flat&family=Outfit:wght@400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+     <script src="https://kit.fontawesome.com/1cd7809a70.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <header id="site-header"></header>
+
+    <p class="breadcrumb">
+        <span class="breadcrumb-label">Du er her:</span>
+        <span class="breadcrumb-current">Vælg din dør</span>
+    </p>
+
+    <main>
+        <section class="section">
+            <h1 class="section-heading">Vælg din retning</h1>
+
+            <!-- TODO: siderne bag hver dør er endnu ikke bygget - dørene peger foreløbig på vaekstomraade-*.html, som skal oprettes efter samme procedure som de øvrige sider -->
+            <div class="door-grid">
+                <div class="door-row">
+                    <a href="vaekstomraade-sociale-medier.html" class="door-item">
+                        <img class="door-icon" src="img/door-some.png" alt="Sociale medier">
+                    </a>
+                    <a href="vaekstomraade-visuelt-udtryk.html" class="door-item">
+                        <img class="door-icon" src="img/door-visual.png" alt="Visuelt udtryk">
+                    </a>
+                </div>
+
+                <div class="door-row">
+                    <a href="vaekstomraade-hjemmeside.html" class="door-item">
+                        <img class="door-icon" src="img/door-web.png" alt="Hjemmeside">
+                    </a>
+                    <a href="receptionen.html" class="door-item door-item--mystery" aria-label="Ved du ikke, hvor du skal begynde? Gå til receptionen">?</a>
+                    <a href="vaekstomraade-branding.html" class="door-item">
+                        <img class="door-icon" src="img/door-branding.png" alt="Branding">
+                    </a>
+                </div>
+
+                <div class="door-row">
+                    <a href="vaekstomraade-markedsfoering.html" class="door-item">
+                        <img class="door-icon" src="img/door-marketing.png" alt="Markedsføring">
+                    </a>
+                    <a href="vaekstomraade-produkter-ydelser.html" class="door-item">
+                        <img class="door-icon" src="img/door-product.png" alt="Produkter & ydelser">
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+</body>
+</html>
