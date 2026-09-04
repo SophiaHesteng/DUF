@@ -181,7 +181,8 @@ body.in-flow #site-footer {
   flex-shrink: 0;
   width: 48px;
   height: 72px;
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 .choice-card-body {
@@ -531,6 +532,12 @@ body.in-flow #site-footer {
   opacity: 0.7;
 }
 
+.section-subheading--pending,
+.section-body--pending {
+  font-style: italic;
+  opacity: 0.7;
+}
+
 /*---- Brødkrumme ----*/
 /*---- "Du er her"-linje under header, jf. Figma - viser hvilken side/rum brugeren er i ----*/
 .breadcrumb {
@@ -596,7 +603,8 @@ body.in-flow #site-footer {
   width: 100%;
   aspect-ratio: 1/1;
   border-radius: 50%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   margin: 24px 0;
 }
 
@@ -854,7 +862,8 @@ main {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   border: 2px solid rgba(15, 32, 27, 0.6);
 }
 
@@ -919,4 +928,4 @@ main {
   flex-direction: column;
   gap: 16px;
   margin-top: 24px;
-}
+}/*# sourceMappingURL=style.css.map */
