@@ -5,6 +5,12 @@ body.in-flow #site-footer {
     display: none;
 }
 
+/*---- Sikrer plads til den fast placerede dør-knap, så den ikke overlapper indhold i lange skærme (fx Modul 3's byggeklodser) ----*/
+
+body.in-flow #app {
+    padding-bottom: 100px;
+}
+
 /*---- accessibility.js sætter tabindex="-1" og fokuserer skærmens overskrift ved hvert skift, så skærmlæsere annoncerer det nye indhold. Det er ikke et rigtigt tab-stop, så vi undlader browserens fokusring her - almindelige interaktive elementer beholder deres egen ----*/
 
 [tabindex="-1"]:focus {
