@@ -13,6 +13,12 @@ Full context docs live in `/docs` — read the relevant one before working on an
 - [docs/duf-vaekstrum-grundlaeggende-context.md](docs/duf-vaekstrum-grundlaeggende-context.md) — specific to foundational rooms.
 - [docs/duf-vaekstrum-uddybende-context.md](docs/duf-vaekstrum-uddybende-context.md) — specific to deep-dive rooms.
 
+The docs above are templates — they define structure and fields, not a specific room's content. When a vækstrum has an actual manuskript (concrete screen-by-screen text, questions, and branching logic), read that too before building it, don't derive content from the template alone:
+- [docs/duf-manuskript-overblik.md](docs/duf-manuskript-overblik.md) — Overblik, the grundlæggende vækstrum that opens Visuel stil.
+- [docs/duf-manuskript-farver.md](docs/duf-manuskript-farver.md) — Farver, an uddybende vækstrum under Visuel stil.
+
+More vækstrum will get their own manuskript file here over time (Logo, Billeder, Ikoner/fonte & andre byggesten) — check this list rather than assuming only these two exist.
+
 ## Structure
 
 `DUF → Vækstområde → Vækstrum`. A vækstområde (e.g. Branding, Hjemmeside) has a fixed opening + closing with flexible movement between curated vækstrum in between. A vækstrum is a small, self-contained guided flow (branching, reflection, small exercises) with one home area, optional connections elsewhere, a type (`grundlæggende` or `uddybende`), and an ID like `BRA-VIS-001`. Full detail in the docs above — don't invent structure that isn't there; ask if something's unclear.

@@ -107,6 +107,23 @@
     cursor: not-allowed;
 }
 
+/*---- Tekstfelt ----*/
+/*---- Valgfri fritekst/refleksion i vækstrum, fx Overblik ----*/
+
+.text-input {
+    width: 100%;
+    background-color: colors.$primaryBgColor;
+    border: 1px solid colors.$outlineColor;
+    border-radius: 10px;
+    box-shadow: 0 4px 4px 0 colors.$dropshadowColor;
+    padding: 12px 16px;
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 16px;
+    color: colors.$textColor;
+    resize: vertical;
+    margin: 16px 0;
+}
+
 /*---- Kort ----*/
 
 .panel {
