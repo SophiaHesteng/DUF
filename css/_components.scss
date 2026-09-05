@@ -124,6 +124,40 @@
     margin: 16px 0;
 }
 
+.color-field {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 8px 0 16px;
+}
+
+.color-field-label {
+    display: block;
+    font-family: colors.$regularFont, sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: colors.$textColor;
+    margin-bottom: 4px;
+}
+
+.color-field-swatch {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 1px solid colors.$outlineColor;
+    border-radius: 10px;
+    box-shadow: 0 4px 4px 0 colors.$dropshadowColor;
+    background: none;
+    cursor: pointer;
+}
+
+.color-field-hex {
+    flex: 1;
+    margin: 0;
+    text-transform: uppercase;
+}
+
 /*---- Kort ----*/
 
 .panel {

@@ -86,7 +86,7 @@ export const modul6 = {
 export const ROOMS = {
     farver: {
         name: "Farver",
-        link: "vaekstrum-farver.html",
+        link: "vaekstrum-farver.html?fra=overblik",
         singleText: "Du fortalte, at du endnu ikke har valgt faste farver til din praksis. Det lyder som et oplagt sted at starte."
     },
     logo: {
