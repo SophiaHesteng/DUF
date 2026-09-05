@@ -16,8 +16,9 @@ Full context docs live in `/docs` — read the relevant one before working on an
 The docs above are templates — they define structure and fields, not a specific room's content. When a vækstrum has an actual manuskript (concrete screen-by-screen text, questions, and branching logic), read that too before building it, don't derive content from the template alone:
 - [docs/duf-manuskript-overblik.md](docs/duf-manuskript-overblik.md) — Overblik, the grundlæggende vækstrum that opens Visuel stil.
 - [docs/duf-manuskript-farver.md](docs/duf-manuskript-farver.md) — Farver, an uddybende vækstrum under Visuel stil.
+- [docs/duf-manuskript-logo.md](docs/duf-manuskript-logo.md) — Logo, an uddybende vækstrum under Visuel stil.
 
-More vækstrum will get their own manuskript file here over time (Logo, Billeder, Ikoner/fonte & andre byggesten) — check this list rather than assuming only these two exist.
+More vækstrum will get their own manuskript file here over time (Billeder, Ikoner/fonte & andre byggesten) — check this list rather than assuming only these three exist.
 
 ## Structure
 

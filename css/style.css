@@ -168,6 +168,40 @@ body.in-flow #app {
   margin: 16px 0;
 }
 
+.color-field {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 8px 0 16px;
+}
+
+.color-field-label {
+  display: block;
+  font-family: "Manrope", sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  color: #0F201B;
+  margin-bottom: 4px;
+}
+
+.color-field-swatch {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border: 1px solid rgba(15, 32, 27, 0.6);
+  border-radius: 10px;
+  box-shadow: 0 4px 4px 0 rgba(15, 32, 27, 0.4);
+  background: none;
+  cursor: pointer;
+}
+
+.color-field-hex {
+  flex: 1;
+  margin: 0;
+  text-transform: uppercase;
+}
+
 /*---- Kort ----*/
 .panel {
   position: relative;
@@ -202,8 +236,7 @@ body.in-flow #app {
   flex-shrink: 0;
   width: 48px;
   height: 72px;
-  -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
 }
 
 .choice-card-body {
@@ -624,8 +657,7 @@ body.in-flow #app {
   width: 100%;
   aspect-ratio: 1/1;
   border-radius: 50%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   margin: 24px 0;
 }
 
@@ -883,8 +915,7 @@ main {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  -o-object-fit: cover;
-     object-fit: cover;
+  object-fit: cover;
   border: 2px solid rgba(15, 32, 27, 0.6);
 }
 
@@ -949,4 +980,4 @@ main {
   flex-direction: column;
   gap: 16px;
   margin-top: 24px;
-}/*# sourceMappingURL=style.css.map */
+}
