@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fælles samling | Din Ugentlige Fridag</title>
+
+    <!-- Koblinger til CSS + JavaScript -->
+     <link rel="stylesheet" href="css/style.css">
+
+     <!-- Skrifttyper -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Nova+Flat&family=Outfit:wght@400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+     <script src="https://kit.fontawesome.com/1cd7809a70.js" crossorigin="anonymous"></script>
+
+    <!-- jsPDF - klientsidet PDF-generering, jf. docs/duf-faelles-samling-visuel-stil.md's forslag om PDF-eksport uden server/login -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+     <script type="module" src="js/app.js"></script>
+
+</head>
+<body data-page="faelles-samling">
+    <header id="site-header"></header>
+
+    <p class="breadcrumb">
+        <span class="breadcrumb-label">Du er her:</span>
+        <span class="breadcrumb-current">Fælles samling</span>
+    </p>
+
+    <main>
+        <section class="section">
+            <h1 class="section-heading">Fælles samling</h1>
+            <p class="section-subheading" id="intro-text"></p>
+        </section>
+
+        <section class="section" id="storage-notice-section" hidden>
+            <div class="panel">
+                <p id="storage-notice-text"></p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-heading" style="font-size:28px;">Her er det, du har nu</h2>
+            <p class="section-body" id="now-intro-text"></p>
+
+            <ul id="room-status-list" style="list-style:none; padding:0; margin:16px 0; font-family:'Manrope',sans-serif;"></ul>
+
+            <div id="collected-rooms"></div>
+        </section>
+
+        <section class="section" id="samlet-vurdering-section">
+            <h2 class="section-heading" id="coherence-heading" style="font-size:28px;"></h2>
+            <p class="section-body" id="coherence-text"></p>
+
+            <p class="section-subheading" id="coherence-notes-label"></p>
+            <textarea id="coherence-notes" class="text-input" rows="3"></textarea>
+        </section>
+
+        <section class="section">
+            <h2 class="section-heading" style="font-size:28px;">Her er det, du fortsat kan udvikle</h2>
+
+            <div class="value-list" id="not-visited-rooms"></div>
+
+            <p class="section-body" id="develop-closing-text"></p>
+        </section>
+
+        <section class="section">
+            <div class="panel">
+                <h2 class="section-heading" style="font-size:28px;">Download din visuelle guide</h2>
+                <p class="section-body" id="pdf-explainer"></p>
+                <div class="section-cta">
+                    <button id="download-pdf-button" type="button" class="btn btn--regular btn--solid-green" style="display:none;">Download som PDF</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-cta">
+                <a href="vaekstomraade-visuelt-udtryk.html" class="btn btn--regular btn--outline-green">Tilbage til Visuelt udtryk</a>
+            </div>
+        </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+</body>
+</html>
