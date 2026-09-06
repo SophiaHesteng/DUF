@@ -17,6 +17,7 @@ import {
 } from "./billederUi.js";
 
 import { velkomst, modul1, situationer, modul2, modul3, modul4, modul5, modul6, modul7, modul8 } from "../data/billeder.js";
+import { saveVaekstrumOutput } from "../storage/vaekstrumStorage.js";
 
 /*---- Selvstændig motor for det uddybende vækstrum "Billeder" (Visuelt udtryk). Adskilt fra Prøverummets FlowEngine.js og fra Overbliks/Farvers/Logos motorer - Billeder har et fast opslagsværk tilgængeligt gennem hele rummet (rettighedsoversigten), som ingen af de andre rum har brug for. ----*/
 
@@ -232,9 +233,22 @@ export class BilledeEngine {
         showDocumentation(
             modul8,
             draftText,
+            () => this.saveAndFinish(),
             () => this.exitRoom(),
             () => this.showReference()
         );
+    }
+
+    async saveAndFinish() {
+        const documentation = document.querySelector("#documentation-input").value;
+        const data = {
+            valideringsvej: this.valideringsvej,
+            kriterier: this.kriterier
+        };
+
+        await saveVaekstrumOutput("billeder", data, documentation);
+
+        window.location.href = "vaelg-din-dor.html";
     }
 
     exitRoom() {

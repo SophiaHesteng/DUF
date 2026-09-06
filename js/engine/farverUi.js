@@ -297,12 +297,20 @@ function showDocumentation(modul8, palette, draftText, onFinish, onExit) {
             <div class="section-body"><p>${modul8.closing}</p></div>
 
             <div class="section-cta">
-                <a href="vaelg-din-dor.html" class="btn btn--regular btn--outline-green">Tilbage til Vælg din dør</a>
+                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">Gem og tilbage til Vælg din dør</button>
             </div>
         </section>
         ${renderExitDoor()}`;
 
     activateFocusTrap(app);
+
+    const finishButton = document.querySelector("#finish-button");
+    finishButton.addEventListener("click", async () => {
+        finishButton.disabled = true;
+        finishButton.textContent = "Gemmer...";
+        await onFinish();
+    });
+
     bindExit(onExit);
 }
 

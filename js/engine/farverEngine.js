@@ -12,6 +12,7 @@ import {
 } from "./farverUi.js";
 
 import { velkomst, modul1, modul2, modul3, modul4, modul5, modul6, modul7, modul8 } from "../data/farver.js";
+import { saveVaekstrumOutput } from "../storage/vaekstrumStorage.js";
 
 /*---- Selvstændig motor for det uddybende vækstrum "Farver" (Visuelt udtryk). Adskilt fra Prøverummets FlowEngine.js og fra Overbliks OverblikEngine.js: Farver har øvelsesskærme med flere fritekstfelter, farvevalg og et indbygget kontrasttjek - en anden form end begge de andre. ----*/
 
@@ -149,9 +150,17 @@ export class FarverEngine {
             modul8,
             this.palette,
             draftText,
-            null,
+            () => this.saveAndFinish(),
             () => this.exitRoom()
         );
+    }
+
+    async saveAndFinish() {
+        const documentation = document.querySelector("#documentation-input").value;
+
+        await saveVaekstrumOutput("farver", this.palette, documentation);
+
+        window.location.href = "vaelg-din-dor.html";
     }
 
     exitRoom() {

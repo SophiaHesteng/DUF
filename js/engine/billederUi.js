@@ -363,7 +363,7 @@ function showKontroltjek(modul7, onNext, onExit, onReference) {
 
 /*---- Modul 8 - dokumentation, forudfyldt ud fra Modul 6's kriterier ----*/
 
-function showDocumentation(modul8, draftText, onExit, onReference) {
+function showDocumentation(modul8, draftText, onFinish, onExit, onReference) {
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${modul8.heading}</h2>
@@ -375,13 +375,21 @@ function showDocumentation(modul8, draftText, onExit, onReference) {
             <div class="section-body"><p>${modul8.closing}</p></div>
 
             <div class="section-cta">
-                <a href="vaelg-din-dor.html" class="btn btn--regular btn--outline-green">Tilbage til Vælg din dør</a>
+                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">Gem og tilbage til Vælg din dør</button>
             </div>
         </section>
         ${onReference ? renderReferenceButton() : ""}
         ${renderExitDoor()}`;
 
     activateFocusTrap(app);
+
+    const finishButton = document.querySelector("#finish-button");
+    finishButton.addEventListener("click", async () => {
+        finishButton.disabled = true;
+        finishButton.textContent = "Gemmer...";
+        await onFinish();
+    });
+
     bindChrome(onExit, onReference);
 }
 
