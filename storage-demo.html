@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test: gem- og uploadfunktion | Din Ugentlige Fridag</title>
+
+    <!--
+        Midlertidig, selvstændig testside til js/storage/vaekstrumStorage.js.
+        IKKE en rigtig side i sitet, og IKKE koblet til app.js, header/footer,
+        eller nogen af de fire vækstrum - kun til at verificere, at gem- og
+        uploadfunktionen faktisk virker, før den kobles ind nogen steder.
+        Kan slettes, når det arbejde er gjort.
+    -->
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Nova+Flat&family=Outfit:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <main>
+        <section class="section">
+            <h1 class="section-heading">Test: gem- og uploadfunktion</h1>
+            <p class="section-subheading">Selvstændig testside for js/storage/vaekstrumStorage.js - ikke en del af sitet.</p>
+
+            <div class="panel">
+                <h2 class="section-heading" style="font-size:24px;">Fravalg af browserlagring</h2>
+                <p id="optout-status" class="section-body"></p>
+                <div class="section-cta section-cta--row">
+                    <button id="optout-on-button" type="button" class="btn btn--regular btn--outline-orange">Fravælg lagring (og ryd alt gemt)</button>
+                    <button id="optout-off-button" type="button" class="btn btn--regular btn--outline-green">Tillad lagring igen</button>
+                </div>
+            </div>
+
+            <div class="panel">
+                <h2 class="section-heading" style="font-size:24px;">Gem mock-output for et vækstrum</h2>
+                <p class="section-subheading">Vækstrum-id</p>
+                <select id="vaekstrum-select" class="text-input">
+                    <option value="farver">farver</option>
+                    <option value="logo">logo</option>
+                    <option value="billeder">billeder</option>
+                    <option value="byggesten">byggesten</option>
+                </select>
+                <p class="section-subheading">Dokumentationstekst</p>
+                <textarea id="documentation-input" class="text-input" rows="3">Testtekst - min hovedfarve er grøn, fordi den matcher min klinik.</textarea>
+                <div class="section-cta">
+                    <button id="save-output-button" type="button" class="btn btn--regular btn--solid-green">Gem mock-output</button>
+                </div>
+                <p id="save-output-result" class="section-body"></p>
+            </div>
+
+            <div class="panel">
+                <h2 class="section-heading" style="font-size:24px;">Upload et testbillede</h2>
+                <p class="section-subheading">Knyttes til samme vækstrum-id som valgt ovenfor</p>
+                <input id="image-input" class="text-input" type="file" accept="image/*">
+                <div class="section-cta">
+                    <button id="upload-image-button" type="button" class="btn btn--regular btn--solid-green">Upload billede</button>
+                </div>
+                <p id="upload-image-result" class="section-body"></p>
+                <div id="image-preview"></div>
+            </div>
+
+            <div class="panel">
+                <h2 class="section-heading" style="font-size:24px;">Hvad er gemt lige nu</h2>
+                <div class="section-cta">
+                    <button id="refresh-button" type="button" class="btn btn--regular btn--outline-green">Genindlæs oversigt</button>
+                </div>
+                <pre id="storage-dump" style="white-space:pre-wrap; font-size:14px;"></pre>
+            </div>
+        </section>
+    </main>
+
+    <script type="module">
+        import {
+            isStorageOptedOut,
+            setStorageOptOut,
+            saveVaekstrumOutput,
+            getAllVaekstrumOutputs,
+            getSavedVaekstrumIds,
+            saveImage,
+            getImagesForVaekstrum
+        } from "./js/storage/vaekstrumStorage.js";
+
+        const optoutStatus = document.querySelector("#optout-status");
+        const vaekstrumSelect = document.querySelector("#vaekstrum-select");
+        const documentationInput = document.querySelector("#documentation-input");
+        const saveOutputResult = document.querySelector("#save-output-result");
+        const imageInput = document.querySelector("#image-input");
+        const uploadImageResult = document.querySelector("#upload-image-result");
+        const imagePreview = document.querySelector("#image-preview");
+        const storageDump = document.querySelector("#storage-dump");
+
+        function refreshOptOutStatus() {
+            optoutStatus.textContent = isStorageOptedOut()
+                ? "Lagring er FRAVALGT - intet nyt gemmes, og eksisterende data er ryddet."
+                : "Lagring er TILLADT (standard).";
+        }
+
+        async function refreshStorageDump() {
+            const outputs = await getAllVaekstrumOutputs();
+            const savedIds = await getSavedVaekstrumIds();
+
+            const lines = [`Gemte vækstrum-id'er: ${savedIds.join(", ") || "(ingen)"}`, ""];
+
+            for (const output of outputs) {
+                const images = await getImagesForVaekstrum(output.vaekstrumId);
+                lines.push(`--- ${output.vaekstrumId} ---`);
+                lines.push(`Gemt: ${output.savedAt}`);
+                lines.push(`Data: ${JSON.stringify(output.data)}`);
+                lines.push(`Dokumentation: ${output.documentation}`);
+                lines.push(`Billeder: ${images.length} (${images.map((img) => img.name).join(", ")})`);
+                lines.push("");
+            }
+
+            storageDump.textContent = lines.join("\n");
+        }
+
+        document.querySelector("#optout-on-button").addEventListener("click", async () => {
+            await setStorageOptOut(true);
+            refreshOptOutStatus();
+            await refreshStorageDump();
+        });
+
+        document.querySelector("#optout-off-button").addEventListener("click", () => {
+            setStorageOptOut(false);
+            refreshOptOutStatus();
+        });
+
+        document.querySelector("#save-output-button").addEventListener("click", async () => {
+            const vaekstrumId = vaekstrumSelect.value;
+            const mockData = {
+                eksempel: `Mock-data for ${vaekstrumId}`,
+                gemtKlokken: new Date().toLocaleTimeString("da-DK")
+            };
+
+            const result = await saveVaekstrumOutput(vaekstrumId, mockData, documentationInput.value);
+
+            saveOutputResult.textContent = result.ok
+                ? `Gemt for "${vaekstrumId}".`
+                : `Ikke gemt - reason: ${result.reason}`;
+
+            await refreshStorageDump();
+        });
+
+        document.querySelector("#upload-image-button").addEventListener("click", async () => {
+            const file = imageInput.files[0];
+
+            if (!file) {
+                uploadImageResult.textContent = "Vælg en fil først.";
+                return;
+            }
+
+            const vaekstrumId = vaekstrumSelect.value;
+            const result = await saveImage(vaekstrumId, file);
+
+            if (result.ok) {
+                uploadImageResult.textContent = `Gemt som billede #${result.imageId} for "${vaekstrumId}".`;
+                const img = document.createElement("img");
+                img.src = URL.createObjectURL(file);
+                img.style.maxWidth = "200px";
+                img.style.display = "block";
+                img.style.marginTop = "12px";
+                imagePreview.innerHTML = "";
+                imagePreview.appendChild(img);
+            } else {
+                uploadImageResult.textContent = `Ikke gemt - reason: ${result.reason}`;
+            }
+
+            await refreshStorageDump();
+        });
+
+        document.querySelector("#refresh-button").addEventListener("click", refreshStorageDump);
+
+        refreshOptOutStatus();
+        refreshStorageDump();
+    </script>
+</body>
+</html>

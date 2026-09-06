@@ -20,7 +20,8 @@ The docs above are templates — they define structure and fields, not a specifi
 - [docs/duf-manuskript-billeder.md](docs/duf-manuskript-billeder.md) — Billeder, an uddybende vækstrum under Visuel stil.
 - [docs/duf-manuskript-byggesten.md](docs/duf-manuskript-byggesten.md) — Ikoner, fonte & andre grafiske byggesten, an uddybende vækstrum under Visuel stil.
 
-That's Overblik (opening) plus all four uddybende vækstrum in Visuel stil — the vækstområde's fælles samling (closing) doesn't have its own manuskript yet, check this list rather than assuming it does.
+That's Overblik (opening) plus all four uddybende vækstrum in Visuel stil. The vækstområde's closing screen has its own spec too, but it isn't a vækstrum itself — read this before building it, not the manuskripts above:
+- [docs/duf-faelles-samling-visuel-stil.md](docs/duf-faelles-samling-visuel-stil.md) — Fælles samling, the closing screen for Visuel stil. Deliberately has no vækstrum ID or type (see the doc for why) — covers what it collects from the four vækstrum above, the shared "save to visual guide" approach (client-side, opt-out browser storage), and a proposed PDF export.
 
 ## Structure
 
