@@ -4,6 +4,7 @@ console.log("Hello from Script"); // Kobling er good to go!
 import { FlowEngine } from "./engine/flowEngine.js";
 import { OverblikEngine } from "./engine/overblikEngine.js";
 import { FarverEngine } from "./engine/farverEngine.js";
+import { LogoEngine } from "./engine/logoEngine.js";
 
 import { renderHeader } from "./components/header.js";
 import { renderFooter } from "./components/footer.js";
@@ -29,6 +30,12 @@ if (document.body.dataset.vaekstrum === "overblik") {
 
 if (document.body.dataset.vaekstrum === "farver") {
     const engine = new FarverEngine();
+
+    engine.start();
+}
+
+if (document.body.dataset.vaekstrum === "logo") {
+    const engine = new LogoEngine();
 
     engine.start();
 }

@@ -91,7 +91,7 @@ export const ROOMS = {
     },
     logo: {
         name: "Logo",
-        link: "vaekstrum-logo.html",
+        link: "vaekstrum-logo.html?fra=overblik",
         singleText: "Du fortalte, at du endnu ikke har et logo, og at det er noget, du gerne vil have på plads. Det lyder som et oplagt sted at starte."
     },
     byggesten: {
