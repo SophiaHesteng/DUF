@@ -1,6 +1,6 @@
 # MANUSKRIPT — Ikoner, fonte & andre grafiske byggesten
 
-*Status: Første udkast til konkret skærmtekst og øvelser, modul for modul — klar til at blive givet videre til design (Marcus) og udvikling (Sophia). Bygger direkte på VÆKSTRUM Context — Ikoner, fonte & andre grafiske byggesten og på "Ikonrettigheder — praktisk oversigt" (stadig under Marcus' redaktionelle gennemgang, ligesom billedrettighedsoversigten). Tekstforslag er skrevet i DUF's etablerede tone og kan frit justeres i sprog — men indholdet og logikken bag hvert modul bør holdes op mod Context-dokumentet, hvis noget ændres væsentligt. Bokse markeret "Note til design/udvikling" er praktiske hints, ikke bindende specifikationer.*
+*Status: Modul 3 opdateret (2026-09-06) til at matche Marcus' fulde faglige gennemgang af "Ikonrettigheder — praktisk oversigt". Øvrige moduler er uændret siden første udkast. Bygger direkte på VÆKSTRUM Context — Ikoner, fonte & andre grafiske byggesten og på "Ikonrettigheder — praktisk oversigt". Tekstforslag er skrevet i DUF's etablerede tone og kan frit justeres i sprog — men indholdet og logikken bag hvert modul bør holdes op mod Context-dokumentet, hvis noget ændres væsentligt. Bokse markeret "Note til design/udvikling" er praktiske hints, ikke bindende specifikationer.*
 
 **Sådan læses dette dokument:** For hvert modul er der en kort skærmtekst, en øvelse eller et sæt spørgsmål, og hvor relevant en note om praktisk implementering.
 
@@ -42,12 +42,19 @@ De er lette at overse, netop fordi de er små. Men brugt bevidst og konsekvent e
 **Skærmtekst:**
 "De fleste bruger ikoner fra et ikonbibliotek eller en gratis tjeneste, fremfor selv at tegne dem. Det er helt fint — men ligesom med billeder er 'let at hente' ikke det samme som 'frit at bruge, som man vil'."
 
+**Tre spørgsmål, du altid skal kunne svare på:**
+1. "Hvor kommer ikonet fra?"
+2. "Hvilken licens eller aftale gælder?"
+3. "Skal ikonet bruges som almindelig grafik, eller som en del af din virksomheds identitet?"
+
 **Kort om rettigheder (fra "Ikonrettigheder — praktisk oversigt"):**
 - "Gratis ikonbiblioteker — tjek altid den konkrete licens. Nogle kræver kildeangivelse, andre tillader ikke kommerciel brug uden en betalt licens."
 - "Betalte eller licensbaserede ikonpakker — licensen afgør, hvor meget du må bruge, ændre, eller genbruge dem til. Gem kvitteringen eller licensbeviset."
+- "Ikoner indbygget i designprogrammer eller hjemmesideværktøjer — at du har adgang til et ikon gennem et program, er ikke det samme som ret til at bruge det til alle formål. Tjek, om det må bruges kommercielt og eksporteres ud af programmet."
 - "Ikoner kopieret fra andre hjemmesider eller apps — ikke automatisk frit at bruge, blot fordi det er let at kopiere."
+- "Virksomheds- og platformsikoner (fx sociale medier, betalingsløsninger) — kan være beskyttede varemærker. Hent dem fra virksomhedens egen hjemmeside, og følg deres retningslinjer for brug."
 
-**Vigtigt at vide-boks:** "Skal et ikon indgå i noget, der senere skal beskyttes særskilt — fx blive en del af dit logo — stiller det ofte skrappere krav til rettighederne end almindelig brug i opslag og dokumenter. Tjek licensen ekstra grundigt i den situation."
+**Vigtigt at vide-boks:** "Skal et ikon indgå i noget, der senere skal beskyttes særskilt — fx blive en del af dit logo — stiller det ofte skrappere krav til rettighederne end almindelig brug i opslag og dokumenter. Mange ikonbiblioteker forbyder direkte, at deres ikoner bruges som logo eller varemærke. Har ikonet en Creative Commons-licens, betyder bogstaverne noget: BY (kildeangivelse), NC (ikke kommercielt), ND (må ikke ændres), SA (deles under samme licens), CC0 (fri til brug). Tjek licensen ekstra grundigt i den situation."
 
 **Spørgsmål:**
 - "Hvilken stil passer til din praksis — streg eller fyldt, rund eller skarp?"
@@ -56,7 +63,7 @@ De er lette at overse, netop fordi de er små. Men brugt bevidst og konsekvent e
 **Skærmtekst:**
 "Et ikon fungerer bedst sammen med tekst, ikke som en erstatning for den. Er du i tvivl om, hvorvidt et ikon giver mening alene, er svaret som regel nej."
 
-*Note til design/udvikling: rettighedsdelen her er kortere end Billeders Modul 2, fordi ikoner rejser færre og enklere problemstillinger (fx er "genkendelige personer" ikke relevant, jf. Context). "Ikonrettigheder — praktisk oversigt" bør, ligesom billedvejledningen, være tilgængelig som opslagsværk gennem hele rummet.*
+*Note til design/udvikling: rettighedsdelen er opdateret efter Marcus' fulde gennemgang (2026-09-06), som viser, at ikonrettigheder ikke længere kan antages at være enklere end billedrettigheder (jf. Context) — særligt varemærke/logo-brug og AI-ikoner rejser nu lige så meget kompleksitet, blot af en anden slags (ingen "genkendelige personer"-vinkel, men til gengæld varemærkeret). "Ikonrettigheder — praktisk oversigt" (nu 12 afsnit) bør, ligesom billedvejledningen, være tilgængelig som opslagsværk gennem hele rummet.*
 
 ## Modul 4 — Vælg dine fonte
 
@@ -132,6 +139,6 @@ Ligesom med farver og billeder handler det ikke om at ramme et bestemt antal. De
 
 ## Spørgsmål til jer, inden I bygger videre
 
-- "Ikonrettigheder — praktisk oversigt" er, ligesom billedrettighedsoversigten, stadig under Marcus' redaktionelle gennemgang. Skal Modul 3's indhold afvente den endelige version, eller kan I bygge videre med det nuværende udkast og opdatere teksten, når den er klar?
+- Ikonrettigheder viste sig, efter Marcus' gennemgang, at være lige så omfattende som billedrettigheder — i modsætning til Context-dokumentets oprindelige antagelse om, at det ville være "færre og enklere problemstillinger". Er Modul 3's nuværende kondensering (fem rettighedskategorier plus én vigtigt at vide-boks) tilstrækkelig, eller bør modulet deles i to (fx generel brug og logo/varemærke-brug separat)?
 - Modul 6 antager, at brugeren kan have arbejdet med Farver og/eller Logo forud for dette vækstrum, men ikke nødvendigvis. Er de to varianter af skærmteksten tilstrækkelige, eller er der flere kombinationer (fx kun Billeder afklaret), der bør have deres egen tekst?
 - Vækstrummets kontekstuelle velkomst er her knyttet til, om brugeren har arbejdet med Farver/Logo i samme besøg, fremfor et bestemt Overblik-svar som i de tre øvrige. Er det den rette logik, eller bør Overblik udvides med et signal, der peger direkte hertil?
