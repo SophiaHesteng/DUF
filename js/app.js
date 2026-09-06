@@ -6,6 +6,7 @@ import { OverblikEngine } from "./engine/overblikEngine.js";
 import { FarverEngine } from "./engine/farverEngine.js";
 import { LogoEngine } from "./engine/logoEngine.js";
 import { BilledeEngine } from "./engine/billederEngine.js";
+import { ByggestenEngine } from "./engine/byggestenEngine.js";
 
 import { renderHeader } from "./components/header.js";
 import { renderFooter } from "./components/footer.js";
@@ -43,6 +44,12 @@ if (document.body.dataset.vaekstrum === "logo") {
 
 if (document.body.dataset.vaekstrum === "billeder") {
     const engine = new BilledeEngine();
+
+    engine.start();
+}
+
+if (document.body.dataset.vaekstrum === "byggesten") {
+    const engine = new ByggestenEngine();
 
     engine.start();
 }

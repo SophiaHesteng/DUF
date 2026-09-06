@@ -33,6 +33,9 @@ export class FarverEngine {
         document.body.classList.add("in-flow");
         this.previousScreen = () => this.showModul1();
 
+        /*---- Let session-markering (ikke svar/indhold) - bruges af Byggesten til at vise en anden velkomst, hvis brugeren allerede har arbejdet med Farver i samme besøg ----*/
+        sessionStorage.setItem("duf-visited-farver", "1");
+
         showTextScreen(
             { heading: modul1.heading, paragraphs: modul1.paragraphs, callout: modul1.myteknaek },
             () => this.showModul2(),
