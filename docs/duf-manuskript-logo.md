@@ -1,6 +1,6 @@
 # MANUSKRIPT — Logo
 
-*Status: Første udkast til konkret skærmtekst og øvelser, modul for modul — klar til at blive givet videre til design (Marcus) og udvikling (Sophia). Bygger direkte på VÆKSTRUM Context — Logo. Tekstforslag er skrevet i DUF's etablerede tone og kan frit justeres i sprog — men indholdet og logikken bag hvert modul bør holdes op mod Context-dokumentet, hvis noget ændres væsentligt. Bokse markeret "Note til design/udvikling" er praktiske hints, ikke bindende specifikationer.*
+*Status: Første udkast til konkret skærmtekst og øvelser, modul for modul — klar til at blive givet videre til design (Marcus) og udvikling (Sophia). Bygger direkte på VÆKSTRUM Context — Logo. Tekstforslag er skrevet i DUF's etablerede tone og kan frit justeres i sprog — men indholdet og logikken bag hvert modul bør holdes op mod Context-dokumentet, hvis noget ændres væsentligt. Bokse markeret "Note til design/udvikling" er praktiske hints, ikke bindende specifikationer. Modul 6 og Modul 7's noter er opdateret (2026-09-06): billedupload er nu besluttet, se noterne og Fælles samling — Visuel stil.*
 
 **Sådan læses dette dokument:** For hvert modul er der en kort skærmtekst, en øvelse eller et sæt spørgsmål, og hvor relevant en note om praktisk implementering.
 
@@ -103,7 +103,7 @@ Det, et logo faktisk skal, er enklere: være til at genkende, fungere i mange sa
 **Skærmtekst (støtte undervejs):**
 "Et selvlavet logo er ikke et kompromis — det er en gyldig prototype, ligesom resten af dit visuelle udtryk."
 
-*Note til design/udvikling: ingen krav om upload her nødvendigvis — men Modul 8's dokumentation giver mest mening, hvis brugeren kan tilføje et billede af resultatet. Afklares som del af de generelle øvelsesformater (jf. Context's åbne punkt herom).*
+*Note til design/udvikling: besluttet (2026-09-06) at brugeren kan uploade et billede af det færdige logo her — klientsidet, uden server eller login (billedet forlader aldrig brugerens egen enhed), gemt i IndexedDB under besøget. Det giver Modul 8's dokumentation et faktisk billede at samle op, fremfor kun tekst.*
 
 ## Modul 7 — Tjek i praksis
 
@@ -120,7 +120,7 @@ Det, et logo faktisk skal, er enklere: være til at genkende, fungere i mange sa
 **Skærmtekst (hvis noget ikke fungerer):**
 "Det er helt normalt, at noget først viser sig her. Gå tilbage og justér, det er en del af processen — ikke et tegn på, at du gjorde noget forkert."
 
-*Note til design/udvikling: tjeklisten bør kunne besvares uden nødvendigvis at skulle uploade et faktisk billede (fx via selvvurdering), medmindre I vælger at bygge en visuel test — afklares sammen med det generelle øvelsesformat-spørgsmål.*
+*Note til design/udvikling: tjeklisten er fortsat en selvvurdering — brugeren kan svare på den uden at uploade et billede. Har brugeren allerede uploadet et billede af logoet i Modul 6, kan det med fordel vises her som støtte til selvvurderingen, men det er ikke et krav for at kunne svare.*
 
 ## Modul 8 — Dokumentér
 
@@ -137,6 +137,5 @@ Det, et logo faktisk skal, er enklere: være til at genkende, fungere i mange sa
 
 ## Spørgsmål til jer, inden I bygger videre
 
-- Skal Modul 2's og Modul 6's øvelser understøtte billedupload af eget logo, eller er en tekstbeskrivelse/selvvurdering nok til første version? (Samme åbne spørgsmål som for Farver — værd at besvare samlet for begge vækstrum.)
 - Er den korte valideringsvej i Modul 2 tydelig nok som et bevidst valg, eller risikerer den at føles som en "genvej", brugeren overser vigtige dele ved at tage?
 - Modul 3 sender brugeren til Looka, og Modul 6 til Canva/Illustrator — to eksterne værktøjer i samme vækstrum. Er det den oplevelse, I ønsker, eller bør nogle af trinnene understøttes direkte i DUF på sigt (samme type spørgsmål som Farvers kontrasttjek)?

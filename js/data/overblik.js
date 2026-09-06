@@ -101,7 +101,7 @@ export const ROOMS = {
     },
     billeder: {
         name: "Billeder",
-        link: "vaekstrum-billeder.html",
+        link: "vaekstrum-billeder.html?fra=overblik",
         singleText: "Du nævnte, at du bruger billeder, du ikke er helt sikker på rettighederne til. Det anbefaler vi altid, at du får styr på."
     }
 };

@@ -54,3 +54,12 @@ body.in-flow #app {
         display: inline;
     }
 }
+
+/*---- Fast opslagsværk-link (fx "Billedrettigheder"), jf. Billeders Modul 2-note om at gøre oversigten tilgængelig hele vejen gennem rummet ----*/
+
+#reference-button {
+    position: fixed;
+    left: 2rem;
+    bottom: 2.75rem;
+    z-index: 10;
+}

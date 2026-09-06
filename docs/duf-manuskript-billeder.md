@@ -1,6 +1,6 @@
 # MANUSKRIPT — Billeder
 
-*Status: Første udkast til konkret skærmtekst og øvelser, modul for modul — klar til at blive givet videre til design (Marcus) og udvikling (Sophia). Bygger direkte på VÆKSTRUM Context — Billeder og på "Billedrettigheder — praktisk oversigt". Tekstforslag er skrevet i DUF's etablerede tone og kan frit justeres i sprog — men indholdet og logikken bag hvert modul bør holdes op mod Context-dokumentet, hvis noget ændres væsentligt. Bokse markeret "Note til design/udvikling" er praktiske hints, ikke bindende specifikationer.*
+*Status: Modul 2 og Modul 7 opdateret (2026-09-06) til at matche Marcus' fulde faglige gennemgang af "Billedrettigheder — praktisk oversigt". Øvrige moduler er uændret siden første udkast. Bygger direkte på VÆKSTRUM Context — Billeder og på "Billedrettigheder — praktisk oversigt". Tekstforslag er skrevet i DUF's etablerede tone og kan frit justeres i sprog — men indholdet og logikken bag hvert modul bør holdes op mod Context-dokumentet, hvis noget ændres væsentligt. Bokse markeret "Note til design/udvikling" er praktiske hints, ikke bindende specifikationer.*
 
 **Sådan læses dette dokument:** For hvert modul er der en kort skærmtekst, en øvelse eller et sæt spørgsmål, og hvor relevant en note om praktisk implementering.
 
@@ -28,11 +28,15 @@ Det handler ikke om at have de mest polerede eller professionelle billeder. Det 
 
 Vi har samlet de mest almindelige situationer i en praktisk oversigt, du altid kan vende tilbage til. Her er den korte version:"
 
+**To spørgsmål, du altid skal kunne svare på:**
+1. "Har du tilladelse eller en licens til at bruge selve billedet?"
+2. "Har du et lovligt grundlag for at vise de personer, der kan genkendes på billedet?"
+
 **De fire situationer (kort opsummeret fra "Billedrettigheder — praktisk oversigt"):**
-- "Billeder du selv har taget — du må som udgangspunkt selv bestemme, men er der genkendelige personer på (særligt klienter), skal du altid spørge om lov først."
-- "Billeder fra billedbanker — 'gratis' er ikke det samme som 'uden vilkår'. Tjek altid den konkrete licens."
-- "Billeder fundet online — frit tilgængeligt er ikke det samme som frit at bruge, medmindre det udtrykkeligt er mærket til det."
-- "Billeder skabt med AI — et nyt og stadig uafklaret område. Behandl dem med samme forsigtighed som billeder fundet online."
+- "Billeder du selv har taget — billeder uden genkendelige personer (fx din klinik, dine redskaber) må du som udgangspunkt selv bestemme over. Er der genkendelige personer med — også selvom du selv har taget billedet — skal du have et lovligt grundlag, typisk et tydeligt samtykke. Det gælder allermest billeder af klienter: samtykket bør være specifikt til den konkrete brug og kan altid trækkes tilbage."
+- "Billeder fra billedbanker — 'gratis' er ikke det samme som 'uden vilkår'. Tjek altid den konkrete licens, og vær ekstra opmærksom, hvis der er personer på billedet i en sundheds- eller behandlingssammenhæng."
+- "Billeder fundet online — frit tilgængeligt er ikke det samme som frit at bruge. Har billedet en Creative Commons-licens, betyder bogstaverne noget: BY (kildeangivelse), NC (ikke kommercielt), ND (må ikke ændres), SA (deles under samme licens), CC0 (fri til brug)."
+- "Billeder skabt med AI — et nyt og stadig uafklaret område. Behandl dem med samme forsigtighed som billeder fundet online, og undgå at uploade billeder af klienter eller andre fortrolige oplysninger til et offentligt AI-værktøj."
 
 **Vigtigt at vide-boks:** "Denne oversigt er DUF's egen praktiske vejledning — bygget til at hjælpe dig med at få øje på de rigtige spørgsmål, ikke til at afgøre komplicerede eller tvivlsomme sager. Er du i tvivl i en konkret situation, særligt hvis en klient er involveret, så søg professionel rådgivning, fremfor at gætte."
 
@@ -40,7 +44,7 @@ Vi har samlet de mest almindelige situationer i en praktisk oversigt, du altid k
 - Ja, det er jeg tryg ved
 - Jeg er faktisk ikke helt sikker
 
-*Note til design/udvikling: dette spørgsmål er ikke forgrenende i sig selv her (i modsætning til det tilsvarende spørgsmål i Overblik) — det er en selvvurdering, der forbereder brugeren på Modul 7's praktiske tjek. Selve "Billedrettigheder — praktisk oversigt" bør være tilgængelig som opslagsværk hele vejen gennem rummet, ikke kun her i Modul 2 — fx via et fast link i sidepanelet.*
+*Note til design/udvikling: dette spørgsmål er ikke forgrenende i sig selv her (i modsætning til det tilsvarende spørgsmål i Overblik) — det er en selvvurdering, der forbereder brugeren på Modul 7's praktiske tjek. De fire situationer er opdateret efter Marcus' fulde gennemgang (2026-09-06) — bl.a. med GDPR-vinklen på klientbilleder og Creative Commons-betegnelserne. Selve "Billedrettigheder — praktisk oversigt" (nu med 7 afsnit, tjekliste og læs mere-links) bør være tilgængelig som opslagsværk hele vejen gennem rummet, ikke kun her i Modul 2 — fx via et fast link i sidepanelet.*
 
 ## Modul 3 — Dit udgangspunkt
 
@@ -65,7 +69,7 @@ Vi har samlet de mest almindelige situationer i en praktisk oversigt, du altid k
 - "Hvor kommer disse billeder fra?"
 - "Er de valgt bevidst — eller er de bare endt sådan?"
 
-*Note til design/udvikling: samme forgreningsmønster som i Logo (Modul 2) — "Ja, det passer godt" er den eneste vej til den korte valideringsvej. Har brugeren intet at samle op endnu, gælder samme løsning som i Farver: spring øvelsen over med en anerkendende tekst ("Helt fint — så starter vi fra et rent bord.").*
+*Note til design/udvikling: samme forgreningsmønster som i Logo (Modul 2) — "Ja, det passer godt" er den eneste vej til den korte valideringsvej. Har brugeren intet at samle op endnu, gælder samme løsning som i Farver: spring øvelsen over med en anerkendende tekst ("Helt fint — så starter vi fra et rent bord."). Besluttet (2026-09-06): øvelsen understøtter billedupload — klientsidet, uden server eller login (billedet forlader aldrig brugerens egen enhed), gemt i IndexedDB under besøget. Ren tekstbeskrivelse er fortsat gyldigt for den, der foretrækker det.*
 
 ## Modul 4 — Inspiration og sammenligning
 
@@ -110,11 +114,13 @@ Det handler ikke om at ramme et bestemt antal billeder eller én bestemt stil. D
 "Nu tjekker vi, at de billeder, du vil bruge, både er lovlige og fungerer visuelt."
 
 **Rettighedstjekliste (fra "Billedrettigheder — praktisk oversigt"):**
-1. "Hvem har taget eller skabt billedet — dig selv, en tjeneste, eller en anden?"
-2. "Er der genkendelige personer på billedet? Har de givet samtykke?"
-3. "Hvor kommer billedet fra, og hvilken licens eller aftale gælder?"
-4. "Stiller licensen krav, du skal opfylde (fx kildeangivelse, forbud mod kommerciel brug)?"
-5. "Er du stadig i tvivl? Vælg et andet billede, eller søg konkret tilladelse — gæt ikke."
+1. "Hvor kommer billedet fra — har du selv taget det, fået tilladelse, eller en licens?"
+2. "Dækker tilladelsen den konkrete brug, du planlægger (fx hjemmeside, sociale medier, annoncer)?"
+3. "Er der genkendelige personer på billedet? Har du et lovligt og dokumenterbart grundlag for at vise dem?"
+4. "Kan billedet afsløre eller antyde følsomme oplysninger, fx om en klients helbred?"
+5. "Skal fotografen eller en anden rettighedshaver krediteres?"
+6. "Har du gemt dokumentation for tilladelsen eller licensen?"
+7. "Er du stadig i tvivl? Vælg et andet billede, eller søg konkret tilladelse — gæt ikke."
 
 **Kontroltjek (hvis du planlægger tekst oven på et billede):**
 "Placér din tekst oven på billedet, og vurder ærligt: kan den tydeligt læses? Er du i tvivl, kan en mørk eller lys boks bag teksten ofte løse det, uden at gå på kompromis med billedet."
@@ -122,7 +128,7 @@ Det handler ikke om at ramme et bestemt antal billeder eller én bestemt stil. D
 **Skærmtekst (hvis noget er uafklaret):**
 "Er du i tvivl efter tjeklisten, er det bedre at vælge et andet billede end at gætte — særligt hvis der er penge, en klage eller en klient involveret. Se 'Hvornår bør du søge professionel rådgivning' i den fulde oversigt."
 
-*Note til design/udvikling: rettighedstjeklisten er en selvvurdering, ikke en automatisk validering — DUF kan ikke bekræfte rettigheder på brugerens vegne. Kontroltjekket for tekst-på-billede er bevidst holdt praktisk og visuelt (ikke værktøjsbaseret som Farvers Modul 7), fordi et fotos kontrast ikke kan måles på samme måde som to flade farver — flagt som åbent spørgsmål nedenfor.*
+*Note til design/udvikling: rettighedstjeklisten er opdateret efter Marcus' fulde gennemgang (2026-09-06) og er stadig en selvvurdering, ikke en automatisk validering — DUF kan ikke bekræfte rettigheder på brugerens vegne. Kontroltjekket for tekst-på-billede er bevidst holdt praktisk og visuelt (ikke værktøjsbaseret som Farvers Modul 7), fordi et fotos kontrast ikke kan måles på samme måde som to flade farver — flagt som åbent spørgsmål nedenfor. Har brugeren allerede uploadet billeder i Modul 3 (besluttet 2026-09-06, klientsidet via IndexedDB), bør kontroltjekket kunne bruges direkte på dem her.*
 
 ## Modul 8 — Afprøv og dokumentér
 
@@ -139,6 +145,4 @@ Det handler ikke om at ramme et bestemt antal billeder eller én bestemt stil. D
 
 ## Spørgsmål til jer, inden I bygger videre
 
-- Skal Modul 3's og Modul 7's øvelser understøtte faktisk billedupload, eller er tekstbeskrivelse/selvvurdering nok til første version? (Samme åbne spørgsmål som for Farver og Logo — værd at besvare samlet for alle tre.)
 - Modul 7's kontroltjek for tekst-på-billede er holdt praktisk og øjenmålsbaseret, i mangel af et værktøj, der kan måle kontrast på et foto. Er det tilstrækkeligt, eller skal der udvikles en mere systematisk løsning?
-- "Billedrettigheder — praktisk oversigt" er stadig under Marcus' redaktionelle gennemgang. Skal Modul 2's indhold afvente den endelige version, eller kan I bygge videre med det nuværende udkast og opdatere teksten, når den er klar?

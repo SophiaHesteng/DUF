@@ -1,6 +1,6 @@
 # MANUSKRIPT — Farver
 
-*Status: Første udkast til konkret skærmtekst og øvelser, modul for modul — klar til at blive givet videre til design (Marcus) og udvikling (Sophia). Bygger direkte på VÆKSTRUM Context — Farver. Tekstforslag er skrevet i DUF's etablerede tone og kan frit justeres i sprog — men indholdet og logikken bag hvert modul bør holdes op mod Context-dokumentet, hvis noget ændres væsentligt. Bokse markeret "Note til design/udvikling" er praktiske hints, ikke bindende specifikationer.*
+*Status: Første udkast til konkret skærmtekst og øvelser, modul for modul — klar til at blive givet videre til design (Marcus) og udvikling (Sophia). Bygger direkte på VÆKSTRUM Context — Farver. Tekstforslag er skrevet i DUF's etablerede tone og kan frit justeres i sprog — men indholdet og logikken bag hvert modul bør holdes op mod Context-dokumentet, hvis noget ændres væsentligt. Bokse markeret "Note til design/udvikling" er praktiske hints, ikke bindende specifikationer. Modul 3's note er opdateret (2026-09-06): billedupload er nu besluttet, se noten og Fælles samling — Visuel stil.*
 
 **Sådan læses dette dokument:** For hvert modul er der en kort skærmtekst, en øvelse eller et sæt spørgsmål, og hvor relevant en note om praktisk implementering.
 
@@ -39,7 +39,7 @@ Det kaldes kontrast, og det er en af de vigtigste — men mest oversete — regl
 - "Hvilke farver går igen?"
 - "Er de valgt bevidst — eller er de bare endt sådan?"
 
-*Note til design/udvikling: øvelsen kan understøttes af enten upload af billeder/skærmbilleder eller blot fritekst-beskrivelse. Har brugeren intet endnu, springes øvelsen over med teksten: "Har du ikke noget at samle op endnu? Helt fint — så starter vi fra et rent bord."*
+*Note til design/udvikling: besluttet (2026-09-06) at øvelsen understøtter billedupload af skærmbilleder/eksempler — klientsidet (billedet forlader aldrig brugerens egen enhed, ingen server eller login nødvendig), gemt i IndexedDB frem for localStorage under besøget. Ren fritekst-beskrivelse er fortsat gyldigt for den, der foretrækker det. Har brugeren intet endnu, springes øvelsen over med teksten: "Har du ikke noget at samle op endnu? Helt fint — så starter vi fra et rent bord."*
 
 ## Modul 4 — Inspiration og sammenligning
 
@@ -106,6 +106,5 @@ Det handler ikke om at ramme et bestemt tal. Det handler om at vide, hvilken rol
 
 ## Spørgsmål til jer, inden I bygger videre
 
-- Skal Modul 3's "saml eksempler"-øvelse understøtte billedupload fra start, eller er en ren tekstbeskrivelse godt nok til første version?
 - Skal Modul 6's palet-valg ske gennem en simpel farvevælger (hex-koder), eller skal brugeren kunne vælge blandt et kurateret sæt foreslåede paletter?
 - Modul 7 sender brugeren til et eksternt værktøj — er det den oplevelse, I ønsker for første version, eller skal kontrasttjek bygges ind direkte i DUF på sigt?
