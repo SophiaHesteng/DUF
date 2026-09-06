@@ -17,8 +17,10 @@ The docs above are templates — they define structure and fields, not a specifi
 - [docs/duf-manuskript-overblik.md](docs/duf-manuskript-overblik.md) — Overblik, the grundlæggende vækstrum that opens Visuel stil.
 - [docs/duf-manuskript-farver.md](docs/duf-manuskript-farver.md) — Farver, an uddybende vækstrum under Visuel stil.
 - [docs/duf-manuskript-logo.md](docs/duf-manuskript-logo.md) — Logo, an uddybende vækstrum under Visuel stil.
+- [docs/duf-manuskript-billeder.md](docs/duf-manuskript-billeder.md) — Billeder, an uddybende vækstrum under Visuel stil.
+- [docs/duf-manuskript-byggesten.md](docs/duf-manuskript-byggesten.md) — Ikoner, fonte & andre grafiske byggesten, an uddybende vækstrum under Visuel stil.
 
-More vækstrum will get their own manuskript file here over time (Billeder, Ikoner/fonte & andre byggesten) — check this list rather than assuming only these three exist.
+That's Overblik (opening) plus all four uddybende vækstrum in Visuel stil — the vækstområde's fælles samling (closing) doesn't have its own manuskript yet, check this list rather than assuming it does.
 
 ## Structure
 
