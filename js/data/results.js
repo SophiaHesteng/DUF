@@ -2,7 +2,7 @@ export const results = [
     {   
         title: "Du har et stærkt fundament!",
         description: "Det lyder som om, du allerede har et ret klart billede af, hvem du er som behandler. Det betyder ikke, at du er færdig med at udvikle dig – men dit næste skridt handler sandsynligvis ikke om at finde dig selv, men om at bygge videre på det fundament, du allerede har. Vi anbefaler derfor, at du starter ved informationsskranken, hvor vi sammen kan finde det vækstrum, der passer bedst til dit næste skridt.",
-        recommendedRoom: "Receptionen", //SKAL TILPASSES NÅR RUMMENE ER LAVET!
+        recommendedRoom: "Vælg din ", //SKAL TILPASSES NÅR RUMMENE ER LAVET!
         buttonText: "Receptionen",
         buttonLink: "/start" //TILRET LINKS NÅR VI HAR DEM!
     },
