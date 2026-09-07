@@ -4,7 +4,7 @@ export function renderHeader() {
     header.innerHTML = `
     <div class="header-inner">
 
-            <a href="forside.html" class="header-logo" aria-label="Gå til forsiden"><img src="img/header-logo.svg" alt=""></a>
+            <a href="index.html" class="header-logo" aria-label="Gå til forsiden"><img src="img/header-logo.svg" alt=""></a>
 
             <p class="header-title">
                 Din Ugentlige Fridag
@@ -49,7 +49,7 @@ export function renderHeader() {
                         C 275 182, 270 188, 265 192" />
                 </svg>
 
-                    <a href="forside.html" class="map-place map-place-front" data-page="forside.html">Forsiden</a>
+                    <a href="index.html" class="map-place map-place-front" data-page="index.html">Forsiden</a>
                     <a href="about.html" class="map-place map-place-about" data-page="about.html">Om os</a>
                     <a href="contact.html" class="map-place map-place-contact" data-page="contact.html">Kontakt</a>
                     <a href="receptionen.html" class="map-place map-place-reception" data-page="receptionen.html">Receptionen</a>

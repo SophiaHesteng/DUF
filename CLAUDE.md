@@ -71,4 +71,4 @@ See `styles/_tokens.scss` and `styles/forside.scss` (from the Forside prototype)
 ## Known open questions (as of 2026-09-03)
 
 - Header navigation ("map" icon) isn't wired up yet. The Figma file has a "Navigation" component (a site-map graphic) listing all real page names — worth building the header nav from that rather than guessing.
-- Several internal links in the current Forside prototype are best-guesses, not confirmed IA (flagged as TODO comments in forside.html) — confirm actual destinations with the team before treating them as final.
+- Several internal links in the current Forside prototype are best-guesses, not confirmed IA (flagged as TODO comments in index.html) — confirm actual destinations with the team before treating them as final.
