@@ -237,7 +237,7 @@ export class LogoEngine {
 
         await saveVaekstrumOutput("logo", data, documentation);
 
-        window.location.href = "vaelg-din-dor.html";
+        window.location.href = "vaekstomraade-visuelt-udtryk.html";
     }
 
     exitRoom() {

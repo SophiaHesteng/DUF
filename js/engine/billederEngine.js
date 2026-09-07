@@ -248,7 +248,7 @@ export class BilledeEngine {
 
         await saveVaekstrumOutput("billeder", data, documentation);
 
-        window.location.href = "vaelg-din-dor.html";
+        window.location.href = "vaekstomraade-visuelt-udtryk.html";
     }
 
     exitRoom() {

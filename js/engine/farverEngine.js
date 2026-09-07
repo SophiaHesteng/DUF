@@ -160,7 +160,7 @@ export class FarverEngine {
 
         await saveVaekstrumOutput("farver", this.palette, documentation);
 
-        window.location.href = "vaelg-din-dor.html";
+        window.location.href = "vaekstomraade-visuelt-udtryk.html";
     }
 
     exitRoom() {
