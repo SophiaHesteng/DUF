@@ -1,14 +1,10 @@
 import { activateFocusTrap } from "./accessibility.js";
+import { renderExitDoor as renderSharedExitDoor } from "../components/exitDoor.js";
 
 const app = document.querySelector("#app");
 
 function renderExitDoor() {
-    return `
-        <button id="exit-button" aria-label="Gå ud af Ikoner, fonte & andre grafiske byggesten">
-            <i class="fa-solid fa-door-closed closed-door" aria-hidden="true"></i>
-            <i class="fa-solid fa-door-open open-door" aria-hidden="true"></i>
-        </button>
-    `;
+    return renderSharedExitDoor("Gå ud af Ikoner, fonte & andre grafiske byggesten");
 }
 
 function renderReferenceButton() {
@@ -316,7 +312,7 @@ function showDocumentation(modul8, draftText, onFinish, onExit, onReference) {
             <div class="section-body"><p>${modul8.closing}</p></div>
 
             <div class="section-cta">
-                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">Gem og tilbage til Vælg din dør</button>
+                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">Gem og fortsæt i Visuelt udtryk</button>
             </div>
         </section>
         ${onReference ? renderReferenceButton() : ""}

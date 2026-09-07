@@ -1,20 +1,12 @@
 import { activateFocusTrap } from "./accessibility.js";
 import { initAccordion } from "../components/accordion.js";
+import { renderExitDoor as renderSharedExitDoor, bindExit } from "../components/exitDoor.js";
+import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
 
 const app = document.querySelector("#app");
 
 function renderExitDoor() {
-    return `
-        <button id="exit-button" aria-label="Gå ud af Overblik">
-            <i class="fa-solid fa-door-closed closed-door" aria-hidden="true"></i>
-            <i class="fa-solid fa-door-open open-door" aria-hidden="true"></i>
-        </button>
-    `;
-}
-
-function bindExit(onExit) {
-    const exitButton = document.querySelector("#exit-button");
-    if (exitButton) exitButton.addEventListener("click", onExit);
+    return renderSharedExitDoor("Gå ud af Overblik");
 }
 
 function showWelcome(onStart) {
@@ -201,7 +193,8 @@ function showResult({ recommendation, introText, noSignalText, closingText }, on
 
                 <div class="section-body"><p>${closingText}</p></div>
 
-                <div class="section-cta">
+                <div class="section-cta section-cta--column">
+                    <a href="${VISUELT_UDTRYK_HUB}" class="btn btn--regular btn--solid-green">Se alle rum i Visuelt udtryk</a>
                     <a href="vaelg-din-dor.html" class="btn btn--regular btn--outline-green">Tilbage til Vælg din dør</a>
                 </div>
             </div>

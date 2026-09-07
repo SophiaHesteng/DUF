@@ -13,6 +13,7 @@ import {
 
 import { velkomst, modul1, modul2, modul3, modul4, modul5, modul6, modul7, modul8 } from "../data/farver.js";
 import { saveVaekstrumOutput } from "../storage/vaekstrumStorage.js";
+import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
 
 /*---- Selvstændig motor for det uddybende vækstrum "Farver" (Visuelt udtryk). Adskilt fra Prøverummets FlowEngine.js og fra Overbliks OverblikEngine.js: Farver har øvelsesskærme med flere fritekstfelter, farvevalg og et indbygget kontrasttjek - en anden form end begge de andre. ----*/
 
@@ -160,14 +161,14 @@ export class FarverEngine {
 
         await saveVaekstrumOutput("farver", this.palette, documentation);
 
-        window.location.href = "vaekstomraade-visuelt-udtryk.html";
+        window.location.href = VISUELT_UDTRYK_HUB;
     }
 
     exitRoom() {
         showExitConfirmation(
             () => this.previousScreen(),
             () => {
-                window.location.href = "vaekstomraade-visuelt-udtryk.html";
+                window.location.href = VISUELT_UDTRYK_HUB;
             }
         );
     }

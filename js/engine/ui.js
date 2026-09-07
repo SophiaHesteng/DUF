@@ -1,18 +1,10 @@
 import { activateFocusTrap } from "./accessibility.js";
+import { renderExitDoor as renderSharedExitDoor, bindExit } from "../components/exitDoor.js";
 
 const app = document.querySelector("#app");
 
 function renderExitDoor() {
-
-    return `
-        <button id="exit-button" aria-label="Gå ud af prøverummet">
-
-            <i class="fa-solid fa-door-closed closed-door" aria-hidden="true"></i>
-
-            <i class="fa-solid fa-door-open open-door" aria-hidden="true"></i>
-
-        </button>
-    `;
+    return renderSharedExitDoor("Gå ud af prøverummet");
 }
 
 function showWelcomeScreen(onStart, onExit){
@@ -85,8 +77,7 @@ function showQuestion(questionObject, onAnswerSelected, onExit){
 
     activateFocusTrap(app);
 
-        const exitButton = document.querySelector("#exit-button");
-        exitButton.addEventListener("click", onExit);
+    bindExit(onExit);
 }
 
 function showFeedback(feedback, onNext, onExit) {
@@ -117,9 +108,7 @@ function showFeedback(feedback, onNext, onExit) {
         onNext();
     });
 
-    const exitButton = document.querySelector("#exit-button");
-
-       exitButton.addEventListener("click", onExit);
+    bindExit(onExit);
 }
 
 function updateNavigation(currentStep){

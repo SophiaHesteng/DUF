@@ -1,20 +1,11 @@
 import { activateFocusTrap } from "./accessibility.js";
 import { isValidHex, contrastRatio, evaluateContrast } from "./contrast.js";
+import { renderExitDoor as renderSharedExitDoor, bindExit } from "../components/exitDoor.js";
 
 const app = document.querySelector("#app");
 
 function renderExitDoor() {
-    return `
-        <button id="exit-button" aria-label="Gå ud af Farver">
-            <i class="fa-solid fa-door-closed closed-door" aria-hidden="true"></i>
-            <i class="fa-solid fa-door-open open-door" aria-hidden="true"></i>
-        </button>
-    `;
-}
-
-function bindExit(onExit) {
-    const exitButton = document.querySelector("#exit-button");
-    if (exitButton) exitButton.addEventListener("click", onExit);
+    return renderSharedExitDoor("Gå ud af Farver");
 }
 
 function showWelcome(text, onStart) {
@@ -297,7 +288,7 @@ function showDocumentation(modul8, palette, draftText, onFinish, onExit) {
             <div class="section-body"><p>${modul8.closing}</p></div>
 
             <div class="section-cta">
-                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">Gem og tilbage til Vælg din dør</button>
+                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">Gem og fortsæt i Visuelt udtryk</button>
             </div>
         </section>
         ${renderExitDoor()}`;

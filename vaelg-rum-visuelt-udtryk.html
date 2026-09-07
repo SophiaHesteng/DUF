@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vælg dit rum | Visuelt udtryk | Din Ugentlige Fridag</title>
+
+    <!-- Koblinger til CSS + JavaScript -->
+     <link rel="stylesheet" href="css/style.css">
+     <script type="module" src="js/app.js"></script>
+
+     <!-- Skrifttyper -->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Nova+Flat&family=Outfit:wght@400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+     <script src="https://kit.fontawesome.com/1cd7809a70.js" crossorigin="anonymous"></script>
+
+</head>
+<!--
+    Denne side ligger INDE i vækstområdet Visuelt udtryk - adskilt fra den
+    offentlige forside (vaekstomraade-visuelt-udtryk.html). Alle vækstrums
+    saveAndFinish()/exitRoom() (se js/engine/vaekstomraadeExit.js) sender
+    brugeren hertil, ikke ud til den offentlige side, så man forbliver inde
+    i området, uanset om man lige er startet, er midt i det, eller er
+    færdig med et rum.
+-->
+<body data-page="vaelg-rum-visuelt-udtryk">
+    <header id="site-header"></header>
+
+    <p class="breadcrumb">
+        <span class="breadcrumb-label">Du er her:</span>
+        <span class="breadcrumb-current">Visuelt udtryk — Vælg dit rum</span>
+    </p>
+
+    <main>
+        <section class="section">
+            <h1 class="section-heading">Vælg dit rum</h1>
+            <p class="section-subheading">Du kan bevæge dig frit mellem rummene herunder. Rækkefølgen er ikke bindende — vælg det, der giver mest mening for dig lige nu.</p>
+
+            <div class="panel">
+                <div id="storage-notice"></div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-heading" style="font-size:24px;">Det grundlæggende rum</h2>
+
+            <div class="value-list">
+                <div class="value-card" data-room-id="overblik">
+                    <span class="value-card-label">Overblik</span>
+                    <p class="value-card-description">Et samlet billede af, hvor du står i dag på tværs af farver, billeder, logo og de mindre detaljer.</p>
+                    <div class="section-cta">
+                        <a href="overblik.html" class="btn btn--slim btn--solid-green">Gå til Overblik</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-heading" style="font-size:24px;">De fire uddybende rum</h2>
+            <p class="section-body">Har du allerede et overblik, eller er du på vej tilbage til et af rummene? Her er de fire, du kan arbejde med.</p>
+
+            <div class="value-list">
+                <div class="value-card" data-room-id="farver">
+                    <span class="value-card-label">Farver</span>
+                    <p class="value-card-description">En bevidst farvepalet, du kan bruge igen og igen — og en forklaring på, hvorfor den fungerer.</p>
+                    <p class="value-card-status" data-room-status hidden>✓ Gennemført</p>
+                    <div class="section-cta">
+                        <a href="vaekstrum-farver.html" class="btn btn--slim btn--solid-green">Gå til Farver</a>
+                    </div>
+                </div>
+
+                <div class="value-card" data-room-id="logo">
+                    <span class="value-card-label">Logo</span>
+                    <p class="value-card-description">Enten et nyt logo, eller en klar vurdering af det, du allerede har — så du ved, om det gør sit arbejde.</p>
+                    <p class="value-card-status" data-room-status hidden>✓ Gennemført</p>
+                    <div class="section-cta">
+                        <a href="vaekstrum-logo.html" class="btn btn--slim btn--solid-green">Gå til Logo</a>
+                    </div>
+                </div>
+
+                <div class="value-card" data-room-id="billeder">
+                    <span class="value-card-label">Billeder</span>
+                    <p class="value-card-description">Kriterier for, hvilke billeder der passer til dig — og ro i maven om, at du må bruge dem.</p>
+                    <p class="value-card-status" data-room-status hidden>✓ Gennemført</p>
+                    <div class="section-cta">
+                        <a href="vaekstrum-billeder.html" class="btn btn--slim btn--solid-green">Gå til Billeder</a>
+                    </div>
+                </div>
+
+                <div class="value-card" data-room-id="byggesten">
+                    <span class="value-card-label">Ikoner, fonte og andre byggesten</span>
+                    <p class="value-card-description">De sidste detaljer på plads, så dit udtryk hænger sammen, også i det små.</p>
+                    <p class="value-card-status" data-room-status hidden>✓ Gennemført</p>
+                    <div class="section-cta">
+                        <a href="vaekstrum-byggesten.html" class="btn btn--slim btn--solid-green">Gå til Ikoner, fonte og byggesten</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="panel">
+                <h2 class="section-heading" style="font-size:24px;">Klar til at samle op?</h2>
+                <p class="section-body">Når du har arbejdet med de rum, der var relevante for dig, kan du samle dem i din visuelle guide.</p>
+                <div class="section-cta">
+                    <a href="faelles-samling-visuel-stil.html" class="btn btn--regular btn--outline-green">Gå til Fælles samling</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-cta">
+                <a href="vaekstomraade-visuelt-udtryk.html" class="btn btn--regular btn--outline-green">Tilbage til Visuelt udtryk (forside)</a>
+            </div>
+        </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+</body>
+</html>

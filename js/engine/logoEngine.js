@@ -14,6 +14,7 @@ import {
 
 import { velkomst, modul1, modul2, modul3, modul4, modul5, modul6, modul7, modul8, retningTekst } from "../data/logo.js";
 import { saveVaekstrumOutput } from "../storage/vaekstrumStorage.js";
+import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
 
 /*---- Selvstændig motor for det uddybende vækstrum "Logo" (Visuelt udtryk). Adskilt fra Prøverummets FlowEngine.js og fra Overbliks/Farvers motorer - Logo har to reelle forgreningspunkter (Modul 2's valideringsvej, Modul 4's retningsvalg), som ingen af de andre motorer skal håndtere. ----*/
 
@@ -237,14 +238,14 @@ export class LogoEngine {
 
         await saveVaekstrumOutput("logo", data, documentation);
 
-        window.location.href = "vaekstomraade-visuelt-udtryk.html";
+        window.location.href = VISUELT_UDTRYK_HUB;
     }
 
     exitRoom() {
         showExitConfirmation(
             () => this.previousScreen(),
             () => {
-                window.location.href = "vaekstomraade-visuelt-udtryk.html";
+                window.location.href = VISUELT_UDTRYK_HUB;
             }
         );
     }
