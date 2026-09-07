@@ -11,13 +11,17 @@ import { initFaellesSamling } from "./faellesSamling.js";
 
 import { renderHeader } from "./components/header.js";
 import { renderFooter } from "./components/footer.js";
+import { renderChoiceCards } from "./components/choiceCards.js";
 import { initPoll } from "./components/poll.js";
 import { initAccordion } from "./components/accordion.js";
+import { renderStorageNotice } from "./components/storageNotice.js";
 
 renderHeader();
 renderFooter();
+renderChoiceCards();
 initPoll();
 initAccordion();
+renderStorageNotice();
 
 if (document.body.dataset.flow) {
     const engine = new FlowEngine();

@@ -14,6 +14,7 @@ import {
 } from "./byggestenUi.js";
 
 import { velkomst, modul1, modul2, situationer, modul3, modul4, modul5, modul6, modul7, modul8 } from "../data/byggesten.js";
+import { saveVaekstrumOutput } from "../storage/vaekstrumStorage.js";
 
 /*---- Selvstændig motor for det uddybende vækstrum "Ikoner, fonte & andre grafiske byggesten" (Visuelt udtryk) - det fjerde og sidste uddybende rum i Visuel stil. Adskilt fra Prøverummets FlowEngine.js og fra Overbliks/Farvers/Logos/Billeders motorer. I modsætning til de tre andre uddybende rum er den kontekstuelle velkomst her ikke styret af et Overblik-svar, men af om brugeren allerede har besøgt Farver og/eller Logo i samme besøg (sessionStorage-flag sat af de motorer). ----*/
 
@@ -201,9 +202,18 @@ export class ByggestenEngine {
         showDocumentation(
             modul8,
             draftText,
+            () => this.saveAndFinish(),
             () => this.exitRoom(),
             () => this.showReference()
         );
+    }
+
+    async saveAndFinish() {
+        const documentation = document.querySelector("#documentation-input").value;
+
+        await saveVaekstrumOutput("byggesten", this.kriterier, documentation);
+
+        window.location.href = "vaekstomraade-visuelt-udtryk.html";
     }
 
     exitRoom() {
