@@ -13,8 +13,10 @@ import {
 } from "./logoUi.js";
 
 import { velkomst, modul1, modul2, modul3, modul4, modul5, modul6, modul7, modul8, retningTekst } from "../data/logo.js";
-import { saveVaekstrumOutput } from "../storage/vaekstrumStorage.js";
+import { saveVaekstrumOutput, saveImage, deleteImage, getImagesForVaekstrum } from "../storage/vaekstrumStorage.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
+
+const LOGO_VAEKSTRUM_ID = "logo";
 
 /*---- Selvstændig motor for det uddybende vækstrum "Logo" (Visuelt udtryk). Adskilt fra Prøverummets FlowEngine.js og fra Overbliks/Farvers motorer - Logo har to reelle forgreningspunkter (Modul 2's valideringsvej, Modul 4's retningsvalg), som ingen af de andre motorer skal håndtere. ----*/
 
@@ -166,24 +168,35 @@ export class LogoEngine {
         );
     }
 
-    showModul6() {
+    async showModul6() {
         this.previousScreen = () => this.showModul6();
+
+        const images = await getImagesForVaekstrum(LOGO_VAEKSTRUM_ID);
 
         showBuildForm(
             modul6,
+            images,
             () => {
                 this.modul6Description = document.querySelector("#description-input").value;
                 this.showModul7();
             },
-            () => this.exitRoom()
+            () => this.exitRoom(),
+            {
+                upload: (file) => saveImage(LOGO_VAEKSTRUM_ID, file),
+                remove: (imageId) => deleteImage(imageId),
+                refresh: () => getImagesForVaekstrum(LOGO_VAEKSTRUM_ID)
+            }
         );
     }
 
-    showModul7() {
+    async showModul7() {
         this.previousScreen = () => this.showModul7();
+
+        const images = await getImagesForVaekstrum(LOGO_VAEKSTRUM_ID);
 
         showChecklist(
             modul7,
+            images,
             () => {
                 const items = document.querySelectorAll("[data-checklist-item]");
                 const allChecked = Array.from(items).every((item) => item.getAttribute("aria-pressed") === "true");

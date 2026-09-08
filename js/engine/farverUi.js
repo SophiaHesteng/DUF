@@ -1,6 +1,7 @@
 import { activateFocusTrap } from "./accessibility.js";
 import { isValidHex, contrastRatio, evaluateContrast } from "./contrast.js";
 import { renderExitDoor as renderSharedExitDoor, bindExit } from "../components/exitDoor.js";
+import { renderImageUploadHtml, bindImageUpload } from "../components/imageGallery.js";
 
 const app = document.querySelector("#app");
 
@@ -90,13 +91,15 @@ function showExamplesSkip(skipText, onNext, onExit) {
     bindExit(onExit);
 }
 
-function showExamplesForm({ heading, intro, reflectionQuestions }, onNext, onExit) {
+function showExamplesForm({ heading, intro, reflectionQuestions, uploadLabel, uploadHint }, images, onNext, onExit, imageHandlers = {}) {
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body"><p>${intro}</p></div>
 
             <textarea id="examples-input" class="text-input" rows="4" placeholder="Fx: hjemmeside, logo, opslag på sociale medier ..."></textarea>
+
+            ${renderImageUploadHtml({ label: uploadLabel, hint: uploadHint, images })}
 
             ${reflectionQuestions.map((q, i) => `
                 <p class="section-subheading">${q}</p>
@@ -112,6 +115,7 @@ function showExamplesForm({ heading, intro, reflectionQuestions }, onNext, onExi
     activateFocusTrap(app);
     document.querySelector("#next-button").addEventListener("click", onNext);
     bindExit(onExit);
+    bindImageUpload(imageHandlers);
 }
 
 /*---- Modul 4 - op til tre andre praksisser, hver med samme tre spørgsmål samlet i ét fritekstfelt ----*/

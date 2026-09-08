@@ -1,5 +1,6 @@
 import { activateFocusTrap } from "./accessibility.js";
 import { renderExitDoor as renderSharedExitDoor } from "../components/exitDoor.js";
+import { imageGalleryHtml, renderImageUploadHtml, bindImageUpload } from "../components/imageGallery.js";
 
 const app = document.querySelector("#app");
 
@@ -213,13 +214,15 @@ function showExamplesSkip(skipText, onNext, onExit, onReference) {
     bindChrome(onExit, onReference);
 }
 
-function showExamplesForm({ heading, exampleIntro, reflectionQuestions }, onNext, onExit, onReference) {
+function showExamplesForm({ heading, exampleIntro, reflectionQuestions, uploadLabel, uploadHint }, images, onNext, onExit, onReference, imageHandlers = {}) {
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body"><p>${exampleIntro}</p></div>
 
             <textarea id="examples-input" class="text-input" rows="4" placeholder="Fx: hjemmeside, sociale medier, tryksager ..."></textarea>
+
+            ${renderImageUploadHtml({ label: uploadLabel, hint: uploadHint, images })}
 
             ${reflectionQuestions.map((q, i) => `
                 <p class="section-subheading">${q}</p>
@@ -236,6 +239,7 @@ function showExamplesForm({ heading, exampleIntro, reflectionQuestions }, onNext
     activateFocusTrap(app);
     document.querySelector("#next-button").addEventListener("click", onNext);
     bindChrome(onExit, onReference);
+    bindImageUpload(imageHandlers);
 }
 
 /*---- Modul 4 - op til tre andre praksisser, hver med samme tre spørgsmål samlet i ét fritekstfelt ----*/
@@ -340,11 +344,15 @@ function showUafklaretMessage(text, onNext, onExit, onReference) {
     bindChrome(onExit, onReference);
 }
 
-function showKontroltjek(modul7, onNext, onExit, onReference) {
+function showKontroltjek(modul7, images, onNext, onExit, onReference) {
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${modul7.kontroltjekHeading}</h2>
             <div class="section-body"><p>${modul7.kontroltjekText}</p></div>
+            ${images.length ? `
+                <p class="section-subheading">De billeder, du uploadede i Modul 3:</p>
+                <div>${imageGalleryHtml(images)}</div>
+            ` : ""}
             <div class="section-cta">
                 <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
             </div>
