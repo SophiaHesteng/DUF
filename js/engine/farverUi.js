@@ -1,20 +1,12 @@
 import { activateFocusTrap } from "./accessibility.js";
 import { isValidHex, contrastRatio, evaluateContrast } from "./contrast.js";
+import { renderExitDoor as renderSharedExitDoor, bindExit } from "../components/exitDoor.js";
+import { renderImageUploadHtml, bindImageUpload } from "../components/imageGallery.js";
 
 const app = document.querySelector("#app");
 
 function renderExitDoor() {
-    return `
-        <button id="exit-button" aria-label="Gå ud af Farver">
-            <i class="fa-solid fa-door-closed closed-door" aria-hidden="true"></i>
-            <i class="fa-solid fa-door-open open-door" aria-hidden="true"></i>
-        </button>
-    `;
-}
-
-function bindExit(onExit) {
-    const exitButton = document.querySelector("#exit-button");
-    if (exitButton) exitButton.addEventListener("click", onExit);
+    return renderSharedExitDoor("Gå ud af Farver");
 }
 
 function showWelcome(text, onStart) {
@@ -99,13 +91,15 @@ function showExamplesSkip(skipText, onNext, onExit) {
     bindExit(onExit);
 }
 
-function showExamplesForm({ heading, intro, reflectionQuestions }, onNext, onExit) {
+function showExamplesForm({ heading, intro, reflectionQuestions, uploadLabel, uploadHint }, images, onNext, onExit, imageHandlers = {}) {
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body"><p>${intro}</p></div>
 
             <textarea id="examples-input" class="text-input" rows="4" placeholder="Fx: hjemmeside, logo, opslag på sociale medier ..."></textarea>
+
+            ${renderImageUploadHtml({ label: uploadLabel, hint: uploadHint, images })}
 
             ${reflectionQuestions.map((q, i) => `
                 <p class="section-subheading">${q}</p>
@@ -121,6 +115,7 @@ function showExamplesForm({ heading, intro, reflectionQuestions }, onNext, onExi
     activateFocusTrap(app);
     document.querySelector("#next-button").addEventListener("click", onNext);
     bindExit(onExit);
+    bindImageUpload(imageHandlers);
 }
 
 /*---- Modul 4 - op til tre andre praksisser, hver med samme tre spørgsmål samlet i ét fritekstfelt ----*/
@@ -297,7 +292,7 @@ function showDocumentation(modul8, palette, draftText, onFinish, onExit) {
             <div class="section-body"><p>${modul8.closing}</p></div>
 
             <div class="section-cta">
-                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">Gem og tilbage til Vælg din dør</button>
+                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">Gem og fortsæt i Visuelt udtryk</button>
             </div>
         </section>
         ${renderExitDoor()}`;

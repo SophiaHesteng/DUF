@@ -29,7 +29,9 @@ export const modul3 = {
     reflectionQuestions: [
         "Hvilke farver går igen?",
         "Er de valgt bevidst — eller er de bare endt sådan?"
-    ]
+    ],
+    uploadLabel: "Eller upload eksemplerne direkte (valgfrit)",
+    uploadHint: "Billederne forlader aldrig din egen enhed — de gemmes kun i denne browser, medmindre du har fravalgt browserlagring."
 };
 
 export const modul4 = {

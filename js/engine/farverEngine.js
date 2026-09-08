@@ -12,7 +12,10 @@ import {
 } from "./farverUi.js";
 
 import { velkomst, modul1, modul2, modul3, modul4, modul5, modul6, modul7, modul8 } from "../data/farver.js";
-import { saveVaekstrumOutput } from "../storage/vaekstrumStorage.js";
+import { saveVaekstrumOutput, saveImage, deleteImage, getImagesForVaekstrum } from "../storage/vaekstrumStorage.js";
+import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
+
+const FARVER_VAEKSTRUM_ID = "farver";
 
 /*---- Selvstændig motor for det uddybende vækstrum "Farver" (Visuelt udtryk). Adskilt fra Prøverummets FlowEngine.js og fra Overbliks OverblikEngine.js: Farver har øvelsesskærme med flere fritekstfelter, farvevalg og et indbygget kontrasttjek - en anden form end begge de andre. ----*/
 
@@ -65,13 +68,21 @@ export class FarverEngine {
         );
     }
 
-    showModul3Form() {
+    async showModul3Form() {
         this.previousScreen = () => this.showModul3Form();
+
+        const images = await getImagesForVaekstrum(FARVER_VAEKSTRUM_ID);
 
         showExamplesForm(
             modul3,
+            images,
             () => this.showModul4(),
-            () => this.exitRoom()
+            () => this.exitRoom(),
+            {
+                upload: (file) => saveImage(FARVER_VAEKSTRUM_ID, file),
+                remove: (imageId) => deleteImage(imageId),
+                refresh: () => getImagesForVaekstrum(FARVER_VAEKSTRUM_ID)
+            }
         );
     }
 
@@ -160,14 +171,14 @@ export class FarverEngine {
 
         await saveVaekstrumOutput("farver", this.palette, documentation);
 
-        window.location.href = "vaekstomraade-visuelt-udtryk.html";
+        window.location.href = VISUELT_UDTRYK_HUB;
     }
 
     exitRoom() {
         showExitConfirmation(
             () => this.previousScreen(),
             () => {
-                window.location.href = "vaekstomraade-visuelt-udtryk.html";
+                window.location.href = VISUELT_UDTRYK_HUB;
             }
         );
     }

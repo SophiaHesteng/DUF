@@ -1,19 +1,11 @@
 import { activateFocusTrap } from "./accessibility.js";
+import { renderExitDoor as renderSharedExitDoor, bindExit } from "../components/exitDoor.js";
+import { renderImageUploadHtml, bindImageUpload, imageGalleryHtml } from "../components/imageGallery.js";
 
 const app = document.querySelector("#app");
 
 function renderExitDoor() {
-    return `
-        <button id="exit-button" aria-label="Gå ud af Logo">
-            <i class="fa-solid fa-door-closed closed-door" aria-hidden="true"></i>
-            <i class="fa-solid fa-door-open open-door" aria-hidden="true"></i>
-        </button>
-    `;
-}
-
-function bindExit(onExit) {
-    const exitButton = document.querySelector("#exit-button");
-    if (exitButton) exitButton.addEventListener("click", onExit);
+    return renderSharedExitDoor("Gå ud af Logo");
 }
 
 function externalLinkHtml(link) {
@@ -159,7 +151,7 @@ function showInspirationForm(modul3, onNext, onExit) {
 
 /*---- Modul 6 - eksterne værktøjer plus kort beskrivelse af resultatet ----*/
 
-function showBuildForm(modul6, onNext, onExit) {
+function showBuildForm(modul6, images, onNext, onExit, imageHandlers = {}) {
     const linksHtml = modul6.externalLinks.map(externalLinkHtml).join("");
 
     app.innerHTML = `
@@ -174,6 +166,8 @@ function showBuildForm(modul6, onNext, onExit) {
             <p class="section-subheading">${modul6.descriptionLabel}</p>
             <textarea id="description-input" class="text-input" rows="4"></textarea>
 
+            ${renderImageUploadHtml({ label: modul6.uploadLabel, hint: modul6.uploadHint, images })}
+
             <div class="section-body"><p>${modul6.support}</p></div>
 
             <div class="section-cta">
@@ -185,11 +179,12 @@ function showBuildForm(modul6, onNext, onExit) {
     activateFocusTrap(app);
     document.querySelector("#next-button").addEventListener("click", onNext);
     bindExit(onExit);
+    bindImageUpload(imageHandlers);
 }
 
 /*---- Modul 7 - selvvurderet tjekliste (togglekort, ikke låst adgang) ----*/
 
-function showChecklist(modul7, onNext, onExit) {
+function showChecklist(modul7, images, onNext, onExit) {
     const itemsHtml = modul7.checklist.map((text, index) => `
         <button type="button" class="choice-card choice-card--poll" data-checklist-item="${index}" aria-pressed="false">
             <span class="choice-card-title choice-card-title--plain">${text}</span>
@@ -201,6 +196,11 @@ function showChecklist(modul7, onNext, onExit) {
         <section class="section">
             <h2 class="section-heading">${modul7.heading}</h2>
             <div class="section-body"><p>${modul7.intro}</p></div>
+
+            ${images.length ? `
+                <p class="section-subheading">Det logo, du uploadede i Modul 6:</p>
+                <div>${imageGalleryHtml(images)}</div>
+            ` : ""}
 
             <p class="section-subheading">Marker det, der allerede fungerer:</p>
             <div class="choice-list">${itemsHtml}</div>
@@ -254,7 +254,7 @@ function showDocumentation(modul8, draftText, onFinish, onExit) {
             <div class="section-body"><p>${modul8.closing}</p></div>
 
             <div class="section-cta">
-                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">Gem og tilbage til Vælg din dør</button>
+                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">Gem og fortsæt i Visuelt udtryk</button>
             </div>
         </section>
         ${renderExitDoor()}`;

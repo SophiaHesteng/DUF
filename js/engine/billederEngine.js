@@ -17,7 +17,10 @@ import {
 } from "./billederUi.js";
 
 import { velkomst, modul1, situationer, modul2, modul3, modul4, modul5, modul6, modul7, modul8 } from "../data/billeder.js";
-import { saveVaekstrumOutput } from "../storage/vaekstrumStorage.js";
+import { saveVaekstrumOutput, saveImage, deleteImage, getImagesForVaekstrum } from "../storage/vaekstrumStorage.js";
+import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
+
+const BILLEDE_VAEKSTRUM_ID = "billeder";
 
 /*---- Selvstændig motor for det uddybende vækstrum "Billeder" (Visuelt udtryk). Adskilt fra Prøverummets FlowEngine.js og fra Overbliks/Farvers/Logos motorer - Billeder har et fast opslagsværk tilgængeligt gennem hele rummet (rettighedsoversigten), som ingen af de andre rum har brug for. ----*/
 
@@ -107,14 +110,28 @@ export class BilledeEngine {
         );
     }
 
-    showModul3Branch() {
+    async showModul3Branch() {
         this.previousScreen = () => this.showModul3Branch();
 
+        const images = await getImagesForVaekstrum(BILLEDE_VAEKSTRUM_ID);
+
         showExamplesForm(
-            { heading: modul3.heading, exampleIntro: modul3.exampleIntro, reflectionQuestions: modul3.reflectionQuestions },
+            {
+                heading: modul3.heading,
+                exampleIntro: modul3.exampleIntro,
+                reflectionQuestions: modul3.reflectionQuestions,
+                uploadLabel: modul3.uploadLabel,
+                uploadHint: modul3.uploadHint
+            },
+            images,
             () => this.showModul4(),
             () => this.exitRoom(),
-            () => this.showReference()
+            () => this.showReference(),
+            {
+                upload: (file) => saveImage(BILLEDE_VAEKSTRUM_ID, file),
+                remove: (imageId) => deleteImage(imageId),
+                refresh: () => getImagesForVaekstrum(BILLEDE_VAEKSTRUM_ID)
+            }
         );
     }
 
@@ -201,11 +218,14 @@ export class BilledeEngine {
         );
     }
 
-    showModul7Kontroltjek() {
+    async showModul7Kontroltjek() {
         this.previousScreen = () => this.showModul7Kontroltjek();
+
+        const images = await getImagesForVaekstrum(BILLEDE_VAEKSTRUM_ID);
 
         showKontroltjek(
             modul7,
+            images,
             () => this.showModul8(),
             () => this.exitRoom(),
             () => this.showReference()
@@ -248,14 +268,14 @@ export class BilledeEngine {
 
         await saveVaekstrumOutput("billeder", data, documentation);
 
-        window.location.href = "vaekstomraade-visuelt-udtryk.html";
+        window.location.href = VISUELT_UDTRYK_HUB;
     }
 
     exitRoom() {
         showExitConfirmation(
             () => this.previousScreen(),
             () => {
-                window.location.href = "vaekstomraade-visuelt-udtryk.html";
+                window.location.href = VISUELT_UDTRYK_HUB;
             }
         );
     }

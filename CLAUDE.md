@@ -12,6 +12,7 @@ Full context docs live in `/docs` — read the relevant one before working on an
 - [docs/duf-vaekstrum-faelles-context.md](docs/duf-vaekstrum-faelles-context.md) — fields/principles shared by every vækstrum.
 - [docs/duf-vaekstrum-grundlaeggende-context.md](docs/duf-vaekstrum-grundlaeggende-context.md) — specific to foundational rooms.
 - [docs/duf-vaekstrum-uddybende-context.md](docs/duf-vaekstrum-uddybende-context.md) — specific to deep-dive rooms.
+- [docs/duf-vaekstrum-motor.md](docs/duf-vaekstrum-motor.md) — how navigation *between* rooms inside a vækstområde works (the shared "vælg rum" hub page, the per-area exit constant, the shared exit-door component). Read this before touching a room's `saveAndFinish()`/`exitRoom()`, the public forside's links, or when building a new vækstområde's navigation.
 
 The docs above are templates — they define structure and fields, not a specific room's content. When a vækstrum has an actual manuskript (concrete screen-by-screen text, questions, and branching logic), read that too before building it, don't derive content from the template alone:
 - [docs/duf-manuskript-overblik.md](docs/duf-manuskript-overblik.md) — Overblik, the grundlæggende vækstrum that opens Visuel stil.
@@ -26,6 +27,10 @@ That's Overblik (opening) plus all four uddybende vækstrum in Visuel stil. The 
 ## Structure
 
 `DUF → Vækstområde → Vækstrum`. A vækstområde (e.g. Branding, Hjemmeside) has a fixed opening + closing with flexible movement between curated vækstrum in between. A vækstrum is a small, self-contained guided flow (branching, reflection, small exercises) with one home area, optional connections elsewhere, a type (`grundlæggende` or `uddybende`), and an ID like `BRA-VIS-001`. Full detail in the docs above — don't invent structure that isn't there; ask if something's unclear.
+
+Navigation *between* a vækstområde's rooms (finishing one, leaving one early, choosing one directly) is its own concern from the content structure above — see [docs/duf-vaekstrum-motor.md](docs/duf-vaekstrum-motor.md). Short version: a vækstområde's public forside (`vaekstomraade-<omraade>.html`) never lists its rooms directly — it links to a separate "vælg rum" page (e.g. `vaelg-rum-visuelt-udtryk.html`), which is where a future payment gate will sit. A room's `saveAndFinish()`/`exitRoom()` must always send the user to that hub page, never to the public forside — the constant lives in one small module per area (e.g. `js/engine/vaekstomraadeExit.js`), never hardcoded per engine.
+
+Each vækstrum's own HTML file follows `vaekstrum-<navn>.html` (e.g. `vaekstrum-farver.html`, `vaekstrum-logo.html`) — use this for any new room's page, grundlæggende or uddybende.
 
 ## The 7 pages
 
@@ -68,7 +73,13 @@ There's one shared button component in Figma ("Knapper") with 7 variants — don
 
 See `styles/_tokens.scss` and `styles/forside.scss` (from the Forside prototype) for a working implementation of both the tokens and the button variants.
 
+## Keeping docs in sync with code
+
+If a code change alters behavior, flow, or content that a doc in `/docs` describes, update that doc to match as part of the same change, and call out in your summary which doc(s) you updated and why. If it's unclear whether the doc or the code should be treated as the source of truth for a given discrepancy, ask rather than picking one — sometimes the doc is stale, sometimes the code just hasn't caught up to what the doc already specifies.
+
 ## Known open questions (as of 2026-09-03)
 
 - Header navigation ("map" icon) isn't wired up yet. The Figma file has a "Navigation" component (a site-map graphic) listing all real page names — worth building the header nav from that rather than guessing.
-- Several internal links in the current Forside prototype are best-guesses, not confirmed IA (flagged as TODO comments in forside.html) — confirm actual destinations with the team before treating them as final.
+- Several internal links in the current Forside prototype are best-guesses, not confirmed IA (flagged as TODO comments in index.html) — confirm actual destinations with the team before treating them as final.
+- `forside.html` was renamed to `index.html` (seen while merging this file 2026-09-08) but `js/components/header.js` still links to `forside.html` in two places (the header logo and the "Forsiden" map-nav entry) — those are currently broken links. Not fixed here since the rename looked like in-progress work; update `header.js` to point at `index.html` once the rename is confirmed final.
+- `overblik.html` was renamed to `vaekstrum-overblik.html` on 2026-09-08, to match the `vaekstrum-<navn>.html` pattern already used by the four uddybende rooms. The two links that pointed to it (`vaekstomraade-visuelt-udtryk.html`, `vaelg-rum-visuelt-udtryk.html`) were updated. `js/app.js`'s `data-vaekstrum === "overblik"` check and the `fra=overblik` query param used by the other engines are room *identifiers*, not the filename, so those were correctly left as-is. The old `overblik.html` file itself couldn't be deleted from here (no delete access in this session) — it's now an inert duplicate; safe to delete by hand.

@@ -76,7 +76,9 @@ export const modul6 = {
     ],
     exerciseIntro: "Byg (eller justér) dit logo. Tag udgangspunkt i det, du fandt inspirerende i Modul 3, og den farveretning, du afklarede i Modul 5.",
     descriptionLabel: "Beskriv kort det logo, du har bygget eller justeret (eller sæt et link ind, hvis det ligger et sted online).",
-    support: "Et selvlavet logo er ikke et kompromis — det er en gyldig prototype, ligesom resten af dit visuelle udtryk."
+    support: "Et selvlavet logo er ikke et kompromis — det er en gyldig prototype, ligesom resten af dit visuelle udtryk.",
+    uploadLabel: "Upload et billede af det færdige logo (valgfrit)",
+    uploadHint: "Billedet forlader aldrig din egen enhed — det gemmes kun i denne browser, medmindre du har fravalgt browserlagring."
 };
 
 export const modul7 = {

@@ -10,6 +10,7 @@ import {
 
 import { modul1, modul2Questions, modul2Fritekst, modul3, modul4, modul5, modul6 } from "../data/overblik.js";
 import { resolveRecommendation } from "./overblikMatcher.js";
+import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
 
 /*---- Selvstændig motor for det grundlæggende vækstrum "Overblik" (Visuelt udtryk). Bevidst adskilt fra Prøverummets FlowEngine.js: Overblik har forgrenede spørgsmål, et browsbart modul (Modul 3) og en resultatskærm bygget på flere samtidige signaler, i stedet for én lineær spørgsmål/point-rækkefølge. ----*/
 
@@ -119,7 +120,7 @@ export class OverblikEngine {
         showExitConfirmation(
             () => this.previousScreen(),
             () => {
-                window.location.href = "vaekstomraade-visuelt-udtryk.html";
+                window.location.href = VISUELT_UDTRYK_HUB;
             }
         );
     }

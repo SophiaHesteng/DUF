@@ -65,7 +65,9 @@ export const modul3 = {
     valideringsKnapFuld: "Nej, jeg vil hellere gennem det hele",
     exampleIntro: "Saml 3–5 eksempler på billeder, du allerede bruger i din praksis i dag — det kan være på din hjemmeside, sociale medier, eller i tryksager.",
     reflectionQuestions: ["Hvor kommer disse billeder fra?", "Er de valgt bevidst — eller er de bare endt sådan?"],
-    skipText: "Helt fint — så starter vi fra et rent bord."
+    skipText: "Helt fint — så starter vi fra et rent bord.",
+    uploadLabel: "Eller upload eksemplerne direkte (valgfrit)",
+    uploadHint: "Billederne forlader aldrig din egen enhed — de gemmes kun i denne browser, medmindre du har fravalgt browserlagring."
 };
 
 export const modul4 = {
