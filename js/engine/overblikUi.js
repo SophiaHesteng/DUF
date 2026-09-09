@@ -1,6 +1,6 @@
 import { activateFocusTrap } from "./accessibility.js";
-import { initAccordion } from "../components/accordion.js";
 import { renderExitDoor as renderSharedExitDoor, bindExit } from "../components/exitDoor.js";
+import { renderBubbleHub, bindBubbleHub, renderBubbleDetail, bindBubbleDetail } from "../components/bubbleHub.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
 
 const app = document.querySelector("#app");
@@ -87,67 +87,21 @@ function showChoiceQuestion({ question, options }, onAnswerSelected, onExit) {
     bindExit(onExit);
 }
 
-/*---- Modul 3 - fire byggeklodser, brugeren kan klikke sig igennem ----*/
+/*---- Modul 3 og Modul 5 - delt "oversigt + valgfrie bobler"-mønster (jf. js/components/bubbleHub.js): en fast hub, efterfulgt af den valgte boblets detaljeskærm. "Tilbage til oversigt" er en lokal skift mellem disse to skærme, IKKE det samme som exitRoom()'s bekræftelse af at forlade rummet. ----*/
 
-function showAccordionStep({ heading, intro, items }, onNext, onExit) {
-    const itemsHtml = items.map((item, index) => `
-        <div class="accordion-item" data-open="false">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="overblik-panel-${index}">
-                <span>${item.title}</span>
-                <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
-            </button>
-            <div class="accordion-panel" id="overblik-panel-${index}" hidden>
-                <p>${item.text}</p>
-            </div>
-        </div>
-    `).join("");
+function showModuleHub({ heading, intro, bubbles }, onSelectBubble, onNext, onExit) {
+    app.innerHTML = `${renderBubbleHub({ heading, intro, bubbles })}${renderExitDoor()}`;
 
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${heading}</h2>
-            <p class="section-subheading">${intro}</p>
-
-            <div class="choice-list">${itemsHtml}</div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
-
-    initAccordion();
     activateFocusTrap(app);
-
-    document.querySelector("#next-button").addEventListener("click", onNext);
+    bindBubbleHub(onSelectBubble, onNext);
     bindExit(onExit);
 }
 
-/*---- Modul 5 - fire ligeværdige smagsprøver på fordybelse ----*/
-
-function showTeaserStep({ heading, intro, cards }, onNext, onExit) {
-    const cardsHtml = cards.map((card) => `
-        <div class="value-card">
-            <span class="value-card-label">${card.label}</span>
-            <p class="value-card-description">${card.description}</p>
-        </div>
-    `).join("");
-
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${heading}</h2>
-            <p class="section-subheading">${intro}</p>
-
-            <div class="value-list">${cardsHtml}</div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+function showModuleBubble(bubble, onBack, onNext, onExit) {
+    app.innerHTML = `${renderBubbleDetail(bubble)}${renderExitDoor()}`;
 
     activateFocusTrap(app);
-
-    document.querySelector("#next-button").addEventListener("click", onNext);
+    bindBubbleDetail(onBack, onNext);
     bindExit(onExit);
 }
 
@@ -230,8 +184,8 @@ export {
     showWelcome,
     showTextScreen,
     showChoiceQuestion,
-    showAccordionStep,
-    showTeaserStep,
+    showModuleHub,
+    showModuleBubble,
     showResult,
     showExitConfirmation
 };

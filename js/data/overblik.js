@@ -48,11 +48,31 @@ export const modul2Fritekst = {
 export const modul3 = {
     heading: "Farver, billeder, logo og ikoner/fonte: hvad er hvad?",
     intro: "Dit visuelle udtryk består af fire dele. De hænger sammen, men kan også arbejdes med hver for sig. Her er en hurtig introduktion til hver af dem.",
-    items: [
-        { title: "Farver", text: "Farver er ofte det første, folk lægger mærke til — og det, der binder resten sammen. Den rigtige farve på det rigtige sted kan gøre hele forskellen for, om noget føles gennemtænkt." },
-        { title: "Billeder", text: "Billeder fortæller en historie, før nogen har læst et eneste ord. De skal understøtte den historie, du gerne vil fortælle — og du skal vide, hvor de kommer fra, og om du må bruge dem." },
-        { title: "Logo", text: "Dit logo er ikke hele din identitet, men det er ofte det første, folk genkender. Det skal fungere overalt: stort, småt, i farve og i sort/hvid." },
-        { title: "Ikoner, fonte og andre byggesten", text: "De mindre detaljer — skrifttype, ikoner, streger, mønstre — er ofte det, folk ikke lægger mærke til, når det virker. Men de lægger mærke til det, når det ikke gør." }
+    bubbles: [
+        {
+            key: "farver",
+            title: "Farver",
+            teaser: "Farver er ofte det første, folk lægger mærke til — og det, der binder resten sammen.",
+            body: "Farver er ofte det første, folk lægger mærke til — og det, der binder resten sammen. Den rigtige farve på det rigtige sted kan gøre hele forskellen for, om noget føles gennemtænkt."
+        },
+        {
+            key: "billeder",
+            title: "Billeder",
+            teaser: "Billeder fortæller en historie, før nogen har læst et eneste ord.",
+            body: "Billeder fortæller en historie, før nogen har læst et eneste ord. De skal understøtte den historie, du gerne vil fortælle — og du skal vide, hvor de kommer fra, og om du må bruge dem."
+        },
+        {
+            key: "logo",
+            title: "Logo",
+            teaser: "Dit logo er ikke hele din identitet, men det er ofte det første, folk genkender.",
+            body: "Dit logo er ikke hele din identitet, men det er ofte det første, folk genkender. Det skal fungere overalt: stort, småt, i farve og i sort/hvid."
+        },
+        {
+            key: "byggesten",
+            title: "Ikoner, fonte og andre byggesten",
+            teaser: "De mindre detaljer er ofte det, folk ikke lægger mærke til, når det virker — men de lægger mærke til det, når det ikke gør.",
+            body: "De mindre detaljer — skrifttype, ikoner, streger, mønstre — er ofte det, folk ikke lægger mærke til, når det virker. Men de lægger mærke til det, når det ikke gør."
+        }
     ]
 };
 
@@ -65,13 +85,58 @@ export const modul4 = {
 };
 
 export const modul5 = {
-    heading: "Hvorfor fordybelse kan gøre en forskel",
-    intro: "Du behøver ikke gå videre med noget som helst lige nu. Men her er en smagsprøve på, hvad hvert rum kan give dig, hvis du gør.",
-    cards: [
-        { label: "Farver", description: "En bevidst farvepalet, du kan bruge igen og igen — og en forklaring på, hvorfor den fungerer." },
-        { label: "Logo", description: "Enten et nyt logo, eller en klar vurdering af det, du allerede har — så du ved, om det gør sit arbejde." },
-        { label: "Billeder", description: "Kriterier for, hvilke billeder der passer til dig — og ro i maven om, at du må bruge dem." },
-        { label: "Ikoner, fonte og andre byggesten", description: "De sidste detaljer på plads, så dit udtryk hænger sammen, også i det små." }
+    heading: "Kig ind i rummene",
+    intro: "Du behøver ikke gå videre med noget som helst lige nu. Men her kan du kigge nærmere på, hvad de forskellige rum handler om, hvis du har lyst.",
+    bubbles: [
+        {
+            key: "farver",
+            title: "En farveretning, du faktisk kan bruge.",
+            teaser: "En bevidst farvepalet, du kan bruge igen og igen — og en forklaring på, hvorfor den fungerer.",
+            body: "I Farver arbejder du med at finde en retning, der passer til dig og din praksis — ikke kun at vælge farver, du kan lide, men at forstå hvordan farverne fungerer sammen og bruges på tværs af praksissen.",
+            workList: [
+                "hvad farverne skal udtrykke",
+                "hvordan man finder en retning",
+                "hvordan farver bruges sammen",
+                "hvordan farverne fungerer, når mennesker skal læse og bruge indholdet"
+            ],
+            guide: "En farvepalet skal ikke bare se godt ud. Den skal kunne bruges."
+        },
+        {
+            key: "billeder",
+            title: "Billeder, der fortæller den rigtige historie.",
+            teaser: "Kriterier for, hvilke billeder der passer til dig — og ro i maven om, at du må bruge dem.",
+            body: "Handler ikke om at finde billeder, alle synes er flotte, men om at finde ud af, hvad der giver mening at vise — og vælge billeder, der understøtter det.",
+            workList: [
+                "hvad billederne skal fortælle",
+                "hvad der giver mening at vise",
+                "hvilke typer billeder der passer",
+                "sammenhæng på tværs",
+                "rettigheder"
+            ],
+            guide: "Et godt billede er ikke bare et billede, der ser godt ud. Det skal også give mening, når det bliver en del af din praksis.",
+            takeaway: "En retning for, hvad du leder efter og gerne vil vise."
+        },
+        {
+            key: "logo",
+            title: "Hvad skal dit logo egentlig kunne?",
+            teaser: "Enten et nyt logo, eller en klar vurdering af det, du allerede har — så du ved, om det gør sit arbejde.",
+            body: "Målet er ikke nødvendigvis et nyt logo, men at vide hvad logoet skal kunne, og hvad der giver mening som næste skridt — uanset om det ender med at blive beholdt, justeret eller udviklet nyt.",
+            workList: [
+                "logoets rolle",
+                "hvad mennesker skal kunne genkende",
+                "om det nuværende logo passer til retningen",
+                "samspil med resten af det visuelle udtryk"
+            ],
+            guide: "Du behøver ikke presse hele din historie ind i dit logo. Men der må gerne være en tanke bag det."
+        },
+        {
+            key: "byggesten",
+            title: "De små valg, der er med til at sætte retningen.",
+            teaser: "De sidste detaljer på plads, så dit udtryk hænger sammen, også i det små.",
+            body: "Ikoner: hjælper mennesker med hurtigt at forstå og finde rundt. Illustrationer: fortæller, forklarer, giver praksis et særligt præg. Skrifttyper: understøtter udtrykket uden at gøre indholdet sværere at læse.",
+            guide: "Du skal ikke vælge noget, bare fordi det ser godt ud alene. Se på, hvordan det fungerer, når det bliver en del af helheden.",
+            takeaway: "Et bedre grundlag for fremtidige valg af ikon, skrifttype eller illustration."
+        }
     ]
 };
 
@@ -85,21 +150,25 @@ export const modul6 = {
 
 export const ROOMS = {
     farver: {
+        id: "farver",
         name: "Farver",
         link: "vaekstrum-farver.html?fra=overblik",
         singleText: "Du fortalte, at du endnu ikke har valgt faste farver til din praksis. Det lyder som et oplagt sted at starte."
     },
     logo: {
+        id: "logo",
         name: "Logo",
         link: "vaekstrum-logo.html?fra=overblik",
         singleText: "Du fortalte, at du endnu ikke har et logo, og at det er noget, du gerne vil have på plads. Det lyder som et oplagt sted at starte."
     },
     byggesten: {
+        id: "byggesten",
         name: "Ikoner, fonte og andre byggesten",
         link: "vaekstrum-byggesten.html",
         singleText: "Du fortalte, at dit visuelle udtryk føles spredt, alt efter hvor folk møder det. Det lyder som et oplagt sted at starte."
     },
     billeder: {
+        id: "billeder",
         name: "Billeder",
         link: "vaekstrum-billeder.html?fra=overblik",
         singleText: "Du nævnte, at du bruger billeder, du ikke er helt sikker på rettighederne til. Det anbefaler vi altid, at du får styr på."

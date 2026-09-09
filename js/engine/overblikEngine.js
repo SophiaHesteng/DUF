@@ -2,15 +2,18 @@ import {
     showWelcome,
     showTextScreen,
     showChoiceQuestion,
-    showAccordionStep,
-    showTeaserStep,
+    showModuleHub,
+    showModuleBubble,
     showResult,
     showExitConfirmation
 } from "./overblikUi.js";
 
 import { modul1, modul2Questions, modul2Fritekst, modul3, modul4, modul5, modul6 } from "../data/overblik.js";
 import { resolveRecommendation } from "./overblikMatcher.js";
+import { saveVaekstrumOutput } from "../storage/vaekstrumStorage.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
+
+const OVERBLIK_VAEKSTRUM_ID = "overblik";
 
 /*---- Selvstændig motor for det grundlæggende vækstrum "Overblik" (Visuelt udtryk). Bevidst adskilt fra Prøverummets FlowEngine.js: Overblik har forgrenede spørgsmål, et browsbart modul (Modul 3) og en resultatskærm bygget på flere samtidige signaler, i stedet for én lineær spørgsmål/point-rækkefølge. ----*/
 
@@ -73,8 +76,20 @@ export class OverblikEngine {
     showModul3() {
         this.previousScreen = () => this.showModul3();
 
-        showAccordionStep(
+        showModuleHub(
             modul3,
+            (key) => this.showModul3Bubble(key),
+            () => this.showModul4(),
+            () => this.exitRoom()
+        );
+    }
+
+    showModul3Bubble(key) {
+        this.previousScreen = () => this.showModul3Bubble(key);
+
+        showModuleBubble(
+            modul3.bubbles.find((bubble) => bubble.key === key),
+            () => this.showModul3(),
             () => this.showModul4(),
             () => this.exitRoom()
         );
@@ -93,8 +108,20 @@ export class OverblikEngine {
     showModul5() {
         this.previousScreen = () => this.showModul5();
 
-        showTeaserStep(
+        showModuleHub(
             modul5,
+            (key) => this.showModul5Bubble(key),
+            () => this.showModul6(),
+            () => this.exitRoom()
+        );
+    }
+
+    showModul5Bubble(key) {
+        this.previousScreen = () => this.showModul5Bubble(key);
+
+        showModuleBubble(
+            modul5.bubbles.find((bubble) => bubble.key === key),
+            () => this.showModul5(),
             () => this.showModul6(),
             () => this.exitRoom()
         );
@@ -104,6 +131,7 @@ export class OverblikEngine {
         this.previousScreen = () => this.showModul6();
 
         const recommendation = resolveRecommendation(this.answers);
+        this.saveRecommendation(recommendation);
 
         showResult(
             {
@@ -114,6 +142,22 @@ export class OverblikEngine {
             },
             () => this.exitRoom()
         );
+    }
+
+    /*---- "Den lille version" (jf. docs/duf-manuskript-overblik.md, besluttet 2026-09-08): kun Modul 6's anbefaling gemmes varigt, ikke de granulære boble-svar fra Modul 1-5, som fortsat kun lever i this.answers ----*/
+
+    saveRecommendation(recommendation) {
+        const data = {
+            type: recommendation.type,
+            rooms: recommendation.rooms.map((room) => room.id),
+            matchedAt: new Date().toISOString()
+        };
+
+        const documentation = recommendation.type === "none"
+            ? "Overblik gennemført. Ingen rum pegede sig særligt ud lige nu — de fire uddybende rum venter."
+            : `Overblik gennemført. Anbefalede rum: ${recommendation.rooms.map((room) => room.name).join(", ")}.`;
+
+        saveVaekstrumOutput(OVERBLIK_VAEKSTRUM_ID, data, documentation);
     }
 
     exitRoom() {
