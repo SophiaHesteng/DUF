@@ -9,19 +9,15 @@ function renderExitDoor() {
     return renderSharedExitDoor("Gå ud af Overblik");
 }
 
-function showWelcome(onStart) {
+function showWelcome({ heading, paragraphs, buttonText = "Næste" }, onStart) {
     app.innerHTML = `
         <section class="section welcome-card">
-            <h1 class="section-heading">Velkommen til Dit visuelle udtryk</h1>
+            <h1 class="section-heading">${heading}</h1>
 
-            <p class="section-subheading">Her får du et overblik over, hvordan farver, billeder, dit logo og de mindre detaljer spiller sammen — og et bud på, hvor det kan give mening at starte.</p>
-
-            <div class="section-body">
-                <p>Der er ingen rigtige eller forkerte svar undervejs. Vi bygger bare et billede af, hvor du står lige nu.</p>
-            </div>
+            <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
 
             <div class="section-cta">
-                <button id="start-button" type="button" class="btn btn--regular btn--solid-green">Gå ind her</button>
+                <button id="start-button" type="button" class="btn btn--regular btn--solid-green">${buttonText}</button>
             </div>
         </section>`;
 
@@ -29,9 +25,9 @@ function showWelcome(onStart) {
     document.querySelector("#start-button").addEventListener("click", onStart);
 }
 
-/*---- Læseskærm med valgfri refleksion (Modul 1, Modul 2's fritekstspørgsmål, Modul 4) ----*/
+/*---- Læseskærm, valgfrit med et "Guide"/"Sticker"-citat (jf. Myteknæk-mønstret i farverUi.js) og/eller et andet paragrafafsnit efter citatet (Modul 4's "guide midt i teksten") ----*/
 
-function showTextScreen({ heading, paragraphs = [], reflectionLabel, buttonText = "Næste" }, onNext, onExit) {
+function showTextScreen({ heading, paragraphs = [], paragraphsAfter = [], guide, guideLabel = "Guide", reflectionLabel, buttonText = "Næste" }, onNext, onExit) {
     const headingText = heading || reflectionLabel;
     const showSeparateLabel = Boolean(heading && reflectionLabel);
 
@@ -40,6 +36,14 @@ function showTextScreen({ heading, paragraphs = [], reflectionLabel, buttonText 
             <h2 class="section-heading">${headingText}</h2>
 
             ${paragraphs.length ? `<div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>` : ""}
+
+            ${guide ? `
+                <div class="panel">
+                    <p><strong>${guideLabel}:</strong> ${guide}</p>
+                </div>
+            ` : ""}
+
+            ${paragraphsAfter.length ? `<div class="section-body">${paragraphsAfter.map((p) => `<p>${p}</p>`).join("")}</div>` : ""}
 
             ${reflectionLabel ? `
                 ${showSeparateLabel ? `<p class="section-subheading">${reflectionLabel}</p>` : ""}
@@ -58,12 +62,25 @@ function showTextScreen({ heading, paragraphs = [], reflectionLabel, buttonText 
     bindExit(onExit);
 }
 
-/*---- Ét spørgsmål ad gangen, jf. Modul 2 - almindelige valgkort uden ikon ----*/
+/*---- Ét-valg spørgsmål, jf. Modul 1/2 - almindelige valgkort uden ikon. "heading" er boblens egen titel (fx "Hvor starter du?"); er den forskellig fra selve spørgsmålet ("Hvad passer bedst på dig?"), vises spørgsmålet som en separat underoverskrift lige før valgene ----*/
 
-function showChoiceQuestion({ question, options }, onAnswerSelected, onExit) {
+function showChoiceQuestion({ heading, intro, guide, guideLabel = "Guide", question, options }, onAnswerSelected, onExit) {
+    const headingText = heading || question;
+    const showQuestionAsSubheading = Boolean(heading && heading !== question);
+
     app.innerHTML = `
         <section class="section">
-            <h2 class="section-heading">${question}</h2>
+            <h2 class="section-heading">${headingText}</h2>
+
+            ${intro ? `<div class="section-body"><p>${intro}</p></div>` : ""}
+
+            ${guide ? `
+                <div class="panel">
+                    <p><strong>${guideLabel}:</strong> ${guide}</p>
+                </div>
+            ` : ""}
+
+            ${showQuestionAsSubheading ? `<p class="section-subheading">${question}</p>` : ""}
 
             <div class="answers choice-list"></div>
         </section>
@@ -84,6 +101,51 @@ function showChoiceQuestion({ question, options }, onAnswerSelected, onExit) {
     }
 
     activateFocusTrap(app);
+    bindExit(onExit);
+}
+
+/*---- Flervalgsspørgsmål, jf. Modul 2's Boble 2.2 - samme togglebare kort som "Stemmepunkt" i Figma (.choice-card--poll[aria-pressed]), men uden at rydde andre valg ved klik, og med en eksplicit "Næste"-knap til at bekræfte valget ----*/
+
+function showMultiChoiceQuestion({ heading, intro, options }, onSelectionConfirmed, onExit) {
+    const optionsHtml = options.map((option, index) => `
+        <button type="button" class="choice-card choice-card--poll" aria-pressed="false" data-option-index="${index}">
+            <span class="choice-card-title choice-card-title--plain">${option}</span>
+        </button>
+    `).join("");
+
+    app.innerHTML = `
+        <section class="section">
+            <h2 class="section-heading">${heading}</h2>
+
+            ${intro ? `<div class="section-body"><p>${intro}</p></div>` : ""}
+
+            <div class="choice-list">${optionsHtml}</div>
+
+            <div class="section-cta">
+                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
+            </div>
+        </section>
+        ${renderExitDoor()}`;
+
+    const optionButtons = document.querySelectorAll("[data-option-index]");
+
+    optionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const isPressed = button.getAttribute("aria-pressed") === "true";
+            button.setAttribute("aria-pressed", String(!isPressed));
+        });
+    });
+
+    activateFocusTrap(app);
+
+    document.querySelector("#next-button").addEventListener("click", () => {
+        const selected = [...optionButtons]
+            .filter((button) => button.getAttribute("aria-pressed") === "true")
+            .map((button) => options[Number(button.dataset.optionIndex)]);
+
+        onSelectionConfirmed(selected);
+    });
+
     bindExit(onExit);
 }
 
@@ -184,6 +246,7 @@ export {
     showWelcome,
     showTextScreen,
     showChoiceQuestion,
+    showMultiChoiceQuestion,
     showModuleHub,
     showModuleBubble,
     showResult,

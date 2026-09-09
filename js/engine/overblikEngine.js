@@ -2,13 +2,14 @@ import {
     showWelcome,
     showTextScreen,
     showChoiceQuestion,
+    showMultiChoiceQuestion,
     showModuleHub,
     showModuleBubble,
     showResult,
     showExitConfirmation
 } from "./overblikUi.js";
 
-import { modul1, modul2Questions, modul2Fritekst, modul3, modul4, modul5, modul6 } from "../data/overblik.js";
+import { velkomst, modul1, modul2, modul3, modul4, modul5, modul6 } from "../data/overblik.js";
 import { resolveRecommendation } from "./overblikMatcher.js";
 import { saveVaekstrumOutput } from "../storage/vaekstrumStorage.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
@@ -24,50 +25,159 @@ export class OverblikEngine {
 
     start() {
         this.previousScreen = () => this.start();
-        showWelcome(() => this.showModul1());
+        showWelcome(velkomst, () => this.showModul1Intro());
     }
 
-    showModul1() {
+    showModul1Intro() {
         document.body.classList.add("in-flow");
-        this.previousScreen = () => this.showModul1();
+        this.previousScreen = () => this.showModul1Intro();
 
         showTextScreen(
-            modul1,
-            () => this.showModul2Question(0),
+            modul1.intro,
+            () => this.showModul1Question(),
             () => this.exitRoom()
         );
     }
 
-    showModul2Question(index) {
-        if (index >= modul2Questions.length) {
-            this.showModul2Fritekst();
-            return;
-        }
-
-        const question = modul2Questions[index];
-
-        if (question.conditionalOn && this.answers[question.conditionalOn.id] !== question.conditionalOn.equals) {
-            this.showModul2Question(index + 1);
-            return;
-        }
-
-        this.previousScreen = () => this.showModul2Question(index);
+    showModul1Question() {
+        this.previousScreen = () => this.showModul1Question();
 
         showChoiceQuestion(
-            question,
+            modul1.question,
             (answer) => {
-                this.answers[question.id] = answer;
-                this.showModul2Question(index + 1);
+                this.answers.udgangspunkt = answer;
+                this.showModul1Response(answer);
             },
             () => this.exitRoom()
         );
     }
 
-    showModul2Fritekst() {
-        this.previousScreen = () => this.showModul2Fritekst();
+    /*---- Boble 1.3 - dynamisk respons, ét af fem forløb afhængigt af Boble 1.2's svar. Genbruger showTextScreen fremfor at bygge en ny skærmtype, jf. samme "spørgsmål → dedikeret responsskærm"-mønster som Prøverummets FlowEngine (showQuestion → showFeedback) ----*/
+
+    showModul1Response(answer) {
+        this.previousScreen = () => this.showModul1Response(answer);
+
+        const response = modul1.responses[answer];
 
         showTextScreen(
-            { reflectionLabel: modul2Fritekst.label },
+            { heading: "Din respons", paragraphs: [response.text], guide: response.guide },
+            () => this.showModul1Outro(),
+            () => this.exitRoom()
+        );
+    }
+
+    showModul1Outro() {
+        this.previousScreen = () => this.showModul1Outro();
+
+        showTextScreen(
+            modul1.outro,
+            () => this.showModul2Intro(),
+            () => this.exitRoom()
+        );
+    }
+
+    showModul2Intro() {
+        this.previousScreen = () => this.showModul2Intro();
+
+        showTextScreen(
+            modul2.intro,
+            () => this.showModul2HvadBrugerDu(),
+            () => this.exitRoom()
+        );
+    }
+
+    showModul2HvadBrugerDu() {
+        this.previousScreen = () => this.showModul2HvadBrugerDu();
+
+        showMultiChoiceQuestion(
+            modul2.hvadBrugerDu,
+            (selected) => {
+                this.answers.brugerAllerede = selected;
+                this.showModul2HvadBrugerDuResponse(selected);
+            },
+            () => this.exitRoom()
+        );
+    }
+
+    /*---- Boble 2.2's respons kan sammensættes af flere relevante responser (jf. manuskriptet): "ikke sikker endnu" vinder over antal, ellers afgør antallet af valg "mange"/"få"-responsen, og et ekstra nik tilføjes, hvis brugeren har valgt ikoner/illustrationer/skrifttyper ----*/
+
+    showModul2HvadBrugerDuResponse(selected) {
+        this.previousScreen = () => this.showModul2HvadBrugerDuResponse(selected);
+
+        const { heading, responses, ikonAgtigeValg, ikkeSikkerValg } = modul2.hvadBrugerDu;
+
+        let text;
+        if (selected.includes(ikkeSikkerValg)) {
+            text = responses.ikkeSikker;
+        } else if (selected.length >= 4) {
+            text = responses.mange;
+        } else {
+            text = responses.faa;
+        }
+
+        const paragraphs = [text];
+        if (selected.some((choice) => ikonAgtigeValg.includes(choice))) {
+            paragraphs.push(responses.ikonNudge);
+        }
+
+        showTextScreen(
+            { heading, paragraphs },
+            () => this.showModul2Moenster(),
+            () => this.exitRoom()
+        );
+    }
+
+    showModul2Moenster() {
+        this.previousScreen = () => this.showModul2Moenster();
+
+        showChoiceQuestion(
+            modul2.moenster,
+            (answer) => {
+                this.answers.moenster = answer;
+                this.showModul2MoensterResponse(answer);
+            },
+            () => this.exitRoom()
+        );
+    }
+
+    showModul2MoensterResponse(answer) {
+        this.previousScreen = () => this.showModul2MoensterResponse(answer);
+
+        showTextScreen(
+            { heading: modul2.moenster.heading, paragraphs: [modul2.moenster.responses[answer]] },
+            () => this.showModul2Folelse(),
+            () => this.exitRoom()
+        );
+    }
+
+    showModul2Folelse() {
+        this.previousScreen = () => this.showModul2Folelse();
+
+        showChoiceQuestion(
+            modul2.folelse,
+            (answer) => {
+                this.answers.folelse = answer;
+                this.showModul2FolelseResponse(answer);
+            },
+            () => this.exitRoom()
+        );
+    }
+
+    showModul2FolelseResponse(answer) {
+        this.previousScreen = () => this.showModul2FolelseResponse(answer);
+
+        showTextScreen(
+            { heading: modul2.folelse.heading, paragraphs: [modul2.folelse.responses[answer]] },
+            () => this.showModul2Outro(),
+            () => this.exitRoom()
+        );
+    }
+
+    showModul2Outro() {
+        this.previousScreen = () => this.showModul2Outro();
+
+        showTextScreen(
+            modul2.outro,
             () => this.showModul3(),
             () => this.exitRoom()
         );
