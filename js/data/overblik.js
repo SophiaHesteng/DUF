@@ -1,9 +1,5 @@
 /*---- Indhold til vækstrummet "Overblik" (grundlæggende, hjem: Visuelt udtryk) - jf. docs/duf-manuskript-overblik.md ----*/
 
-/*---- Bruges hvor manuskriptet endnu ikke har den fulde ordlyd skrevet (typisk fordi den ligger i "revisionsdokumentet", som ikke findes i dette repo) - bevidst IKKE opfundet tekst, se commit-besked ----*/
-
-const INDHOLD_MANGLER = "[Indhold mangler — se revisionsdokumentet for fuld ordlyd]";
-
 export const velkomst = {
     heading: "Velkommen til dit visuelle udtryk",
     paragraphs: [
@@ -72,7 +68,7 @@ export const modul1 = {
     }
 };
 
-/*---- Modul 2 - Boble 2.2/2.3/2.4's matchede responser er kun delvist skrevet i manuskriptet (resten henviser til "revisionsdokumentet", som ikke findes i dette repo) - se INDHOLD_MANGLER-pladsholderen ovenfor ----*/
+/*---- Modul 2 - Boble 2.2/2.3/2.4/2.5's tekst er nu fuldt hentet fra revisionsdokumentet (rettet 2026-09-09, se docs/duf-manuskript-overblik.md). Bemærk: modsat Modul 1's responses (som har separat text+guide) er Boble 2.3/2.4's responser rene strenge - manuskriptets guide/avatar-citater for enkelte af Boble 2.4's svar er derfor ikke medtaget, kun hovedteksten. ----*/
 
 export const modul2 = {
     intro: {
@@ -101,7 +97,7 @@ export const modul2 = {
             mange: "Nu kan vi begynde at se på, hvordan de fungerer — både hver for sig og sammen.",
             faa: "Det, du allerede bruger, er nok til, at vi kan tage det næste skridt.",
             ikkeSikker: "Vi hjælper dig med at få øje på det undervejs.",
-            ikonNudge: INDHOLD_MANGLER
+            ikonNudge: "Du bruger allerede nogle af de ting, der er med til at give din praksis sit eget visuelle præg. Senere kan vi se nærmere på, hvordan de kan fungere sammen og understøtte resten af dit visuelle udtryk."
         }
     },
     moenster: {
@@ -116,8 +112,8 @@ export const modul2 = {
         ],
         responses: {
             "🟢 Noget går igen": "Noget af det, du bruger, begynder allerede at skabe en retning.",
-            "🟡 Noget går igen, men ikke det hele": INDHOLD_MANGLER,
-            "🔵 Det er ret blandet": INDHOLD_MANGLER,
+            "🟡 Noget går igen, men ikke det hele": "Det er helt normalt. Noget kan godt være valgt med en bestemt retning, mens andet er kommet til undervejs. Nu har du fået øje på, at der både er noget at bygge videre på og noget, du kan undersøge nærmere.",
+            "🔵 Det er ret blandet": "Det giver dig faktisk et tydeligt udgangspunkt. Nu ved du, at en del af arbejdet kan handle om at finde ud af, hvad du gerne vil samle — og hvad du ikke behøver tage med videre.",
             "⚪ Jeg har svært ved at se det": "Det behøver du ikke kunne endnu — det kan være svært at se mønstre i noget, man selv har kigget på mange gange."
         }
     },
@@ -133,16 +129,20 @@ export const modul2 = {
             "🧭 Jeg føler mig helt på bar bund og ved dårligt, hvor jeg skal starte"
         ],
         responses: {
-            "🌱 Jeg kan godt lide den retning, jeg allerede er i": INDHOLD_MANGLER,
-            "🧩 Noget føles rigtigt — noget andet gør ikke": INDHOLD_MANGLER,
-            "🔍 Jeg er blevet opmærksom på, at jeg mangler at tage stilling til noget": INDHOLD_MANGLER,
-            "🌪️ Det hele føles lidt blandet lige nu": INDHOLD_MANGLER,
-            "🧭 Jeg føler mig helt på bar bund og ved dårligt, hvor jeg skal starte": INDHOLD_MANGLER
+            "🌱 Jeg kan godt lide den retning, jeg allerede er i": "Det er et godt udgangspunkt. Du behøver ikke ændre noget, bare fordi du arbejder med dit visuelle udtryk. Noget af det næste arbejde kan handle om at forstå, hvad det er, der allerede fungerer, så du lettere kan bygge videre på det og bruge det mere bevidst.",
+            "🧩 Noget føles rigtigt — noget andet gør ikke": "Det giver dig allerede noget vigtigt at arbejde med. Du behøver ikke starte forfra, bare fordi noget ikke helt passer. Når vi arbejder videre, kan du blive klogere på, hvad du gerne vil beholde, og hvad der trænger til en ny beslutning.",
+            "🔍 Jeg er blevet opmærksom på, at jeg mangler at tage stilling til noget": "Det er faktisk præcis den slags, et vækstrum kan hjælpe med. Du behøver ikke beslutte det hele nu. Det vigtigste er, at du har fået øje på nogle områder, du gerne vil undersøge nærmere.",
+            "🌪️ Det hele føles lidt blandet lige nu": "Så er du ikke alene. Når forskellige ting er opstået på forskellige tidspunkter, kan det være svært at se dem som en samlet helhed. Du behøver ikke løse det hele på én gang. Vi kan tage de forskellige områder ét ad gangen og begynde at finde ud af, hvad der giver mening for dig og din praksis.",
+            "🧭 Jeg føler mig helt på bar bund og ved dårligt, hvor jeg skal starte": "Det kan føles overvældende, når der er mange ting at tage stilling til, og man ikke rigtig ved, hvor man skal begynde. Det behøver du heldigvis ikke finde ud af alene. Du skal ikke tage alle beslutninger på én gang. Vi hjælper dig med at dele det op og tage ét område ad gangen, så du kan begynde at finde en retning, der giver mening for dig og din praksis."
         }
     },
     outro: {
         heading: "Du har et sted at starte",
-        paragraphs: [INDHOLD_MANGLER]
+        paragraphs: [
+            "Du behøver ikke have fundet alle svarene endnu. Det var heller ikke meningen. Du har lige set nærmere på det visuelle omkring din praksis, som det ser ud lige nu. Måske har du fået øje på noget, der allerede fungerer godt. Måske har du opdaget noget, du gerne vil ændre. Eller måske er du stadig i gang med at finde ud af, hvilken retning der føles rigtig.",
+            "Uanset hvor du står, har du nu et udgangspunkt at arbejde videre fra. For det bliver lettere at tage stilling til de enkelte dele, når du ved lidt mere om, hvad du allerede har — og hvordan du har det med det."
+        ],
+        guide: "Du skal ikke løse det hele nu. Vi tager det ét område ad gangen."
     }
 };
 
@@ -247,37 +247,33 @@ export const modul5 = {
     ]
 };
 
-/*---- Modul 6 - matchningslogik. Rækkefølge ved flere samtidige signaler: Farver, Logo, Byggesten (jf. manuskriptets "Farver prioriteres, gerne før Logo") - Byggesten er sidestillet i relevans, men nævnes sidst i rækkefølgen, da det introduceres sidst i Modul 2. ----*/
+/*---- Modul 6 - ingen automatisk matchning (fjernet 2026-09-09, jf. docs/duf-manuskript-overblik.md). Boble 6.1 opsummerer i stedet Boble 2.2/2.3/2.4's svar ordret og lader brugeren vælge frit mellem alle fire uddybende rum. Rækkefølgen Farver → Logo → Billeder → Byggesten følger manuskriptets opremsning i Boble 6.1. ----*/
 
 export const modul6 = {
-    intro: "Baseret på det, du har fortalt os, foreslår vi et sted at starte. Men det er dit valg — de andre rum forsvinder ikke, de venter bare.",
-    noSignalText: "Det lyder som om dit visuelle udtryk allerede hænger godt sammen lige nu. Der er ikke noget, der presser sig på — men de fire rum venter, hvis du på et tidspunkt får lyst til at gå i dybden.",
-    closing: "Uanset hvor du går herfra, har du nu et overblik, du ikke havde før. Det er allerede et skridt."
+    recapIntro: "Du har nu set nærmere på, hvor du står i dag. Her er en opsamling af det, du har fortalt os undervejs:",
+    guide: "Du har allerede gjort arbejdet med at fortælle os, hvor du står. Nu er det dit valg, hvor du vil kigge videre.",
+    closing: "Et overblik bliver først rigtig brugbart, når du begynder at bruge det."
 };
 
 export const ROOMS = {
     farver: {
         id: "farver",
         name: "Farver",
-        link: "vaekstrum-farver.html?fra=overblik",
-        singleText: "Du fortalte, at du endnu ikke har valgt faste farver til din praksis. Det lyder som et oplagt sted at starte."
+        link: "vaekstrum-farver.html?fra=overblik"
     },
     logo: {
         id: "logo",
         name: "Logo",
-        link: "vaekstrum-logo.html?fra=overblik",
-        singleText: "Du fortalte, at du endnu ikke har et logo, og at det er noget, du gerne vil have på plads. Det lyder som et oplagt sted at starte."
-    },
-    byggesten: {
-        id: "byggesten",
-        name: "Ikoner, fonte og andre byggesten",
-        link: "vaekstrum-byggesten.html",
-        singleText: "Du fortalte, at dit visuelle udtryk føles spredt, alt efter hvor folk møder det. Det lyder som et oplagt sted at starte."
+        link: "vaekstrum-logo.html?fra=overblik"
     },
     billeder: {
         id: "billeder",
         name: "Billeder",
-        link: "vaekstrum-billeder.html?fra=overblik",
-        singleText: "Du nævnte, at du bruger billeder, du ikke er helt sikker på rettighederne til. Det anbefaler vi altid, at du får styr på."
+        link: "vaekstrum-billeder.html?fra=overblik"
+    },
+    byggesten: {
+        id: "byggesten",
+        name: "Ikoner, fonte og andre byggesten",
+        link: "vaekstrum-byggesten.html"
     }
 };

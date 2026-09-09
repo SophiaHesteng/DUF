@@ -167,57 +167,51 @@ function showModuleBubble(bubble, onBack, onNext, onExit) {
     bindExit(onExit);
 }
 
-/*---- Modul 6 - resultat ud fra matchningslogikken ----*/
+/*---- Modul 6 - opsummering af Modul 2's svar + frit valg mellem alle fire uddybende rum (ingen automatisk matchning, jf. docs/duf-manuskript-overblik.md, ændret 2026-09-09) ----*/
 
-function joinNames(names) {
-    if (names.length === 1) return names[0];
-    return `${names.slice(0, -1).join(", ")} og ${names[names.length - 1]}`;
-}
-
-function showResult({ recommendation, introText, noSignalText, closingText }, onExit) {
-    const isNone = recommendation.type === "none";
-    let bodyHtml = "";
-
-    if (!isNone) {
-        if (recommendation.rooms.length === 1) {
-            const room = recommendation.rooms[0];
-            bodyHtml = `
-                <div class="section-body"><p>${room.singleText}</p></div>
-                <div class="section-cta">
-                    <a href="${room.link}" class="btn btn--regular btn--solid-green">Gå til ${room.name}</a>
-                </div>`;
-        } else {
-            const joined = joinNames(recommendation.rooms.map((r) => r.name));
-            const buttonsHtml = recommendation.rooms
-                .map((r) => `<a href="${r.link}" class="btn btn--regular btn--solid-green">Gå til ${r.name}</a>`)
-                .join("");
-
-            bodyHtml = `
-                <div class="section-body"><p>Både ${joined} virker relevante for dig lige nu. Du bestemmer, hvor du vil starte — vi gemmer det andet til senere.</p></div>
-                <div class="section-cta section-cta--row">${buttonsHtml}</div>`;
-        }
-    }
+function showModul6Recap({ summary, introText, guideText, closingText, rooms }, onChooseRoom, onExit) {
+    const roomsHtml = rooms.map((room) => `
+        <button type="button" class="value-card" data-choose-room="${room.id}">
+            <span class="value-card-label">${room.name}</span>
+        </button>
+    `).join("");
 
     app.innerHTML = `
         <section class="section result-screen">
-            <h2 class="section-heading">Dit næste skridt</h2>
+            <h2 class="section-heading">Din vej videre</h2>
 
             <div class="panel">
-                <div class="section-body"><p>${isNone ? noSignalText : introText}</p></div>
+                <div class="section-body"><p>${introText}</p></div>
 
-                ${bodyHtml}
-
-                <div class="section-body"><p>${closingText}</p></div>
-
-                <div class="section-cta section-cta--column">
-                    <a href="${VISUELT_UDTRYK_HUB}" class="btn btn--regular btn--solid-green">Se alle rum i Visuelt udtryk</a>
-                    <a href="vaelg-din-dor.html" class="btn btn--regular btn--outline-green">Tilbage til Vælg din dør</a>
+                <div class="section-body">
+                    ${summary.hvadBrugerDu.map((p) => `<p>${p}</p>`).join("")}
+                    <p>Du svarede: ${summary.moenster.answer}</p>
+                    <p>${summary.moenster.response}</p>
+                    <p>Du svarede: ${summary.folelse.answer}</p>
+                    <p>${summary.folelse.response}</p>
                 </div>
+
+                <p><strong>Guide:</strong> ${guideText}</p>
+            </div>
+
+            <div class="value-list">${roomsHtml}</div>
+
+            <div class="section-body"><p>${closingText}</p></div>
+
+            <div class="section-cta section-cta--column">
+                <a href="${VISUELT_UDTRYK_HUB}" class="btn btn--regular btn--solid-green">Se alle rum i Visuelt udtryk</a>
+                <a href="vaelg-din-dor.html" class="btn btn--regular btn--outline-green">Tilbage til Vælg din dør</a>
             </div>
         </section>
         ${renderExitDoor()}`;
 
     activateFocusTrap(app);
+
+    document.querySelectorAll("[data-choose-room]").forEach((button) => {
+        const room = rooms.find((r) => r.id === button.dataset.chooseRoom);
+        button.addEventListener("click", () => onChooseRoom(room));
+    });
+
     bindExit(onExit);
 }
 
@@ -249,6 +243,6 @@ export {
     showMultiChoiceQuestion,
     showModuleHub,
     showModuleBubble,
-    showResult,
+    showModul6Recap,
     showExitConfirmation
 };

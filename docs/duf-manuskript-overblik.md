@@ -2,7 +2,11 @@
 
 *Status: Revideret 2026-09-08. Erstatter det tidligere flade modul-for-modul-udkast med en fuld boble-struktur (Vækstrum → Modul → Bobler, jf. [[DUF Teknisk - Navigationslinjer (modul og boble)]]). Bygger på revisionsarbejdet i `claude/DUF Manuskript-revision - Overblik.md` (Heidis udkast + Claudes tekniske vurdering af, hvad der matcher den eksisterende motor). Beslutninger taget undervejs: ingen tie-break i Modul 6 (brugeren vælger frit mellem de reelt relevante rum, uanset hvor mange der er); Modul 3 og Modul 5 bygges som "oversigt + valgfrie bobler", der kan besøges i vilkårlig rækkefølge.*
 
-*Implementeringsnote (2026-09-09): Modul 1, 2 og 4 samt Velkomstskærmen er bygget op mod dette manuskript på `feature-vaekstrum-motor`. Boble 2.2's respons for ikoner/illustrationer/skrifttyper, Boble 2.3's 🟡/🔵-responser og alle fem af Boble 2.4's responser findes ikke i dette dokument (kun i "revisionsdokumentet", som ikke ligger i dette repo) - de er bygget som synlige pladsholdere i `js/data/overblik.js` (søg efter `INDHOLD_MANGLER`), klar til at få den rigtige tekst uden yderligere kodeændringer. Samtidig er Modul 2's tidligere signalspørgsmål (logo/farver/billeder/sammenhæng) erstattet af de nye bobler - Modul 6's `overblikMatcher.js` matcher derfor ikke længere på reelle svar (se commit-beskeden for detaljer), hvilket er en bevidst udskudt opfølgning, ikke en fejl i denne opgave.*
+*Implementeringsnote (2026-09-09, opdateret samme dag): Modul 1, 2, 4 og 6 samt Velkomstskærmen er bygget op mod dette manuskript på `feature-vaekstrum-motor`.*
+
+*Boble 2.2/2.3/2.4's pladsholdertekst (`INDHOLD_MANGLER` i `js/data/overblik.js`) var IKKE et hul i Heidis oprindelige udkast — det var en fejl i dette manuskript, hvor svarene fejlagtigt var parafraseret/henvist til "revisionsdokumentet" i stedet for citeret ordret. Rettet 2026-09-09, både her og i koden. Eneste reelle tab: Boble 2.4's guide/avatar-citater for 🌱, 🔍 og 🧭 er ikke med i koden, fordi Modul 2's responser (i modsætning til Modul 1's) kun har et rent tekstfelt uden separat guide-felt — kræver en lille motor-tilføjelse, hvis de skal med. Boble 2.5's `outro`-tekst VAR et reelt hul i Heidis oprindelige udkast (kun navigations-/gemmes-noter fandtes) — Heidi har nu skrevet teksten (se ovenfor), og den er sat ind i koden 2026-09-09.*
+
+*⚠️ Fund, nu rettet: Modul 2's tidligere signalspørgsmål (logo/farver/billederRettigheder/sammenhæng) blev erstattet af de nye bobler, men `js/engine/overblikMatcher.js`'s `computeSignals()` blev ikke opdateret til at bruge de nye svar — `resolveRecommendation()` ville derfor altid returnere `{ type: "none" }`, uanset hvad brugeren svarer. Korrekt flagget af Claude Code, ikke en fejl i selve opgaven. Løsning (Heidi, 2026-09-09): i stedet for at reparere signal-udledningen er den automatiske matchning fjernet helt. Modul 6 er nu bygget om til en opsummering af Modul 2 (2.2's feedback + 2.3/2.4's valgte svar og respons, gentaget ordret) og lader brugeren vælge frit mellem alle fire rum — se Boble 6.1. `overblikMatcher.js` er slettet.*
 
 **Sådan læses dette dokument:** Et modul beskriver det overordnede emne eller skridt. En boble beskriver én konkret skærmvisning eller ét naturligt trin inde i modulet. En boble er ikke automatisk interaktiv — nogle er rene indholdstrin. Hver boble er markeret med, hvad brugeren møder, eventuel interaktion, eventuel respons, hvad der leder videre, og om noget gemmes.
 
@@ -97,7 +101,7 @@ Når de forskellige valg mødes, begynder der at tegne sig et visuelt udtryk, de
 **Hvad brugeren møder:** "Det visuelle omkring din praksis består ikke kun af én ting — mennesker møder forskellige dele forskellige steder: hjemmeside, sociale medier, materialer, når de booker en tid. Lad os starte med at få øje på, hvad der allerede er i spil."
 
 - **Interaktion:** Brugeren kan vælge én eller flere: 🎨 Farver, 🖼️ Billeder, ✳️ Logo, 🔣 Ikoner, ✏️ Illustrationer, 🔤 Skrifttyper, 📱 Noget andet, 🤷 Jeg er ikke sikker endnu.
-- **Respons:** Tilpasses valget — flere ting valgt ("Nu kan vi begynde at se på, hvordan de fungerer — både hver for sig og sammen"), få ting valgt ("Det, du allerede bruger, er nok til, at vi kan tage det næste skridt"), ikoner/illustrationer/skrifttyper valgt (peger frem mod at se, hvordan de spiller sammen med resten), "ikke sikker endnu" ("Vi hjælper dig med at få øje på det undervejs"). Flere relevante responser kan sammensættes eller prioriteres.
+- **Respons:** Tilpasses valget — flere ting valgt: "Nu kan vi begynde at se på, hvordan de fungerer — både hver for sig og sammen." Få ting valgt: "Det, du allerede bruger, er nok til, at vi kan tage det næste skridt." Ikoner/illustrationer/skrifttyper valgt: "Du bruger allerede nogle af de ting, der er med til at give din praksis sit eget visuelle præg. Senere kan vi se nærmere på, hvordan de kan fungere sammen og understøtte resten af dit visuelle udtryk." "Ikke sikker endnu" valgt: "Vi hjælper dig med at få øje på det undervejs." Flere relevante responser kan sammensættes eller prioriteres.
 - **Leder videre:** Boble 2.3.
 - **Gemmes:** Ja — kan senere bruges til at skabe sammenhæng og spejle brugerens udgangspunkt tilbage.
 
@@ -106,7 +110,7 @@ Når de forskellige valg mødes, begynder der at tegne sig et visuelt udtryk, de
 **Hvad brugeren møder:** "Når du begynder at se på de forskellige ting, du bruger, kan der dukke nogle mønstre op. Begge dele — mønster eller ej — fortæller noget om dit udgangspunkt. Lige nu handler det bare om at få øje på det, der allerede er der."
 
 - **Interaktion:** "Hvad genkender du mest?" (ét valg): 🟢 Noget går igen, 🟡 Noget går igen, men ikke det hele, 🔵 Det er ret blandet, ⚪ Jeg har svært ved at se det.
-- **Respons:** Fire tilsvarende, anerkendende svar (fx ved 🟢: "Noget af det, du bruger, begynder allerede at skabe en retning"; ved ⚪: "Det behøver du ikke kunne endnu — det kan være svært at se mønstre i noget, man selv har kigget på mange gange").
+- **Respons:** 🟢 "Noget af det, du bruger, begynder allerede at skabe en retning." 🟡 "Det er helt normalt. Noget kan godt være valgt med en bestemt retning, mens andet er kommet til undervejs. Nu har du fået øje på, at der både er noget at bygge videre på og noget, du kan undersøge nærmere." 🔵 "Det giver dig faktisk et tydeligt udgangspunkt. Nu ved du, at en del af arbejdet kan handle om at finde ud af, hvad du gerne vil samle — og hvad du ikke behøver tage med videre." ⚪ "Det behøver du ikke kunne endnu — det kan være svært at se mønstre i noget, man selv har kigget på mange gange."
 - **Leder videre:** Boble 2.4.
 - **Gemmes:** Ja — kan senere bruges til at spejle brugerens udvikling.
 
@@ -115,14 +119,20 @@ Når de forskellige valg mødes, begynder der at tegne sig et visuelt udtryk, de
 **Hvad brugeren møder:** "Du behøver ikke kunne vurdere dit visuelle udtryk fagligt, og det er ikke meningen, at du nu skal finde fejl. Men når du ser på de ting, du allerede bruger, har du måske fået øje på noget, du ikke havde tænkt over før."
 
 - **Interaktion:** (ét valg): 🌱 Jeg kan godt lide den retning, jeg allerede er i; 🧩 Noget føles rigtigt — noget andet gør ikke; 🔍 Jeg er blevet opmærksom på, at jeg mangler at tage stilling til noget; 🌪️ Det hele føles lidt blandet lige nu; 🧭 Jeg føler mig helt på bar bund og ved dårligt, hvor jeg skal starte.
-- **Respons:** Fem tilsvarende, anerkendende svar med guide-kommentar (se revisionsdokumentet for fuld ordlyd).
+- **Respons:** 🌱 "Det er et godt udgangspunkt. Du behøver ikke ændre noget, bare fordi du arbejder med dit visuelle udtryk. Noget af det næste arbejde kan handle om at forstå, hvad det er, der allerede fungerer, så du lettere kan bygge videre på det og bruge det mere bevidst." *(Guide: Det, du allerede har, kan være lige så værdifuldt at forstå som det, du gerne vil ændre.)* 🧩 "Det giver dig allerede noget vigtigt at arbejde med. Du behøver ikke starte forfra, bare fordi noget ikke helt passer. Når vi arbejder videre, kan du blive klogere på, hvad du gerne vil beholde, og hvad der trænger til en ny beslutning." 🔍 "Det er faktisk præcis den slags, et vækstrum kan hjælpe med. Du behøver ikke beslutte det hele nu. Det vigtigste er, at du har fået øje på nogle områder, du gerne vil undersøge nærmere." *(Guide: At få øje på et spørgsmål er også et skridt fremad.)* 🌪️ "Så er du ikke alene. Når forskellige ting er opstået på forskellige tidspunkter, kan det være svært at se dem som en samlet helhed. Du behøver ikke løse det hele på én gang. Vi kan tage de forskellige områder ét ad gangen og begynde at finde ud af, hvad der giver mening for dig og din praksis." 🧭 "Det kan føles overvældende, når der er mange ting at tage stilling til, og man ikke rigtig ved, hvor man skal begynde. Det behøver du heldigvis ikke finde ud af alene. Du skal ikke tage alle beslutninger på én gang. Vi hjælper dig med at dele det op og tage ét område ad gangen, så du kan begynde at finde en retning, der giver mening for dig og din praksis." *(Guide: Du behøver ikke kende hele vejen. Du skal bare have et sted at begynde.)* *(Bemærk: koden gemmer i dag kun hovedteksten for disse fem svar, ikke guide-citaterne.)*
 - **Leder videre:** Boble 2.5.
 - **Gemmes:** Ja — brugerens nuværende ståsted, kan spejles tilbage senere.
 
 ### Boble 2.5 — Du har et sted at starte
 
+*Formål: at samle modulet op uden at teste brugeren igen. Brugeren har nu fået øje på, at de allerede har et udgangspunkt; set på, hvilke ting de bruger; overvejet, om noget går igen; og mærket efter, hvordan de har det med det, de ser. Boblen skal hjælpe brugeren med at forstå, at de ikke behøver have fundet løsningerne endnu, men at de ved mere om deres udgangspunkt, end de gjorde før.*
+
+**Hvad brugeren møder:** "Du behøver ikke have fundet alle svarene endnu. Det var heller ikke meningen. Du har lige set nærmere på det visuelle omkring din praksis, som det ser ud lige nu. Måske har du fået øje på noget, der allerede fungerer godt. Måske har du opdaget noget, du gerne vil ændre. Eller måske er du stadig i gang med at finde ud af, hvilken retning der føles rigtig. Uanset hvor du står, har du nu et udgangspunkt at arbejde videre fra. For det bliver lettere at tage stilling til de enkelte dele, når du ved lidt mere om, hvad du allerede har — og hvordan du har det med det." *(Guide: Du skal ikke løse det hele nu. Vi tager det ét område ad gangen.)*
+
 Opsamlingsboble uden nyt spørgsmål — samler op på det, der allerede er gemt i Boble 1.2–2.4.
 
+- **Interaktion:** Ingen nødvendig.
+- **Respons:** Ingen yderligere.
 - **Leder videre:** Modul 3.
 - **Gemmes:** Nej — samler kun op på tidligere gemte svar.
 
@@ -230,25 +240,31 @@ Introducerer de tre områder hver for sig (ikoner: hjælper med at forstå og fi
 
 ### Boble 6.1 — Din vej videre
 
-*Formål: bruge det, brugeren allerede har fortalt undervejs, til at pege på ét eller flere relevante vækstrum og forklare hvorfor — uden flere spørgsmål. DUF har allerede informationen, nu skal den bruges.*
+*Formål (ændret 2026-09-09, bygget samme dag): opsummere det, brugeren allerede har fortalt i Modul 2 — ikke gætte sig til ét "rigtigt" rum ved at udlede skjulte signaler. Brugeren har allerede gjort arbejdet med at reflektere over sit udgangspunkt; nu spejles det samlet tilbage til dem, og de vælger selv, hvilket rum de vil fortsætte til. Ingen automatisk anbefaling af ét specifikt rum.*
 
-**Hvad brugeren møder:** "Du har nu fået et overblik over nogle af de områder, du kan arbejde videre med. Ud fra det, du har fortalt os undervejs, har vi samlet det, der virker mest relevant for dig lige nu." *(Guide: Du har allerede gjort arbejdet med at fortælle os, hvor du står. Nu hjælper vi dig med at bruge det.)*
+**Hvad brugeren møder (rammetekst godkendt og bygget 2026-09-09; selve opsummeringen er ikke ny tekst, kun en gentagelse af det, brugeren allerede har set):**
 
-**Den dynamiske anbefaling** matcher direkte den eksisterende matchningslogik i `overblikMatcher.js` (`resolveRecommendation()`):
+"Du har nu set nærmere på, hvor du står i dag. Her er en opsamling af det, du har fortalt os undervejs:"
 
-- **Ét klart signal** (`type: "single"`): "Du fortalte, at du endnu ikke har et logo, og at det er noget, du gerne vil have på plads. Derfor ser Logo ud til at være et godt sted at fortsætte." → Gå til Logo
-- **Et særligt vigtigt signal** (`type: "override"` — billedrettigheder): "Du nævnte, at du bruger billeder, du ikke er helt sikker på, om du må bruge. Det er værd at få styr på, så du ved, hvor du står. Derfor ser Billeder ud til at være et godt sted at fortsætte." → Gå til Billeder
-- **Flere relevante rum** (`type: "multi"`): "Både Farver og Logo virker relevante ud fra det, du har fortalt os. Begge kan være gode steder at fortsætte." *(Ingen tie-break — brugeren vælger frit mellem alle rum, matchningen finder, uanset om det er to eller flere.)* *(Guide: Når flere veje giver mening, er det bedre at vælge én end at stå stille mellem dem.)* → Gå til Farver / → Gå til Logo *(osv. — én knap pr. matchet rum)*
-- **Intet signal** (`type: "none"`): rummet venter uændret — de fire uddybende rum forsvinder ikke, de venter bare.
+- **Fra Boble 2.2** ("Hvad bruger du allerede?"): den feedback, brugeren allerede fik der, gentages ordret (fx "Du har allerede flere forskellige ting, der er med til at forme det visuelle omkring din praksis..." — hvilken af `modul2.hvadBrugerDu.responses`-teksterne, afhænger af brugerens faktiske valg).
+- **Fra Boble 2.3** ("Se efter det, der går igen"): brugerens valgte svarmulighed OG den tilhørende respons gentages (fx "Du svarede: 🟡 Noget går igen, men ikke det hele. [respons-teksten herfra]").
+- **Fra Boble 2.4** ("Hvordan har du det med det, du ser?"): samme princip — valgt svarmulighed og tilhørende respons gentages.
+
+*(Guide: Du har allerede gjort arbejdet med at fortælle os, hvor du står. Nu er det dit valg, hvor du vil kigge videre.)*
+
+Herefter præsenteres alle fire uddybende rum (Farver, Logo, Billeder, Ikoner/fonte og byggesten) som ligestillede valgmuligheder — brugeren vælger selv, uden nogen fremhævet som "anbefalet". *(Samme grundprincip som allerede gælder ved flere lige relevante rum — nu udvidet til at gælde altid: brugeren vælger selv mellem de reelle muligheder.)*
 
 **Afrunding:** "Et overblik bliver først rigtig brugbart, når du begynder at bruge det."
 
-- **Interaktion:** Brugeren vælger det/de foreslåede vækstrum.
+- **Interaktion:** Brugeren vælger selv, hvilket af de fire rum de vil fortsætte til.
 - **Leder videre:** Direkte til det valgte uddybende vækstrum.
-- **Gemmes:** Ja — "den lille version" (afgjort 2026-09-08, implementeret på `feature-vaekstrum-motor`): så snart anbefalingen er beregnet og vist, gemmer `OverblikEngine` den varigt via `saveVaekstrumOutput("overblik", ...)` (jf. `js/storage/vaekstrumStorage.js`) — kun typen af match og de(t) matchede rum-id'er, ikke de granulære svar fra Modul 1–5, som fortsat kun lever i hukommelsen. Giver Overblik samme "✓ Gennemført"-badge på `vaelg-rum-visuelt-udtryk.html`, som de fire uddybende rum allerede har.
+- **Gemmes:** Ja — "den lille version" (afgjort 2026-09-08, justeret 2026-09-09 til den nye mekanik): det rum, brugeren rent faktisk vælger at gå videre til, gemmes varigt via `saveVaekstrumOutput("overblik", ...)` (jf. `js/storage/vaekstrumStorage.js`) — der er ikke længere en "anbefalings-type" at gemme, kun selve valget. Giver stadig Overblik samme "✓ Gennemført"-badge på `vaelg-rum-visuelt-udtryk.html`, som de fire uddybende rum allerede har. De granulære svar fra Modul 1–5 gemmes fortsat ikke.
+
+*Note (2026-09-09, afsluttet samme dag): Modul 6 blev oprindeligt implementeret med automatisk signal-baseret matchning (`overblikMatcher.js`), men de signaler, den regnede på, hørte til Modul 2's GAMLE spørgsmål og findes ikke i den nye boble-struktur — `resolveRecommendation()` ville derfor altid returnere "intet signal". I stedet for at reparere signal-udledningen er den automatiske matchning fjernet helt (se Boble 6.1 ovenfor) — `overblikMatcher.js` er slettet, og `computeSignals()`/`resolveRecommendation()` findes ikke længere.*
 
 ## Spørgsmål til jer, inden I bygger videre
 
 - **Afgjort 2026-09-08:** ingen tie-break i Modul 6 — brugeren skal kunne vælge frit mellem alle reelt relevante rum, uanset om det er to eller flere.
 - **Afgjort 2026-09-08:** Modul 3 og Modul 5 bygges som "oversigt + valgfrie bobler" (3.2A–D, 5.2A–D), som brugeren kan besøge i vilkårlig rækkefølge og springe over.
-- **Afgjort 2026-09-08, implementeret:** Overblik gemmer nu "den lille version" af Modul 6's resultat varigt (se Boble 6.1 ovenfor). En eventuel udvidelse til også at gemme de granulære boble-svar fra Modul 1–5 er en separat, senere beslutning, hvis der viser sig et konkret behov.
+- **Afgjort 2026-09-08, implementeret:** Overblik gemmer nu "den lille version" af Modul 6's resultat varigt. Den præcise form af, hvad der gemmes, justeres i forbindelse med ombygningen af Modul 6 (se note ved Boble 6.1). En eventuel udvidelse til også at gemme de granulære boble-svar fra Modul 1–5 er en separat, senere beslutning, hvis der viser sig et konkret behov.
+- **Afgjort og bygget 2026-09-09:** Modul 6's automatiske signal-baserede rumanbefaling er fjernet og erstattet af en opsummering af Modul 2 + fritvalg mellem alle fire rum (se Boble 6.1 ovenfor).
