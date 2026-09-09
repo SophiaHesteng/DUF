@@ -180,17 +180,17 @@ function showModul6Recap({ summary, introText, guideText, closingText, rooms }, 
         <section class="section result-screen">
             <h2 class="section-heading">Din vej videre</h2>
 
+            <div class="section-body"><p>${introText}</p></div>
+
+            <div class="section-body">
+                ${summary.hvadBrugerDu.map((p) => `<p>${p}</p>`).join("")}
+                <p>Du svarede: ${summary.moenster.answer}</p>
+                <p>${summary.moenster.response}</p>
+                <p>Du svarede: ${summary.folelse.answer}</p>
+                <p>${summary.folelse.response}</p>
+            </div>
+
             <div class="panel">
-                <div class="section-body"><p>${introText}</p></div>
-
-                <div class="section-body">
-                    ${summary.hvadBrugerDu.map((p) => `<p>${p}</p>`).join("")}
-                    <p>Du svarede: ${summary.moenster.answer}</p>
-                    <p>${summary.moenster.response}</p>
-                    <p>Du svarede: ${summary.folelse.answer}</p>
-                    <p>${summary.folelse.response}</p>
-                </div>
-
                 <p><strong>Guide:</strong> ${guideText}</p>
             </div>
 
