@@ -1,6 +1,6 @@
 import { activateFocusTrap } from "./accessibility.js";
-import { initAccordion } from "../components/accordion.js";
 import { renderExitDoor as renderSharedExitDoor, bindExit } from "../components/exitDoor.js";
+import { renderBubbleHub, bindBubbleHub, renderBubbleDetail, bindBubbleDetail } from "../components/bubbleHub.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
 
 const app = document.querySelector("#app");
@@ -9,19 +9,15 @@ function renderExitDoor() {
     return renderSharedExitDoor("Gå ud af Overblik");
 }
 
-function showWelcome(onStart) {
+function showWelcome({ heading, paragraphs, buttonText = "Næste" }, onStart) {
     app.innerHTML = `
         <section class="section welcome-card">
-            <h1 class="section-heading">Velkommen til Dit visuelle udtryk</h1>
+            <h1 class="section-heading">${heading}</h1>
 
-            <p class="section-subheading">Her får du et overblik over, hvordan farver, billeder, dit logo og de mindre detaljer spiller sammen — og et bud på, hvor det kan give mening at starte.</p>
-
-            <div class="section-body">
-                <p>Der er ingen rigtige eller forkerte svar undervejs. Vi bygger bare et billede af, hvor du står lige nu.</p>
-            </div>
+            <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
 
             <div class="section-cta">
-                <button id="start-button" type="button" class="btn btn--regular btn--solid-green">Gå ind her</button>
+                <button id="start-button" type="button" class="btn btn--regular btn--solid-green">${buttonText}</button>
             </div>
         </section>`;
 
@@ -29,9 +25,9 @@ function showWelcome(onStart) {
     document.querySelector("#start-button").addEventListener("click", onStart);
 }
 
-/*---- Læseskærm med valgfri refleksion (Modul 1, Modul 2's fritekstspørgsmål, Modul 4) ----*/
+/*---- Læseskærm, valgfrit med et "Guide"/"Sticker"-citat (jf. Myteknæk-mønstret i farverUi.js) og/eller et andet paragrafafsnit efter citatet (Modul 4's "guide midt i teksten") ----*/
 
-function showTextScreen({ heading, paragraphs = [], reflectionLabel, buttonText = "Næste" }, onNext, onExit) {
+function showTextScreen({ heading, paragraphs = [], paragraphsAfter = [], guide, guideLabel = "Guide", reflectionLabel, buttonText = "Næste" }, onNext, onExit) {
     const headingText = heading || reflectionLabel;
     const showSeparateLabel = Boolean(heading && reflectionLabel);
 
@@ -40,6 +36,14 @@ function showTextScreen({ heading, paragraphs = [], reflectionLabel, buttonText 
             <h2 class="section-heading">${headingText}</h2>
 
             ${paragraphs.length ? `<div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>` : ""}
+
+            ${guide ? `
+                <div class="panel">
+                    <p><strong>${guideLabel}:</strong> ${guide}</p>
+                </div>
+            ` : ""}
+
+            ${paragraphsAfter.length ? `<div class="section-body">${paragraphsAfter.map((p) => `<p>${p}</p>`).join("")}</div>` : ""}
 
             ${reflectionLabel ? `
                 ${showSeparateLabel ? `<p class="section-subheading">${reflectionLabel}</p>` : ""}
@@ -58,12 +62,25 @@ function showTextScreen({ heading, paragraphs = [], reflectionLabel, buttonText 
     bindExit(onExit);
 }
 
-/*---- Ét spørgsmål ad gangen, jf. Modul 2 - almindelige valgkort uden ikon ----*/
+/*---- Ét-valg spørgsmål, jf. Modul 1/2 - almindelige valgkort uden ikon. "heading" er boblens egen titel (fx "Hvor starter du?"); er den forskellig fra selve spørgsmålet ("Hvad passer bedst på dig?"), vises spørgsmålet som en separat underoverskrift lige før valgene ----*/
 
-function showChoiceQuestion({ question, options }, onAnswerSelected, onExit) {
+function showChoiceQuestion({ heading, intro, guide, guideLabel = "Guide", question, options }, onAnswerSelected, onExit) {
+    const headingText = heading || question;
+    const showQuestionAsSubheading = Boolean(heading && heading !== question);
+
     app.innerHTML = `
         <section class="section">
-            <h2 class="section-heading">${question}</h2>
+            <h2 class="section-heading">${headingText}</h2>
+
+            ${intro ? `<div class="section-body"><p>${intro}</p></div>` : ""}
+
+            ${guide ? `
+                <div class="panel">
+                    <p><strong>${guideLabel}:</strong> ${guide}</p>
+                </div>
+            ` : ""}
+
+            ${showQuestionAsSubheading ? `<p class="section-subheading">${question}</p>` : ""}
 
             <div class="answers choice-list"></div>
         </section>
@@ -87,27 +104,22 @@ function showChoiceQuestion({ question, options }, onAnswerSelected, onExit) {
     bindExit(onExit);
 }
 
-/*---- Modul 3 - fire byggeklodser, brugeren kan klikke sig igennem ----*/
+/*---- Flervalgsspørgsmål, jf. Modul 2's Boble 2.2 - samme togglebare kort som "Stemmepunkt" i Figma (.choice-card--poll[aria-pressed]), men uden at rydde andre valg ved klik, og med en eksplicit "Næste"-knap til at bekræfte valget ----*/
 
-function showAccordionStep({ heading, intro, items }, onNext, onExit) {
-    const itemsHtml = items.map((item, index) => `
-        <div class="accordion-item" data-open="false">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="overblik-panel-${index}">
-                <span>${item.title}</span>
-                <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
-            </button>
-            <div class="accordion-panel" id="overblik-panel-${index}" hidden>
-                <p>${item.text}</p>
-            </div>
-        </div>
+function showMultiChoiceQuestion({ heading, intro, options }, onSelectionConfirmed, onExit) {
+    const optionsHtml = options.map((option, index) => `
+        <button type="button" class="choice-card choice-card--poll" aria-pressed="false" data-option-index="${index}">
+            <span class="choice-card-title choice-card-title--plain">${option}</span>
+        </button>
     `).join("");
 
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${heading}</h2>
-            <p class="section-subheading">${intro}</p>
 
-            <div class="choice-list">${itemsHtml}</div>
+            ${intro ? `<div class="section-body"><p>${intro}</p></div>` : ""}
+
+            <div class="choice-list">${optionsHtml}</div>
 
             <div class="section-cta">
                 <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
@@ -115,93 +127,91 @@ function showAccordionStep({ heading, intro, items }, onNext, onExit) {
         </section>
         ${renderExitDoor()}`;
 
-    initAccordion();
+    const optionButtons = document.querySelectorAll("[data-option-index]");
+
+    optionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const isPressed = button.getAttribute("aria-pressed") === "true";
+            button.setAttribute("aria-pressed", String(!isPressed));
+        });
+    });
+
     activateFocusTrap(app);
 
-    document.querySelector("#next-button").addEventListener("click", onNext);
+    document.querySelector("#next-button").addEventListener("click", () => {
+        const selected = [...optionButtons]
+            .filter((button) => button.getAttribute("aria-pressed") === "true")
+            .map((button) => options[Number(button.dataset.optionIndex)]);
+
+        onSelectionConfirmed(selected);
+    });
+
     bindExit(onExit);
 }
 
-/*---- Modul 5 - fire ligeværdige smagsprøver på fordybelse ----*/
+/*---- Modul 3 og Modul 5 - delt "oversigt + valgfrie bobler"-mønster (jf. js/components/bubbleHub.js): en fast hub, efterfulgt af den valgte boblets detaljeskærm. "Tilbage til oversigt" er en lokal skift mellem disse to skærme, IKKE det samme som exitRoom()'s bekræftelse af at forlade rummet. ----*/
 
-function showTeaserStep({ heading, intro, cards }, onNext, onExit) {
-    const cardsHtml = cards.map((card) => `
-        <div class="value-card">
-            <span class="value-card-label">${card.label}</span>
-            <p class="value-card-description">${card.description}</p>
-        </div>
+function showModuleHub({ heading, intro, bubbles }, onSelectBubble, onNext, onExit) {
+    app.innerHTML = `${renderBubbleHub({ heading, intro, bubbles })}${renderExitDoor()}`;
+
+    activateFocusTrap(app);
+    bindBubbleHub(onSelectBubble, onNext);
+    bindExit(onExit);
+}
+
+function showModuleBubble(bubble, onBack, onNext, onExit) {
+    app.innerHTML = `${renderBubbleDetail(bubble)}${renderExitDoor()}`;
+
+    activateFocusTrap(app);
+    bindBubbleDetail(onBack, onNext);
+    bindExit(onExit);
+}
+
+/*---- Modul 6 - opsummering af Modul 2's svar + frit valg mellem alle fire uddybende rum (ingen automatisk matchning, jf. docs/duf-manuskript-overblik.md, ændret 2026-09-09) ----*/
+
+function showModul6Recap({ summary, introText, guideText, closingText, rooms }, onChooseRoom, onExit) {
+    const roomsHtml = rooms.map((room) => `
+        <button type="button" class="value-card" data-choose-room="${room.id}">
+            <span class="value-card-label">${room.name}</span>
+        </button>
     `).join("");
-
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${heading}</h2>
-            <p class="section-subheading">${intro}</p>
-
-            <div class="value-list">${cardsHtml}</div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindExit(onExit);
-}
-
-/*---- Modul 6 - resultat ud fra matchningslogikken ----*/
-
-function joinNames(names) {
-    if (names.length === 1) return names[0];
-    return `${names.slice(0, -1).join(", ")} og ${names[names.length - 1]}`;
-}
-
-function showResult({ recommendation, introText, noSignalText, closingText }, onExit) {
-    const isNone = recommendation.type === "none";
-    let bodyHtml = "";
-
-    if (!isNone) {
-        if (recommendation.rooms.length === 1) {
-            const room = recommendation.rooms[0];
-            bodyHtml = `
-                <div class="section-body"><p>${room.singleText}</p></div>
-                <div class="section-cta">
-                    <a href="${room.link}" class="btn btn--regular btn--solid-green">Gå til ${room.name}</a>
-                </div>`;
-        } else {
-            const joined = joinNames(recommendation.rooms.map((r) => r.name));
-            const buttonsHtml = recommendation.rooms
-                .map((r) => `<a href="${r.link}" class="btn btn--regular btn--solid-green">Gå til ${r.name}</a>`)
-                .join("");
-
-            bodyHtml = `
-                <div class="section-body"><p>Både ${joined} virker relevante for dig lige nu. Du bestemmer, hvor du vil starte — vi gemmer det andet til senere.</p></div>
-                <div class="section-cta section-cta--row">${buttonsHtml}</div>`;
-        }
-    }
 
     app.innerHTML = `
         <section class="section result-screen">
-            <h2 class="section-heading">Dit næste skridt</h2>
+            <h2 class="section-heading">Din vej videre</h2>
+
+            <div class="section-body"><p>${introText}</p></div>
+
+            <div class="section-body">
+                ${summary.hvadBrugerDu.map((p) => `<p>${p}</p>`).join("")}
+                <p>Du svarede: ${summary.moenster.answer}</p>
+                <p>${summary.moenster.response}</p>
+                <p>Du svarede: ${summary.folelse.answer}</p>
+                <p>${summary.folelse.response}</p>
+            </div>
 
             <div class="panel">
-                <div class="section-body"><p>${isNone ? noSignalText : introText}</p></div>
+                <p><strong>Guide:</strong> ${guideText}</p>
+            </div>
 
-                ${bodyHtml}
+            <div class="value-list">${roomsHtml}</div>
 
-                <div class="section-body"><p>${closingText}</p></div>
+            <div class="section-body"><p>${closingText}</p></div>
 
-                <div class="section-cta section-cta--column">
-                    <a href="${VISUELT_UDTRYK_HUB}" class="btn btn--regular btn--solid-green">Se alle rum i Visuelt udtryk</a>
-                    <a href="vaelg-din-dor.html" class="btn btn--regular btn--outline-green">Tilbage til Vælg din dør</a>
-                </div>
+            <div class="section-cta section-cta--column">
+                <a href="${VISUELT_UDTRYK_HUB}" class="btn btn--regular btn--solid-green">Se alle rum i Visuelt udtryk</a>
+                <a href="vaelg-din-dor.html" class="btn btn--regular btn--outline-green">Tilbage til Vælg din dør</a>
             </div>
         </section>
         ${renderExitDoor()}`;
 
     activateFocusTrap(app);
+
+    document.querySelectorAll("[data-choose-room]").forEach((button) => {
+        const room = rooms.find((r) => r.id === button.dataset.chooseRoom);
+        button.addEventListener("click", () => onChooseRoom(room));
+    });
+
     bindExit(onExit);
 }
 
@@ -230,8 +240,9 @@ export {
     showWelcome,
     showTextScreen,
     showChoiceQuestion,
-    showAccordionStep,
-    showTeaserStep,
-    showResult,
+    showMultiChoiceQuestion,
+    showModuleHub,
+    showModuleBubble,
+    showModul6Recap,
     showExitConfirmation
 };

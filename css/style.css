@@ -555,6 +555,17 @@ body.in-flow #app {
   border-radius: 20px;
 }
 
+/*---- Klikbart værdikort (fx Overbliks Modul 3/5-oversigt, jf. js/components/bubbleHub.js) - samme visuelle stil som det statiske værdikort ovenfor, men som en rigtig <button> for tastatur-/skærmlæserunderstøttelse ----*/
+button.value-card {
+  display: block;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  appearance: none;
+}
+
 /*---- Wireframe-placeholder (endnu ikke designet indhold) ----*/
 .wireframe-placeholder {
   position: relative;
