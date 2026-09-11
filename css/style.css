@@ -563,7 +563,9 @@ button.value-card {
   font: inherit;
   color: inherit;
   cursor: pointer;
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 
 /*---- Wireframe-placeholder (endnu ikke designet indhold) ----*/
@@ -669,6 +671,58 @@ button.value-card {
   font-family: "Nova Flat", sans-serif;
   font-size: 48px;
   color: #0F201B;
+}
+
+/*---- Eksempelkort ----*/
+/*---- Bruges af Farver Boble 1.2 til at vise flere korte farveudtryk side om side ----*/
+.example-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.example-card {
+  flex: 1 1 150px;
+  background-color: #FBCEB1;
+  border: 1px solid rgba(15, 32, 27, 0.6);
+  border-radius: 10px;
+  box-shadow: 0 4px 4px 0 rgba(15, 32, 27, 0.4);
+  padding: 16px;
+  text-align: center;
+}
+
+.example-card-label {
+  font-family: "Nova Flat", sans-serif;
+  font-size: 18px;
+  text-transform: uppercase;
+  color: #0F201B;
+  margin-bottom: 8px;
+}
+
+.example-card-description {
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  color: #0F201B;
+  margin-bottom: 8px;
+}
+
+.example-card-words {
+  font-family: "Manrope", sans-serif;
+  font-size: 13px;
+  font-style: italic;
+  color: #0F201B;
+  opacity: 0.8;
+}
+
+/*---- Eksempelbillede ----*/
+/*---- Fuldbredt billede i et vækstrum-flow, fx Farver Boble 3.3 og Modul 4's fire eksempler ----*/
+.example-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+  margin: 16px 0;
 }
 
 /*---- Portræt ----*/

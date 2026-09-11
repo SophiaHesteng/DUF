@@ -23,12 +23,28 @@ function showWelcome(text, onStart) {
     document.querySelector("#start-button").addEventListener("click", onStart);
 }
 
-/*---- Ren læseskærm, med valgfri myteknæk-boks (Modul 1) ----*/
+/*---- Ren læseskærm - bruges af de fleste rene indholdsbobler i Modul 1, 2, 5 (og feedback-trinnet i Modul 4). `examples` er en let udvidelse til Boble 1.2's tre farveudtryk vist side om side; ikke en ny skærmtype, da resten af skærmen (overskrift/paragraffer/CTA) er identisk med den almindelige tekstskærm. ----*/
 
-function showTextScreen({ heading, paragraphs = [], callout, buttonText = "Næste" }, onNext, onExit) {
+function renderExamplesGrid(examples) {
+    return `
+        <div class="example-grid">
+            ${examples.map((example) => `
+                <div class="example-card">
+                    <p class="example-card-label">${example.label}</p>
+                    <p class="example-card-description">${example.description}</p>
+                    <p class="example-card-words">${example.words}</p>
+                </div>
+            `).join("")}
+        </div>
+    `;
+}
+
+function showTextScreen({ heading, paragraphs = [], callout, examples, buttonText = "Næste" }, onNext, onExit) {
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${heading}</h2>
+
+            ${examples ? renderExamplesGrid(examples) : ""}
 
             <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
 
@@ -49,21 +65,21 @@ function showTextScreen({ heading, paragraphs = [], callout, buttonText = "Næst
     bindExit(onExit);
 }
 
-/*---- Modul 3 - forgrening: har brugeren eksempler at samle op på? ----*/
+/*---- Modul 3, Boble 3.2 - forgrening: har brugeren selv et eksempel? ----*/
 
-function showExamplesBranch({ heading, intro }, onHasExamples, onNoExamples, onExit) {
+function showExampleChoice({ heading, question, yesLabel, noLabel }, onHasExample, onNoExample, onExit) {
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${heading}</h2>
-            <div class="section-body"><p>${intro}</p></div>
+            <div class="section-body"><p>${question}</p></div>
 
             <div class="choice-list">
-                <button type="button" class="choice-card" id="has-examples-button">
-                    <span class="choice-card-title choice-card-title--plain">Ja, jeg har eksempler</span>
+                <button type="button" class="choice-card" id="has-example-button">
+                    <span class="choice-card-title choice-card-title--plain">${yesLabel}</span>
                     <img class="choice-card-arrow" src="img/pil.svg" alt="">
                 </button>
-                <button type="button" class="choice-card" id="no-examples-button">
-                    <span class="choice-card-title choice-card-title--plain">Nej, ikke endnu</span>
+                <button type="button" class="choice-card" id="no-example-button">
+                    <span class="choice-card-title choice-card-title--plain">${noLabel}</span>
                     <img class="choice-card-arrow" src="img/pil.svg" alt="">
                 </button>
             </div>
@@ -71,40 +87,56 @@ function showExamplesBranch({ heading, intro }, onHasExamples, onNoExamples, onE
         ${renderExitDoor()}`;
 
     activateFocusTrap(app);
-    document.querySelector("#has-examples-button").addEventListener("click", onHasExamples);
-    document.querySelector("#no-examples-button").addEventListener("click", onNoExamples);
+    document.querySelector("#has-example-button").addEventListener("click", onHasExample);
+    document.querySelector("#no-example-button").addEventListener("click", onNoExample);
     bindExit(onExit);
 }
 
-function showExamplesSkip(skipText, onNext, onExit) {
-    app.innerHTML = `
-        <section class="section">
-            <div class="section-body"><p>${skipText}</p></div>
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+/*---- Modul 3, Boble 3.2 "Ja"-gren - upload af ÉT billede (genbruger imageGallery.js). "Næste" er deaktiveret, indtil præcis ét billede er gemt; engine sørger for, at et nyt upload erstatter et eventuelt tidligere (se farverEngine.js) ----*/
 
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindExit(onExit);
-}
-
-function showExamplesForm({ heading, intro, reflectionQuestions, uploadLabel, uploadHint }, images, onNext, onExit, imageHandlers = {}) {
+function showSingleImageUpload({ heading, uploadLabel, uploadHint }, images, onNext, onExit, imageHandlers) {
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${heading}</h2>
-            <div class="section-body"><p>${intro}</p></div>
-
-            <textarea id="examples-input" class="text-input" rows="4" placeholder="Fx: hjemmeside, logo, opslag på sociale medier ..."></textarea>
 
             ${renderImageUploadHtml({ label: uploadLabel, hint: uploadHint, images })}
 
-            ${reflectionQuestions.map((q, i) => `
-                <p class="section-subheading">${q}</p>
-                <textarea id="reflection-${i}" class="text-input" rows="2"></textarea>
-            `).join("")}
+            <div class="section-cta">
+                <button id="next-button" type="button" class="btn btn--regular btn--solid-green" ${images.length ? "" : "disabled"}>Næste</button>
+            </div>
+        </section>
+        ${renderExitDoor()}`;
+
+    activateFocusTrap(app);
+
+    const nextButton = document.querySelector("#next-button");
+    nextButton.addEventListener("click", onNext);
+    bindExit(onExit);
+
+    bindImageUpload({
+        upload: imageHandlers.upload,
+        remove: imageHandlers.remove,
+        refresh: async () => {
+            const refreshed = await imageHandlers.refresh();
+            nextButton.disabled = refreshed.length === 0;
+            return refreshed;
+        }
+    });
+}
+
+/*---- Modul 3, Boble 3.3 - det valgte/uploadede billede + tre rene overvejelsesspørgsmål (ingen interaktion, intet gemt svar - afklaret med Heidi 2026-09-11) ----*/
+
+function showImageReflection({ heading, intro, questions }, imageUrl, imageAlt, onNext, onExit) {
+    app.innerHTML = `
+        <section class="section">
+            <h2 class="section-heading">${heading}</h2>
+            ${intro ? `<div class="section-body"><p>${intro}</p></div>` : ""}
+
+            <img class="example-image" src="${imageUrl}" alt="${imageAlt}">
+
+            <div class="section-body">
+                <ul>${questions.map((q) => `<li>${q}</li>`).join("")}</ul>
+            </div>
 
             <div class="section-cta">
                 <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
@@ -115,27 +147,25 @@ function showExamplesForm({ heading, intro, reflectionQuestions, uploadLabel, up
     activateFocusTrap(app);
     document.querySelector("#next-button").addEventListener("click", onNext);
     bindExit(onExit);
-    bindImageUpload(imageHandlers);
 }
 
-/*---- Modul 4 - op til tre andre praksisser, hver med samme tre spørgsmål samlet i ét fritekstfelt ----*/
+/*---- Modul 4, Boble 4.2-4.5 - ét delt render for "billede + flervalg", brugt fire gange med forskelligt billede/tekst-data (ikke fire kopier af samme markup). Samme togglebare kort-mønster som Overbliks showMultiChoiceQuestion (choice-card--poll), her blot med et billede over spørgsmålet. Matchet feedback beregnes af engine ud fra de valgte option-id'er, jf. den nummererede prioritering i docs/duf-manuskript-farver.md. ----*/
 
-function showInspirationForm({ heading, intro, perPraksisQuestions, closing }, onNext, onExit) {
-    const hint = perPraksisQuestions.join(" · ");
-
-    const praksisFields = [1, 2, 3].map((n) => `
-        <p class="section-subheading">Praksis ${n}${n === 3 ? " (valgfrit)" : ""}</p>
-        <textarea id="praksis-${n}" class="text-input" rows="3" placeholder="${hint}"></textarea>
+function showImageImpressionQuestion({ heading, image, imageAlt, question, options }, onNext, onExit) {
+    const optionsHtml = options.map((option) => `
+        <button type="button" class="choice-card choice-card--poll" aria-pressed="false" data-option-id="${option.id}">
+            <span class="choice-card-title choice-card-title--plain">${option.label}</span>
+        </button>
     `).join("");
 
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${heading}</h2>
-            <div class="section-body"><p>${intro}</p></div>
 
-            ${praksisFields}
+            <img class="example-image" src="${image}" alt="${imageAlt}">
 
-            <div class="section-body"><p>${closing}</p></div>
+            <p class="section-subheading">${question}</p>
+            <div class="choice-list">${optionsHtml}</div>
 
             <div class="section-cta">
                 <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
@@ -143,8 +173,25 @@ function showInspirationForm({ heading, intro, perPraksisQuestions, closing }, o
         </section>
         ${renderExitDoor()}`;
 
+    const optionButtons = document.querySelectorAll("[data-option-id]");
+
+    optionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const isPressed = button.getAttribute("aria-pressed") === "true";
+            button.setAttribute("aria-pressed", String(!isPressed));
+        });
+    });
+
     activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
+
+    document.querySelector("#next-button").addEventListener("click", () => {
+        const selected = [...optionButtons]
+            .filter((button) => button.getAttribute("aria-pressed") === "true")
+            .map((button) => button.dataset.optionId);
+
+        onNext(selected);
+    });
+
     bindExit(onExit);
 }
 
@@ -332,10 +379,10 @@ function showExitConfirmation(onStay, onExit) {
 export {
     showWelcome,
     showTextScreen,
-    showExamplesBranch,
-    showExamplesSkip,
-    showExamplesForm,
-    showInspirationForm,
+    showExampleChoice,
+    showSingleImageUpload,
+    showImageReflection,
+    showImageImpressionQuestion,
     showPaletteForm,
     showContrastCheck,
     showDocumentation,

@@ -629,6 +629,60 @@ button.value-card {
     color: colors.$textColor;
 }
 
+/*---- Eksempelkort ----*/
+/*---- Bruges af Farver Boble 1.2 til at vise flere korte farveudtryk side om side ----*/
+
+.example-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin: 24px 0;
+}
+
+.example-card {
+    flex: 1 1 150px;
+    background-color: colors.$choiceBgColor;
+    border: 1px solid colors.$outlineColor;
+    border-radius: 10px;
+    box-shadow: 0 4px 4px 0 colors.$dropshadowColor;
+    padding: 16px;
+    text-align: center;
+}
+
+.example-card-label {
+    font-family: colors.$headingFont, sans-serif;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: colors.$textColor;
+    margin-bottom: 8px;
+}
+
+.example-card-description {
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 14px;
+    color: colors.$textColor;
+    margin-bottom: 8px;
+}
+
+.example-card-words {
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 13px;
+    font-style: italic;
+    color: colors.$textColor;
+    opacity: 0.8;
+}
+
+/*---- Eksempelbillede ----*/
+/*---- Fuldbredt billede i et vækstrum-flow, fx Farver Boble 3.3 og Modul 4's fire eksempler ----*/
+
+.example-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+    margin: 16px 0;
+}
+
 /*---- Portræt ----*/
 
 .profile-photo {
