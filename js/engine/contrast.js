@@ -47,3 +47,13 @@ export function evaluateContrast(ratio) {
         passesLargeText: ratio >= 3
     };
 }
+
+/*---- Tre-niveau vurdering til Modul 7, Boble 7.3 (afløser binær pass/fail) - genbruger de samme WCAG AA-tærskler som evaluateContrast() ovenfor, blot oversat til "high"/"medium"/"low" i stedet for to booleans ----*/
+
+export function contrastLevel(ratio) {
+    const { passesNormalText, passesLargeText } = evaluateContrast(ratio);
+
+    if (passesNormalText) return "high";
+    if (passesLargeText) return "medium";
+    return "low";
+}
