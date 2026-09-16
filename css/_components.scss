@@ -649,6 +649,15 @@ button.value-card {
     text-align: center;
 }
 
+.example-card-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 12px;
+}
+
 .example-card-label {
     font-family: colors.$headingFont, sans-serif;
     font-size: 18px;
@@ -692,4 +701,152 @@ button.value-card {
     border-radius: 50%;
     object-fit: cover;
     margin: 24px 0;
+}
+
+/*---- Palet-bygger ----*/
+/*---- Farver Modul 6, Boble 6.1 - fri liste af farve-chips (visuel vælger + hex + fjern), jf. docs/duf-manuskript-farver.md ----*/
+
+.palette-builder {
+    margin: 16px 0;
+}
+
+.palette-chip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.palette-chip-remove {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background-color: colors.$primaryBgColor;
+    border: 1px solid colors.$outlineColor;
+    border-radius: 50%;
+    color: colors.$textColor;
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.palette-add-row {
+    margin: 8px 0 24px;
+}
+
+/*---- Farve-oversigt (diskret rækkefølge af små prikker), jf. Farver Modul 6, Boble 6.2 ----*/
+
+.palette-overview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+}
+
+.palette-overview-swatch {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid colors.$outlineColor;
+}
+
+/*---- Dosering (Farver Modul 6, Boble 6.3) - genbruges også som statisk farveprøve i Boble 6.2, 6.4 og kontrasttjekket ----*/
+
+.dosage-list {
+    margin: 16px 0;
+}
+
+.dosage-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.dosage-swatch {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid colors.$outlineColor;
+}
+
+.dosage-hex {
+    flex-shrink: 0;
+    width: 80px;
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 14px;
+    color: colors.$textColor;
+    text-transform: uppercase;
+}
+
+.dosage-slider {
+    flex: 1;
+}
+
+.dosage-value {
+    flex-shrink: 0;
+    width: 48px;
+    text-align: right;
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 14px;
+    color: colors.$textColor;
+}
+
+/*---- Levende paletforhåndsvisning (Farver Modul 6, Boble 6.4) - hvert segments flex-grow sættes fra JS ud fra farvens dosering ----*/
+
+.palette-preview {
+    position: relative;
+    display: flex;
+    height: 140px;
+    border: 1px solid colors.$outlineColor;
+    border-radius: 20px;
+    box-shadow: 0 4px 4px 2px colors.$dropshadowColor;
+    overflow: hidden;
+    margin: 24px 0;
+}
+
+.palette-preview-segment {
+    height: 100%;
+}
+
+.palette-preview-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: colors.$headingFont, sans-serif;
+    font-size: 48px;
+    text-transform: uppercase;
+    pointer-events: none;
+}
+
+.text-color-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 16px 0 24px;
+}
+
+.text-color-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 16px;
+    color: colors.$textColor;
+    cursor: pointer;
+}
+
+/*---- Kontrastprøve (Farver Modul 7) - baggrund/tekstfarve sættes fra JS ud fra brugerens valgte palette-kombination ----*/
+
+.contrast-sample {
+    border: 1px solid colors.$outlineColor;
+    border-radius: 20px;
+    box-shadow: 0 4px 4px 2px colors.$dropshadowColor;
+    padding: 32px 20px;
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 20px;
+    margin: 16px 0;
 }

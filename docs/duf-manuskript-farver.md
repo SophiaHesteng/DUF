@@ -1,6 +1,6 @@
 # MANUSKRIPT — Farver
 
-*Status: Revideret 2026-09-11. Erstatter det tidligere flade modul-for-modul-udkast med en fuld boble-struktur (Vækstrum → Modul → Bobler, jf. [[DUF Teknisk - Navigationslinjer (modul og boble)]]). Bygger på revisionsarbejdet i `claude/DUF Manuskript-revision - Farver.md` (Heidis ChatGPT-udkast, gennemgået og afklaret med Claude i chatten). Modul 1-5 er bygget om til denne boble-struktur (`js/data/farver.js`, `js/engine/farverEngine.js`, `js/engine/farverUi.js`, branch `farver-update-content`). Modul 6, 7 og 8 er fortsat bygget ud fra det GAMLE, flade manuskript — se "Status og næste skridt" nederst.*
+*Status: Revideret 2026-09-11. Erstatter det tidligere flade modul-for-modul-udkast med en fuld boble-struktur (Vækstrum → Modul → Bobler, jf. [[DUF Teknisk - Navigationslinjer (modul og boble)]]). Bygger på revisionsarbejdet i `claude/DUF Manuskript-revision - Farver.md` (Heidis ChatGPT-udkast, gennemgået og afklaret med Claude i chatten). Modul 1-5 er bygget (branch `farver-update-content`, commit `717565bf...`) og efterfølgende justeret 2026-09-11 efter Heidis gennemgang — se de opdaterede punkter ved Boble 1.2 og Modul 4 nedenfor. Modul 6, 7 og 8 er nu også bygget — se "Status og næste skridt" nederst.*
 
 **Sådan læses dette dokument:** Et modul beskriver det overordnede emne eller skridt. En boble beskriver én konkret skærmvisning eller ét naturligt trin inde i modulet. En boble er ikke automatisk interaktiv — nogle er rene indholdstrin. Hver boble er markeret med, hvad brugeren møder, eventuel interaktion, eventuel respons, hvad der leder videre, og om noget gemmes.
 
@@ -47,7 +47,7 @@ Tre konkrete visuelle eksempler på forskellige farveudtryk:
 
 "Ingen af dem er mere rigtige end de andre. Men de fortæller ikke det samme. Derfor er farvevalg ikke kun et spørgsmål om, hvad du synes er pænt. Det er også en del af det indtryk, du giver videre."
 
-- **Visuelt:** De tre eksempler vises visuelt sammen med de tilhørende ord, så brugeren både kan se og få sat ord på forskellene mellem farveudtrykkene.
+- **Visuelt:** De tre eksempler vises visuelt sammen med de tilhørende ord, så brugeren både kan se og få sat ord på forskellene mellem farveudtrykkene. Billedfiler (lagt i `img/` 2026-09-11): `varm-klinik.png` (Varm), `koelig-klinik.png` (Kold), `energi-klinik.png` (Legende).
 - **Interaktion:** Ingen.
 - **Respons:** Ingen.
 - **Leder videre:** Modulet afsluttes, og brugeren føres videre til næste modul.
@@ -98,7 +98,7 @@ Går nogle af farverne igen? Hvilke lægger du først mærke til? Og hvilket sam
 
 - **Interaktion:** Brugeren får to valgmuligheder:
   - **Ja, det har jeg** → brugeren kan uploade sit eget billede (genbruger den eksisterende billedupload-mekanik fra nuværende Modul 3: klientsidet, billedet forlader aldrig brugerens egen enhed, gemmes i IndexedDB via `saveImage`/`getImagesForVaekstrum`).
-  - **Nej, ikke endnu** → DUF viser et eget eksempel: `eksempel-3.2.png`.
+  - **Nej, ikke endnu** → DUF viser et eget eksempel: `eksempel-3.2.png` (lagt i `img/` 2026-09-11).
 - **Respons:** Ingen særskilt respons. Brugerens valg afgør, hvilket billede der tages med videre til næste boble.
 - **Leder videre:** Det valgte billede — brugerens eget upload eller `eksempel-3.2.png` — tages med videre til Boble 3.3, hvor brugeren undersøger billedet nærmere.
 - **Gemmes:** Ja. Det valgte/uploadede billede tages med videre til Boble 3.3 som grundlag for refleksionen.
@@ -117,7 +117,7 @@ Går nogle af farverne igen? Hvilke lægger du først mærke til? Og hvilket sam
 
 ## Modul 4 — Inspiration og sammenligning
 
-*Status: erstatter det nuværende Modul 4 ("find 2-3 andre praksisser selv"). I stedet møder brugeren fire fiktive, AI-genererede eksempler direkte i rummet, med flervalg + matchet feedback — samme mønster som Overbliks Modul 2. Billedfiler: `roligt-so-me.png` (4.2, findes allerede i `img/`), `varm-hjemmeside.png` (4.3), `energisk-logo.png` (4.4), `larmende-nyhedsbrev.png` (4.5) — de tre sidste er endnu ikke lagt i `img/` (status pr. 2026-09-11).*
+*Status: erstatter det nuværende Modul 4 ("find 2-3 andre praksisser selv"). I stedet møder brugeren fire fiktive, AI-genererede eksempler direkte i rummet, med envalg + matchet feedback — samme grundmønster som Overbliks Modul 2, men **opdateret 2026-09-11 efter Heidis gennemgang: envalg, ikke flervalg** — kun ét af de fem svar kan vælges ad gangen, så det altid er entydigt, hvilken feedback der skal gives. Billedfiler: `roligt-so-me.png` (4.2), `varm-hjemmeside.png` (4.3), `energisk-logo.png` (4.4), `larmende-nyhedsbrev.png` (4.5) — alle fire ligger nu i `img/`.*
 
 ### Boble 4.1 — Læg mærke til det
 
@@ -138,7 +138,7 @@ Nu skal vi kigge på nogle forskellige eksempler sammen."
 
 **Hvad brugeren møder:** Billedet `roligt-so-me.png` — et fiktivt, AI-genereret opslag til sociale medier, med et roligt farveudtryk. *"Hvad for et indtryk får du af det her?"*
 
-- **Interaktion:** Brugeren kan vælge ét eller flere af: ☐ Det føles varmt · ☐ Det føles roligt · ☐ Det føles energisk · ☐ Noget føles som om, det ikke helt spiller · ☐ Jeg er ikke sikker.
+- **Interaktion:** Brugeren vælger ét af: ☐ Det føles varmt · ☐ Det føles roligt · ☐ Det føles energisk · ☐ Noget føles som om, det ikke helt spiller · ☐ Jeg er ikke sikker.
 - **Respons (matchet pr. valg):**
   - **Varmt og/eller roligt:** "Farverne her arbejder sammen om et roligt og imødekommende udtryk. Der er plads mellem farverne, og ingen af dem kæmper særligt meget om opmærksomheden. Det kan være med til at skabe både varme og ro i det samlede udtryk."
   - **Energisk:** "Det giver god mening, hvis du også oplever energi i udtrykket. Farver kan godt skabe energi uden at gøre et udtryk uroligt. Her er de samtidig brugt på en måde, der holder det samlede udtryk roligt og imødekommende."
@@ -151,7 +151,7 @@ Nu skal vi kigge på nogle forskellige eksempler sammen."
 
 **Hvad brugeren møder:** Billedet `varm-hjemmeside.png` — en fiktiv hjemmeside fra en behandler, med et roligt farveudtryk. *"Hvad for et indtryk får du af det her?"*
 
-- **Interaktion:** Samme fem valgmuligheder som Boble 4.2.
+- **Interaktion:** Samme fem valgmuligheder som Boble 4.2 — brugeren vælger ét af dem.
 - **Respons (matchet pr. valg):**
   - **Varmt og/eller roligt:** "Her er farverne fordelt på en måde, der giver øjet lidt ro. Nogle farver får lov til at fylde mere, mens andre bruges som mindre detaljer. Det skaber et samlet udtryk, hvor farverne understøtter hinanden uden at kræve opmærksomhed på samme tid."
   - **Energisk:** "Det giver god mening, hvis du også oplever energi i udtrykket. En hjemmeside kan godt have farver, der skaber liv og opmærksomhed, uden at det tager den rolige fornemmelse. Her er der stadig en tydelig balance i, hvordan farverne er fordelt på siden."
@@ -164,7 +164,7 @@ Nu skal vi kigge på nogle forskellige eksempler sammen."
 
 **Hvad brugeren møder:** Billedet `energisk-logo.png` — et fiktivt logo fra en behandler, med et energisk og dynamisk udtryk med flere farver og detaljer, uden at blive en farvelade. *"Hvad for et indtryk får du af det her?"*
 
-- **Interaktion:** Samme fem valgmuligheder som Boble 4.2.
+- **Interaktion:** Samme fem valgmuligheder som Boble 4.2 — brugeren vælger ét af dem.
 - **Respons (matchet pr. valg):**
   - **Energisk:** "Her er der mere bevægelse og energi i farverne. Farverne får lov til at spille en tydeligere rolle, og de forskellige elementer skaber liv i udtrykket. Det betyder ikke nødvendigvis, at det bliver uroligt — energien kan også være med til at gøre et udtryk levende og dynamisk."
   - **Varmt og/eller roligt:** "Du kan godt opleve varme eller ro i dele af udtrykket. Farver behøver ikke kun skabe ét indtryk. Her er der samtidig arbejdet med flere elementer og farver, som tilsammen giver logoet mere bevægelse og energi."
@@ -177,7 +177,7 @@ Nu skal vi kigge på nogle forskellige eksempler sammen."
 
 **Hvad brugeren møder:** Billedet `larmende-nyhedsbrev.png` — et fiktivt nyhedsbrev fra en behandler, der viser hvordan farvevalg, kontrast og brugen af elementer som emojis kan påvirke det samlede indtryk. *"Hvad for et indtryk får du af det her?"*
 
-- **Interaktion:** Samme fem valgmuligheder som Boble 4.2.
+- **Interaktion:** Samme fem valgmuligheder som Boble 4.2 — brugeren vælger ét af dem.
 - **Respons (matchet pr. valg):**
   - **Noget føles som om, det ikke helt spiller:** "Her er der nogle ting i farvevalget, der kan gøre udtrykket mere forstyrrende. Nogle af farverne ligger tæt på hinanden i kontrast, og det kan gøre det sværere at afkode, hvad du skal kigge på. Samtidig trækker emojis opmærksomhed forskellige steder i indholdet. Det betyder ikke, at hver enkelt farve eller emoji er et problem i sig selv. Men sammen kan de gøre det samlede udtryk mere uroligt."
   - **Varmt og/eller roligt:** "Du kan godt opleve varme eller ro i dele af udtrykket. Nogle af farverne og elementerne fungerer fint hver for sig. Men når kontrasten mellem farverne ikke altid er tydelig nok, kan det blive sværere for øjet at finde rundt i indholdet. Også små elementer som emojis kan ændre det samlede indtryk — alt efter hvor og hvor meget de bruges."
@@ -235,7 +235,7 @@ Når du fordeler dine farver bevidst, bliver det lettere at skabe et udtryk, hvo
 
 ## Modul 6 — Vælg din palet
 
-*Status: ⚠️ STOR OMBYGNING, IKKE kun tekst — afklaret med Heidi 2026-09-11 som (minimum) én selvstændig byggeopgave. Erstatter det nuværende Modul 6 (tre faste roller: Hovedfarve/Understøttende/Accent, ét hex-felt hver) med en helt fri palet-bygger: ubegrænset antal farver, fritekst-rolle pr. farve, procent-baseret dosering med automatisk omfordeling, og en levende visuel forhåndsvisning. Intet af dette findes i nuværende kode. Teknisk vurderet som løsbart med almindelig HTML/CSS/JS, ingen eksternt bibliotek nødvendigt.*
+*Status: Bygget 2026-09-11. Erstatter det tidligere Modul 6 (tre faste roller: Hovedfarve/Understøttende/Accent, ét hex-felt hver) med en helt fri palet-bygger: ubegrænset antal farver, fritekst-rolle pr. farve, procent-baseret dosering med automatisk omfordeling, og en levende visuel forhåndsvisning. Bygget med almindelig HTML/CSS/JS, ingen eksternt bibliotek.*
 
 ### Boble 6.1 — Vælg dine farver
 
@@ -297,7 +297,7 @@ Du skal ikke ramme en bestemt fordeling. Det handler om at eksperimentere og få
 
 ## Modul 7 — Tjek kontrast i praksis
 
-*Status: ⚠️ OMBYGNING, IKKE kun tekst — afklaret med Heidi 2026-09-11 som (minimum) én selvstændig byggeopgave, gerne sammen med Modul 6. Erstatter det nuværende Modul 7 (ét hardkodet tekst/baggrunds-par) med et tjek, hvor BÅDE tekst- og baggrundsfarve vælges fra brugerens egen gemte palette, kan afprøves i flere kombinationer, og hvor kun den endelige, valgte kombination gemmes. Den eksisterende `js/engine/contrast.js` (WCAG-kontrastberegning) genbruges uændret — det er kun UI'en og antallet af niveauer i feedbacken, der ændrer sig.*
+*Status: Bygget 2026-09-11, sammen med Modul 6. Erstatter det tidligere Modul 7 (ét hardkodet tekst/baggrunds-par) med et tjek, hvor BÅDE tekst- og baggrundsfarve vælges fra brugerens egen gemte palette, kan afprøves i flere kombinationer, og hvor kun den endelige, valgte kombination gemmes. Den eksisterende `js/engine/contrast.js` (WCAG-kontrastberegning) genbruges uændret — tilføjet en ny `contrastLevel()`-funktion til de tre feedback-niveauer, der afløser den binære pass/fail.*
 
 ### Boble 7.1 — Når farver mødes
 
@@ -353,7 +353,7 @@ Det kan være en god idé at undersøge flere kombinationer. En farve, der funge
 
 ## Modul 8 — Afprøv og dokumentér
 
-*Status: uddyber det nuværende Modul 8, nu opdelt i tre bobler. Boble 8.2's ændring (2026-09-08): refleksionen er ændret fra en generel skriftlig begrundelse af farvevalgene til en refleksion over, hvad brugeren konkret opdager, når paletten bruges i praksis — tre spørgsmål som inspiration (ikke enkeltvis besvarelse), ét frit tekstfelt.*
+*Status: Bygget 2026-09-11, sammen med Modul 6/7. Uddyber det tidligere Modul 8, nu opdelt i tre bobler. Boble 8.2's ændring (2026-09-08): refleksionen er ændret fra en generel skriftlig begrundelse af farvevalgene til en refleksion over, hvad brugeren konkret opdager, når paletten bruges i praksis — tre spørgsmål som inspiration (ikke enkeltvis besvarelse), ét frit tekstfelt. Boble 8.3 er en ren opsamlingsskærm uden redigerbart felt — dokumentationsteksten til `saveVaekstrumOutput` genereres automatisk af motoren ud fra palette, tekstfarve, kontrastvalg og refleksion.*
 
 ### Boble 8.1 — Prøv din palette af
 
@@ -417,12 +417,17 @@ Hvad lagde du mærke til?"
 ## Spørgsmål til jer, inden I bygger videre
 
 - **Afgjort 2026-09-11:** Modul 3 reduceres fra "saml 3–5 egne eksempler" til "vælg ét eksempel — eget eller DUF's" (Boble 3.2/3.3). Billedupload-funktionen fra den nuværende Modul 3 genbruges til det ene billede. Refleksionsspørgsmålene i Boble 3.3 er ren egen overvejelse — ingen interaktion, intet gemt svar.
-- **Afgjort 2026-09-11:** Modul 4 erstattes af fire fiktive, AI-genererede eksempler direkte i rummet (opslag, hjemmeside, logo, nyhedsbrev), med flervalg + matchet feedback. Billedfiler: `roligt-so-me.png` (findes allerede i `img/`), `varm-hjemmeside.png`, `energisk-logo.png`, `larmende-nyhedsbrev.png` (de tre sidste mangler stadig som filer pr. 2026-09-11 — Heidi lægger dem i `img/` inden koden bygges).
-- **⚠️ Afgjort princip, IKKE bygget endnu (2026-09-11):** Modul 6 og Modul 7 ombygges markant ift. nuværende kode — fri palet-bygger med rolle, procent-dosering og levende preview (Modul 6), og et kontrasttjek der trækker begge farver fra brugerens egen palette med tre-niveau-feedback i stedet for binær pass/fail (Modul 7). Aftalt med Heidi at holde dette i én eller flere selvstændige byggeopgaver, adskilt fra resten af Farver-revisionen — teknisk vurderet fuldt løsbart med almindelig HTML/CSS/JS.
+- **Afgjort 2026-09-11, opdateret samme dag efter Heidis gennemgang af den bygget kode:** Modul 4 erstattes af fire fiktive, AI-genererede eksempler direkte i rummet (opslag, hjemmeside, logo, nyhedsbrev), med **envalg** (ikke flervalg — kun ét af de fem svar kan vælges, så det altid er entydigt, hvilken feedback der skal gives) + matchet feedback. Billedfiler: `roligt-so-me.png`, `varm-hjemmeside.png`, `energisk-logo.png`, `larmende-nyhedsbrev.png` — alle fire ligger nu i `img/`.
+- **Bekræftet 2026-09-11:** Boble 1.1 og Boble 2.1's ordlyd (hentet fra manuskriptets egen, reviderede tekst i den bygget kode) er korrekt — ingen ændring nødvendig.
+- **Rettet 2026-09-11:** Boble 1.2 manglede sine tre billeder i den første udgave af koden (Heidis eget efterslæb, ikke en fejl i opgaven) — `varm-klinik.png`, `koelig-klinik.png` og `energi-klinik.png` er nu lagt i `img/`, og koden viser dem i eksempelkortene.
+- **Rettet 2026-09-11:** `eksempel-3.2.png` (Boble 3.2's DUF-eksempel) er nu lagt i `img/` og korrekt navngivet (filen var fejlagtigt gemt som `eksempel-3.2.png.png` — rettet).
+- **Afgjort og bygget (2026-09-11):** Modul 6 og Modul 7 er ombygget markant ift. den tidligere kode — fri palet-bygger med rolle, procent-dosering og levende preview (Modul 6), og et kontrasttjek der trækker begge farver fra brugerens egen palette med tre-niveau-feedback i stedet for binær pass/fail (Modul 7). Bygget som selvstændige byggeopgaver, adskilt fra resten af Farver-revisionen, med almindelig HTML/CSS/JS.
 - **Uændret fra tidligere manuskript:** Velkomst, Modul 1, Modul 2, og strukturen i Modul 5. Kun opdelt i bobler, ingen indholdsændringer.
 
 ## Status og næste skridt
 
-**Bygget (2026-09-11, branch `farver-update-content`):** Modul 1–5 er ombygget til denne reviderede, boble-strukturerede version (`js/data/farver.js`, `js/engine/farverEngine.js`, `js/engine/farverUi.js`). To billedfiler-sæt manglede stadig i `img/` ved byggetidspunktet: `eksempel-3.2.png` (Boble 3.2) og — ved opstart af opgaven — `varm-hjemmeside.png`/`energisk-logo.png`/`larmende-nyhedsbrev.png` (Boble 4.3/4.4/4.5); de tre sidstnævnte blev lagt i `img/` undervejs, kun `eksempel-3.2.png` mangler stadig.
+Modul 1-5 er bygget (branch `farver-update-content`, commit `717565bf...`) og er 2026-09-11 rettet til efter Heidis gennemgang: Modul 4 er lavet om til envalg, Boble 1.2's tre billeder er tilføjet, og `eksempel-3.2.png` er lagt korrekt navngivet i `img/`. `js/data/farver.js`, `js/engine/farverUi.js` og css'en (`css/_components.scss` + `css/style.css`) er opdateret til dette.
 
-**Ikke bygget endnu:** Modul 6, 7 og 8 (samt `js/engine/contrast.js`, som Modul 7 bruger) er fortsat bygget ud fra det GAMLE, flade manuskript. Forventet rækkefølge for de resterende byggeopgaver: (1) Modul 6+7 som separat(e), større opgave(r) (fri palet-bygger, procent-fordeling, levende preview, palette-drevet kontrasttjek), (2) Modul 8 (boble-opdeling + ny opsamlingsskærm 8.3, afhænger af Modul 6/7's nye data).
+Modul 6, 7 og 8 er nu også bygget (2026-09-11, samme branch): `js/data/farver.js` og `js/engine/farverUi.js` er udvidet med indhold og skærme til den frie palet-bygger (Modul 6), det palette-drevne kontrasttjek (Modul 7) og den tre-boble-opdelte afprøvning/opsamling (Modul 8). `js/engine/farverEngine.js` styrer det fulde flow og gemmer den samlede palette, tekstfarve, kontrastvalg og refleksion via `saveVaekstrumOutput`. `js/engine/contrast.js` har fået en ny `contrastLevel()`-funktion til Modul 7's tre feedback-niveauer. CSS til palet-bygger, dosering, forhåndsvisning og kontrastprøve er tilføjet i `css/_components.scss` + `css/style.css`.
+
+**Ikke afprøvet endnu:** Flowet er testet på kode-niveau (kontrastberegning, tre-niveau-tærskler og procent-omfordelingsalgoritmen er verificeret isoleret, herunder stress-testet med tilfældige ændringer), men ikke afprøvet i en rigtig browser. Bør gennemgås i browseren (Live Server e.l.) før merge — især: tilføj/fjern/rediger farver i Modul 6's palet-bygger, tjek at doseringen altid summer til 100 % ved gentagne justeringer af sliderne, og gennemfør et helt kontrast-flow inklusive "Prøv en anden kombination".
