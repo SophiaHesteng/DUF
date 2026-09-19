@@ -1,6 +1,7 @@
 import { activateFocusTrap } from "./accessibility.js";
 import { renderExitDoor as renderSharedExitDoor } from "../components/exitDoor.js";
 import { imageGalleryHtml, renderImageUploadHtml, bindImageUpload } from "../components/imageGallery.js";
+import { renderTjekliste } from "../components/tjekliste.js";
 
 const app = document.querySelector("#app");
 
@@ -74,66 +75,7 @@ function showWelcome(text, onStart) {
     document.querySelector("#start-button").addEventListener("click", onStart);
 }
 
-/*---- Ren læseskærm, med valgfri myteknæk-boks (Modul 1) ----*/
-
-function showTextScreen({ heading, paragraphs = [], callout, buttonText = "Næste" }, onNext, onExit, onReference) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${heading}</h2>
-
-            <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
-
-            ${callout ? `
-                <div class="panel">
-                    <p><strong>Myteknæk:</strong> ${callout}</p>
-                </div>
-            ` : ""}
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">${buttonText}</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit, onReference);
-}
-
-/*---- Modul 2 - rettighedsintro med udfoldelig oversigt over de fire situationer ----*/
-
-function showRettighedsIntro(modul2, situationer, onNext, onExit, onReference) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${modul2.heading}</h2>
-            <div class="section-body"><p>${modul2.intro}</p></div>
-
-            <p class="section-subheading">To spørgsmål, du altid skal kunne svare på:</p>
-            <div class="section-body">
-                <ul>${modul2.altidSporgsmaal.map((q) => `<li>${q}</li>`).join("")}</ul>
-            </div>
-
-            <div class="choice-list">${situationsAccordionHtml(situationer)}</div>
-
-            <div class="panel">
-                <p><strong>Vigtigt at vide:</strong> ${modul2.vigtigtAtVide}</p>
-            </div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    bindAccordions();
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit, onReference);
-}
-
-/*---- Fast opslagsværk - samme fire situationer, tilgængeligt fra enhver skærm fra Modul 2 og frem ----*/
+/*---- Fast opslagsværk - tilgængeligt fra enhver boble fra Modul 2 og frem ----*/
 
 function showReference(situationer, onBack) {
     app.innerHTML = `
@@ -149,252 +91,6 @@ function showReference(situationer, onBack) {
     bindAccordions();
     activateFocusTrap(app);
     document.querySelector("#back-button").addEventListener("click", onBack);
-}
-
-/*---- Generisk spørgsmål med valgkort ----*/
-
-function showChoiceQuestion({ question, options }, onAnswerSelected, onExit, onReference) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${question}</h2>
-            <div class="answers choice-list"></div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    const answersContainer = document.querySelector(".answers");
-
-    for (const option of options) {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "choice-card";
-        button.innerHTML = `
-            <span class="choice-card-title choice-card-title--plain">${option.text}</span>
-            <img class="choice-card-arrow" src="img/pil.svg" alt="">
-        `;
-        answersContainer.appendChild(button);
-        button.addEventListener("click", () => onAnswerSelected(option.id));
-    }
-
-    activateFocusTrap(app);
-    bindChrome(onExit, onReference);
-}
-
-function showValidationOffer(modul3, onTest, onFull, onExit, onReference) {
-    app.innerHTML = `
-        <section class="section">
-            <div class="section-body"><p>${modul3.valideringsSkaermtekst}</p></div>
-            <div class="section-cta section-cta--column">
-                <button id="test-button" type="button" class="btn btn--regular btn--solid-green">${modul3.valideringsKnapTest}</button>
-                <button id="full-button" type="button" class="btn btn--regular btn--outline-green">${modul3.valideringsKnapFuld}</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#test-button").addEventListener("click", onTest);
-    document.querySelector("#full-button").addEventListener("click", onFull);
-    bindChrome(onExit, onReference);
-}
-
-function showExamplesSkip(skipText, onNext, onExit, onReference) {
-    app.innerHTML = `
-        <section class="section">
-            <div class="section-body"><p>${skipText}</p></div>
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit, onReference);
-}
-
-function showExamplesForm({ heading, exampleIntro, reflectionQuestions, uploadLabel, uploadHint }, images, onNext, onExit, onReference, imageHandlers = {}) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${heading}</h2>
-            <div class="section-body"><p>${exampleIntro}</p></div>
-
-            <textarea id="examples-input" class="text-input" rows="4" placeholder="Fx: hjemmeside, sociale medier, tryksager ..."></textarea>
-
-            ${renderImageUploadHtml({ label: uploadLabel, hint: uploadHint, images })}
-
-            ${reflectionQuestions.map((q, i) => `
-                <p class="section-subheading">${q}</p>
-                <textarea id="reflection-${i}" class="text-input" rows="2"></textarea>
-            `).join("")}
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit, onReference);
-    bindImageUpload(imageHandlers);
-}
-
-/*---- Modul 4 - op til tre andre praksisser, hver med samme tre spørgsmål samlet i ét fritekstfelt ----*/
-
-function showInspirationForm(modul4, onNext, onExit, onReference) {
-    const hint = modul4.perPraksisQuestions.join(" · ");
-
-    const praksisFields = [1, 2, 3].map((n) => `
-        <p class="section-subheading">Praksis ${n}${n === 3 ? " (valgfrit)" : ""}</p>
-        <textarea id="praksis-${n}" class="text-input" rows="3" placeholder="${hint}"></textarea>
-    `).join("");
-
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${modul4.heading}</h2>
-            <div class="section-body"><p>${modul4.intro}</p></div>
-
-            ${praksisFields}
-
-            <div class="section-body"><p>${modul4.closing}</p></div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit, onReference);
-}
-
-/*---- Modul 6 - tre åbne kriterier for billedretningen ----*/
-
-function showDirectionForm(modul6, onNext, onExit, onReference) {
-    const fieldsHtml = modul6.fields.map((field) => `
-        <p class="section-subheading">${field.label}</p>
-        <textarea id="field-${field.id}" class="text-input" rows="2"></textarea>
-    `).join("");
-
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${modul6.heading}</h2>
-            <div class="section-body"><p>${modul6.intro}</p></div>
-
-            ${fieldsHtml}
-
-            <div class="section-body"><p>${modul6.closing}</p></div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit, onReference);
-}
-
-/*---- Modul 7 - rettighedstjekliste (statisk gennemgang, ikke automatisk validering) ----*/
-
-function showChecklistInfo(modul7, onNext, onExit, onReference) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${modul7.heading}</h2>
-            <div class="section-body"><p>${modul7.intro}</p></div>
-
-            <div class="section-body">
-                <ul>${modul7.checklist.map((item) => `<li>${item}</li>`).join("")}</ul>
-            </div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit, onReference);
-}
-
-function showUafklaretMessage(text, onNext, onExit, onReference) {
-    app.innerHTML = `
-        <section class="section">
-            <div class="panel">
-                <p>${text}</p>
-            </div>
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit, onReference);
-}
-
-function showKontroltjek(modul7, images, onNext, onExit, onReference) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${modul7.kontroltjekHeading}</h2>
-            <div class="section-body"><p>${modul7.kontroltjekText}</p></div>
-            ${images.length ? `
-                <p class="section-subheading">De billeder, du uploadede i Modul 3:</p>
-                <div>${imageGalleryHtml(images)}</div>
-            ` : ""}
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit, onReference);
-}
-
-/*---- Modul 8 - dokumentation, forudfyldt ud fra Modul 6's kriterier ----*/
-
-function showDocumentation(modul8, draftText, onFinish, onExit, onReference) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${modul8.heading}</h2>
-            <div class="section-body"><p>${modul8.intro}</p></div>
-
-            <p class="section-subheading">${modul8.documentationLabel}</p>
-            <textarea id="documentation-input" class="text-input" rows="4">${draftText}</textarea>
-
-            <div class="section-body"><p>${modul8.closing}</p></div>
-
-            <div class="section-cta">
-                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">Gem og fortsæt i Visuelt udtryk</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-
-    const finishButton = document.querySelector("#finish-button");
-    finishButton.addEventListener("click", async () => {
-        finishButton.disabled = true;
-        finishButton.textContent = "Gemmer...";
-        await onFinish();
-    });
-
-    bindChrome(onExit, onReference);
 }
 
 function showExitConfirmation(onStay, onExit) {
@@ -417,20 +113,357 @@ function showExitConfirmation(onStay, onExit) {
     document.querySelector("#leave-button").addEventListener("click", onExit);
 }
 
+/*----------------------------------------------------------------------------
+ * Bobler - én genbrugelig render-funktion pr. `type` i js/data/billeder.js,
+ * i stedet for én funktion pr. skærm. Se docs/duf-manuskript-billeder.md.
+ * ----------------------------------------------------------------------------
+ */
+
+function headerHtml(boble) {
+    return `
+        <h2 class="section-heading">${boble.heading}</h2>
+        <div class="section-body">
+            ${(boble.paragraphs || []).map((p) => `<p>${p}</p>`).join("")}
+            ${boble.list ? `<ul>${boble.list.map((item) => `<li>${item}</li>`).join("")}</ul>` : ""}
+            ${boble.afterList ? `<p>${boble.afterList}</p>` : ""}
+        </div>
+        ${boble.guideLine ? `
+            <div class="panel guide-line">
+                <p><strong>Guide:</strong> ${boble.guideLine}</p>
+            </div>
+        ` : ""}
+    `;
+}
+
+function renderScreen({ bodyHtml, ctaHtml }, onExit, onReference) {
+    app.innerHTML = `
+        <section class="section">
+            ${bodyHtml}
+            <div class="section-cta">${ctaHtml}</div>
+        </section>
+        ${onReference ? renderReferenceButton() : ""}
+        ${renderExitDoor()}`;
+
+    activateFocusTrap(app);
+    bindChrome(onExit, onReference);
+}
+
+/*---- type: "text" - ren læseskærm, med valgfri billedgalleri-visning (Modul 3.3/4.5), 💬-guide-linje, og valgfrit "isFinal"-slutknap-udseende (Modul 8.3) ----*/
+
+function showTextBoble(boble, images, onNext, onExit, onReference) {
+    const galleryHtml = images
+        ? `<div class="image-gallery-view">${imageGalleryHtml(images)}</div>`
+        : "";
+
+    renderScreen({
+        bodyHtml: `${headerHtml(boble)}${galleryHtml}`,
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular ${boble.isFinal ? "btn--outline-green" : "btn--solid-green"}">${boble.nextButtonText}</button>`
+    }, onExit, onReference);
+
+    const nextButton = document.querySelector("#next-button");
+    nextButton.addEventListener("click", async () => {
+        if (boble.isFinal) {
+            nextButton.disabled = true;
+            nextButton.textContent = "Gemmer...";
+        }
+        await onNext();
+    });
+}
+
+/*---- type: "choice" - envalgskort + eksplicit "Videre"-knap (aktiveres først ved valg). Understøtter valgfrit fritekstfelt for ét bestemt svar (freeTextOptionId, Modul 6.2), og et panel der afsløres for ét bestemt svar (revealOnOptionId, Modul 7.5) ----*/
+
+function showChoiceBoble(boble, onNext, onExit, onReference) {
+    const optionsHtml = boble.options.map((option) => `
+        <button type="button" class="choice-card choice-card--poll" aria-pressed="false" data-option-id="${option.id}">
+            <span class="choice-card-body">
+                <span class="choice-card-title choice-card-title--plain">${option.text}</span>
+                ${option.description ? `<span class="choice-card-description">${option.description}</span>` : ""}
+            </span>
+        </button>
+    `).join("");
+
+    const freeTextHtml = boble.freeTextOptionId
+        ? `<textarea id="choice-freetext" class="text-input" rows="2" placeholder="${boble.freeTextPlaceholder || ""}" hidden></textarea>`
+        : "";
+
+    const revealHtml = boble.revealOnOptionId
+        ? `<div class="panel" id="choice-reveal" hidden><p>${boble.revealText}</p></div>`
+        : "";
+
+    renderScreen({
+        bodyHtml: `${headerHtml(boble)}<div class="choice-list">${optionsHtml}</div>${freeTextHtml}${revealHtml}`,
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green" disabled>${boble.nextButtonText}</button>`
+    }, onExit, onReference);
+
+    const optionButtons = document.querySelectorAll("[data-option-id]");
+    const nextButton = document.querySelector("#next-button");
+    const freeText = document.querySelector("#choice-freetext");
+    const reveal = document.querySelector("#choice-reveal");
+    let selectedId = null;
+
+    optionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            optionButtons.forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
+            selectedId = button.dataset.optionId;
+            nextButton.disabled = false;
+
+            if (freeText) freeText.hidden = selectedId !== boble.freeTextOptionId;
+            if (reveal) reveal.hidden = selectedId !== boble.revealOnOptionId;
+        });
+    });
+
+    nextButton.addEventListener("click", () => {
+        const answer = (freeText && selectedId === boble.freeTextOptionId)
+            ? { optionId: selectedId, text: freeText.value }
+            : selectedId;
+
+        onNext(answer);
+    });
+}
+
+/*---- type: "multiChoice" - togglebare kort (samme "Stemmepunkt"-mønster som Overbliks flervalgsspørgsmål), valgfri fritekst-note, og valgfrit loft over antal valg (maxSelect, Modul 5.4) ----*/
+
+function showMultiChoiceBoble(boble, onNext, onExit, onReference) {
+    const optionsHtml = boble.options.map((option, index) => `
+        <button type="button" class="choice-card choice-card--poll" aria-pressed="false" data-option-index="${index}">
+            <span class="choice-card-body">
+                <span class="choice-card-title choice-card-title--plain">${option.text}</span>
+                ${option.description ? `<span class="choice-card-description">${option.description}</span>` : ""}
+            </span>
+        </button>
+    `).join("");
+
+    const noteHtml = boble.allowNote
+        ? `<textarea id="multichoice-note" class="text-input" rows="2" placeholder="${boble.notePlaceholder || ""}"></textarea>`
+        : "";
+
+    const resultHtml = boble.resultHeading
+        ? `<p class="section-subheading">${boble.resultHeading}</p><p class="section-body" id="multichoice-result"></p>`
+        : "";
+
+    renderScreen({
+        bodyHtml: `${headerHtml(boble)}<div class="choice-list">${optionsHtml}</div>${noteHtml}${resultHtml}`,
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText}</button>`
+    }, onExit, onReference);
+
+    const optionButtons = document.querySelectorAll("[data-option-index]");
+    const noteField = document.querySelector("#multichoice-note");
+    const resultField = document.querySelector("#multichoice-result");
+
+    function updateResult() {
+        if (!resultField) return;
+
+        const chosen = [...optionButtons]
+            .filter((button) => button.getAttribute("aria-pressed") === "true")
+            .map((button) => boble.options[Number(button.dataset.optionIndex)].text);
+
+        if (noteField?.value) chosen.push(noteField.value);
+
+        resultField.textContent = chosen.join(", ");
+    }
+
+    optionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const isPressed = button.getAttribute("aria-pressed") === "true";
+
+            if (!isPressed && boble.maxSelect) {
+                const pressedCount = [...optionButtons].filter((b) => b.getAttribute("aria-pressed") === "true").length;
+                if (pressedCount >= boble.maxSelect) return;
+            }
+
+            button.setAttribute("aria-pressed", String(!isPressed));
+            updateResult();
+        });
+    });
+
+    noteField?.addEventListener("input", updateResult);
+
+    document.querySelector("#next-button").addEventListener("click", () => {
+        const selected = [...optionButtons]
+            .filter((button) => button.getAttribute("aria-pressed") === "true")
+            .map((button) => boble.options[Number(button.dataset.optionIndex)].id);
+
+        const note = document.querySelector("#multichoice-note")?.value || "";
+
+        onNext({ selected, note });
+    });
+}
+
+/*---- type: "textNote" - ét eller flere fritekstfelter. Modul 8.2 forudfyldes med en tekst bygget af engine ud fra det visuelle kompas (prefillText) ----*/
+
+function showTextNoteBoble(boble, prefillText, onNext, onExit, onReference) {
+    const fieldsHtml = boble.fields.map((field) => `
+        ${field.label ? `<p class="section-subheading">${field.label}</p>` : ""}
+        <textarea id="field-${field.id}" class="text-input" rows="${field.rows || 3}" placeholder="${field.placeholder || ""}">${prefillText && boble.prefillFrom ? prefillText : ""}</textarea>
+    `).join("");
+
+    renderScreen({
+        bodyHtml: `${headerHtml(boble)}${fieldsHtml}`,
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText}</button>`
+    }, onExit, onReference);
+
+    document.querySelector("#next-button").addEventListener("click", () => {
+        const values = {};
+        boble.fields.forEach((field) => {
+            values[field.id] = document.querySelector(`#field-${field.id}`).value;
+        });
+        onNext(values);
+    });
+}
+
+/*---- type: "imageUpload" - genbruger det delte billedgalleri-komponent. Understøtter et minimumsantal, før "Videre" aktiveres (minImages, Modul 4.4) ----*/
+
+function showImageUploadBoble(boble, images, onNext, onExit, onReference, imageHandlers) {
+    const minImages = boble.minImages || 0;
+    const meetsMin = images.length >= minImages;
+
+    renderScreen({
+        bodyHtml: `
+            ${headerHtml(boble)}
+            ${renderImageUploadHtml({ label: boble.uploadLabel, hint: boble.uploadHint, images })}
+            ${minImages && !meetsMin ? `<p class="section-body upload-gated-hint">${boble.gatedHint || ""}</p>` : ""}
+        `,
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green" ${minImages && !meetsMin ? "disabled" : ""}>${boble.nextButtonText}</button>`
+    }, onExit, onReference);
+
+    bindImageUpload({
+        ...imageHandlers,
+        refresh: async () => {
+            const updated = await imageHandlers.refresh();
+            const nextButton = document.querySelector("#next-button");
+            const hint = document.querySelector(".upload-gated-hint");
+            const nowMeetsMin = updated.length >= minImages;
+
+            if (nextButton) nextButton.disabled = minImages > 0 && !nowMeetsMin;
+            if (hint) hint.style.display = nowMeetsMin ? "none" : "";
+
+            return updated;
+        }
+    });
+
+    document.querySelector("#next-button").addEventListener("click", () => onNext());
+}
+
+/*---- type: "keywordPicker" - grupperede søgeord, klik kopierer til udklipsholder (Modul 4.2) ----*/
+
+function showKeywordPickerBoble(boble, onNext, onExit, onReference) {
+    const groupsHtml = boble.groups.map((group) => `
+        <p class="section-subheading">${group.label}</p>
+        <div class="keyword-list">
+            ${group.words.map((word) => `<button type="button" class="keyword-chip" data-word="${word}">${word}</button>`).join("")}
+        </div>
+    `).join("");
+
+    renderScreen({
+        bodyHtml: `${headerHtml(boble)}${groupsHtml}`,
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText}</button>`
+    }, onExit, onReference);
+
+    document.querySelectorAll(".keyword-chip").forEach((chip) => {
+        chip.addEventListener("click", async () => {
+            try {
+                await navigator.clipboard.writeText(chip.dataset.word);
+            } catch {
+                /*---- Udklipsholder kan være utilgængelig (fx uden for en sikker kontekst) - kopiering er en bekvemmelighed, ikke et krav for at komme videre ----*/
+            }
+            chip.classList.add("is-copied");
+        });
+    });
+
+    document.querySelector("#next-button").addEventListener("click", () => onNext());
+}
+
+/*---- type: "checklist" - Modul 7.2, genbruger den delte Tjekliste-komponent ----*/
+
+function showChecklistBoble(boble, onNext, onExit, onReference) {
+    renderScreen({
+        bodyHtml: `${headerHtml(boble)}<div id="tjekliste-container"></div>`,
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText}</button>`
+    }, onExit, onReference);
+
+    renderTjekliste(document.querySelector("#tjekliste-container"), {
+        gemNoegle: boble.gemNoegle,
+        punkter: boble.punkter
+    });
+
+    document.querySelector("#next-button").addEventListener("click", () => onNext());
+}
+
+/*---- type: "paletteCompare" - Modul 6.4, viser en gemt Farver-palet til sammenligning hvis den findes, ellers kun et "spring over" ----*/
+
+function showPaletteCompareBoble(boble, farverOutput, onNext, onExit, onReference) {
+    const palette = farverOutput?.data?.palette;
+    const hasPalette = Boolean(palette?.length);
+
+    const paletteHtml = hasPalette
+        ? `<div class="palette-preview">${palette.map((color) => `<span class="palette-swatch" style="background-color:${color.hex}" title="${color.role || color.hex}"></span>`).join("")}</div>`
+        : "";
+
+    const optionsHtml = hasPalette
+        ? `<div class="choice-list">${boble.options.map((option) => `
+            <button type="button" class="choice-card choice-card--poll" aria-pressed="false" data-option-id="${option.id}">
+                <span class="choice-card-title choice-card-title--plain">${option.text}</span>
+            </button>
+        `).join("")}</div>`
+        : "";
+
+    const ctaHtml = hasPalette
+        ? `<button id="next-button" type="button" class="btn btn--regular btn--solid-green" disabled>${boble.nextButtonText}</button>`
+        : `<button id="skip-button" type="button" class="btn btn--regular btn--outline-green">${boble.skipButtonText}</button>`;
+
+    renderScreen({
+        bodyHtml: `${headerHtml(boble)}${paletteHtml}${optionsHtml}`,
+        ctaHtml
+    }, onExit, onReference);
+
+    if (hasPalette) {
+        const optionButtons = document.querySelectorAll("[data-option-id]");
+        const nextButton = document.querySelector("#next-button");
+        let selectedId = null;
+
+        optionButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                optionButtons.forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
+                selectedId = button.dataset.optionId;
+                nextButton.disabled = false;
+            });
+        });
+
+        nextButton.addEventListener("click", () => onNext(selectedId));
+    } else {
+        document.querySelector("#skip-button").addEventListener("click", () => onNext(null));
+    }
+}
+
+/*---- type: "compassSummary" - Modul 6.5, ren visning af det, engine har samlet op i this.answers ----*/
+
+function showCompassSummaryBoble(boble, summaryItems, onNext, onExit, onReference) {
+    const itemsHtml = summaryItems.length
+        ? `<dl class="compass-summary">${summaryItems.map((item) => `<dt>${item.label}</dt><dd>${item.value}</dd>`).join("")}</dl>`
+        : `<p class="section-body">Du har endnu ikke svaret på nok undervejs til at vise et fuldt kompas her.</p>`;
+
+    renderScreen({
+        bodyHtml: `${headerHtml(boble)}${itemsHtml}`,
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText}</button>`
+    }, onExit, onReference);
+
+    document.querySelector("#next-button").addEventListener("click", () => onNext());
+}
+
+export const RENDERERS = {
+    text: showTextBoble,
+    choice: showChoiceBoble,
+    multiChoice: showMultiChoiceBoble,
+    textNote: showTextNoteBoble,
+    imageUpload: showImageUploadBoble,
+    keywordPicker: showKeywordPickerBoble,
+    checklist: showChecklistBoble,
+    paletteCompare: showPaletteCompareBoble,
+    compassSummary: showCompassSummaryBoble
+};
+
 export {
     showWelcome,
-    showTextScreen,
-    showRettighedsIntro,
     showReference,
-    showChoiceQuestion,
-    showValidationOffer,
-    showExamplesSkip,
-    showExamplesForm,
-    showInspirationForm,
-    showDirectionForm,
-    showChecklistInfo,
-    showUafklaretMessage,
-    showKontroltjek,
-    showDocumentation,
     showExitConfirmation
 };

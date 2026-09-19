@@ -889,6 +889,133 @@ button.value-card {
   margin: 16px 0;
 }
 
+/*---- Guide-linje ----*/
+/*---- 💬-linjer fra manuskriptet, jf. docs/duf-manuskript-billeder.md - Guide-componentet er endnu ikke bygget, så dette er en simpel tekstboks, ikke den kommende avatar-komponent ----*/
+.guide-line p {
+  font-style: italic;
+}
+
+/*---- Tjekliste (js/components/tjekliste.js) ----*/
+/*---- Selvstændige, afkrydsbare punkter - ikke en formular med rigtige/forkerte svar. Første brug: Billeder Modul 7.2 ----*/
+.tjekliste {
+  list-style: none;
+  margin: 24px 0 8px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tjekliste-punkt {
+  background-color: #FEF3E8;
+  border: 1px solid rgba(15, 32, 27, 0.6);
+  border-radius: 10px;
+  box-shadow: 0 4px 4px 0 rgba(15, 32, 27, 0.4);
+  padding: 12px 16px;
+}
+
+.tjekliste-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  color: #0F201B;
+  cursor: pointer;
+}
+
+.tjekliste-checkbox {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  margin-top: 2px;
+  accent-color: #0C3A2D;
+  cursor: pointer;
+}
+
+.tjekliste-hjaelpetekst {
+  margin: 8px 0 0 34px;
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  color: #0F201B;
+  opacity: 0.8;
+}
+
+.tjekliste-fremdrift {
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  color: #0F201B;
+  opacity: 0.8;
+}
+
+/*---- Søgeord til kopiering (Billeder Modul 4.2) ----*/
+.keyword-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 20px;
+}
+
+.keyword-chip {
+  background-color: #FFE6D6;
+  border: 1px solid rgba(15, 32, 27, 0.6);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-family: "Manrope", sans-serif;
+  font-size: 14px;
+  color: #0F201B;
+  cursor: pointer;
+}
+.keyword-chip.is-copied {
+  background-color: #B1BCA0;
+}
+
+/*---- Farvepalet-forhåndsvisning (Billeder Modul 6.4 - sammenligning med en gemt Farver-palet) ----*/
+.palette-preview {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.palette-swatch {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(15, 32, 27, 0.6);
+  box-shadow: 0 4px 4px 0 rgba(15, 32, 27, 0.4);
+}
+
+/*---- Visuelt kompas-opsummering (Billeder Modul 6.5) ----*/
+.compass-summary {
+  margin: 16px 0;
+}
+.compass-summary dt {
+  font-family: "Manrope", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  color: #0F201B;
+  opacity: 0.8;
+  margin-top: 16px;
+}
+.compass-summary dd {
+  margin: 4px 0 0;
+  font-family: "Manrope", sans-serif;
+  font-size: 16px;
+  color: #0F201B;
+}
+
+/*---- Billedgalleri, ren visning (Billeder Modul 3.3/4.5 - kig tilbage på egne billeder, ingen fjern-knap) ----*/
+.image-gallery-view {
+  margin: 16px 0;
+}
+
+/*---- Gated "Videre"-hint (Billeder Modul 4.4 - minimum antal billeder, før knappen aktiveres) ----*/
+.upload-gated-hint {
+  font-style: italic;
+  opacity: 0.8;
+}
+
 #site-header {
   position: relative;
   z-index: 100;
