@@ -1,16 +1,65 @@
-# MANUSKRIPT — Billeder
+# Prompt til Claude Code — opdatér Billeder-rummet
 
-*Status: Gennemrevideret 2026-09-17 til den fulde, boble-strukturerede form (jf. samme revision som Farver fik 2026-09-06/08) — antallet af skærme stiger fra ca. 8 til 40, fordelt på de samme 8 moduler. Modulernes indhold bygger videre på Marcus' fulde gennemgang af "Billedrettigheder — praktisk oversigt" (2026-09-06), og Modul 7.2's rettighedstjekliste er udvidet fra 7 til de fulde 9 punkter derfra. To ting er nye med denne revision: en ekstern inspirations-samling ("Min inspiration", Modul 4), og en ny, genbrugelig Tjekliste-komponent til Modul 7.2 (se separat teknisk dokument "DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)"). Bygger derudover fortsat på VÆKSTRUM Context — Billeder. Tekstforslag er skrevet i DUF's etablerede tone og kan frit justeres i sprog — men indholdet og logikken bag hver boble bør holdes op mod Context-dokumentet, hvis noget ændres væsentligt.*
+*Gemt 2026-09-17, som en klar-til-brug prompt til Claude Code i VS Code. Manuskriptet herunder er identisk med "DUF Manuskript - Billeder.md" i projektet — hvis de to skiller sig ad senere, er projekt-dokumentet det gældende. Se "DUF Opgaveoversigt - Visuelt udtryk.md" for status, og [[DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)]] for spec'en på den nye, genbrugelige komponent, dette arbejde også bygger.*
 
-**Sådan læses dette dokument:** Hvert modul er brudt ned i bobler (enkeltskærme). For hver boble er der: hvad brugeren møder på skærmen, eventuel interaktion, eventuel respons/feedback, hvad der leder videre til næste boble, og om noget gemmes/får betydning senere. 💬-linjer er Guide-component-avatarer — componentet er endnu ikke bygget i kode noget sted i projektet, så disse linjer skal bevares som kommentarer/data, klar til at blive taget i brug, når componentet findes.
+Kopiér alt herunder ind i Claude Code i VS Code, i roden af DUF-projektet
+(`C:\Users\Heidi Kristoffersen\OneDrive - IBA Erhvervsakademi Kolding\DUF\DUF\`).
 
-## Velkomst til rummet
+Dette er en selvstændig opgave, adskilt fra dørikon- og dørkarrussel-arbejdet — brug en ny, separat branch.
 
-**Skærmtekst (vises kun, hvis brugeren kommer fra Overblik og har markeret usikkerhed om billedrettigheder):**
-"Du nævnte tidligere, at du ikke er helt sikker på rettighederne til de billeder, du bruger. Det anbefaler vi altid at få styr på — uanset hvad du ellers vælger at arbejde med. Derfor starter vi der i dette rum."
+---
 
-**Standardvelkomst (hvis brugeren er kommet direkte til Billeder):**
-"Velkommen til Billeder. Her får du hjælp til at vælge billeder, der understøtter din praksis — og til at få styr på, hvilke rettigheder du faktisk har til dem."
+Vi skal opdatere **Billeder-rummet**, så det matcher et nyt, gennemrevideret manuskript. Det nuværende manuskript er markant kortere end det nye — antallet af skærme (bobler) stiger fra ca. 8 til 40, fordelt på de samme 8 moduler. Samtidig introduceres to nye ting: en ekstern inspirations-samling ("Min inspiration"), og en ny, genbrugelig tjekliste-komponent til rettighedstjekket i Modul 7.
+
+## Før du går i gang
+
+- Opret og skift til en ny git branch til dette arbejde. Spørg mig om det ønskede branch-navn, før du opretter den — gæt ikke selv.
+- Læs `js/data/billeder.js` og `js/engine/billederEngine.js`/`billederUi.js` grundigt, som de ser ud i dag, før du ændrer noget. Læs også CLAUDE.md og de eksisterende design-tokens.
+- Læs `js/components/exitDoor.js` som reference for, hvordan DUF bygger delte, genbrugelige komponenter — den nye Tjekliste-komponent (se nedenfor) skal følge samme mønster.
+- Læs den eksisterende `docs/duf-manuskript-billeder.md`, hvis den findes, så du kan se forskellen til det nye manuskript herunder.
+- **Første skridt, uden undtagelse:** skriv manuskriptet herunder (fra "## Modul 1" til og med "## Modul 8") ind i `docs/duf-manuskript-billeder.md`, ordret som det står — det er den nye dokumentation, kodeændringerne skal matche. Gør det, før du rører ved noget andet.
+- **Antagelser, du skal bekræfte med mig, før du bygger videre — spørg, gæt ikke:**
+  1. At det er okay at gå fra ca. 8 til 40 bobler i `billederEngine.js`/`billederUi.js` uden at ændre selve motor-arkitekturen (kun tilføje flere trin, samme mønster som de øvrige rum).
+  2. Hvordan "Min inspiration" (Modul 4) skal gemmes — er det en ny IndexedDB-struktur, eller kan den genbruge samme mekanik som den eksisterende "Billeder fra min praksis" (Modul 3)?
+  3. At det er okay at bygge Tjekliste-komponenten som en ny, delt fil `js/components/tjekliste.js` (se spec nedenfor), og ikke kun en lokal løsning inde i Billeder — den skal kunne genbruges af andre rum senere.
+
+## Den nye, genbrugelige Tjekliste-komponent
+
+Byg `js/components/tjekliste.js`: en liste af selvstændige, afkrydsbare punkter — ikke en formular med rigtige/forkerte svar, ikke forgrenende. Bruges første gang i Modul 7.2 (9 rettighedspunkter), men skal designes generisk nok til at blive genbrugt i andre rum senere (Byggesten, Logo, Fælles samling er nævnt som mulige fremtidige steder — byg ikke til dem nu, bare hold komponenten generisk).
+
+- **Data:** en liste af punkter `{ id, tekst, hjaelpetekst? }`, knyttet til en `gemNoegle` (fx `"billeder-modul7-rettigheder"`), så flere tjeklister ikke kolliderer i lagringen.
+- **Gemt tilstand:** hvilke `id`'er der er afkrydset, pr. `gemNoegle`. Klientsidet, ingen server — samme princip som resten af Billeder.
+- **Visuelt:** checkbox pr. punkt, øjeblikkelig afkrydsning (ingen "gem"-knap), valgfri fremdriftsindikator ("X af Y tjekket"). Ingen farvekodning af "rigtigt/forkert" — kun tjekket/ikke tjekket. Afkrydsning kan altid fortrydes.
+- **API-forslag:**
+
+```js
+renderTjekliste(container, {
+  gemNoegle: "billeder-modul7-rettigheder",
+  punkter: [
+    { id: "kilde", tekst: "Hvor kommer billedet fra?" },
+    // ...
+  ]
+});
+```
+
+Følg eksisterende design-tokens for styling. Se [[DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)]] i projektet for den fulde spec, inkl. åbne spørgsmål (bl.a. om afkrydsning nogensinde skal gemmes til Fælles samling — antag nej, medmindre jeg siger andet).
+
+## Uden for scope
+
+- Rør ikke Farver, Logo, Byggesten eller Overblik i denne omgang.
+- Byg ikke navigationslinjerne (pin-og-sti) i denne omgang — det er en separat, ikke-bygget spec (se [[DUF Teknisk - Navigationslinjer (modul og boble)]]).
+- Byg ikke "hent billeder fra en indsat hjemmesideadresse"-idéen (nævnt i opgaveoversigten) — det er en åben, ikke besluttet idé, adskilt fra dette arbejde.
+- Guide-component-avatarer (💬-linjerne i manuskriptet) skal markeres i teksten, men selve Guide-UI-componentet er endnu ikke bygget i kode nogen steder i projektet — byg det ikke her; bevar blot 💬-linjerne som kommentarer/data, klar til at blive taget i brug, når componentet findes.
+
+## Før du melder færdig
+
+List op, hvilke filer du har oprettet/ændret, og en kort manuel test-tjekliste (gennemløb alle 8 moduler, upload til "Billeder fra min praksis", upload/screenshot til "Min inspiration", afkrydsning i den nye tjekliste — inkl. at en afkrydsning består ved genindlæsning af siden — og at eksisterende `exitDoor.js`-brug i rummet stadig virker som før).
+
+---
+
+## Det opdaterede manuskript
+
+*Identisk med "DUF Manuskript - Billeder.md" i projektet.*
 
 ## Modul 1 — Hvorfor billeder betyder noget
 
@@ -291,7 +340,7 @@
 ### Boble 7.2 — Din tjekliste, før du bruger et billede
 
 - **Hvad brugeren møder på denne skærm:** Uanset hvor billedet kommer fra, kan de samme spørgsmål hjælpe dig med at tjekke, om du er på sikker grund: 1. Hvor kommer billedet fra? 2. Har du selv taget det, fået tilladelse, eller en licens? 3. Dækker tilladelsen den konkrete brug — for eksempel din hjemmeside, sociale medier eller en annonce? 4. Er der personer på billedet, som kan genkendes? 5. Har du et lovligt og dokumenterbart grundlag for at vise dem? 6. Kan billedet afsløre eller antyde følsomme oplysninger — for eksempel om en klients helbred? 7. Skal fotografen eller en anden rettighedshaver krediteres? 8. Har du gemt dokumentation for tilladelsen eller licensen? 9. Kan billedet give et forkert indtryk af din praksis, dine resultater eller en persons situation? Kan du ikke svare sikkert på det hele, er det bedre at vælge et andet billede eller indhente en konkret tilladelse, end at gætte.
-- **Eventuel interaktion:** Brugeren kan afkrydse hvert af de 9 punkter enkeltvis via den nye, genbrugelige **Tjekliste-komponent** (se "DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)") — ét punkt ad gangen, i eget tempo, med en fremdriftsindikator ("X af 9 tjekket").
+- **Eventuel interaktion:** Brugeren kan afkrydse hvert af de 9 punkter enkeltvis via den nye, genbrugelige **Tjekliste-komponent** (se [[DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)]]) — ét punkt ad gangen, i eget tempo, med en fremdriftsindikator ("X af 9 tjekket").
 - **Eventuel respons eller feedback:** Ingen rigtig/forkert-feedback pr. punkt. Er der punkter, brugeren ikke kan tjekke af, peger vi videre til de relevante bobler i dette modul og til den fulde "Billedrettigheder — praktisk oversigt" som opslagsværk.
 - **Hvad der leder videre til næste boble:** Knappen "Lad os se nærmere på personer på billeder" leder videre — uafhængigt af, hvor mange punkter der er tjekket af.
 - **Gemmes/får betydning senere:** Afkrydsningerne gemmes lokalt under `gemNoegle: "billeder-modul7-rettigheder"`, så brugeren kan vende tilbage og se, hvor de kom til. Er en selvvurdering, ikke en bekræftelse af, at billederne faktisk er lovlige.
@@ -365,12 +414,3 @@
 - **Eventuel respons eller feedback:** Ingen.
 - **Hvad der leder videre til næste boble:** Fører brugeren ud af Billeder-rummet, tilbage til rum-vælgeren.
 - **Gemmes/får betydning senere:** Nej — det, der skal gemmes (kompas + dokumentation), er allerede gemt i Modul 6 og 8.2.
-
-## Noter til design/udvikling, samlet
-
-- Denne revision erstatter den tidligere ca. 8-boble version af rummet. Motoren er omlagt til en data-drevet, boble-liste-baseret struktur (se `js/data/billeder.js`/`js/engine/billederEngine.js`/`billederUi.js`) i stedet for én navngiven metode pr. skærm, fordi antallet af skærme gør 1:1-mønsteret uholdbart. Selve motor-*arkitekturen* internt i rummet er dermed ændret — ikke den overordnede vækstrum-motor beskrevet i `docs/duf-vaekstrum-motor.md`, som fortsat gælder uændret for navigation *mellem* rum.
-- Tjekliste-komponenten (`js/components/tjekliste.js`) er ny og delt, bygget efter samme mønster som `js/components/exitDoor.js`. Modul 7.2 er dens første brug. Se "DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)" for den fulde spec.
-- "Min inspiration" (Modul 4) genbruger den eksisterende billedlagring i `js/storage/vaekstrumStorage.js` (`saveImage`/`getImagesForVaekstrum`/`deleteImage`), under en separat nøgle end "Billeder fra min praksis", så de to samlinger ikke blandes sammen.
-- Navigationslinjer (pin-og-sti) er ikke bygget i denne revision — se "DUF Teknisk - Navigationslinjer (modul og boble)".
-- "Hent billeder fra en indsat hjemmesideadresse" er ikke bygget i denne revision — en åben, ikke besluttet idé.
-- Guide-component-avatarer (💬-linjer) er bevaret som datafelter (`guideLine`), klar til når Guide-UI-componentet findes — selve componentet er ikke bygget her.
