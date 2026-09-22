@@ -11,6 +11,10 @@
  * Denne fil kender intet til lagring (saveImage/deleteImage/
  * getImagesForVaekstrum) - det ejer det enkelte rums *Engine.js stadig selv,
  * og sender blot ind som `upload`/`remove`/`refresh`-funktioner.
+ *
+ * Understøtter også at indsætte et billede fra udklipsholderen (Ctrl+V), fx et
+ * skærmklip taget med Windows + Shift + S - tilføjet til Logos Modul 3.2, men
+ * gælder samme sted som fil-upload i alle tre rum. Se bindPaste() nedenfor.
  * ----------------------------------------------------------------------------
  */
 
@@ -40,6 +44,58 @@ const UPLOAD_ERROR_TEXT = {
     "not-an-image": "Den fil er ikke et billede — prøv en anden fil.",
     "file-too-large": "Billedet er for stort til at blive gemt — prøv et mindre billede."
 };
+
+/*---- Ét paste-listener ad gangen, på #app frem for det enkelte skærmbillede - #app's
+ * indhold skiftes helt ud (innerHTML) ved hver ny boble, men selve #app-elementet
+ * består, så et document-scopet lyt-punkt ville ellers hobe sig op på tværs af
+ * skærme. Håndteren tjekker selv, om upload-feltet stadig findes i DOM'et, før den
+ * gør noget - et robust "no-op hvis skærmen er skiftet", uden at hver renderer skal
+ * huske at afmelde den. ----*/
+let activePasteHandler = null;
+
+function bindPaste({ upload, refresh }) {
+    const app = document.querySelector("#app");
+    if (!app) return;
+
+    if (activePasteHandler) {
+        app.removeEventListener("paste", activePasteHandler);
+    }
+
+    activePasteHandler = async (event) => {
+        const input = document.querySelector("#image-upload-input");
+        const gallery = document.querySelector("#image-gallery");
+        const status = document.querySelector("#image-upload-status");
+        if (!input || !gallery || input.disabled) return;
+
+        const items = event.clipboardData?.items;
+        if (!items) return;
+
+        const imageItem = [...items].find((item) => item.type.startsWith("image/"));
+        if (!imageItem) return;
+
+        const file = imageItem.getAsFile();
+        if (!file) return;
+
+        event.preventDefault();
+
+        input.disabled = true;
+        if (status) status.textContent = "Gemmer billede...";
+
+        const result = await upload(file);
+
+        input.disabled = false;
+
+        if (!result.ok) {
+            if (status) status.textContent = UPLOAD_ERROR_TEXT[result.reason] || "Billedet kunne ikke gemmes.";
+            return;
+        }
+
+        if (status) status.textContent = "";
+        gallery.innerHTML = imageGalleryHtml(await refresh(), { removable: true });
+    };
+
+    app.addEventListener("paste", activePasteHandler);
+}
 
 export function bindImageUpload({ upload, remove, refresh }) {
     const input = document.querySelector("#image-upload-input");
@@ -75,4 +131,6 @@ export function bindImageUpload({ upload, remove, refresh }) {
         await remove(Number(button.dataset.removeImage));
         gallery.innerHTML = imageGalleryHtml(await refresh(), { removable: true });
     });
+
+    bindPaste({ upload, refresh });
 }
