@@ -1,16 +1,128 @@
 import { activateFocusTrap } from "./accessibility.js";
 import { renderExitDoor as renderSharedExitDoor, bindExit } from "../components/exitDoor.js";
 import { renderImageUploadHtml, bindImageUpload, imageGalleryHtml } from "../components/imageGallery.js";
+import { renderTjekliste } from "../components/tjekliste.js";
+import { renderSeOgsaa } from "../components/seOgsaa.js";
+import { SE_OGSAA_MAAL } from "../data/seOgsaaMaal.js";
 
 const app = document.querySelector("#app");
+
+const GROUP_LABELS = {
+    form: "Form",
+    identitet: "Identitet",
+    oprindelse: "Oprindelse"
+};
 
 function renderExitDoor() {
     return renderSharedExitDoor("Gå ud af Logo");
 }
 
 function externalLinkHtml(link) {
-    return `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="btn btn--regular btn--outline-green">${link.label}</a>`;
+    return `<div class="section-cta"><a href="${link.url}" target="_blank" rel="noopener noreferrer" class="btn btn--regular btn--outline-green">${link.label}</a></div>`;
 }
+
+/*---- Automatisk logo-preview (Modul 7.2-7.4) - rent client-side, jf. css/_components.scss ----*/
+
+function logoPreviewHtml(kind, images) {
+    if (!images || !images.length) {
+        return `<p class="logo-preview-empty-hint">Du har endnu ikke lagt et logo ind ovenfor - læg det ind, eller forestil dig situationen ud fra dit eget skøn.</p>`;
+    }
+
+    const src = URL.createObjectURL(images[0].blob);
+
+    if (kind === "small") {
+        return `<div class="logo-preview-sizes"><img src="${src}" alt="Logoet i faldende størrelse"><img src="${src}" alt=""><img src="${src}" alt=""></div>`;
+    }
+
+    if (kind === "grayscale") {
+        return `
+            <div class="logo-preview-grayscale"><img src="${src}" alt="Logoet vist i gråtoner"></div>
+            <p class="logo-preview-empty-hint">Gråtoner er en tilnærmelse til en ægte sort/hvid-udgave, ikke det samme.</p>`;
+    }
+
+    if (kind === "backgrounds") {
+        return `
+            <div class="logo-preview-backgrounds">
+                <div class="logo-preview-background logo-preview-background--light"><img src="${src}" alt="Logoet på en lys baggrund"></div>
+                <div class="logo-preview-background logo-preview-background--dark"><img src="${src}" alt="Logoet på en mørk baggrund"></div>
+            </div>`;
+    }
+
+    return "";
+}
+
+/*---- Logo + gemt Farver-palet side om side (5.2a) - genbruger .palette-preview/.palette-swatch fra Billeders paletteCompare-boble ----*/
+
+function paletteBesideHtml(images, palette) {
+    const logoHtml = images?.length
+        ? `<img src="${URL.createObjectURL(images[0].blob)}" alt="Dit logo" style="max-width:160px;max-height:160px;object-fit:contain;">`
+        : `<p class="logo-preview-empty-hint">Intet logo uploadet endnu.</p>`;
+
+    const paletteHtml = palette?.length
+        ? `<div class="palette-preview">${palette.map((c) => `<span class="palette-swatch" style="background-color:${c.hex}" title="${c.role || c.hex}"></span>`).join("")}</div>`
+        : `<p class="logo-preview-empty-hint">Ingen gemt palet fra Farver endnu.</p>`;
+
+    return `
+        <div class="logo-preview-backgrounds">
+            <div class="logo-preview-background logo-preview-background--light">${logoHtml}</div>
+            <div class="logo-preview-background logo-preview-background--light">${paletteHtml}</div>
+        </div>`;
+}
+
+/*---- Fælles hoved: overskrift, brødtekst, og alle generiske "påhæng" en boble kan bære (recap, guideLine, palet-visning, billedupload, logo-preview, indlejret tjekliste). Se også-skiltet ligger sidst, lige over CTA'en, jf. spec'en ("under hovedteksten, over videre-knappen"). ----*/
+
+function headerHtml(boble, ctx = {}) {
+    return `
+        <h2 class="section-heading">${boble.heading}</h2>
+        <div class="section-body">
+            ${(boble.paragraphs || []).map((p) => `<p>${p}</p>`).join("")}
+            ${boble.list ? `<ul>${boble.list.map((item) => `<li>${item}</li>`).join("")}</ul>` : ""}
+            ${boble.afterList ? `<p>${boble.afterList}</p>` : ""}
+        </div>
+        ${boble.extraBodyHtml || ""}
+        ${ctx.recap?.length ? `<dl class="compass-summary">${ctx.recap.map((item) => `<dt>${item.label}</dt><dd>${item.value}</dd>`).join("")}</dl>` : ""}
+        ${boble.paletteBeside ? paletteBesideHtml(ctx.images, ctx.palette) : ""}
+        ${boble.externalLink ? externalLinkHtml(boble.externalLink) : ""}
+        ${boble.guideLine ? `<div class="panel guide-line"><p><strong>💬 ${boble.guideAvatar ? `${boble.guideAvatar}:` : "Guide:"}</strong> ${boble.guideLine}</p></div>` : ""}
+        ${boble.imageUpload ? renderImageUploadHtml({ label: boble.imageUpload.label, hint: boble.imageUpload.hint, images: ctx.images || [] }) : ""}
+        ${boble.logoPreview ? logoPreviewHtml(boble.logoPreview, ctx.images) : ""}
+        ${boble.checklist ? `<div id="tjekliste-container"></div>` : ""}
+        <div id="se-ogsaa-slot"></div>
+    `;
+}
+
+/*---- Fælles skærm-opsætning + binding af de "påhæng", der ikke kræver, at den specifikke type-renderer selv ved noget om dem (billedupload, indlejret tjekliste, Se også-skilt). Den specifikke renderer bygger selv bodyHtml/ctaHtml og binder sin egen unikke interaktion (valgkort, tekstfelter, ...). ----*/
+
+function renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit) {
+    app.innerHTML = `
+        <section class="section">
+            ${bodyHtml}
+            <div class="section-cta">${ctaHtml}</div>
+        </section>
+        ${renderExitDoor()}`;
+
+    activateFocusTrap(app);
+    bindExit(onExit);
+
+    if (boble.imageUpload && ctx?.imageHandlers) {
+        bindImageUpload(ctx.imageHandlers);
+    }
+
+    if (boble.checklist) {
+        renderTjekliste(document.querySelector("#tjekliste-container"), {
+            gemNoegle: boble.checklist.gemNoegle,
+            punkter: boble.checklist.punkter || []
+        });
+    }
+
+    if (boble.seOgsaa) {
+        const maal = SE_OGSAA_MAAL[boble.seOgsaa.maal];
+        const slot = document.querySelector("#se-ogsaa-slot");
+        if (maal && slot) renderSeOgsaa(slot, { maal, navn: maal.navn, tekst: boble.seOgsaa.tekst });
+    }
+}
+
+/*---- Realiserer manuskriptets Boble 1.1 ("Velkommen til Logo") - denne skærm ER 1.1, ikke en generisk forgate foran den. Samme to-trins mønster (chrome synlig her, skjult fra og med "in-flow") som resten af rummene, men uden en overflødig gentagelse af samme tekst som en separat boble bagefter. Knap-teksten matcher manuskriptets "Lad os begynde". ----*/
 
 function showWelcome(text, onStart) {
     app.innerHTML = `
@@ -18,7 +130,7 @@ function showWelcome(text, onStart) {
             <h1 class="section-heading">Logo</h1>
             <div class="section-body"><p>${text}</p></div>
             <div class="section-cta">
-                <button id="start-button" type="button" class="btn btn--regular btn--solid-green">Gå ind her</button>
+                <button id="start-button" type="button" class="btn btn--regular btn--solid-green">Lad os begynde</button>
             </div>
         </section>`;
 
@@ -26,249 +138,232 @@ function showWelcome(text, onStart) {
     document.querySelector("#start-button").addEventListener("click", onStart);
 }
 
-/*---- Ren læseskærm, med valgfri myteknæk-boks (Modul 1) ----*/
+/*---- type: "text" - ren læseskærm (evt. med alle de fælles påhæng ovenfor). Håndterer også de terminale bobler (saveOutput: 8.2, isExit: 2d.4/8.3), hvor "Næste"-knappen viser en kort ventetilstand, mens motoren gemmer/afslutter. ----*/
 
-function showTextScreen({ heading, paragraphs = [], callout, buttonText = "Næste" }, onNext, onExit) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${heading}</h2>
+function showTextBoble(boble, ctx, onNext, onExit) {
+    const bodyHtml = headerHtml(boble, ctx);
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular ${boble.isExit ? "btn--outline-green" : "btn--solid-green"}">${boble.nextButtonText || "Næste"}</button>`;
 
-            <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
+    renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
 
-            ${callout ? `
-                <div class="panel">
-                    <p><strong>Myteknæk:</strong> ${callout}</p>
-                </div>
-            ` : ""}
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">${buttonText}</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindExit(onExit);
+    const nextButton = document.querySelector("#next-button");
+    nextButton.addEventListener("click", async () => {
+        if (boble.saveOutput || boble.isExit) {
+            nextButton.disabled = true;
+            nextButton.textContent = "Gemmer...";
+        }
+        await onNext();
+    });
 }
 
-/*---- Generisk spørgsmål med valgkort - bruges til Modul 2's to spørgsmål og Modul 4 ----*/
+/*---- type: "choice" - envalgskort (eller, med ctaButtons: true, stakkede CTA-knapper der handler med det samme uden en separat "Næste"). Understøtter pr.-option `response` (vises i et panel efter valg), `badgeText` (lille markering, fx 4.2's forslag), og `followUpOptions` (5.2a: erstatter "Næste" med 1-2 nye knapper efter et bestemt svar). ----*/
 
-function showChoiceQuestion({ question, options }, onAnswerSelected, onExit) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${question}</h2>
-            <div class="answers choice-list"></div>
-        </section>
-        ${renderExitDoor()}`;
+function showChoiceBoble(boble, ctx, onNext, onExit) {
+    const isCta = Boolean(boble.ctaButtons);
 
-    const answersContainer = document.querySelector(".answers");
+    const optionHtml = (option) => isCta
+        ? `<button type="button" class="btn btn--regular btn--outline-green" data-option-id="${option.id}">${option.text}</button>`
+        : `
+            <button type="button" class="choice-card choice-card--poll" aria-pressed="false" data-option-id="${option.id}">
+                <span class="choice-card-body">
+                    <span class="choice-card-title choice-card-title--plain">${option.text}</span>
+                    ${option.badgeText ? `<span class="choice-card-description">${option.badgeText}</span>` : ""}
+                </span>
+            </button>`;
 
-    for (const option of options) {
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "choice-card";
-        button.innerHTML = `
-            <span class="choice-card-title choice-card-title--plain">${option.text}</span>
-            <img class="choice-card-arrow" src="img/pil.svg" alt="">
-        `;
-        answersContainer.appendChild(button);
-        button.addEventListener("click", () => onAnswerSelected(option.id));
-    }
+    const optionsHtml = boble.options.map(optionHtml).join("");
+    const noteHtml = boble.allowNote
+        ? `<textarea id="choice-note" class="text-input" rows="2" placeholder="Uddyb gerne (valgfrit)"></textarea>`
+        : "";
 
-    activateFocusTrap(app);
-    bindExit(onExit);
-}
+    const bodyHtml = `
+        ${headerHtml(boble, ctx)}
+        <div class="${isCta ? "section-cta section-cta--column" : "choice-list"}">${optionsHtml}</div>
+        <div id="choice-response"></div>
+        ${noteHtml}
+    `;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green"${isCta ? " hidden" : " disabled"}>${boble.nextButtonText || "Næste"}</button>`;
 
-/*---- Modul 2 - valgfri øvelse for dem, der ikke tager valideringsvejen ----*/
+    renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
 
-function showOptionalReflection(label, onNext, onExit) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${label}</h2>
-            <textarea id="reflection-input" class="text-input" rows="4"></textarea>
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+    const optionButtons = document.querySelectorAll("[data-option-id]");
+    const nextButton = document.querySelector("#next-button");
+    const responseContainer = document.querySelector("#choice-response");
+    const noteField = document.querySelector("#choice-note");
+    let selectedOption = null;
 
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindExit(onExit);
-}
+    const answerFor = (option) => ({
+        optionId: option.id,
+        text: option.text,
+        note: noteField?.value || "",
+        jumpTo: option.jumpTo,
+        forcedNext: option.next
+    });
 
-/*---- Modul 2 - valideringsvejen ----*/
+    optionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            selectedOption = boble.options.find((o) => o.id === button.dataset.optionId);
+            if (!selectedOption) return;
 
-function showValidationOffer(modul2, onTest, onFull, onExit) {
-    app.innerHTML = `
-        <section class="section">
-            <div class="section-body"><p>${modul2.valideringsSkaermtekst}</p></div>
-            <div class="section-cta section-cta--column">
-                <button id="test-button" type="button" class="btn btn--regular btn--solid-green">${modul2.valideringsKnapTest}</button>
-                <button id="full-button" type="button" class="btn btn--regular btn--outline-green">${modul2.valideringsKnapFuld}</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+            if (!isCta) {
+                optionButtons.forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
+            }
 
-    activateFocusTrap(app);
-    document.querySelector("#test-button").addEventListener("click", onTest);
-    document.querySelector("#full-button").addEventListener("click", onFull);
-    bindExit(onExit);
-}
+            responseContainer.innerHTML = selectedOption.response ? `<div class="panel"><p>${selectedOption.response}</p></div>` : "";
 
-/*---- Modul 3 - eksternt link til Looka plus tre logoers øvelse ----*/
+            if (selectedOption.followUpOptions) {
+                nextButton.hidden = true;
+                const followUpHtml = selectedOption.followUpOptions
+                    .map((fu) => `<button type="button" class="btn btn--regular btn--outline-green" data-followup-id="${fu.id}">${fu.text}</button>`)
+                    .join("");
+                responseContainer.insertAdjacentHTML("beforeend", `<div class="section-cta section-cta--column">${followUpHtml}</div>`);
 
-function showInspirationForm(modul3, onNext, onExit) {
-    const hint = modul3.perLogoQuestions.join(" · ");
+                responseContainer.querySelectorAll("[data-followup-id]").forEach((fuButton) => {
+                    fuButton.addEventListener("click", () => {
+                        const followUp = selectedOption.followUpOptions.find((f) => f.id === fuButton.dataset.followupId);
+                        onNext({ ...answerFor(selectedOption), jumpTo: followUp.jumpTo, forcedNext: followUp.next });
+                    });
+                });
+                return;
+            }
 
-    const logoFields = [1, 2, 3].map((n) => `
-        <p class="section-subheading">Logo ${n}${n === 3 ? " (valgfrit)" : ""}</p>
-        <textarea id="logo-${n}" class="text-input" rows="3" placeholder="${hint}"></textarea>
-    `).join("");
+            if (isCta) {
+                onNext(answerFor(selectedOption));
+                return;
+            }
 
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${modul3.heading}</h2>
-            <div class="section-body"><p>${modul3.intro}</p></div>
-
-            <div class="section-cta">${externalLinkHtml(modul3.externalLink)}</div>
-
-            <div class="section-body"><p>${modul3.exerciseIntro}</p></div>
-
-            ${logoFields}
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindExit(onExit);
-}
-
-/*---- Modul 6 - eksterne værktøjer plus kort beskrivelse af resultatet ----*/
-
-function showBuildForm(modul6, images, onNext, onExit, imageHandlers = {}) {
-    const linksHtml = modul6.externalLinks.map(externalLinkHtml).join("");
-
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${modul6.heading}</h2>
-            <div class="section-body"><p>${modul6.intro}</p></div>
-
-            <div class="section-cta section-cta--row">${linksHtml}</div>
-
-            <div class="section-body"><p>${modul6.exerciseIntro}</p></div>
-
-            <p class="section-subheading">${modul6.descriptionLabel}</p>
-            <textarea id="description-input" class="text-input" rows="4"></textarea>
-
-            ${renderImageUploadHtml({ label: modul6.uploadLabel, hint: modul6.uploadHint, images })}
-
-            <div class="section-body"><p>${modul6.support}</p></div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindExit(onExit);
-    bindImageUpload(imageHandlers);
-}
-
-/*---- Modul 7 - selvvurderet tjekliste (togglekort, ikke låst adgang) ----*/
-
-function showChecklist(modul7, images, onNext, onExit) {
-    const itemsHtml = modul7.checklist.map((text, index) => `
-        <button type="button" class="choice-card choice-card--poll" data-checklist-item="${index}" aria-pressed="false">
-            <span class="choice-card-title choice-card-title--plain">${text}</span>
-            <img class="choice-card-arrow" src="img/pil.svg" alt="">
-        </button>
-    `).join("");
-
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${modul7.heading}</h2>
-            <div class="section-body"><p>${modul7.intro}</p></div>
-
-            ${images.length ? `
-                <p class="section-subheading">Det logo, du uploadede i Modul 6:</p>
-                <div>${imageGalleryHtml(images)}</div>
-            ` : ""}
-
-            <p class="section-subheading">Marker det, der allerede fungerer:</p>
-            <div class="choice-list">${itemsHtml}</div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
-
-    document.querySelectorAll("[data-checklist-item]").forEach((item) => {
-        item.addEventListener("click", () => {
-            const isPressed = item.getAttribute("aria-pressed") === "true";
-            item.setAttribute("aria-pressed", String(!isPressed));
+            nextButton.disabled = false;
         });
     });
 
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindExit(onExit);
+    if (!isCta) {
+        nextButton.addEventListener("click", () => {
+            if (!selectedOption) return;
+            onNext(answerFor(selectedOption));
+        });
+    }
 }
 
-function showReassurance(text, showBackButton, onBack, onContinue, onExit) {
-    app.innerHTML = `
-        <section class="section">
-            <div class="section-body"><p>${text}</p></div>
-            <div class="section-cta section-cta--column">
-                ${showBackButton ? `<button id="back-button" type="button" class="btn btn--regular btn--outline-green">Gå tilbage og justér</button>` : ""}
-                <button id="continue-button" type="button" class="btn btn--regular btn--solid-green">Fortsæt</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+/*---- type: "multiChoice" - togglebare kort, valgfrit grupperet med underoverskrifter (2B.2/2B.3), valgfri fritekst-note ----*/
 
-    activateFocusTrap(app);
-    if (showBackButton) document.querySelector("#back-button").addEventListener("click", onBack);
-    document.querySelector("#continue-button").addEventListener("click", onContinue);
-    bindExit(onExit);
-}
+function showMultiChoiceBoble(boble, ctx, onNext, onExit) {
+    const optionCardHtml = (option) => `
+        <button type="button" class="choice-card choice-card--poll" aria-pressed="false" data-option-id="${option.id}">
+            <span class="choice-card-title choice-card-title--plain">${option.text}</span>
+        </button>`;
 
-/*---- Modul 8 - dokumentation, forudfyldt ud fra den valgte retning ----*/
+    const groups = [...new Set(boble.options.map((o) => o.group).filter(Boolean))];
+    let optionsHtml;
 
-function showDocumentation(modul8, draftText, onFinish, onExit) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${modul8.heading}</h2>
-            <div class="section-body"><p>${modul8.intro}</p></div>
+    if (groups.length) {
+        const ungrouped = boble.options.filter((o) => !o.group);
+        optionsHtml = groups
+            .map((group) => `
+                <p class="choice-group-heading">${GROUP_LABELS[group] || group}</p>
+                <div class="choice-list">${boble.options.filter((o) => o.group === group).map(optionCardHtml).join("")}</div>
+            `).join("") + (ungrouped.length ? `<div class="choice-list">${ungrouped.map(optionCardHtml).join("")}</div>` : "");
+    } else {
+        optionsHtml = `<div class="choice-list">${boble.options.map(optionCardHtml).join("")}</div>`;
+    }
 
-            <p class="section-subheading">${modul8.documentationLabel}</p>
-            <textarea id="documentation-input" class="text-input" rows="4">${draftText}</textarea>
+    const noteHtml = boble.allowNote
+        ? `<textarea id="multichoice-note" class="text-input" rows="2" placeholder="Uddyb gerne (valgfrit)"></textarea>`
+        : "";
 
-            <div class="section-body"><p>${modul8.closing}</p></div>
+    const bodyHtml = `${headerHtml(boble, ctx)}${optionsHtml}${noteHtml}`;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
 
-            <div class="section-cta">
-                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">Gem og fortsæt i Visuelt udtryk</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+    renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
 
-    activateFocusTrap(app);
-
-    const finishButton = document.querySelector("#finish-button");
-    finishButton.addEventListener("click", async () => {
-        finishButton.disabled = true;
-        finishButton.textContent = "Gemmer...";
-        await onFinish();
+    const optionButtons = document.querySelectorAll("[data-option-id]");
+    optionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const isPressed = button.getAttribute("aria-pressed") === "true";
+            button.setAttribute("aria-pressed", String(!isPressed));
+        });
     });
 
-    bindExit(onExit);
+    document.querySelector("#next-button").addEventListener("click", () => {
+        const selected = [...optionButtons]
+            .filter((button) => button.getAttribute("aria-pressed") === "true")
+            .map((button) => {
+                const option = boble.options.find((o) => o.id === button.dataset.optionId);
+                return { id: option.id, text: option.text };
+            });
+
+        const note = document.querySelector("#multichoice-note")?.value || "";
+
+        onNext({ selected, note });
+    });
+}
+
+/*---- type: "textNote" - ét eller flere fritekstfelter, valgfrit forudfyldt (ctx.prefill, nøglet på field.id) ----*/
+
+function showTextNoteBoble(boble, ctx, onNext, onExit) {
+    const prefill = ctx?.prefill || {};
+
+    const fieldsHtml = boble.fields.map((field) => `
+        ${field.label ? `<p class="section-subheading">${field.label}</p>` : ""}
+        <textarea id="field-${field.id}" class="text-input" rows="${field.rows || 3}">${prefill[field.id] || ""}</textarea>
+    `).join("");
+
+    const bodyHtml = `${headerHtml(boble, ctx)}${fieldsHtml}`;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
+
+    renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
+
+    document.querySelector("#next-button").addEventListener("click", () => {
+        const values = {};
+        boble.fields.forEach((field) => {
+            values[field.id] = document.querySelector(`#field-${field.id}`).value;
+        });
+        onNext(values);
+    });
+}
+
+/*---- type: "paletteColorPicker" (5.2c) - multivalg af den gemte Farver-palets farver, plus "logoet skal have sin egen variant" ----*/
+
+function showPaletteColorPickerBoble(boble, ctx, onNext, onExit) {
+    const palette = ctx?.palette || [];
+
+    const swatchesHtml = palette.map((color) => `
+        <li class="tjekliste-punkt">
+            <label class="tjekliste-label">
+                <input type="checkbox" class="palette-color-checkbox" data-color-id="${color.id}">
+                <span class="palette-swatch" style="width:24px;height:24px;display:inline-block;background-color:${color.hex};border-radius:50%;"></span>
+                <span>${color.role || color.hex}</span>
+            </label>
+        </li>
+    `).join("");
+
+    const bodyHtml = `
+        ${headerHtml(boble, ctx)}
+        ${palette.length ? `<ul class="tjekliste">${swatchesHtml}</ul>` : `<p class="logo-preview-empty-hint">Ingen gemt palet fra Farver endnu.</p>`}
+        <ul class="tjekliste">
+            <li class="tjekliste-punkt">
+                <label class="tjekliste-label">
+                    <input type="checkbox" id="egen-variant-checkbox">
+                    <span>Logoet skal have sin egen variant</span>
+                </label>
+            </li>
+        </ul>
+    `;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
+
+    renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
+
+    document.querySelector("#next-button").addEventListener("click", () => {
+        const selected = [...document.querySelectorAll(".palette-color-checkbox:checked")]
+            .map((checkbox) => {
+                const color = palette.find((c) => String(c.id) === checkbox.dataset.colorId);
+                return color ? { id: color.id, hex: color.hex, role: color.role } : null;
+            })
+            .filter(Boolean);
+
+        const egenVariant = document.querySelector("#egen-variant-checkbox").checked;
+
+        onNext({ selected, egenVariant });
+    });
 }
 
 function showExitConfirmation(onStay, onExit) {
@@ -291,16 +386,12 @@ function showExitConfirmation(onStay, onExit) {
     document.querySelector("#leave-button").addEventListener("click", onExit);
 }
 
-export {
-    showWelcome,
-    showTextScreen,
-    showChoiceQuestion,
-    showOptionalReflection,
-    showValidationOffer,
-    showInspirationForm,
-    showBuildForm,
-    showChecklist,
-    showReassurance,
-    showDocumentation,
-    showExitConfirmation
+export const RENDERERS = {
+    text: showTextBoble,
+    choice: showChoiceBoble,
+    multiChoice: showMultiChoiceBoble,
+    textNote: showTextNoteBoble,
+    paletteColorPicker: showPaletteColorPickerBoble
 };
+
+export { showWelcome, showExitConfirmation };

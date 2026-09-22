@@ -91,6 +91,22 @@
  * deleteImage(imageId: number): Promise<void>
  *   Sletter ét gemt billede, hvis det findes.
  *
+ * saveVaekstrumPosition(vaekstrumId: string, position: object): Promise<{ ok: boolean, reason?: string }>
+ *   Gemmer et rums "hvor var jeg" (fri form - fx { bobleId, svar }), så rummet kan
+ *   genoptages ved næste besøg i stedet for at starte forfra. Generisk - ethvert
+ *   rum kan bruge den, men det er op til det enkelte rum selv at afgøre HVORNÅR
+ *   den skal kaldes (Logo kalder den kun ét sted, jf. docs/duf-manuskript-logo.md
+ *   spor D). Adskilt fra saveVaekstrumOutput - en position er ikke et færdigt
+ *   output, og de to skal ikke blandes sammen.
+ *
+ * getVaekstrumPosition(vaekstrumId: string): Promise<object|null>
+ *   Henter et rums gemte position ({ vaekstrumId, position, savedAt }), eller
+ *   null hvis intet er gemt (eller lagring er fravalgt).
+ *
+ * clearVaekstrumPosition(vaekstrumId: string): Promise<void>
+ *   Sletter et rums gemte position, hvis den findes. Bør kaldes, når rummet
+ *   afsluttes normalt, så en gammel position ikke dukker op ved et senere besøg.
+ *
  * clearAllStorage(): Promise<void>
  *   Rydder alt gemt output og alle gemte billeder. Bruges internt af
  *   setStorageOptOut(true), men er også eksporteret til en eventuel
@@ -100,9 +116,10 @@
  */
 
 const DB_NAME = "duf-vaekstrum-storage";
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const OUTPUT_STORE = "output";
 const IMAGES_STORE = "images";
+const POSITION_STORE = "position";
 const OPT_OUT_KEY = "duf-storage-opt-out";
 const MAX_IMAGE_SIZE_BYTES = 15 * 1024 * 1024; // 15 MB - rundhåndet grænse, ikke en hård teknisk begrænsning
 
@@ -124,6 +141,10 @@ function openDatabase() {
             if (!db.objectStoreNames.contains(IMAGES_STORE)) {
                 const imagesStore = db.createObjectStore(IMAGES_STORE, { keyPath: "id", autoIncrement: true });
                 imagesStore.createIndex("vaekstrumId", "vaekstrumId", { unique: false });
+            }
+
+            if (!db.objectStoreNames.contains(POSITION_STORE)) {
+                db.createObjectStore(POSITION_STORE, { keyPath: "vaekstrumId" });
             }
         };
 
@@ -285,14 +306,59 @@ async function deleteImage(imageId) {
     await promisifyTransaction(tx);
 }
 
+/*---- Rum-position ("hvor var jeg", til genoptagelse - jf. saveVaekstrumPosition ovenfor) ----*/
+
+async function saveVaekstrumPosition(vaekstrumId, position) {
+    if (isStorageOptedOut()) {
+        return { ok: false, reason: "opted-out" };
+    }
+
+    if (typeof vaekstrumId !== "string" || vaekstrumId.trim() === "") {
+        return { ok: false, reason: "invalid-input" };
+    }
+
+    const record = {
+        vaekstrumId,
+        position: position ?? {},
+        savedAt: new Date().toISOString()
+    };
+
+    const db = await openDatabase();
+    const tx = db.transaction(POSITION_STORE, "readwrite");
+    tx.objectStore(POSITION_STORE).put(record);
+
+    await promisifyTransaction(tx);
+
+    return { ok: true };
+}
+
+async function getVaekstrumPosition(vaekstrumId) {
+    if (isStorageOptedOut()) return null;
+
+    const db = await openDatabase();
+    const tx = db.transaction(POSITION_STORE, "readonly");
+    const result = await promisifyRequest(tx.objectStore(POSITION_STORE).get(vaekstrumId));
+
+    return result ?? null;
+}
+
+async function clearVaekstrumPosition(vaekstrumId) {
+    const db = await openDatabase();
+    const tx = db.transaction(POSITION_STORE, "readwrite");
+    tx.objectStore(POSITION_STORE).delete(vaekstrumId);
+
+    await promisifyTransaction(tx);
+}
+
 /*---- Ryd alt ----*/
 
 async function clearAllStorage() {
     const db = await openDatabase();
-    const tx = db.transaction([OUTPUT_STORE, IMAGES_STORE], "readwrite");
+    const tx = db.transaction([OUTPUT_STORE, IMAGES_STORE, POSITION_STORE], "readwrite");
 
     tx.objectStore(OUTPUT_STORE).clear();
     tx.objectStore(IMAGES_STORE).clear();
+    tx.objectStore(POSITION_STORE).clear();
 
     await promisifyTransaction(tx);
 }
@@ -317,5 +383,8 @@ export {
     getImage,
     getImagesForVaekstrum,
     deleteImage,
+    saveVaekstrumPosition,
+    getVaekstrumPosition,
+    clearVaekstrumPosition,
     clearAllStorage
 };
