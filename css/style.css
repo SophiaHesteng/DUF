@@ -244,7 +244,8 @@ body.in-flow #app {
   flex-shrink: 0;
   width: 48px;
   height: 72px;
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 .choice-card-body {
@@ -562,7 +563,9 @@ button.value-card {
   font: inherit;
   color: inherit;
   cursor: pointer;
-  appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 
 /*---- Wireframe-placeholder (endnu ikke designet indhold) ----*/
@@ -693,7 +696,8 @@ button.value-card {
   display: block;
   width: 100%;
   aspect-ratio: 4/3;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   border-radius: 8px;
   margin-bottom: 12px;
 }
@@ -737,7 +741,8 @@ button.value-card {
   width: 100%;
   aspect-ratio: 1/1;
   border-radius: 50%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   margin: 24px 0;
 }
 
@@ -1104,7 +1109,8 @@ button.value-card {
 
 .logo-preview-sizes img {
   display: block;
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 
 .logo-preview-sizes img:nth-child(1) {
@@ -1126,7 +1132,8 @@ button.value-card {
   filter: grayscale(100%);
   max-width: 240px;
   max-height: 160px;
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
   display: block;
   margin: 16px 0;
 }
@@ -1151,7 +1158,8 @@ button.value-card {
 .logo-preview-background img {
   max-width: 100%;
   max-height: 100px;
-  object-fit: contain;
+  -o-object-fit: contain;
+     object-fit: contain;
 }
 .logo-preview-background--light {
   background-color: #FFFFFF;
@@ -1419,7 +1427,8 @@ main {
   width: 90px;
   height: 90px;
   border-radius: 50%;
-  object-fit: cover;
+  -o-object-fit: cover;
+     object-fit: cover;
   border: 2px solid rgba(15, 32, 27, 0.6);
 }
 
@@ -1484,6 +1493,4 @@ main {
   flex-direction: column;
   gap: 16px;
   margin-top: 24px;
-}
-
-/*# sourceMappingURL=style.css.map */
+}/*# sourceMappingURL=style.css.map */
