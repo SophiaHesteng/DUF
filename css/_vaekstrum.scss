@@ -63,3 +63,12 @@ body.in-flow #app {
     bottom: 2.75rem;
     z-index: 10;
 }
+
+/*---- Byggesten: midlertidig "Skift fokus"-knap (tilbage til Modul 2's fokusvalg), samme placering som opslagsværk-linket ovenfor. Kan erstattes af den fælles modul-navigationslinje, når den bygges ----*/
+
+#skift-fokus-button {
+    position: fixed;
+    left: 2rem;
+    bottom: 2.75rem;
+    z-index: 10;
+}

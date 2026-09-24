@@ -1,5 +1,12 @@
 import { activateFocusTrap } from "./accessibility.js";
-import { renderExitDoor as renderSharedExitDoor } from "../components/exitDoor.js";
+import { renderExitDoor as renderSharedExitDoor, bindExit } from "../components/exitDoor.js";
+import { renderImageUploadHtml, bindImageUpload } from "../components/imageGallery.js";
+import { renderSeOgsaa } from "../components/seOgsaa.js";
+import { renderFontvaelger, indlaesGoogleFont } from "../components/fontvaelger.js";
+import { renderProvSammen } from "../components/provSammen.js";
+import { SE_OGSAA_MAAL } from "../data/seOgsaaMaal.js";
+
+/*---- UI til "Ikoner, fonte & andre grafiske byggesten" - én renderer pr. boble-type (jf. js/data/byggesten.js), samme opdeling som logoUi.js men Byggestens egen kopi ----*/
 
 const app = document.querySelector("#app");
 
@@ -7,65 +14,79 @@ function renderExitDoor() {
     return renderSharedExitDoor("Gå ud af Ikoner, fonte & andre grafiske byggesten");
 }
 
-function renderReferenceButton() {
+function externalLinkHtml(link) {
+    return `<div class="section-cta"><a href="${link.url}" target="_blank" rel="noopener noreferrer" class="btn btn--regular btn--outline-green">${link.label}</a></div>`;
+}
+
+/*---- Fælles hoved: overskrift, brødtekst og de generiske "påhæng". Se også-skiltet ligger sidst, lige over CTA'en ----*/
+
+function headerHtml(boble, ctx = {}) {
     return `
-        <a id="reference-button" href="#" class="btn btn--slim btn--outline-green">
-            <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
-            Rettigheder
-        </a>
+        <h2 class="section-heading">${boble.heading}</h2>
+        <div class="section-body">
+            ${(boble.paragraphs || []).map((p) => `<p>${p}</p>`).join("")}
+            ${boble.list ? `<ul>${boble.list.map((item) => `<li>${item}</li>`).join("")}</ul>` : ""}
+            ${boble.afterList ? [].concat(boble.afterList).map((p) => `<p>${p}</p>`).join("") : ""}
+        </div>
+        ${boble.recap?.length ? recapHtml(boble.recap) : ""}
+        ${boble.externalLink ? externalLinkHtml(boble.externalLink) : ""}
+        ${boble.guideLine ? `<div class="panel guide-line"><p><strong>💬 ${boble.guideAvatar ? `${boble.guideAvatar}:` : "Guide:"}</strong> ${boble.guideLine}</p></div>` : ""}
     `;
 }
 
-function bindChrome(onExit, onReference) {
-    const exitButton = document.querySelector("#exit-button");
-    if (exitButton) exitButton.addEventListener("click", onExit);
+function recapHtml(items) {
+    return `<dl class="compass-summary">${items.map((item) => `<dt>${item.label}</dt><dd>${escapeHtml(item.value)}</dd>`).join("")}</dl>`;
+}
 
-    const referenceButton = document.querySelector("#reference-button");
-    if (referenceButton && onReference) {
-        referenceButton.addEventListener("click", (event) => {
-            event.preventDefault();
-            onReference();
-        });
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]));
+}
+
+/*---- "Skift fokus" - midlertidig, rum-lokal vej tilbage til 2.1 (jf. byggestenEngine.js). Samme slim-knap-placering som den gamle "Rettigheder"-knap ----*/
+
+function skiftFokusHtml(ctx) {
+    return ctx?.visSkiftFokus
+        ? `<button id="skift-fokus-button" type="button" class="btn btn--slim btn--outline-green">Skift fokus</button>`
+        : "";
+}
+
+function renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit) {
+    app.innerHTML = `
+        <section class="section">
+            ${bodyHtml}
+            ${boble.imageUpload ? renderImageUploadHtml({ label: boble.imageUpload.label, hint: boble.imageUpload.hint, images: ctx?.images || [] }) : ""}
+            <div id="se-ogsaa-slot"></div>
+            <div class="section-cta">${ctaHtml}</div>
+        </section>
+        ${skiftFokusHtml(ctx)}
+        ${renderExitDoor()}`;
+
+    activateFocusTrap(app);
+    bindExit(onExit);
+
+    const skiftFokusButton = document.querySelector("#skift-fokus-button");
+    if (skiftFokusButton) skiftFokusButton.addEventListener("click", () => ctx.onSkiftFokus());
+
+    if (boble.imageUpload && ctx?.imageHandlers) {
+        bindImageUpload(ctx.imageHandlers);
+    }
+
+    if (boble.seOgsaa) {
+        const maal = SE_OGSAA_MAAL[boble.seOgsaa.maal];
+        const slot = document.querySelector("#se-ogsaa-slot");
+        if (maal && slot) renderSeOgsaa(slot, { maal, navn: maal.navn, tekst: boble.seOgsaa.tekst });
     }
 }
 
-function situationsAccordionHtml(situationer) {
-    return situationer.map((situation, index) => `
-        <div class="accordion-item" data-open="false">
-            <button class="accordion-trigger" aria-expanded="false" aria-controls="situation-panel-${index}">
-                <span>${situation.title}</span>
-                <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
-            </button>
-            <div class="accordion-panel" id="situation-panel-${index}" hidden>
-                <p>${situation.text}</p>
-            </div>
-        </div>
-    `).join("");
-}
+/*---- Boble 1.1 - pre-flow velkomst ----*/
 
-function bindAccordions() {
-    document.querySelectorAll(".accordion-trigger").forEach((trigger) => {
-        trigger.addEventListener("click", () => {
-            const item = trigger.closest(".accordion-item");
-            const panel = item.querySelector(".accordion-panel");
-            const icon = trigger.querySelector(".accordion-icon");
-            const isOpen = trigger.getAttribute("aria-expanded") === "true";
-
-            trigger.setAttribute("aria-expanded", String(!isOpen));
-            item.dataset.open = String(!isOpen);
-            panel.hidden = isOpen;
-            icon.src = isOpen ? "img/accordion-closed.svg" : "img/accordion-open.svg";
-        });
-    });
-}
-
-function showWelcome(text, onStart) {
+function showWelcome(paragraphs, buttonText, onStart) {
     app.innerHTML = `
         <section class="section welcome-card">
             <h1 class="section-heading">Ikoner, fonte & andre grafiske byggesten</h1>
-            <div class="section-body"><p>${text}</p></div>
+            <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
             <div class="section-cta">
-                <button id="start-button" type="button" class="btn btn--regular btn--solid-green">Gå ind her</button>
+                <button id="start-button" type="button" class="btn btn--regular btn--solid-green">${buttonText}</button>
             </div>
         </section>`;
 
@@ -73,261 +94,313 @@ function showWelcome(text, onStart) {
     document.querySelector("#start-button").addEventListener("click", onStart);
 }
 
-/*---- Ren læseskærm, med valgfri myteknæk-boks ----*/
+/*---- type: "text" - ren læseskærm. Terminale bobler (saveOutput/isExit) viser en kort ventetilstand ----*/
 
-function showTextScreen({ heading, paragraphs = [], callout, buttonText = "Næste" }, onNext, onExit, onReference) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${heading}</h2>
+function showTextBoble(boble, ctx, onNext, onExit) {
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular ${boble.isExit ? "btn--outline-green" : "btn--solid-green"}">${boble.nextButtonText || "Næste"}</button>`;
 
-            <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
+    renderScreen(boble, ctx, { bodyHtml: headerHtml(boble, ctx), ctaHtml }, onExit);
 
-            ${callout ? `
-                <div class="panel">
-                    <p><strong>Myteknæk:</strong> ${callout}</p>
-                </div>
-            ` : ""}
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">${buttonText}</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit, onReference);
+    const nextButton = document.querySelector("#next-button");
+    nextButton.addEventListener("click", async () => {
+        if (boble.saveOutput || boble.isExit) {
+            nextButton.disabled = true;
+            nextButton.textContent = "Gemmer...";
+        }
+        await onNext();
+    });
 }
 
-/*---- Modul 2 - forgrening: har brugeren eksempler at samle op på? ----*/
+/*---- type: "choice" - envalgskort (eller ctaButtons: stakkede knapper, der handler med det samme). Understøtter pr.-option `response` og `next`, en fælles boble-`response` (3.2), en opfølgende mini-forgrening (`followUp`, 4.2 "Et andet værktøj") og en prøvesætning i brugerens valgte font (4.5) ----*/
 
-function showExamplesBranch({ heading, intro }, onHasExamples, onNoExamples, onExit) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${heading}</h2>
-            <div class="section-body"><p>${intro}</p></div>
+function showChoiceBoble(boble, ctx, onNext, onExit) {
+    const isCta = Boolean(boble.ctaButtons);
 
-            <div class="choice-list">
-                <button type="button" class="choice-card" id="has-examples-button">
-                    <span class="choice-card-title choice-card-title--plain">Ja, jeg har eksempler</span>
-                    <img class="choice-card-arrow" src="img/pil.svg" alt="">
-                </button>
-                <button type="button" class="choice-card" id="no-examples-button">
-                    <span class="choice-card-title choice-card-title--plain">Nej, ikke endnu</span>
-                    <img class="choice-card-arrow" src="img/pil.svg" alt="">
-                </button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+    const optionHtml = (option) => isCta
+        ? `<button type="button" class="btn btn--regular btn--outline-green" data-option-id="${option.id}">${option.text}</button>`
+        : `
+            <button type="button" class="choice-card choice-card--poll" aria-pressed="false" data-option-id="${option.id}">
+                <span class="choice-card-title choice-card-title--plain">${option.text}</span>
+            </button>`;
 
-    activateFocusTrap(app);
-    document.querySelector("#has-examples-button").addEventListener("click", onHasExamples);
-    document.querySelector("#no-examples-button").addEventListener("click", onNoExamples);
-    bindChrome(onExit);
-}
+    const proeveHtml = boble.proeveSaetning
+        ? `
+            <p class="byggesten-proeve" id="proeve-saetning">${boble.proeveSaetning}</p>
+            ${ctx.proeveFont ? `<p class="byggesten-proeve-label">Sat i ${escapeHtml(ctx.proeveFont)}</p>` : ""}
+            ${boble.efterProeve ? `<div class="section-body"><p>${boble.efterProeve}</p></div>` : ""}`
+        : "";
 
-function showExamplesSkip(skipText, onNext, onExit) {
-    app.innerHTML = `
-        <section class="section">
-            <div class="section-body"><p>${skipText}</p></div>
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+    const bodyHtml = `
+        ${headerHtml(boble, ctx)}
+        ${proeveHtml}
+        <div class="${isCta ? "section-cta section-cta--column" : "choice-list"}">${boble.options.map(optionHtml).join("")}</div>
+        <div id="choice-followup"></div>
+        <div id="choice-response" aria-live="polite"></div>
+    `;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green"${isCta ? " hidden" : " disabled"}>${boble.nextButtonText || "Næste"}</button>`;
 
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit);
-}
+    renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
 
-function showExamplesForm({ heading, exampleIntro, reflectionQuestions }, onNext, onExit) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${heading}</h2>
-            <div class="section-body"><p>${exampleIntro}</p></div>
+    if (ctx.proeveFont) {
+        indlaesGoogleFont(ctx.proeveFont).then(() => {
+            const el = document.querySelector("#proeve-saetning");
+            if (el) el.style.fontFamily = `"${ctx.proeveFont}", sans-serif`;
+        });
+    }
 
-            <textarea id="examples-input" class="text-input" rows="4" placeholder="Fx: hjemmeside, sociale medier, dokumenter til klienter ..."></textarea>
+    const optionButtons = document.querySelectorAll("[data-option-id]");
+    const nextButton = document.querySelector("#next-button");
+    const responseContainer = document.querySelector("#choice-response");
+    const followUpContainer = document.querySelector("#choice-followup");
+    let selectedOption = null;
+    let selectedFollowUp = null;
 
-            ${reflectionQuestions.map((q, i) => `
-                <p class="section-subheading">${q}</p>
-                <textarea id="reflection-${i}" class="text-input" rows="2"></textarea>
-            `).join("")}
+    const showResponse = (text) => {
+        responseContainer.innerHTML = text ? `<div class="panel"><p>${text}</p></div>` : "";
+    };
 
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+    const answer = () => ({
+        optionId: selectedOption.id,
+        text: selectedOption.text,
+        followUpId: selectedFollowUp?.id,
+        forcedNext: selectedOption.next
+    });
 
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit);
-}
+    optionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            selectedOption = boble.options.find((o) => o.id === button.dataset.optionId);
+            selectedFollowUp = null;
+            if (!selectedOption) return;
 
-/*---- Modul 3 - rettighedsintro med udfoldelig oversigt over de fem situationer ----*/
+            if (isCta) {
+                onNext(answer());
+                return;
+            }
 
-function showRettighedsIntro(modul3, situationer, onNext, onExit, onReference) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${modul3.heading}</h2>
-            <div class="section-body"><p>${modul3.intro}</p></div>
+            optionButtons.forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
+            followUpContainer.innerHTML = "";
 
-            <p class="section-subheading">Tre spørgsmål, du altid skal kunne svare på:</p>
-            <div class="section-body">
-                <ul>${modul3.altidSporgsmaal.map((q) => `<li>${q}</li>`).join("")}</ul>
-            </div>
+            if (selectedOption.followUp) {
+                showResponse("");
+                nextButton.disabled = true;
+                followUpContainer.innerHTML = `
+                    <p class="section-subheading">${selectedOption.followUp.spoergsmaal}</p>
+                    <div class="choice-list">
+                        ${selectedOption.followUp.options.map((fu) => `
+                            <button type="button" class="choice-card choice-card--poll" aria-pressed="false" data-followup-id="${fu.id}">
+                                <span class="choice-card-title choice-card-title--plain">${fu.text}</span>
+                            </button>`).join("")}
+                    </div>`;
 
-            <div class="choice-list">${situationsAccordionHtml(situationer)}</div>
+                const followUpButtons = followUpContainer.querySelectorAll("[data-followup-id]");
+                followUpButtons.forEach((fuButton) => {
+                    fuButton.addEventListener("click", () => {
+                        selectedFollowUp = selectedOption.followUp.options.find((fu) => fu.id === fuButton.dataset.followupId);
+                        followUpButtons.forEach((other) => other.setAttribute("aria-pressed", String(other === fuButton)));
+                        showResponse(selectedFollowUp.response);
+                        nextButton.disabled = false;
+                    });
+                });
+                return;
+            }
 
-            <div class="panel">
-                <p><strong>Vigtigt at vide:</strong> ${modul3.vigtigtAtVide}</p>
-            </div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    bindAccordions();
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit, onReference);
-}
-
-/*---- Fast opslagsværk - samme fem situationer, tilgængeligt fra enhver skærm fra Modul 3 og frem ----*/
-
-function showReference(situationer, onBack) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">Ikonrettigheder — praktisk oversigt</h2>
-            <div class="choice-list">${situationsAccordionHtml(situationer)}</div>
-            <div class="section-cta">
-                <button id="back-button" type="button" class="btn btn--regular btn--outline-green">Tilbage</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
-
-    bindAccordions();
-    activateFocusTrap(app);
-    document.querySelector("#back-button").addEventListener("click", onBack);
-}
-
-/*---- Generisk formular med et sæt frie tekstfelter - bruges til Modul 3's stilspørgsmål, Modul 4 og Modul 5 ----*/
-
-function showFieldsForm({ heading, intro, fields, closing }, onNext, onExit, onReference) {
-    const fieldsHtml = fields.map((field) => `
-        <p class="section-subheading">${field.label}</p>
-        <textarea id="field-${field.id}" class="text-input" rows="2"></textarea>
-    `).join("");
-
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${heading}</h2>
-            <div class="section-body"><p>${intro}</p></div>
-
-            ${fieldsHtml}
-
-            ${closing ? `<div class="section-body"><p>${closing}</p></div>` : ""}
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit, onReference);
-}
-
-/*---- Modul 7 - selvvurderet tjekliste (togglekort, ikke låst adgang) ----*/
-
-function showChecklist(modul7, onNext, onExit, onReference) {
-    const itemsHtml = modul7.checklist.map((text, index) => `
-        <button type="button" class="choice-card choice-card--poll" data-checklist-item="${index}" aria-pressed="false">
-            <span class="choice-card-title choice-card-title--plain">${text}</span>
-            <img class="choice-card-arrow" src="img/pil.svg" alt="">
-        </button>
-    `).join("");
-
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${modul7.heading}</h2>
-            <div class="section-body"><p>${modul7.intro}</p></div>
-
-            <p class="section-subheading">Marker det, der allerede fungerer:</p>
-            <div class="choice-list">${itemsHtml}</div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
-
-    document.querySelectorAll("[data-checklist-item]").forEach((item) => {
-        item.addEventListener("click", () => {
-            const isPressed = item.getAttribute("aria-pressed") === "true";
-            item.setAttribute("aria-pressed", String(!isPressed));
+            showResponse(selectedOption.response || boble.response);
+            nextButton.disabled = false;
         });
     });
 
-    activateFocusTrap(app);
-    document.querySelector("#next-button").addEventListener("click", onNext);
-    bindChrome(onExit, onReference);
+    if (!isCta) {
+        nextButton.addEventListener("click", () => {
+            if (!selectedOption) return;
+            onNext(answer());
+        });
+    }
 }
 
-function showReassurance(text, onContinue, onExit, onReference) {
-    app.innerHTML = `
-        <section class="section">
-            <div class="section-body"><p>${text}</p></div>
-            <div class="section-cta">
-                <button id="continue-button" type="button" class="btn btn--regular btn--solid-green">Fortsæt</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
+/*---- type: "multiChoice" - togglebare kort, forudvalgt fra tidligere svar (ctx.prefill.valgte). kraeverValg: "Næste" er slået fra, indtil mindst ét er valgt ----*/
 
-    activateFocusTrap(app);
-    document.querySelector("#continue-button").addEventListener("click", onContinue);
-    bindChrome(onExit, onReference);
+function showMultiChoiceBoble(boble, ctx, onNext, onExit) {
+    const valgte = ctx.prefill?.valgte || [];
+
+    const optionsHtml = boble.options.map((option) => `
+        <button type="button" class="choice-card choice-card--poll" aria-pressed="${valgte.includes(option.id)}" data-option-id="${option.id}">
+            <span class="choice-card-title choice-card-title--plain">${option.text}</span>
+        </button>`).join("");
+
+    const bodyHtml = `${headerHtml(boble, ctx)}<div class="choice-list">${optionsHtml}</div>`;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
+
+    renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
+
+    const optionButtons = [...document.querySelectorAll("[data-option-id]")];
+    const nextButton = document.querySelector("#next-button");
+    const pressed = () => optionButtons.filter((b) => b.getAttribute("aria-pressed") === "true");
+    const updateNext = () => { if (boble.kraeverValg) nextButton.disabled = pressed().length === 0; };
+
+    optionButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            button.setAttribute("aria-pressed", String(button.getAttribute("aria-pressed") !== "true"));
+            updateNext();
+        });
+    });
+    updateNext();
+
+    nextButton.addEventListener("click", () => {
+        const selected = pressed().map((button) => {
+            const option = boble.options.find((o) => o.id === button.dataset.optionId);
+            return { id: option.id, text: option.text };
+        });
+        onNext({ selected });
+    });
 }
 
-/*---- Modul 8 - dokumentation, forudfyldt ud fra Modul 3-5's valg ----*/
+/*---- type: "fokusvalg" (2.1) - multivalg, mindst ét. "Det hele" markerer de tre andre; fjernes én af dem, slukkes "Det hele" igen ----*/
 
-function showDocumentation(modul8, draftText, onFinish, onExit, onReference) {
-    app.innerHTML = `
-        <section class="section">
-            <h2 class="section-heading">${modul8.heading}</h2>
-            <div class="section-body"><p>${modul8.intro}</p></div>
+function showFokusvalgBoble(boble, ctx, onNext, onExit) {
+    const valgte = ctx.prefill?.valgte || [];
+    const emneOptions = boble.options.filter((o) => !o.vaelgerAlle);
+    const alleValgt = emneOptions.every((o) => valgte.includes(o.id));
 
-            <p class="section-subheading">${modul8.documentationLabel}</p>
-            <textarea id="documentation-input" class="text-input" rows="4">${draftText}</textarea>
+    const optionsHtml = boble.options.map((option) => {
+        const isPressed = option.vaelgerAlle ? alleValgt : valgte.includes(option.id);
+        return `
+            <button type="button" class="choice-card choice-card--poll" aria-pressed="${isPressed}" data-option-id="${option.id}">
+                <span class="choice-card-title choice-card-title--plain">${option.text}</span>
+            </button>`;
+    }).join("");
 
-            <div class="section-body"><p>${modul8.closing}</p></div>
+    const bodyHtml = `${headerHtml(boble, ctx)}<div class="choice-list">${optionsHtml}</div>`;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
 
-            <div class="section-cta">
-                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">Gem og fortsæt i Visuelt udtryk</button>
-            </div>
-        </section>
-        ${onReference ? renderReferenceButton() : ""}
-        ${renderExitDoor()}`;
+    renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
 
-    activateFocusTrap(app);
+    const nextButton = document.querySelector("#next-button");
+    const buttonFor = (id) => document.querySelector(`[data-option-id="${id}"]`);
+    const alleButton = buttonFor(boble.options.find((o) => o.vaelgerAlle).id);
+    const emneButtons = emneOptions.map((o) => buttonFor(o.id));
+    const isPressed = (button) => button.getAttribute("aria-pressed") === "true";
 
-    const finishButton = document.querySelector("#finish-button");
-    finishButton.addEventListener("click", async () => {
-        finishButton.disabled = true;
-        finishButton.textContent = "Gemmer...";
-        await onFinish();
+    const sync = () => {
+        alleButton.setAttribute("aria-pressed", String(emneButtons.every(isPressed)));
+        nextButton.disabled = !emneButtons.some(isPressed);
+    };
+
+    emneButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            button.setAttribute("aria-pressed", String(!isPressed(button)));
+            sync();
+        });
     });
 
-    bindChrome(onExit, onReference);
+    alleButton.addEventListener("click", () => {
+        const tilstand = !isPressed(alleButton);
+        emneButtons.forEach((button) => button.setAttribute("aria-pressed", String(tilstand)));
+        sync();
+    });
+
+    sync();
+
+    nextButton.addEventListener("click", () => {
+        onNext({ valgte: emneButtons.filter(isPressed).map((button) => button.dataset.optionId) });
+    });
+}
+
+/*---- type: "eksempler" (1.3) - tre valgfrie felter + valgfri upload, eller "Jeg har ikke noget endnu" ----*/
+
+function showEksemplerBoble(boble, ctx, onNext, onExit) {
+    const eksisterende = ctx.prefill?.eksempler || [];
+
+    const felterHtml = Array.from({ length: boble.antalFelter }, (_, i) => `
+        <label class="section-subheading" for="eksempel-${i}">Sted ${i + 1}</label>
+        <textarea id="eksempel-${i}" class="text-input" rows="2">${escapeHtml(eksisterende[i] || "")}</textarea>
+    `).join("");
+
+    const ctaHtml = `
+        <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
+        <button id="ingen-button" type="button" class="btn btn--regular btn--outline-green">Jeg har ikke noget endnu</button>`;
+
+    renderScreen(boble, ctx, { bodyHtml: `${headerHtml(boble, ctx)}${felterHtml}<div id="ingen-response" aria-live="polite"></div>`, ctaHtml }, onExit);
+
+    const hentEksempler = () => Array.from({ length: boble.antalFelter }, (_, i) => document.querySelector(`#eksempel-${i}`).value.trim()).filter(Boolean);
+
+    document.querySelector("#next-button").addEventListener("click", () => onNext({ eksempler: hentEksempler() }));
+
+    const ingenButton = document.querySelector("#ingen-button");
+    ingenButton.addEventListener("click", () => {
+        document.querySelector("#ingen-response").innerHTML = `<div class="panel"><p>${boble.tomTekst}</p></div>`;
+        ingenButton.hidden = true;
+        document.querySelector("#next-button").textContent = "Videre";
+    });
+}
+
+/*---- type: "textNote" - et eller flere fritekstfelter, forudfyldt fra tidligere svar ----*/
+
+function showTextNoteBoble(boble, ctx, onNext, onExit) {
+    const prefill = ctx?.prefill || {};
+
+    const fieldsHtml = boble.fields.map((field) => `
+        ${field.label ? `<p class="section-subheading">${field.label}</p>` : ""}
+        <textarea id="field-${field.id}" class="text-input" rows="${field.rows || 3}"${field.placeholder ? ` placeholder="${field.placeholder}"` : ""}>${escapeHtml(prefill[field.id] || "")}</textarea>
+    `).join("");
+
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
+
+    renderScreen(boble, ctx, { bodyHtml: `${headerHtml(boble, ctx)}${fieldsHtml}`, ctaHtml }, onExit);
+
+    document.querySelector("#next-button").addEventListener("click", () => {
+        const values = {};
+        boble.fields.forEach((field) => {
+            values[field.id] = document.querySelector(`#field-${field.id}`).value;
+        });
+        onNext(values);
+    });
+}
+
+/*---- type: "fontvaelger" (4.3/4.4) - selve vælgeren er en selvstændig komponent (js/components/fontvaelger.js) ----*/
+
+function showFontvaelgerBoble(boble, ctx, onNext, onExit) {
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green" disabled>${boble.nextButtonText || "Næste"}</button>`;
+
+    renderScreen(boble, ctx, { bodyHtml: `${headerHtml(boble, ctx)}<div id="fontvaelger-container"></div>`, ctaHtml }, onExit);
+
+    const nextButton = document.querySelector("#next-button");
+    let valgtFont = ctx.prefill?.valgt || "";
+    nextButton.disabled = !valgtFont;
+
+    renderFontvaelger(document.querySelector("#fontvaelger-container"), {
+        formaal: boble.formaal,
+        gemtPalet: ctx.gemtPalet,
+        valgt: valgtFont,
+        parFont: ctx.parFont,
+        onVælg: (fontNavn) => {
+            valgtFont = fontNavn;
+            nextButton.disabled = !valgtFont;
+        }
+    });
+
+    nextButton.addEventListener("click", () => {
+        if (!valgtFont) return;
+        onNext({ fontNavn: valgtFont });
+    });
+}
+
+/*---- type: "provSammen" (6.1) - selve forhåndsvisningen er en selvstændig komponent (js/components/provSammen.js) ----*/
+
+function showProvSammenBoble(boble, ctx, onNext, onExit) {
+    const bodyHtml = `
+        <h2 class="section-heading">${boble.heading}</h2>
+        <div id="prov-sammen-container"></div>
+        <div class="section-body">${(boble.paragraphs || []).map((p) => `<p>${p}</p>`).join("")}</div>
+        ${ctx.recap?.length ? recapHtml(ctx.recap) : ""}
+        ${boble.guideLine ? `<div class="panel guide-line"><p><strong>💬 ${boble.guideAvatar}:</strong> ${boble.guideLine}</p></div>` : ""}
+    `;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
+
+    renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
+
+    renderProvSammen(document.querySelector("#prov-sammen-container"), ctx.provSammen);
+
+    document.querySelector("#next-button").addEventListener("click", () => onNext());
 }
 
 function showExitConfirmation(onStay, onExit) {
@@ -350,17 +423,15 @@ function showExitConfirmation(onStay, onExit) {
     document.querySelector("#leave-button").addEventListener("click", onExit);
 }
 
-export {
-    showWelcome,
-    showTextScreen,
-    showExamplesBranch,
-    showExamplesSkip,
-    showExamplesForm,
-    showRettighedsIntro,
-    showReference,
-    showFieldsForm,
-    showChecklist,
-    showReassurance,
-    showDocumentation,
-    showExitConfirmation
+export const RENDERERS = {
+    text: showTextBoble,
+    choice: showChoiceBoble,
+    multiChoice: showMultiChoiceBoble,
+    fokusvalg: showFokusvalgBoble,
+    eksempler: showEksemplerBoble,
+    textNote: showTextNoteBoble,
+    fontvaelger: showFontvaelgerBoble,
+    provSammen: showProvSammenBoble
 };
+
+export { showWelcome, showExitConfirmation };

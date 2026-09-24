@@ -8,10 +8,11 @@
  * her - ikke i seks filer.
  *
  * Selve KLIK-håndteringen (bindExit) er bevidst IKKE flyttet herind for
- * Billeder og Ikoner/fonte & byggesten: de rum har en ekstra "Rettigheder"-
- * knap, hvis binding er flettet sammen med dørens i de motorer (bindChrome).
- * De to rum beholder derfor deres egen binding, men bruger denne fils
- * renderExitDoor() for selve markuppen.
+ * Billeder: det rum har en ekstra "Rettigheder"-knap, hvis binding er
+ * flettet sammen med dørens i motoren (bindChrome). Det rum beholder derfor
+ * sin egen binding, men bruger denne fils renderExitDoor() for selve
+ * markuppen. (Byggesten havde samme knap indtil manuskriptet 2026-09-24 og
+ * bruger nu bindExit.)
  * ----------------------------------------------------------------------------
  */
 

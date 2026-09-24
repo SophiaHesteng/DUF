@@ -1,144 +1,255 @@
 # MANUSKRIPT — Ikoner, fonte & andre grafiske byggesten
 
-*Status: Modul 3 opdateret (2026-09-06) til at matche Marcus' fulde faglige gennemgang af "Ikonrettigheder — praktisk oversigt". Øvrige moduler er uændret siden første udkast. Bygger direkte på VÆKSTRUM Context — Ikoner, fonte & andre grafiske byggesten og på "Ikonrettigheder — praktisk oversigt". Tekstforslag er skrevet i DUF's etablerede tone og kan frit justeres i sprog — men indholdet og logikken bag hvert modul bør holdes op mod Context-dokumentet, hvis noget ændres væsentligt. Bokse markeret "Note til design/udvikling" er praktiske hints, ikke bindende specifikationer.*
+## Rejsen gennem rummet
 
-**Sådan læses dette dokument:** For hvert modul er der en kort skærmtekst, en øvelse eller et sæt spørgsmål, og hvor relevant en note om praktisk implementering.
+Modul 2 er skillepunktet, men det er en let forgrening, ikke hårde spor som i Logo: brugeren multivælger, hvilke emner hun vil arbejde med (`fokusvalg[]`), og kun de tilsvarende moduler vises bagefter. Valget kan altid ændres igen.
 
-## Velkomst til rummet
+1. **Se hvad du allerede har** *(alle)* — orientering + tre konkrete eksempler fra brugerens eget materiale.
+2. **Hvad vil du have styr på?** *(skillepunktet)* — brugeren vælger selv, hvilke emner hun vil arbejde med. Kan altid ændres senere via modul-navigationslinjen.
+3. **Ikoner** *(kun hvis valgt)* — føles, funktion, kilde (tre reelle spor), stil samlet.
+4. **Fonte** *(kun hvis valgt)* — værktøj, overskrift og brødtekst valgt visuelt via en skrifttype-vælger, læsbarhedstest.
+5. **Andre byggesten** *(kun hvis valgt)* — har allerede / vælg retning / ved ikke endnu.
+6. **Prøv dem sammen** *(alle)* — et lille eksempel med det, hun har valgt; fungerer det?
+7. **Dit lille byggestens-sæt** *(alle)* — opsummering, tommelfingerregel, gem til den visuelle guide.
 
-**Skærmtekst (vises kun, hvis brugeren allerede har arbejdet med Farver og/eller Logo i dette besøg):**
-"Du har allerede taget stilling til farver og/eller logo. Nu handler det om de mindre detaljer — ikoner, fonte og andre tilbagevendende elementer — der binder det hele sammen i det daglige."
+## Det, rummet husker (til udvikling)
 
-**Standardvelkomst (hvis brugeren er kommet direkte til dette rum):**
-"Velkommen til Ikoner, fonte & andre grafiske byggesten. Her får du hjælp til at vælge de mindre, tilbagevendende elementer, der binder dit visuelle udtryk sammen — på tværs af opslag, dokumenter og hjemmeside."
+Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
-*Note til design/udvikling: i modsætning til Farver, Logo og Billeder er den kontekstuelle velkomst her ikke knyttet til et bestemt svar i Overblik, men til om brugeren allerede har arbejdet med Farver og/eller Logo i det aktuelle besøg (jf. Context-dokumentets begrundelse for, hvorfor dette vækstrum kommer som nummer fire). Har Overblik på et tidspunkt fået sit eget signal, der peger direkte hertil, bør denne velkomst revurderes.*
+- Modul 1: `udgangspunkt` (allerede-udtryk / hist-og-her / fra-bunden), `eksempler[]`, `iagttagelser[]`
+- Modul 2: `fokusvalg[]` (ikoner / fonte / andreByggesten — "Det hele" sætter alle tre). Kan altid ændres via modul-navigationslinjen. `fokusvalg` styrer kun, hvilke af Modul 3-5 der *vises* — ikke hvilke data der findes: fravælges et emne, bevares dets svar og vises igen, hvis emnet vælges til på ny. Modul 6's forhåndsvisning og Modul 7's opsamling følger det *aktuelle* `fokusvalg`.
+- Modul 3 (Ikoner): `ikonFoelelse`, `ikonFunktion`, `ikonKilde` (fri / tegnSelv / betaler)
+- Modul 4 (Fonte): `arbejdsVaerktoej`, `googleFontsDirekte` (bool, afledt af `arbejdsVaerktoej`), `fontOverskrift`, `fontBroedtekst`, `laesbarhedOk`
+- Modul 5 (Andre byggesten): `andenDetalje` (upload/beskrivelse) eller `andenRetning` eller `ikkeBesluttet`
+- Modul 6: `provetSammenResultat` (fungerer / tætPå / virkerIkke), `tilbageTil[]` (hvilke(t) valg der skal justeres)
+- Modul 7: `tommelfingerregel` (fri tekst), `begrundelse` (samlet, til Fælles samling)
 
-## Modul 1 — Hvorfor byggestenene betyder noget
+## Modul 1 — Se hvad du allerede har *(alle)*
 
-**Skærmtekst:**
-"Farver, logo og billeder fylder mest, når man taler om visuelt udtryk. Men det er tit de mindre, tilbagevendende detaljer — ikonerne i en menu, skrifttypen i et opslag, en tilbagevendende streg eller ramme — der afgør, om det hele opleves som én sammenhængende helhed, eller som spredte enkeltdele.
+### Boble 1.1 — Velkommen
 
-De er lette at overse, netop fordi de er små. Men brugt bevidst og konsekvent er de det, der binder resten sammen i det daglige."
+- **Hvad brugeren møder på denne skærm:**
+  - *Har allerede arbejdet med Farver og/eller Logo i dette besøg:* Du har allerede arbejdet med de store dele af dit visuelle udtryk. Nu kigger vi på det, der går igen mellem dem.
+  - *Kommer direkte til rummet:* Velkommen til Ikoner, fonte & andre grafiske byggesten.
+  - *Fælles fortsættelse:* Skrifttyper. Ikoner. Streger. Knapper. Små grafiske detaljer. Du behøver ikke beslutte det hele i dag. Vi finder de byggesten, der gør det lettere for dig at skabe noget, der føles som dig — hver gang.
+- **Hvad der leder videre:** Knappen "Lad os se, hvor du starter".
 
-**Myteknæk:** "Det er ikke ligegyldigt, at menuikonet på hjemmesiden ser anderledes ud end ikonet i sidste uges opslag. Det lægger de fleste ikke mærke til bevidst — men det er tit noget af det, der gør, at et udtryk føles rodet, uden at man kan sætte fingeren på hvorfor."
+### Boble 1.2 — Hvor starter du?
 
-## Modul 2 — Dit udgangspunkt
+- **Hvad brugeren møder på denne skærm:** Hvor føles det rigtigt at starte?
+- **Eventuel interaktion:** Vælg ét: "Jeg har allerede et visuelt udtryk" / "Jeg har lidt hist og her" / "Jeg starter næsten fra bunden".
+- **Eventuel respons eller feedback:** *Allerede et udtryk:* Så tager vi udgangspunkt i det, du har. *Hist og her:* Så finder vi ud af, hvad der er værd at samle. *Fra bunden:* Så bygger vi et enkelt udgangspunkt, ét valg ad gangen.
+- **Gemmes/får betydning senere:** Ja, `udgangspunkt`. Farver kun ordvalget i Modul 2 — ikke selve forgreningen.
 
-**Skærmtekst:**
-"Lad os se på, hvad du allerede bruger i dag."
+### Boble 1.3 — Find tre steder, hvor dit udtryk allerede dukker op
 
-**Øvelse:**
-"Saml 3–5 eksempler på steder, hvor du bruger ikoner, skrifttyper eller andre grafiske elementer i dag — det kan være din hjemmeside, sociale medier, eller dokumenter du sender til klienter."
+- **Hvad brugeren møder på denne skærm:** Åbn din hjemmeside, et opslag, eller et dokument, du sender til klienter. Kig ikke efter det perfekte — find bare tre steder, hvor du allerede bruger tekst, ikoner eller andre grafiske detaljer.
+- **Eventuel interaktion:** Tre valgfrie felter (beskrivelse eller skærmbillede/upload). Har hun intet: "Helt fint — så starter vi fra et rent bord."
+- **Gemmes/får betydning senere:** Ja, `eksempler[]` — vises igen i Modul 6 og 7.
 
-**Refleksionsspørgsmål:**
-- "Bruger du de samme ikoner og skrifttyper konsekvent, eller varierer det fra sted til sted?"
-- "Er det et bevidst valg — eller er det bare endt sådan?"
+### Boble 1.4 — Hvad lægger du mærke til?
 
-*Note til design/udvikling: har brugeren intet at samle op endnu, springes øvelsen over med samme type anerkendende tekst som i de øvrige tre vækstrum: "Helt fint — så starter vi fra et rent bord."*
+- **Hvad brugeren møder på denne skærm:** Kig på det, du lige har fundet. Hvad går igen, og hvad varierer?
+- **Eventuel interaktion:** Multivalg: "Jeg bruger de samme skrifttyper" / "Jeg bruger forskellige skrifttyper" / "Jeg bruger de samme ikoner" / "Jeg bruger forskellige ikoner" / "Jeg har nogle grafiske detaljer, der går igen" / "Jeg har egentlig ikke tænkt over det før".
+  - 💬 *Guide (avatar: Heidi):* Du opdager noget om din egen praksis her. Det er ikke en test, du kan bestå eller dumpe.
+- **Gemmes/får betydning senere:** Ja, `iagttagelser[]` — bruges som støtte i Modul 6/7, ikke som krav.
+- **Hvad der leder videre:** Knappen "Lad os se, hvad du vil have styr på".
 
-## Modul 3 — Vælg din ikonstil
+## Modul 2 — Hvad vil du have styr på? *(skillepunktet — reel forgrening)*
 
-**Skærmtekst:**
-"De fleste bruger ikoner fra et ikonbibliotek eller en gratis tjeneste, fremfor selv at tegne dem. Det er helt fint — men ligesom med billeder er 'let at hente' ikke det samme som 'frit at bruge, som man vil'."
+### Boble 2.1 — Vælg dit fokus
 
-**Tre spørgsmål, du altid skal kunne svare på:**
-1. "Hvor kommer ikonet fra?"
-2. "Hvilken licens eller aftale gælder?"
-3. "Skal ikonet bruges som almindelig grafik, eller som en del af din virksomheds identitet?"
+- **Hvad brugeren møder på denne skærm:** Du behøver ikke gøre det hele på én gang. Hvad vil du gerne have styr på først?
+- **Eventuel interaktion:** Multivalg (mindst ét): "Ikoner — jeg vil gerne have, at mine ikoner hænger sammen" / "Fonte — jeg vil gerne have styr på mine skrifttyper" / "De små detaljer — jeg har nogle grafiske elementer, men ved ikke, om de hænger sammen" / "Det hele — jeg vil gerne have et enkelt, samlet system" (markerer automatisk de tre andre).
+- **Gemmes/får betydning senere:** Ja, `fokusvalg[]`. Kun de valgte af Modul 3-5 vises. Rækkefølge ved flere valg: Ikoner → Fonte → Andre byggesten.
+- **Note til design/udvikling:** Dette valg er ikke låst — brugeren kan altid klikke tilbage til denne boble via modul-linjen og tilføje flere emner (jf. [[DUF Teknisk - Navigationslinjer (modul og boble)]]). Fravælges et emne, slettes dets svar ikke — de vises blot ikke, før emnet vælges til igen.
 
-**Kort om rettigheder (fra "Ikonrettigheder — praktisk oversigt"):**
-- "Gratis ikonbiblioteker — tjek altid den konkrete licens. Nogle kræver kildeangivelse, andre tillader ikke kommerciel brug uden en betalt licens."
-- "Betalte eller licensbaserede ikonpakker — licensen afgør, hvor meget du må bruge, ændre, eller genbruge dem til. Gem kvitteringen eller licensbeviset."
-- "Ikoner indbygget i designprogrammer eller hjemmesideværktøjer — at du har adgang til et ikon gennem et program, er ikke det samme som ret til at bruge det til alle formål. Tjek, om det må bruges kommercielt og eksporteres ud af programmet."
-- "Ikoner kopieret fra andre hjemmesider eller apps — ikke automatisk frit at bruge, blot fordi det er let at kopiere."
-- "Virksomheds- og platformsikoner (fx sociale medier, betalingsløsninger) — kan være beskyttede varemærker. Hent dem fra virksomhedens egen hjemmeside, og følg deres retningslinjer for brug."
+## Modul 3 — Ikoner *(kun hvis valgt i Modul 2)*
 
-**Vigtigt at vide-boks:** "Skal et ikon indgå i noget, der senere skal beskyttes særskilt — fx blive en del af dit logo — stiller det ofte skrappere krav til rettighederne end almindelig brug i opslag og dokumenter. Mange ikonbiblioteker forbyder direkte, at deres ikoner bruges som logo eller varemærke. Har ikonet en Creative Commons-licens, betyder bogstaverne noget: BY (kildeangivelse), NC (ikke kommercielt), ND (må ikke ændres), SA (deles under samme licens), CC0 (fri til brug). Tjek licensen ekstra grundigt i den situation."
+### Boble 3.1 — Hvordan skal dine ikoner føles?
 
-**Spørgsmål:**
-- "Hvilken stil passer til din praksis — streg eller fyldt, rund eller skarp?"
-- "Er ikonerne til for at understøtte tekst, eller skal de kunne stå alene?"
+- **Hvad brugeren møder på denne skærm:** Fire retninger, med et lille eksempel på hver: "Enkle streger" / "Fyldte ikoner" / "Runde og bløde" / "Skarpe og geometriske". Hvilken retning føles mest som dig?
+- **Eventuel interaktion:** Vælg ét.
+- **Gemmes/får betydning senere:** Ja, `ikonFoelelse`.
 
-**Skærmtekst:**
-"Et ikon fungerer bedst sammen med tekst, ikke som en erstatning for den. Er du i tvivl om, hvorvidt et ikon giver mening alene, er svaret som regel nej."
+### Boble 3.2 — Hvad skal ikonerne gøre?
 
-*Note til design/udvikling: rettighedsdelen er opdateret efter Marcus' fulde gennemgang (2026-09-06), som viser, at ikonrettigheder ikke længere kan antages at være enklere end billedrettigheder (jf. Context) — særligt varemærke/logo-brug og AI-ikoner rejser nu lige så meget kompleksitet, blot af en anden slags (ingen "genkendelige personer"-vinkel, men til gengæld varemærkeret). "Ikonrettigheder — praktisk oversigt" (nu 12 afsnit) bør, ligesom billedvejledningen, være tilgængelig som opslagsværk gennem hele rummet.*
+- **Hvad brugeren møder på denne skærm:** Hvad er ikonernes vigtigste opgave hos dig?
+- **Eventuel interaktion:** Vælg ét: "Hjælpe folk med at finde vej (navigation, funktioner)" / "Give mit materiale lidt mere personlighed (dekorative elementer)" / "Forklare noget, sammen med tekst".
+- **Eventuel respons eller feedback:** Et ikon behøver ikke forklare det hele. Skal det hjælpe med at forstå noget, skal teksten stadig kunne gøre arbejdet. Ikonet er hjælpen på vejen, ikke hele forklaringen.
+- **Gemmes/får betydning senere:** Ja, `ikonFunktion`.
 
-## Modul 4 — Vælg dine fonte
+### Boble 3.3 — Hvor kommer dine ikoner fra?
 
-**Skærmtekst:**
-"En font er ikke 'bare en font'. Valget signalerer en tone — roligt eller energisk, klassisk eller moderne — og det påvirker, hvor let teksten er at læse. Begge dele betyder noget for, hvordan din praksis opleves."
+- **Hvad brugeren møder på denne skærm:** Nu ved vi, hvordan de skal se ud, og hvad de skal gøre. Så er der kun ét spørgsmål tilbage: hvor kommer de fra? Det afgør nemlig, hvad du faktisk må.
+  - 💬 *Guide (avatar: Marcus):* Et ikon er et grafisk element ligesom et billede. At det er let at finde, er ikke det samme som at det er frit at bruge.
+- **Eventuel interaktion:** Vælg ét: "Jeg bruger et gratis ikonbibliotek" (→ 3.4-Fri) / "Jeg tegner dem selv" (→ 3.4-Tegn) / "Jeg betaler mig til dem" (→ 3.4-Betal) / "Jeg tager dem nogle gange fra andre hjemmesider eller apps" (→ 3.3b).
+- **Gemmes/får betydning senere:** Ja, `ikonKilde`.
 
-**Spørgsmål:**
-- "Hvilke skrifttyper er allerede tilgængelige på det medie, du bruger — din hjemmesideplatform, dit designværktøj?"
-- "Hvilken af dem passer til overskrifter, og hvilken til brødtekst?"
-- "Er teksten let at læse, eller vælger du en skrifttype, fordi den ser flot ud på skærmen lige nu?"
+### Boble 3.3b — Når du låner fra andre *(kun ved dette valg)*
 
-**Skærmtekst:**
-"Du skal ikke opsøge eller hente nye skrifttyper et andet sted fra — vælg blandt dem, der allerede er tilgængelige på dit medie. Det holder tingene enkle, og det er sjældent den begrænsende faktor, det føles som."
+- **Hvad brugeren møder på denne skærm:** Du ved det nok godt et sted i baghovedet: et ikon, du tager fra en anden hjemmeside eller en app, er ikke automatisk dit at bruge — heller ikke selvom det er let at kopiere, eller du ændrer farven bagefter. En kildeangivelse erstatter ikke en tilladelse. Det er ikke forbudt at være i tvivl om det, men vi vil gerne anbefale, at du i stedet vælger en af de tre veje herunder — de er markant mere sikre at bygge videre på.
+- **Hvad der leder videre:** Tilbage til 3.3, uden dette valg.
 
-*Note til design/udvikling: i modsætning til Modul 3 er der her bevidst ingen rettighedsdel — teamet har besluttet, at brugeren forventes at vælge blandt allerede tilgængelige skrifttyper på det valgte medie, hvorfor rettighedsspørgsmål ved fontvalg ikke er aktuelle på samme måde som billeder og ikoner (jf. Context, Fagligt grundlag). Beslutningen genovervejes, hvis brugernes behov ændrer sig.*
+### Boble 3.4 — Tre veje *(reel forgrening)*
 
-## Modul 5 — Andre grafiske byggesten
+**3.4-Fri, gratis ikonbibliotek**
+- **Hvad brugeren møder:** Det, vi selv anbefaler, er Material Symbols & Icons fra Google Fonts (fonts.google.com/icons). De er gratis, må bruges kommercielt, og du behøver ikke kreditere Google — men må gerne, hvis du har lyst. *(Kilde: Apache License 2.0, tjekket hos Google 2026-09-22 — tjek igen lige før bygning.)*
 
-**Skærmtekst:**
-"Ud over ikoner og fonte er der ofte andre små, tilbagevendende elementer, der er værd at være bevidst om — streger eller dividere, mønstre eller teksturer, rammer, eller den visuelle stil på knapper og opdelinger.
+  Vælger du i stedet et andet gratis bibliotek, eller bruger du et ikon fra en virksomhed eller platform som Facebook eller MobilePay, gælder der andre regler, du bør kende. **Læs mere i Biblioteket:** 'Ikoner og rettigheder: det vigtigste, du skal vide' (artikel endnu ikke skrevet).
+- **Eventuel interaktion:** Knappen "Åbn Material Symbols" (nyt vindue).
 
-Ligesom med farver og billeder handler det ikke om at ramme et bestemt antal. Det handler om at vide, hvilken rolle hvert element spiller — og om det bruges i den rette dosis til den rolle."
+**3.4-Tegn, tegner selv**
+- **Hvad brugeren møder:** Vi skal ikke lære dig at tegne. Men uanset hvordan du gør det, er der fire ting, der gør et ikon, du selv tegner, til et godt ikon:
+  - **Genkendelighed** — det skal kunne genkendes med et hurtigt blik, uden at nogen skal tænke sig om.
+  - **Konsistens** — samme stregtykkelse, samme hjørner, samme størrelsesforhold, på tværs af hele dit sæt.
+  - **Simplicitet** — fjern det, der ikke er nødvendigt for at forstå det. Færre streger er som regel bedre end flere.
+  - **Kontekst** — det skal give mening dér, hvor det bruges, sammen med tekst, ikke stå alene og skulle gættes.
 
-**Spørgsmål:**
-- "Er der andre visuelle elementer, du allerede genbruger — bevidst eller ubevidst?"
-- "Er der et sted, hvor et lille, tilbagevendende element kunne gøre dit materiale mere genkendeligt?"
+  Et ikon, du selv tegner, er som udgangspunkt dit eget. Men meget enkle, almindelige symboler (en pil, en lup) er sjældent originale nok til at være beskyttet i sig selv — det er ikke et problem for den daglige brug, men gem gerne dine skitser undervejs. De er god dokumentation, hvis ikonet senere skal blive en fast del af din identitet.
 
-*Note til design/udvikling: samme "rolle og dosering"-tænkning som i Farver og Billeder — undgå at præsentere dette som en tjekliste, brugeren skal udfylde punkt for punkt. Hold det som en tænkemåde, ikke en formel.*
+**3.4-Betal, betaler sig til dem**
+- **Hvad brugeren møder:** Betaler du for dine ikoner — en pakke fra et betalt bibliotek, eller ved at få nogen til at lave dem til dig — er det stadig licensen eller aftalen, der afgør, hvad du må. Ikke prisen. Fire ting er værd at tjekke:
+  - Får du ejerskab, eller kun en brugsret?
+  - Må ikonerne bruges kommercielt, uden tidsbegrænsning?
+  - Må du ændre dem, og få dem i de formater, du får brug for?
+  - Har du gemt kvitteringen eller aftalen, så du kan finde den igen?
 
-## Modul 6 — Sammenhæng med farver, logo og billeder
+  Vil du have det hele uddybet, kan du læse mere i Biblioteket: 'Ikoner og rettigheder: det vigtigste, du skal vide' (samme artikel som ovenfor).
 
-**Skærmtekst:**
-"De byggesten, du nu har valgt, skal spille sammen med resten af dit visuelle udtryk — ikke stå for sig selv."
+  Skal et ikon blive en fast del af din identitet, fx i dit logo, stiller det ofte skrappere krav end almindelig brug i opslag og dokumenter.
+  - **Se også:** Logo. *Skal ikonet indgå i dit logo, kigger vi nærmere på kravene der.*
 
-**Vises, hvis brugeren allerede har arbejdet med Farver og/eller Logo:**
-"Spiller din valgte ikonstil, dine fonte og dine øvrige byggesten sammen med den palet og det logo, du allerede har valgt? Er der noget, der skurrer?"
+- **Hvad der leder videre (alle veje):** Knappen "Videre" (→ 3.5).
 
-**Vises, hvis brugeren endnu ikke har arbejdet med Farver eller Logo:**
-"Du har endnu ikke arbejdet med farver eller logo. Det er helt fint — byg videre med det, du netop har valgt, som en foreløbig retning, I kan stemme af mod hinanden senere."
+### Boble 3.5 — Din ikonstil, samlet
 
-*Note til design/udvikling: ingen formel afhængighed mellem dette vækstrum og Farver/Logo/Billeder (jf. Context) — alle rækkefølger skal fungere uden fejl eller advarsler, ligesom i Logo's Modul 5.*
+- **Hvad brugeren møder på denne skærm:** En kort opsummering af det, hun har valgt: følelse, funktion og kilde.
+- **Hvad der leder videre:** Er Fonte valgt i `fokusvalg` → Modul 4. Ellers, er Andre byggesten valgt → Modul 5. Ellers → Modul 6.
 
-## Modul 7 — Tjek i praksis
+## Modul 4 — Fonte *(kun hvis valgt i Modul 2)*
 
-*Dette er også det sted, valideringsvejen (for brugere med et allerede bevidst, professionelt sæt) lander.*
+*Fritekstfelterne er erstattet af en visuel skrifttype-vælger med en kurateret liste på otte Google Fonts-skrifttyper. Se [[DUF Teknisk - Skrifttype-vælger (fontvælger med Google Fonts)]] for spec og den fulde liste.*
 
-**Skærmtekst:**
-"Nu tjekker vi, at det, du har valgt, faktisk fungerer i brug — ikke kun, at det ser rigtigt ud lige nu."
+### Boble 4.1 — Din tekst har også en stemme
 
-**Tjekliste:**
-- "Er teksten stor nok og til at læse, også på en mindre skærm?"
-- "Er der tilstrækkelig kontrast mellem tekst og baggrund, og mellem ikon og baggrund?"
-- "Fungerer ikonerne, hvis de nogle steder står uden ledsagende tekst?"
-- "Er dine byggesten brugt konsekvent, der hvor du har set på dem i Modul 2?"
+- **Hvad brugeren møder på denne skærm:** Du behøver ikke finde den perfekte skrifttype. Du skal finde en, der fungerer for dig — og som du kan bruge igen og igen.
+- **Hvad der leder videre:** Knappen "Lad os finde den".
 
-**Skærmtekst (hvis noget ikke fungerer):**
-"Det er helt normalt, at noget først viser sig her. Gå tilbage og justér — det er en del af processen, ikke et tegn på, at du gjorde noget forkert."
+### Boble 4.2 — Hvor skal du bruge dine fonte?
 
-*Note til design/udvikling: tjeklisten er en selvvurdering, ligesom i Billeder og Logo — ingen automatisk kontrastmåling indbygget her. Relevant faglig baggrund er WCAG 2 niveau AA samt CRAP-princippet Repetition og Contrast (jf. Context, Fagligt grundlag).*
+- **Hvad brugeren møder på denne skærm:** Hvor bruger du dem oftest?
+- **Eventuel interaktion:** Vælg ét: "På min egen hjemmeside" (→ `googleFontsDirekte: true`) / "I Canva" / "I Word eller Google Docs" (begge → `googleFontsDirekte: false`) / "Et andet sted" (→ ét kort, uformelt opfølgende spørgsmål, der afgør `googleFontsDirekte`, uden at det ligner en teknisk beslutning).
+- **Eventuel respons eller feedback:**
+  - *`googleFontsDirekte: true`:* Godt — så kan du sandsynligvis bruge den skrifttype, du vælger her, direkte.
+  - *`googleFontsDirekte: false`:* I [Canva / Word / det værktøj, hun nævnte] vælger du blandt et fast sæt skrifttyper. Brug vælgeren her som inspiration — find noget, du kan lide, og kig derefter efter noget, der ligner, i dit eget værktøj.
+- **Gemmes/får betydning senere:** Ja, `arbejdsVaerktoej`, `googleFontsDirekte`.
 
-## Modul 8 — Dokumentér
+### Boble 4.3 — Vælg din overskriftsfont
 
-**Øvelse:**
-"Tilføj dine valgte byggesten — ikonstil, fonte, og eventuelle andre elementer — til din visuelle guide."
+- **Hvad brugeren møder på denne skærm:** Bladr blandt fire stemninger — Rolig og varm, Klar og professionel, Levende og personlig, eller Enkel og alsidig — og se skrifttyperne direkte i et eksempel. Vælg én, du vil bruge til overskrifter. *(Har hun en gemt palet fra Farver, vises eksemplet i hendes egne farver.)*
+- **Eventuel interaktion:** Skrifttype-vælgeren (se teknisk spec). Kan hun ikke finde eller genkende sin font her, kan hun skrive navnet direkte i stedet.
+- **Gemmes/får betydning senere:** Ja, `fontOverskrift`.
 
-**Dokumentation (tilføjes til den visuelle guide):**
-"Skriv 2–3 sætninger: hvilken ikonstil og hvilke fonte har du valgt, og hvordan spiller de sammen med dine øvrige valg (farver, logo, billeder)?"
+### Boble 4.4 — Vælg din brødtekstfont
 
-**Afsluttende tekst:**
-"Med det her er din visuelle guide dækket på alle fire områder — farver, logo, billeder, og de mindre byggesten. Ligesom resten er den en prototype. Den må gerne udvikle sig, i takt med at din praksis gør det."
+- **Hvad brugeren møder på denne skærm:** Nu til den tekst, folk faktisk skal læse. Her vejer læsbarhed tungere end at være flot. Vælg én, der er let at læse i almindelig størrelse — eksemplet viser den sammen med din overskriftsfont.
+- **Eventuel interaktion:** Skrifttype-vælgeren igen, samme fallback til fritekst.
+- **Gemmes/får betydning senere:** Ja, `fontBroedtekst`.
 
-*Note til design/udvikling: som i Farver, Logo og Billeder er det den skriftlige begrundelse herfra, der reelt "samles" i fælles samling — sørg for, at den gemmes et sted, der rent faktisk kan trækkes frem igen dér. Dette modul markerer typisk, at den visuelle guide nu dækker alle fire uddybende vækstrum (jf. Context, Forbindelser videre).*
+### Boble 4.5 — Læsbarhedstesten
 
-## Spørgsmål til jer, inden I bygger videre
+- **Hvad brugeren møder på denne skærm:** Læs denne sætning på din telefon: *"En kort tekst om din praksis, sat i din valgte skrifttype."* Er den nem at læse?
+- **Eventuel interaktion:** "Ja" (→ 4.6) / "Nej" (→ tilbage til 4.4).
+- **Eventuel respons eller feedback (kun ved Nej):** Det er helt normalt, at noget først viser sig, når man ser det for alvor, og ikke bare på en computerskærm. Prøv en anden.
+- **Gemmes/får betydning senere:** Ja, `laesbarhedOk`.
 
-- Ikonrettigheder viste sig, efter Marcus' gennemgang, at være lige så omfattende som billedrettigheder — i modsætning til Context-dokumentets oprindelige antagelse om, at det ville være "færre og enklere problemstillinger". Er Modul 3's nuværende kondensering (fem rettighedskategorier plus én vigtigt at vide-boks) tilstrækkelig, eller bør modulet deles i to (fx generel brug og logo/varemærke-brug separat)?
-- Modul 6 antager, at brugeren kan have arbejdet med Farver og/eller Logo forud for dette vækstrum, men ikke nødvendigvis. Er de to varianter af skærmteksten tilstrækkelige, eller er der flere kombinationer (fx kun Billeder afklaret), der bør have deres egen tekst?
-- Vækstrummets kontekstuelle velkomst er her knyttet til, om brugeren har arbejdet med Farver/Logo i samme besøg, fremfor et bestemt Overblik-svar som i de tre øvrige. Er det den rette logik, eller bør Overblik udvides med et signal, der peger direkte hertil?
+### Boble 4.6 — Dine fonte, samlet
+
+- **Hvad brugeren møder på denne skærm:** Kort opsummering: overskriftsfont og brødtekstfont. *(Var `googleFontsDirekte: false`, gentages kort: "Husk at kigge efter noget, der ligner, i [dit værktøj].")*
+- **Hvad der leder videre:** Er Andre byggesten valgt i `fokusvalg` → Modul 5. Ellers → Modul 6.
+
+## Modul 5 — Andre byggesten *(kun hvis valgt i Modul 2)*
+
+### Boble 5.1 — Har du en detalje, der går igen?
+
+- **Hvad brugeren møder på denne skærm:** Ud over ikoner og fonte er der ofte andre små, tilbagevendende elementer — en streg, en ramme, en bestemt måde at lave knapper på. Det behøver ikke være en masse. Én lille detalje, der går igen, kan være nok.
+- **Eventuel interaktion:** Vælg ét: "Jeg har allerede en detalje, der går igen" (→ 5.2a) / "Jeg har ikke én endnu" (→ 5.2b) / "Jeg ved ikke, om jeg har brug for én" (→ 5.2c).
+
+### Boble 5.2 — *(tre varianter afhængigt af 5.1)*
+
+**5.2a — Vis mig den**
+- **Hvad brugeren møder:** Godt. Vis os den, eller beskriv den kort.
+- **Eventuel interaktion:** Upload eller fritekstbeskrivelse.
+- **Gemmes:** `andenDetalje`.
+
+**5.2b — Vælg blandt nogle retninger**
+- **Hvad brugeren møder:** Her er nogle steder at starte: "En tynd streg til at dele indhold op" / "En bestemt rammeform om billeder eller citater" / "En fast stil på knapper, fx runde hjørner eller en let skygge" / "Et gentaget mønster eller en tekstur" / "Ingen af dem — jeg finder selv på noget".
+- **Eventuel interaktion:** Vælg ét.
+- **Gemmes:** `andenRetning`.
+
+**5.2c — Det behøver du heller ikke beslutte nu**
+- **Hvad brugeren møder:** Det er helt fint. Nogle af de små detaljer viser sig først, når du har brugt dit materiale et stykke tid. Du kan altid komme tilbage.
+- **Gemmes:** `ikkeBesluttet: true`.
+
+- **Hvad der leder videre (alle tre):** Knappen "Videre" (→ Modul 6).
+
+## Modul 6 — Prøv dem sammen *(alle)*
+
+*Se [[DUF Teknisk - Byggesten-forhåndsvisning (Prøv dem sammen)]] for den tekniske spec. Ikonet i eksemplet er et konkret Material Symbols-ikon i den følelse, brugeren valgte i Modul 3 (ikke en generisk repræsentation) — besluttet 2026-09-23.*
+
+### Boble 6.1 — Lad os se, om de kan arbejde sammen / Lad os se dit valg i praksis
+
+- **Overskrift:** Afhænger af `fokusvalg`: mere end ét emne → "Lad os se, om de kan arbejde sammen"; præcis ét emne → "Lad os se dit valg i praksis". Selve indholdet i boblen er det samme.
+
+- **Hvad brugeren møder på denne skærm:** Et lille, samlet eksempel, bygget af det, hun rent faktisk har valgt: en overskrift i den valgte overskriftsfont, en kort brødtekst i den valgte brødtekstfont, og — hvis Ikoner blev valgt — et ikon i den valgte følelse ved siden af en kort linje tekst. Har hun valgt en detalje i Andre byggesten, indgår den også. Kun de elementer, hun faktisk har arbejdet med, vises.
+  - *Har hun en gemt palet fra Farver og/eller et logo:* de vises ved siden af eksemplet, så hun kan se, om det hænger sammen med resten af hendes visuelle udtryk.
+  - *Har hun hverken palet eller logo endnu:* Du har ikke en palet eller et logo endnu. Det er helt fint — brug dette som dit foreløbige udgangspunkt.
+    - **Se også:** Farver. *Vil du lave en fast palet, kan du gøre det der, når du har lyst.*
+  - 💬 *Guide (avatar: Heidi):* Det er her, det hele mødes. Du skal ikke gætte dig til, om det passer sammen. Du skal se det.
+
+### Boble 6.2 — Hvordan føles det?
+
+- **Hvad brugeren møder på denne skærm:** Hvordan føles det, når du ser det samlet?
+- **Eventuel interaktion:** "Det føles som mig" (→ Modul 7) / "Det er tæt på" (→ 6.3) / "Nej, det fungerer ikke" (→ 6.3).
+- **Gemmes/får betydning senere:** Ja, `provetSammenResultat`.
+
+### Boble 6.3 — Hvad vil du justere? *(kun ved "tæt på" eller "fungerer ikke")*
+
+- **Hvad brugeren møder på denne skærm:** Hvad skal vi kigge på igen? Kun de emner, hun faktisk arbejdede med, vises som muligheder: "Ikonerne" / "Fonten til overskrift" / "Fonten til brødtekst" / "Den anden detalje".
+- **Eventuel interaktion:** Vælg ét eller flere.
+- **Gemmes/får betydning senere:** Ja, `tilbageTil[]`.
+- **Hvad der leder videre:** Sender brugeren tilbage til det/de relevante trin i Modul 3-5. Når hun er færdig dér, lander hun automatisk tilbage i 6.1 med det opdaterede eksempel.
+
+## Modul 7 — Dit lille byggestens-sæt *(alle)*
+
+### Boble 7.1 — Dit lille byggestens-sæt
+
+- **Hvad brugeren møder på denne skærm:** En samlet oversigt over det, hun har valgt — kun de emner, hun faktisk arbejdede med: fonte (overskrift/brødtekst), ikonstil og -kilde, og en eventuel anden detalje.
+- **Hvad der leder videre:** Knappen "Skriv min tommelfingerregel".
+
+### Boble 7.2 — Min tommelfingerregel
+
+- **Hvad brugeren møder på denne skærm:** Skriv én sætning, du kan huske det på: "Jeg bruger ______, fordi ______."
+- **Eventuel interaktion:** Fritekstfelt.
+- **Gemmes/får betydning senere:** Ja, `tommelfingerregel`.
+
+### Boble 7.3 — Gem det, du lige har fundet
+
+- **Hvad brugeren møder på denne skærm:** Du har nu et lille sæt byggesten, du kan tage med dig videre. Gem dem i din visuelle guide, så du ikke skal starte forfra næste gang. Dette er en prototype, ligesom resten af dit visuelle udtryk. Det må gerne udvikle sig, i takt med at din praksis gør det.
+  - 💬 *Guide (avatar: Heidi):* Det vigtigste er ikke, at det er færdigt. Det er, at du ved, hvor du skal kigge, næste gang.
+- **Eventuel interaktion:** Knappen "Tilføj til min visuelle guide".
+- **Gemmes/får betydning senere:** Ja, `begrundelse` (opsummering + tommelfingerregel), til Fælles samling.
+- **Hvad der leder videre:** Ud af rummet, tilbage til rum-vælgeren.
+
+## Ændringer efter gennemgang
+
+*2026-09-24 (runde 6), efter Heidis browsertest og en fornyet ChatGPT-kommentering af flowet. Skrevet ind her ud fra rettelsesprompten, ikke kopieret fra det samlede manuskript i projektet — sammenlign gerne.*
+
+1. **Fokusvalg-reglen:** `fokusvalg` styrer kun, hvilke af Modul 3-5 der vises, ikke hvilke data der findes. Fravalgte emners svar bevares og vises igen ved tilvalg; Modul 6 og 7 følger det aktuelle `fokusvalg`.
+2. **3.4-Fri og 3.4-Betal:** kortere tekst med link til Biblioteks-artiklen "Ikoner og rettigheder: det vigtigste, du skal vide" (endnu ikke skrevet — linket peger midlertidigt på Bibliotekets forside).
+3. **3.3 og 3.3b:** blødere sprog ("Jeg tager dem nogle gange fra ..."; 3.3b hedder nu "Når du låner fra andre").
+4. **4.2:** bruger-centreret omformulering ("Hvor skal du bruge dine fonte?"), med et kort, uformelt opfølgende spørgsmål ved "Et andet sted".
+5. **6.1:** dynamisk overskrift efter antal valgte emner.
+
+Boble 6.2's ordlyd er bevidst parkeret til efter testen med en rigtig bruger.
