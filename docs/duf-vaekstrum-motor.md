@@ -19,7 +19,7 @@ Før denne ændring gjorde alle fire uddybende motorer i Visuelt udtryk (`farver
 
 ## Delt "gå ud"-dør
 
-`js/components/exitDoor.js` samler markuppen for dør-knappen (`renderExitDoor()`), som før var kopieret i seks filer (hvert rums Ui.js plus Prøverummets `ui.js`). Hver fil har nu en tynd wrapper, der kalder den delte funktion med rummets eget aria-label — ingen ændring af kaldsteder nødvendig. Klik-håndteringen (`bindExit()`) er også flyttet dertil og bruges i fire ud af seks filer; Billeder og Ikoner/fonte & byggesten binder fortsat selv, fordi de har en ekstra "Rettigheder"-knap, hvis binding er flettet sammen med dørens (`bindChrome`) i de to motorer.
+`js/components/exitDoor.js` samler markuppen for dør-knappen (`renderExitDoor()`), som før var kopieret i seks filer (hvert rums Ui.js plus Prøverummets `ui.js`). Hver fil har nu en tynd wrapper, der kalder den delte funktion med rummets eget aria-label — ingen ændring af kaldsteder nødvendig. Klik-håndteringen (`bindExit()`) er også flyttet dertil og bruges i fem ud af seks filer; Billeder binder fortsat selv, fordi rummet har en ekstra "Rettigheder"-knap, hvis binding er flettet sammen med dørens (`bindChrome`). (Ikoner/fonte & byggesten havde samme knap indtil det nye manuskript 2026-09-24 og bruger nu `bindExit()`.)
 
 ## Filnavne på vækstrum
 

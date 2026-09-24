@@ -51,6 +51,14 @@ body.in-flow #app {
   z-index: 10;
 }
 
+/*---- Byggesten: midlertidig "Skift fokus"-knap (tilbage til Modul 2's fokusvalg), samme placering som opslagsværk-linket ovenfor. Kan erstattes af den fælles modul-navigationslinje, når den bygges ----*/
+#skift-fokus-button {
+  position: fixed;
+  left: 2rem;
+  bottom: 2.75rem;
+  z-index: 10;
+}
+
 /*---- Variabler ----*/
 /*---- Husk outline i mixin ----*/
 /*---- Bruges også til handlingsrelaterede knapper ----*/
@@ -1173,6 +1181,183 @@ button.value-card {
   opacity: 0.8;
 }
 
+/*---- Byggesten: læsbarhedstestens prøvesætning (4.5) ----*/
+.byggesten-proeve {
+  font-family: "Manrope", sans-serif;
+  font-size: 18px;
+  line-height: 1.5;
+  background-color: #FFFFFF;
+  border: 1px solid rgba(15, 32, 27, 0.6);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 16px 0 4px;
+}
+
+.byggesten-proeve-label {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-bottom: 16px;
+}
+
+/*---- Byggesten: skrifttype-vælger (js/components/fontvaelger.js) ----*/
+.fontvaelger-grupper {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.fontvaelger-stemning {
+  font-family: "Manrope", sans-serif;
+  font-weight: 400;
+  margin-bottom: 8px;
+}
+
+.fontvaelger-fonte {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fontvaelger-font {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.fontvaelger-font-prove {
+  font-size: 24px;
+}
+
+.fontvaelger-font-navn {
+  font-size: 14px;
+}
+
+.fontvaelger-besked:not(:empty) {
+  font-style: italic;
+  margin: 8px 0;
+}
+
+.fontvaelger-preview,
+.prov-sammen-eksempel {
+  background-color: #FFFFFF;
+  color: #0F201B;
+  border: 1px solid rgba(15, 32, 27, 0.6);
+  border-radius: 20px;
+  padding: 24px 20px;
+  margin: 16px 0;
+}
+
+.fontvaelger-preview-overskrift,
+.prov-sammen-overskrift {
+  font-size: 26px;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.fontvaelger-preview-broedtekst,
+.prov-sammen-broedtekst {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.fontvaelger-hint,
+.prov-sammen-note {
+  font-size: 14px;
+  opacity: 0.8;
+  margin-top: 8px;
+}
+
+/*---- Byggesten: "Prøv dem sammen" (js/components/provSammen.js) ----*/
+.prov-sammen {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: flex-start;
+}
+.prov-sammen .prov-sammen-eksempel {
+  flex: 2 1 280px;
+}
+
+.prov-sammen-side {
+  flex: 1 1 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 16px 0;
+}
+
+.prov-sammen-sidelabel {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.prov-sammen-logo {
+  max-width: 160px;
+  max-height: 160px;
+  object-fit: contain;
+}
+
+.prov-sammen-ikonlinje {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+/*---- Neutral pladsholder, indtil Marcus har valgt et Material Symbols-motiv ----*/
+.prov-sammen-ikon {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  border: 2px dashed currentColor;
+  border-radius: 8px;
+}
+
+.prov-sammen-streg {
+  border: none;
+  border-top: 1px solid currentColor;
+  margin: 16px 0;
+}
+
+.prov-sammen-ramme {
+  border-left: 4px solid #DE5B23;
+  padding: 8px 16px;
+  margin: 16px 0;
+  font-style: italic;
+}
+
+.prov-sammen-knap {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 10px 25px;
+  border-radius: 1000px;
+  background-color: #0C3A2D;
+  color: #FFFFFF;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+}
+
+.prov-sammen-moenster {
+  height: 24px;
+  margin-top: 16px;
+  border-radius: 8px;
+  background-image: radial-gradient(currentColor 1.5px, transparent 1.5px);
+  background-size: 12px 12px;
+}
+
+.prov-sammen-detalje-billede {
+  max-width: 100%;
+  max-height: 120px;
+  margin-top: 16px;
+  border-radius: 10px;
+}
+
+/*---- Mobil (~400 px): fontkortene i én kolonne ----*/
+@media (max-width: 480px) {
+  .fontvaelger-grupper {
+    grid-template-columns: 1fr;
+  }
+}
 #site-header {
   position: relative;
   z-index: 100;

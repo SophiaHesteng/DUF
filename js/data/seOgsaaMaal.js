@@ -25,6 +25,11 @@ export const SE_OGSAA_MAAL = {
         vaekstomraade: "Visuelt udtryk",
         farveKlasse: "visuelt"
     },
+    logo: {
+        navn: "Logo",
+        vaekstomraade: "Visuelt udtryk",
+        farveKlasse: "visuelt"
+    },
     byggesten: {
         navn: "Byggesten",
         vaekstomraade: "Visuelt udtryk",
