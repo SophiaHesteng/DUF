@@ -344,13 +344,13 @@ function showImageUploadBoble(boble, images, onNext, onExit, onReference, imageH
     document.querySelector("#next-button").addEventListener("click", () => onNext());
 }
 
-/*---- type: "keywordPicker" - grupperede søgeord, klik kopierer til udklipsholder (Modul 4.2) ----*/
+/*---- type: "keywordPicker" - grupperede søgeord (Modul 4.2). Klik vælger og kopierer til udklipsholder, et nyt klik fravælger igen. De valgte ord sendes med til motoren, som gemmer dem under boblens answerKey ----*/
 
 function showKeywordPickerBoble(boble, onNext, onExit, onReference) {
     const groupsHtml = boble.groups.map((group) => `
         <p class="section-subheading">${group.label}</p>
         <div class="keyword-list">
-            ${group.words.map((word) => `<button type="button" class="keyword-chip" data-word="${word}">${word}</button>`).join("")}
+            ${group.words.map((word) => `<button type="button" class="keyword-chip" aria-pressed="false" data-word="${word}">${word}</button>`).join("")}
         </div>
     `).join("");
 
@@ -359,18 +359,25 @@ function showKeywordPickerBoble(boble, onNext, onExit, onReference) {
         ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText}</button>`
     }, onExit, onReference);
 
-    document.querySelectorAll(".keyword-chip").forEach((chip) => {
+    const chips = [...document.querySelectorAll(".keyword-chip")];
+
+    chips.forEach((chip) => {
         chip.addEventListener("click", async () => {
+            const erValgt = chip.classList.toggle("is-copied");
+            chip.setAttribute("aria-pressed", String(erValgt));
+            if (!erValgt) return;
+
             try {
                 await navigator.clipboard.writeText(chip.dataset.word);
             } catch {
                 /*---- Udklipsholder kan være utilgængelig (fx uden for en sikker kontekst) - kopiering er en bekvemmelighed, ikke et krav for at komme videre ----*/
             }
-            chip.classList.add("is-copied");
         });
     });
 
-    document.querySelector("#next-button").addEventListener("click", () => onNext());
+    document.querySelector("#next-button").addEventListener("click", () => {
+        onNext(chips.filter((chip) => chip.classList.contains("is-copied")).map((chip) => chip.dataset.word));
+    });
 }
 
 /*---- type: "checklist" - Modul 7.2, genbruger den delte Tjekliste-komponent ----*/
@@ -383,7 +390,9 @@ function showChecklistBoble(boble, onNext, onExit, onReference) {
 
     renderTjekliste(document.querySelector("#tjekliste-container"), {
         gemNoegle: boble.gemNoegle,
-        punkter: boble.punkter
+        punkter: boble.punkter,
+        titel: boble.tjeklisteTitel,
+        afslutning: boble.tjeklisteAfslutning
     });
 
     document.querySelector("#next-button").addEventListener("click", () => onNext());

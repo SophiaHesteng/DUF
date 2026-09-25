@@ -361,7 +361,8 @@ export const BOBLER = {
         next: "6.2"
     },
     "6.2": {
-        id: "6.2", modul: 6, type: "choice", ctaButtons: true,
+        /*---- Almindelige valgkort + "Næste" (ikke ctaButtons), så rummet ikke skifter videre af sig selv efter valget - brugertest 1, 2026-09-24 ----*/
+        id: "6.2", modul: 6, type: "choice",
         heading: "Hvordan føles det?",
         paragraphs: ["Hvordan føles det, når du ser det samlet?"],
         options: [
@@ -370,6 +371,7 @@ export const BOBLER = {
             { id: "virkerIkke", text: "Nej, det fungerer ikke", next: "6.3" }
         ],
         answerKey: "provetSammenResultat",
+        nextButtonText: "Næste",
         next: null
     },
     "6.3": {

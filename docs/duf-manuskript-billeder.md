@@ -166,10 +166,10 @@
   - 🎨 Farver, lys og visuel stil: warm neutral photography · earthy color photography · muted pastel photography · bold colorful photography
 
   Du kan også oversætte søgeordene til dansk eller kombinere flere af dem. Det vigtigste er ikke at finde det perfekte billede. Det er at finde noget, der får dig til at stoppe op.
-- **Eventuel interaktion:** Brugeren kan klikke på et søgeord for at kopiere det.
+- **Eventuel interaktion:** Brugeren kan klikke på et søgeord for at vælge og kopiere det. Et nyt klik på et valgt søgeord fravælger det igen.
 - **Eventuel respons eller feedback:** Det valgte søgeord markeres som valgt/kopieret.
 - **Hvad der leder videre til næste boble:** Knappen "Hvor skal jeg lede?" leder videre.
-- **Gemmes/får betydning senere:** De søgeord, brugeren har valgt, kan gemmes som en del af inspirationsprocessen.
+- **Gemmes/får betydning senere:** Ja, `modul4_soegeord[]`: de søgeord, der er valgt, når brugeren trykker videre.
 
 ### Boble 4.3 — Hvor vil du lede?
 

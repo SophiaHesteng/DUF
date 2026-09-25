@@ -232,6 +232,7 @@ export const bobler = [
             { label: "🎨 Farver, lys og visuel stil", words: ["warm neutral photography", "earthy color photography", "muted pastel photography", "bold colorful photography"] }
         ],
         afterList: "Du kan også oversætte søgeordene til dansk eller kombinere flere af dem. Det vigtigste er ikke at finde det perfekte billede. Det er at finde noget, der får dig til at stoppe op.",
+        answerKey: "modul4_soegeord",
         nextButtonText: "Hvor skal jeg lede?"
     },
     {

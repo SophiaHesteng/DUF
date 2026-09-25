@@ -505,7 +505,8 @@ export const BOBLER = {
         paragraphs: [
             "Et logo skal spille sammen med resten af dit visuelle udtryk, især med farverne. Lad os se, hvordan det ser ud hos dig."
         ],
-        /*---- "Du har allerede en palet fra Farver. Den viser vi her." tilføjes i logoEngine.js, hvis en gemt palet findes ----*/
+        /*---- "Du har allerede en palet fra Farver. Den viser vi her." tilføjes i logoEngine.js, hvis en gemt palet findes - og paletteSwatches viser så selve farverne som farveflader ----*/
+        paletteSwatches: true,
         nextButtonText: "Lad os se på det",
         next: null /* logoEngine.js: behold+palet → 5.2a, behold+ingen → 5.2b, juster/nyt+palet → 5.2c, juster/nyt+ingen → 5.2d */
     },

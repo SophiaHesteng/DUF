@@ -51,7 +51,13 @@ function logoPreviewHtml(kind, images) {
     return "";
 }
 
-/*---- Logo + gemt Farver-palet side om side (5.2a) - genbruger .palette-preview/.palette-swatch fra Billeders paletteCompare-boble ----*/
+/*---- Den gemte Farver-palet som farveflader - genbruger .palette-preview/.palette-swatch fra Billeders paletteCompare-boble. Bruges af 5.1 (paletteSwatches) og 5.2a (paletteBeside) ----*/
+
+function paletteSwatchesHtml(palette) {
+    return `<div class="palette-preview">${palette.map((c) => `<span class="palette-swatch" style="background-color:${c.hex}" title="${c.role || c.hex}"></span>`).join("")}</div>`;
+}
+
+/*---- Logo + gemt Farver-palet side om side (5.2a) ----*/
 
 function paletteBesideHtml(images, palette) {
     const logoHtml = images?.length
@@ -59,7 +65,7 @@ function paletteBesideHtml(images, palette) {
         : `<p class="logo-preview-empty-hint">Intet logo uploadet endnu.</p>`;
 
     const paletteHtml = palette?.length
-        ? `<div class="palette-preview">${palette.map((c) => `<span class="palette-swatch" style="background-color:${c.hex}" title="${c.role || c.hex}"></span>`).join("")}</div>`
+        ? paletteSwatchesHtml(palette)
         : `<p class="logo-preview-empty-hint">Ingen gemt palet fra Farver endnu.</p>`;
 
     return `
@@ -81,6 +87,7 @@ function headerHtml(boble, ctx = {}) {
         </div>
         ${boble.extraBodyHtml || ""}
         ${ctx.recap?.length ? `<dl class="compass-summary">${ctx.recap.map((item) => `<dt>${item.label}</dt><dd>${item.value}</dd>`).join("")}</dl>` : ""}
+        ${boble.paletteSwatches && ctx.palette?.length ? paletteSwatchesHtml(ctx.palette) : ""}
         ${boble.paletteBeside ? paletteBesideHtml(ctx.images, ctx.palette) : ""}
         ${boble.externalLink ? externalLinkHtml(boble.externalLink) : ""}
         ${boble.guideLine ? `<div class="panel guide-line"><p><strong>💬 ${boble.guideAvatar ? `${boble.guideAvatar}:` : "Guide:"}</strong> ${boble.guideLine}</p></div>` : ""}
@@ -111,7 +118,10 @@ function renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit) {
     if (boble.checklist) {
         renderTjekliste(document.querySelector("#tjekliste-container"), {
             gemNoegle: boble.checklist.gemNoegle,
-            punkter: boble.checklist.punkter || []
+            punkter: boble.checklist.punkter || [],
+            titel: boble.checklist.titel,
+            /*---- Tjeklistens afsluttende linje (fx "... så søg rådgivning") kommer med i mailen. Den ligger enten på selve tjeklisten eller som boblens afterList ----*/
+            afslutning: boble.checklist.afslutning || boble.afterList
         });
     }
 

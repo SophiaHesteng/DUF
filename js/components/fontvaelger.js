@@ -24,9 +24,15 @@
  * ----------------------------------------------------------------------------
  */
 
-/*---- TODO: den kuraterede liste (fire stemninger × to skrifttyper) står i "DUF Teknisk - Skrifttype-vælger (fontvælger med Google Fonts)", som endnu ikke ligger i repoet. Hver skrifttype skal tjekkes for æ/ø/å på fonts.google.com, før den kommer på listen. Indtil da viser vælgeren kun fritekst-feltet.
- *   Form: { stemning: "Rolig og varm", fonte: ["Skrifttype A", "Skrifttype B"] } ----*/
-export const KURATEREDE_PAR = [];
+/*---- Den kuraterede liste (fire stemninger × to skrifttyper), valgt af teamet og givet af Heidi 2026-09-25. Første font i hvert par er tænkt til overskrift, anden til brødtekst - vist som en lille markering på kortet, men begge kan vælges i både 4.3 og 4.4. Alle otte har æ/ø/å (Latin-1) på Google Fonts. ----*/
+export const KURATEREDE_PAR = [
+    { stemning: "Rolig og varm", fonte: ["Fraunces", "Karla"] },
+    { stemning: "Klar og professionel", fonte: ["Lora", "Inter"] },
+    { stemning: "Levende og personlig", fonte: ["Quicksand", "Nunito"] },
+    { stemning: "Enkel og alsidig", fonte: ["Poppins", "Work Sans"] }
+];
+
+const ROLLE_TEKST = ["Forslag til overskrift", "Forslag til brødtekst"];
 
 const GOOGLE_FONTS_CSS = "https://fonts.googleapis.com/css2";
 const indlaeste = new Map();
@@ -82,10 +88,11 @@ export function renderFontvaelger(container, { formaal = "overskrift", gemtPalet
         <div class="fontvaelger-gruppe">
             <p class="fontvaelger-stemning">${par.stemning}</p>
             <div class="fontvaelger-fonte">
-                ${par.fonte.map((font) => `
+                ${par.fonte.map((font, i) => `
                     <button type="button" class="choice-card choice-card--poll fontvaelger-font" aria-pressed="${font === aktuel}" data-font="${escapeHtml(font)}">
                         <span class="fontvaelger-font-prove" style="font-family:'${escapeHtml(font)}', sans-serif;">Aa Æø Å</span>
                         <span class="fontvaelger-font-navn">${escapeHtml(font)}</span>
+                        ${ROLLE_TEKST[i] ? `<span class="fontvaelger-font-rolle">${ROLLE_TEKST[i]}</span>` : ""}
                     </button>`).join("")}
             </div>
         </div>`).join("");

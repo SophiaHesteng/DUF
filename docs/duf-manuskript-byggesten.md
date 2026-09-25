@@ -131,6 +131,8 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 *Fritekstfelterne er erstattet af en visuel skrifttype-vælger med en kurateret liste på otte Google Fonts-skrifttyper. Se [[DUF Teknisk - Skrifttype-vælger (fontvælger med Google Fonts)]] for spec og den fulde liste.*
 
+*Den kuraterede liste (overskrift / brødtekst), som den er bygget ind i `js/components/fontvaelger.js` (2026-09-25): Rolig og varm: Fraunces / Karla. Klar og professionel: Lora / Inter. Levende og personlig: Quicksand / Nunito. Enkel og alsidig: Poppins / Work Sans. Alle otte kan vælges med ét klik i både 4.3 og 4.4, og kortet viser, om fonten er tænkt til overskrift eller brødtekst.*
+
 ### Boble 4.1 — Din tekst har også en stemme
 
 - **Hvad brugeren møder på denne skærm:** Du behøver ikke finde den perfekte skrifttype. Du skal finde en, der fungerer for dig — og som du kan bruge igen og igen.
@@ -211,7 +213,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 ### Boble 6.2 — Hvordan føles det?
 
 - **Hvad brugeren møder på denne skærm:** Hvordan føles det, når du ser det samlet?
-- **Eventuel interaktion:** "Det føles som mig" (→ Modul 7) / "Det er tæt på" (→ 6.3) / "Nej, det fungerer ikke" (→ 6.3).
+- **Eventuel interaktion:** "Det føles som mig" (→ Modul 7) / "Det er tæt på" (→ 6.3) / "Nej, det fungerer ikke" (→ 6.3). Valget skifter ikke videre af sig selv. Brugeren trykker selv på "Næste" (brugertest 1, 2026-09-24).
 - **Gemmes/får betydning senere:** Ja, `provetSammenResultat`.
 
 ### Boble 6.3 — Hvad vil du justere? *(kun ved "tæt på" eller "fungerer ikke")*

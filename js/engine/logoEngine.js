@@ -231,10 +231,7 @@ export class LogoEngine {
 
             case "8.1":
                 if (this.effectiveRetning() === "nyt") {
-                    const noter = this.svar.minInspirationNoter;
-                    if (noter?.hvadFungerer || noter?.hvadInspirerer) {
-                        ctx.recap = [{ label: "Dine noter fra Modul 3", value: [noter.hvadFungerer, noter.hvadInspirerer].filter(Boolean).join(" ") }];
-                    }
+                    ctx.recap = this.buildInspirationNoterRecap();
                 }
                 break;
 
@@ -284,9 +281,10 @@ export class LogoEngine {
                         { id: "maa_aendres", tekst: "Må jeg ændre det?" },
                         { id: "forveksles", tekst: "Kan det forveksles med et eksisterende logo eller symbol?" },
                         { id: "dokumentation", tekst: "Har jeg gemt dokumentation for licens eller vilkår?" }
-                    ]
+                    ],
+                    afslutning: "Kan du ikke svare sikkert, så vælg et andet eller tegn det selv. Skal symbolet være central for din identitet, så søg rådgivning."
                 };
-                paragraphs.push("Kan du ikke svare sikkert, så vælg et andet eller tegn det selv. Skal symbolet være central for din identitet, så søg rådgivning.");
+                paragraphs.push(checklist.afslutning);
                 seOgsaa = { maal: "byggesten", tekst: "Ikoner og andre grafiske byggesten." };
             }
 
@@ -439,12 +437,17 @@ export class LogoEngine {
             recap.push({ label: "Foreløbig farveretning", value: farve.text || farve.id });
         }
 
-        const noter = this.svar.minInspirationNoter;
-        if (noter?.hvadFungerer || noter?.hvadInspirerer) {
-            recap.push({ label: "Fra din inspiration", value: [noter.hvadFungerer, noter.hvadInspirerer].filter(Boolean).join(" ") });
-        }
+        recap.push(...this.buildInspirationNoterRecap());
 
         return recap;
+    }
+
+    /*---- Brugerens to noter fra 3.2, hver for sig med sit eget spørgsmål som overskrift - før blev de flettet sammen til én tekst, som testbrugeren ikke kunne genkende (brugertest 1, 2026-09-24) ----*/
+    buildInspirationNoterRecap() {
+        const noter = this.svar.minInspirationNoter || {};
+        return BOBLER["3.2"].fields
+            .filter((field) => noter[field.id])
+            .map((field) => ({ label: field.label, value: noter[field.id] }));
     }
 
     buildArbejdslistePunkter() {

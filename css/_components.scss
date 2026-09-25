@@ -912,6 +912,28 @@ button.value-card {
     opacity: 0.8;
 }
 
+/*---- Synlig overskrift over punkterne (brugertest 1) - samme stil som rummenes andre mindre overskrifter ----*/
+.tjekliste-titel {
+    margin: 24px 0 12px;
+
+    + .tjekliste {
+        margin-top: 0;
+    }
+}
+
+/*---- "Send listen til mig selv" (mailto:) - bevidst diskret, så den ikke konkurrerer med rummets "Videre"-knapper ----*/
+.tjekliste-mail {
+    margin: 16px 0 8px;
+}
+
+.tjekliste-mail-hint {
+    margin: 8px 0 0;
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 12px;
+    color: colors.$textColor;
+    opacity: 0.8;
+}
+
 /*---- Søgeord til kopiering (Billeder Modul 4.2) ----*/
 
 .keyword-list {
@@ -1203,6 +1225,11 @@ button.value-card {
 
 .fontvaelger-font-navn {
     font-size: 14px;
+}
+
+.fontvaelger-font-rolle {
+    font-size: 12px;
+    opacity: 0.8;
 }
 
 .fontvaelger-besked:not(:empty) {
