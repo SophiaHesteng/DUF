@@ -17,8 +17,14 @@
  *       andenByggesten: { type: "detalje", beskrivelse, billede } | { type: "retning", retning, tekst } | null,
  *       gemtPalet: { farver: [{ hex, role }], tekstfarve, kombination: { tekst, baggrund } } | null,
  *                  // kun `kombination` (Farvers afprøvede par) farver eksemplet - ellers standardfarverne
- *       gemtLogo: { blob, navn } | null
+ *       gemtLogo: { blob, navn } | null,
+ *       billede: { src, alt } | null        // valgfrit, vises øverst i kortet (Billeder 8.1, runde 7)
  *   });
+ *
+ * Genbruges fra 2026-09-25 i Billeder 8.1 ("Sådan kunne det se ud"), med et
+ * billede øverst - Heidis beslutning efter brugertest 1, som erstatter
+ * "selvstændig komponent"-beslutningen nedenfor for netop den brug. Uden
+ * `billede` er kortet præcis som i Byggesten.
  *
  * Ikonet: skal være et konkret Material Symbols-ikon i den valgte følelse
  * (besluttet 2026-09-23). TODO: selve motivet bestemmer Marcus, og koblingen
@@ -116,7 +122,13 @@ function sideHtml(gemtPalet, gemtLogo) {
     return `<aside class="prov-sammen-side">${palet}${logo}</aside>`;
 }
 
-export function renderProvSammen(container, { fokusvalg = [], ikon = null, fonte = {}, andenByggesten = null, gemtPalet = null, gemtLogo = null } = {}) {
+/*---- Valgfrit billede øverst i kortet (Billeder 8.1, runde 7, jf. docs/duf-teknisk-prov-sammen.md). Uden `billede` er markup'en uændret, så Byggesten Modul 6 ser ud som før ----*/
+function billedeHtml(billede) {
+    if (!billede?.src) return "";
+    return `<img class="prov-sammen-billede" src="${billede.src}" alt="${escapeHtml(billede.alt || "")}">`;
+}
+
+export function renderProvSammen(container, { fokusvalg = [], ikon = null, fonte = {}, andenByggesten = null, gemtPalet = null, gemtLogo = null, billede = null } = {}) {
     if (!container) return;
 
     const medIkoner = fokusvalg.includes("ikoner");
@@ -127,7 +139,7 @@ export function renderProvSammen(container, { fokusvalg = [], ikon = null, fonte
 
     container.innerHTML = `
         <div class="prov-sammen">
-            <div class="prov-sammen-eksempel" style="background-color:${farver.baggrund};color:${farver.tekst};">
+            <div class="prov-sammen-eksempel${billede?.src ? " prov-sammen-eksempel--med-billede" : ""}" style="background-color:${farver.baggrund};color:${farver.tekst};">${billedeHtml(billede)}
                 <p class="prov-sammen-overskrift">Din praksis, dit rum</p>
                 <p class="prov-sammen-broedtekst">En kort tekst om, hvordan du arbejder, og hvad dine klienter kan forvente, når de kommer til dig.</p>
                 ${medIkoner ? ikonHtml(ikon) : ""}

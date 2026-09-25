@@ -1,16 +1,10 @@
 # MANUSKRIPT — Billeder
 
-*Status: Gennemrevideret 2026-09-17 til den fulde, boble-strukturerede form (jf. samme revision som Farver fik 2026-09-06/08) — antallet af skærme stiger fra ca. 8 til 40, fordelt på de samme 8 moduler. Modulernes indhold bygger videre på Marcus' fulde gennemgang af "Billedrettigheder — praktisk oversigt" (2026-09-06), og Modul 7.2's rettighedstjekliste er udvidet fra 7 til de fulde 9 punkter derfra. To ting er nye med denne revision: en ekstern inspirations-samling ("Min inspiration", Modul 4), og en ny, genbrugelig Tjekliste-komponent til Modul 7.2 (se separat teknisk dokument "DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)"). Bygger derudover fortsat på VÆKSTRUM Context — Billeder. Tekstforslag er skrevet i DUF's etablerede tone og kan frit justeres i sprog — men indholdet og logikken bag hver boble bør holdes op mod Context-dokumentet, hvis noget ændres væsentligt.*
+*Status: Genskrevet i sin helhed 2026-09-17, ud fra "DUF Manuskript-revision - Billeder.md" (godkendt af Heidi efter gennemgang i chat). Erstatter den tidligere version af dette dokument. Bygger på VÆKSTRUM Context — Billeder og på "Billedrettigheder — praktisk oversigt" (Modul 7 følger sidstnævnte tæt, efter eksplicit aftale, fordi indholdet er juridisk/fagligt kvalitetssikret af Marcus). Struktur: Vækstrum → Modul → Boble, se [[DUF Teknisk - Navigationslinjer (modul og boble)]] for hvad det betyder teknisk. Klar til implementering — se "DUF Prompt - Billeder (manuskript-opdatering).md" for en færdig Claude Code-prompt.*
 
-**Sådan læses dette dokument:** Hvert modul er brudt ned i bobler (enkeltskærme). For hver boble er der: hvad brugeren møder på skærmen, eventuel interaktion, eventuel respons/feedback, hvad der leder videre til næste boble, og om noget gemmes/får betydning senere. 💬-linjer er Guide-component-avatarer — componentet er endnu ikke bygget i kode noget sted i projektet, så disse linjer skal bevares som kommentarer/data, klar til at blive taget i brug, når componentet findes.
+*⚠️ **Runde 7 (2026-09-25, efter brugertest 1):** se [[DUF Brugertest 1 - Visuelt vækstområde (sortering)]]. Ændringer: brugeren uden egne billeder kan nu komme igennem Modul 3 (3.1, 3.3–3.5); Modul 4 forklarer stockfotos og får rigtige links, hvor de valgte søgeord følger med (4.3, 4.4); billederne vises igen i Modul 5 og kan forstørres (5.1, 5.3); ordlisten i 5.4 inddeles i grupper og viser valgene med det samme; kontrasttesten i 7.5 kan laves direkte i rummet; og 8.1 får en forhåndsvisning af brugerens valg og plads til den, der ikke har noget at prøve på endnu. Alle nye tekster er godkendt af Heidi 2026-09-25. Klar til implementering, se [[DUF Prompt - Billeder (runde 7)]].*
 
-## Velkomst til rummet
-
-**Skærmtekst (vises kun, hvis brugeren kommer fra Overblik og har markeret usikkerhed om billedrettigheder):**
-"Du nævnte tidligere, at du ikke er helt sikker på rettighederne til de billeder, du bruger. Det anbefaler vi altid at få styr på — uanset hvad du ellers vælger at arbejde med. Derfor starter vi der i dette rum."
-
-**Standardvelkomst (hvis brugeren er kommet direkte til Billeder):**
-"Velkommen til Billeder. Her får du hjælp til at vælge billeder, der understøtter din praksis — og til at få styr på, hvilke rettigheder du faktisk har til dem."
+**Sådan læses dette dokument:** hvert modul er delt i bobler — den mindste byggeklods, svarende til én skærm. Hver boble har feltet "Hvad brugeren møder på denne skærm", og udfylder kun de øvrige felter (interaktion, respons, hvad der leder videre, om noget gemmes), når det er relevant for netop den boble. En 💬-linje er en Guide-bemærkning (se [[DUF Opgaveoversigt - Visuelt udtryk]] om Guide-componentet) — avataren (Heidi/Marcus/Sophia) er endnu ikke tildelt for de nye guide-linjer i dette dokument.
 
 ## Modul 1 — Hvorfor billeder betyder noget
 
@@ -99,23 +93,38 @@
 
 ## Modul 3 — Dit udgangspunkt
 
+*Runde 7: Modul 3 har nu to veje, afhængigt af om brugeren har egne billeder. Vejen vælges af brugeren selv i 3.1, ikke ud fra Overblik, fordi man godt kan have en hjemmeside uden at have billeder, man vil bruge. Overblik bruges kun til at tilpasse introteksten i 3.1.*
+
+| Boble | Har egne billeder | Har ingen billeder endnu |
+|---|---|---|
+| 3.1 Lad os se på dit udgangspunkt | ✓ | ✓, med ekstra knap |
+| 3.2 Har du allerede en retning? | ✓ | ✓ (samme tekst) |
+| 3.3 Det, du allerede har | ✓ | Springes over |
+| 3.4 Hvad vil du gerne vise? | ✓ | Variant |
+| 3.5 Hvad mangler du? | ✓ | Springes over |
+| 3.6 Du behøver ikke have det hele på plads | ✓ | ✓ (samme tekst) |
+
 ### Boble 3.1 — Lad os se på dit udgangspunkt
 
 - **Hvad brugeren møder på denne skærm:** Du behøver ikke starte med et tomt lærred. Du har måske allerede billeder fra din praksis, nogle du er glad for, eller lidt inspiration, du har samlet undervejs. Det hele kan fortælle os noget om, hvad der allerede fungerer for dig. Før vi finder en tydelig billedretning, skal vi derfor først se på det, du allerede har. Har du billeder fra din praksis, du gerne vil arbejde videre med? Du kan tilføje dem her — og altid tilføje flere senere.
-- **Eventuel interaktion:** Brugeren kan uploade billeder fra sin egen praksis.
+  - **✅ Variant (godkendt af Heidi 2026-09-25), når Overblik viser, at brugeren starter fra bunden** (`hentUdgangspunkt().starterFraBunden`)**:** Du fortalte i Overblik, at du ikke har noget i brug endnu. Så har du nok heller ikke billeder, og det er helt fint. Du kan springe direkte videre. Har du alligevel nogle billeder liggende, som du gerne vil have med, kan du tilføje dem her.
+- **Eventuel interaktion:** Brugeren kan uploade billeder fra sin egen praksis. **✅ Ny i runde 7 (godkendt af Heidi 2026-09-25):** Under upload-feltet står en ekstra knap: "Jeg har ikke nogen billeder endnu".
 - **Eventuel respons eller feedback:** De uploadede billeder vises i området "Billeder fra min praksis". Dine billeder bliver på din enhed. De uploades ikke til en server.
-- **Hvad der leder videre til næste boble:** Knappen "Jeg har tilføjet mine billeder" leder videre.
-- **Gemmes/får betydning senere:** Ja. Billederne gemmes lokalt under "Billeder fra min praksis" og kan senere bruges, når brugeren skal vælge billeder til sin endelige billedretning.
+  - **✅ Respons på "Jeg har ikke nogen billeder endnu" (godkendt af Heidi 2026-09-25):** Det er et fint sted at starte. Så tager vi udgangspunkt i det, du gerne vil vise, i stedet for det, du allerede har. Du kan altid komme tilbage og tilføje billeder senere.
+- **Hvad der leder videre til næste boble:** Knappen "Jeg har tilføjet mine billeder" (vises, når mindst ét billede er tilføjet) eller knappen "Jeg har ikke nogen billeder endnu". Begge leder til 3.2.
+- **Gemmes/får betydning senere:** Ja. Billederne gemmes lokalt under "Billeder fra min praksis" og kan senere bruges, når brugeren skal vælge billeder til sin endelige billedretning. **Nyt:** valget gemmes som `harEgneBilleder` (true/false) og styrer vejen gennem resten af modulet.
 
 ### Boble 3.2 — Har du allerede en retning?
 
 - **Hvad brugeren møder på denne skærm:** Måske ved du allerede, hvilke billeder du vil bruge i din praksis — en bestemt stil, nogle farver eller en stemning, der går igen. Har du allerede en retning, skal du ikke starte forfra. Tag den med videre herfra, og brug de næste trin til at undersøge, om den stadig føles rigtig — og om den hænger sammen med det, du gerne vil vise. Har du ikke en tydelig retning endnu, er det helt fint. Så finder vi den sammen.
 - **Eventuel interaktion:** Brugeren vælger mellem: "Jeg har en retning, jeg gerne vil bygge videre på" / "Jeg er ikke helt sikker endnu".
 - **Eventuel respons eller feedback:** Valget tilpasser den videre vej gennem modulet, men begge veje fører frem mod den samme billedretning.
-- **Hvad der leder videre til næste boble:** Knappen "Videre" leder til næste trin.
+- **Hvad der leder videre til næste boble:** Knappen "Videre" leder til 3.3, eller til 3.4, hvis brugeren ikke har egne billeder.
 - **Gemmes/får betydning senere:** Brugerens valg kan gemmes som udgangspunkt for den videre proces.
 
 ### Boble 3.3 — Det, du allerede har, er et godt sted at starte
+
+*Vises kun, hvis brugeren har egne billeder.*
 
 - **Hvad brugeren møder på denne skærm:** Kig på de billeder, du allerede har samlet fra din praksis. Du behøver ikke vurdere dem endnu. Læg bare mærke til, hvad der er der. Er der billeder af dig? Af dit rum eller det, du arbejder med? Er der detaljer, stemninger eller situationer, du allerede synes fungerer godt? Der findes ikke rigtige eller forkerte svar her. Vi skal bare begynde at få øje på, hvad du allerede viser med dine billeder.
 - **Eventuel interaktion:** Brugeren kan bladre gennem eller se sine uploadede billeder i "Billeder fra min praksis".
@@ -126,12 +135,15 @@
 ### Boble 3.4 — Hvad vil du gerne vise?
 
 - **Hvad brugeren møder på denne skærm:** Når du ser på dine billeder, så læg mærke til, hvad de fortæller om din praksis. Nogle viser dig som person. Andre viser det, du laver. Nogle fanger stemningen omkring praksissen. Og nogle gør flere af delene på én gang. Du skal ikke vælge én bestemt kategori. Bare læg mærke til, hvad der fylder mest lige nu. Hvad får du øje på, når du ser på dine billeder?
-- **Eventuel interaktion:** Brugeren kan markere én eller flere af tre muligheder: "Mig og mennesket bag praksissen" / "Min praksis og det, jeg tilbyder" / "Stemningen og følelsen omkring min praksis". Der kan også være mulighed for at skrive en kort note.
+  - **✅ Variant uden egne billeder (godkendt af Heidi 2026-09-25):** Tænk på de billeder, du gerne vil have. Hvad skal de vise om din praksis? Nogle billeder viser dig som person. Andre viser det, du laver. Nogle fanger stemningen. Og nogle gør flere af delene på én gang. Du må gerne vælge én eller kombinere flere. Det vigtige er ikke, hvor mange du vælger, men at du bliver bevidst om, hvad dine billeder skal vise, så de hænger sammen med det udtryk, du gerne vil have. *(omformuleret efter Heidis kommentar 2026-09-25)*
+- **Eventuel interaktion:** Brugeren kan markere én eller flere af tre muligheder: "Mig og mennesket bag praksissen" / "Min praksis og det, jeg tilbyder" / "Stemningen og følelsen omkring min praksis". Der kan også være mulighed for at skrive en kort note. (Samme valg i begge versioner.)
 - **Eventuel respons eller feedback:** Ingen rigtig/forkert-feedback. Valgene bruges som et første pejlemærke for det videre arbejde.
-- **Hvad der leder videre til næste boble:** Knappen "Videre" leder til næste trin.
+- **Hvad der leder videre til næste boble:** Knappen "Videre" leder til 3.5, eller til 3.6, hvis brugeren ikke har egne billeder.
 - **Gemmes/får betydning senere:** Brugerens valg og eventuelle note gemmes og kan bruges senere, når billedretningen skal samles.
 
 ### Boble 3.5 — Hvad mangler du?
+
+*Vises kun, hvis brugeren har egne billeder.*
 
 - **Hvad brugeren møder på denne skærm:** Nu har du kigget på det, du allerede har. Måske kan du se en retning i dine billeder. Måske kan du også se noget, der mangler — billeder af dig selv, billeder der viser din praksis, eller den stemning, du gerne vil skabe. Du behøver ikke løse det endnu. Bare læg mærke til, hvis der er noget, du savner, når du ser på din samling. Er der noget, du gerne ville kunne vise med dine billeder, som du ikke kan se endnu?
 - **Eventuel interaktion:** Brugeren kan skrive en kort note.
@@ -166,23 +178,30 @@
   - 🎨 Farver, lys og visuel stil: warm neutral photography · earthy color photography · muted pastel photography · bold colorful photography
 
   Du kan også oversætte søgeordene til dansk eller kombinere flere af dem. Det vigtigste er ikke at finde det perfekte billede. Det er at finde noget, der får dig til at stoppe op.
-- **Eventuel interaktion:** Brugeren kan klikke på et søgeord for at vælge og kopiere det. Et nyt klik på et valgt søgeord fravælger det igen.
+- **Eventuel interaktion:** Brugeren kan klikke på et søgeord for at vælge det (og kopiere det). **Rettet i runde 7:** et nyt klik fravælger det igen.
 - **Eventuel respons eller feedback:** Det valgte søgeord markeres som valgt/kopieret.
 - **Hvad der leder videre til næste boble:** Knappen "Hvor skal jeg lede?" leder videre.
-- **Gemmes/får betydning senere:** Ja, `modul4_soegeord[]`: de søgeord, der er valgt, når brugeren trykker videre.
+- **Gemmes/får betydning senere:** Ja. De valgte søgeord gemmes som `valgteSoegeord[]` og **følger med til 4.3 og 4.4** (nyt i runde 7).
 
 ### Boble 4.3 — Hvor vil du lede?
 
-- **Hvad brugeren møder på denne skærm:** Nu har du nogle søgeord at starte med. Så skal vi finde det sted, der passer bedst til det, du gerne vil undersøge. Pinterest — godt, hvis du vil gå på opdagelse i stemninger, farver og visuelle udtryk. Her kan ét billede hurtigt føre dig videre til mange andre. Stockfotos — godt, hvis du vil undersøge forskellige måder at fotografere mennesker, rum, detaljer eller situationer på. Andre steder på nettet — der findes måske allerede en virksomhed, en profil eller et univers, du bliver inspireret af. Gå på opdagelse dér. Du behøver ikke vælge det samme sted som andre. Vælg det sted, hvor du har mest lyst til at gå på opdagelse. Og husk: vi leder efter inspiration, ikke billeder, du nødvendigvis må bruge.
-- **Eventuel interaktion:** Brugeren vælger mellem Pinterest, Stockfotos eller Andre steder på nettet. Hver mulighed kan åbne en kort vejledning med relevante søgetips.
-- **Eventuel respons eller feedback:** Ingen rigtig/forkert-feedback. Valget bruges til at guide brugeren videre.
-- **Hvad der leder videre til næste boble:** Knappen "Jeg er klar til at finde inspiration" leder videre.
-- **Gemmes/får betydning senere:** Det valgte inspirationssted gemmes ikke som en del af den endelige billedretning.
+*Runde 7: I testen spurgte brugeren "stockfotos, hvad er det?", og der var ingen links. Boblen forklarer nu stockfotos og har rigtige links, hvor brugerens valgte søgeord allerede er sat ind.*
+
+- **Hvad brugeren møder på denne skærm:** **✅ Ny tekst (godkendt af Heidi 2026-09-25):** Nu har du nogle søgeord at starte med. Så skal vi finde det sted, der passer bedst til det, du gerne vil undersøge. Tryk på et af stederne herunder. Det åbner i et nyt vindue, og dine søgeord er allerede sat ind, så du kan gå direkte i gang. Kom tilbage hertil, når du har fundet noget, der fanger dig.
+  - **Pinterest** — godt, hvis du vil gå på opdagelse i stemninger, farver og visuelle udtryk. Her kan ét billede hurtigt føre dig videre til mange andre.
+  - **Google Billeder** — godt, hvis du vil se bredt og finde andre virksomheder, profiler eller universer, du bliver inspireret af.
+  - **Stockfotos (Unsplash og Pexels)** — Stockfotos er billeder, som fotografer lægger ud i en billedbank, så andre kan bruge dem på bestemte vilkår. Nogle er gratis, andre koster penge. De er gode, hvis du vil se forskellige måder at fotografere mennesker, rum, detaljer og stemninger på.
+
+  Husk: Lige nu leder vi efter inspiration, ikke efter billeder, du nødvendigvis må bruge. Hvad du må bruge, kigger vi på i Modul 7.
+- **Eventuel interaktion:** Brugerens valgte søgeord står øverst. Hvis hun har valgt flere, vælger hun, hvilket hun vil søge på (ét ad gangen). Knapper: "Søg på Pinterest", "Søg på Google Billeder", "Søg på Unsplash", "Søg på Pexels". Hver knap åbner stedets søgeside i et nyt vindue med søgeordet udfyldt. Det fremgår tydeligt, at de åbner i et nyt vindue. Har hun ikke valgt et søgeord, åbner knapperne stedets forside.
+- **Eventuel respons eller feedback:** Ingen rigtig/forkert-feedback.
+- **Hvad der leder videre til næste boble:** Knappen "Jeg er klar til at gemme det, jeg har fundet" leder videre.
+- **Gemmes/får betydning senere:** Det valgte inspirationssted gemmes ikke.
 
 ### Boble 4.4 — Saml det, der fanger dig
 
 - **Hvad brugeren møder på denne skærm:** Nu er det tid til at gå på opdagelse. Brug søgeordene som inspiration, men lad dig også føre videre af det, du finder. Du skal ikke tænke for meget over, om et billede passer til din praksis endnu. Når noget får dig til at stoppe op, så gem det i Min inspiration. Prøv at samle 5–10 billeder. De må gerne være forskellige — det kan faktisk være en fordel. Læg mærke til, hvad du bliver ved med at vende tilbage til.
-- **Eventuel interaktion:** Brugeren kan tilføje billeder til Min inspiration via upload eller screenshot.
+- **Eventuel interaktion:** Brugeren kan tilføje billeder til Min inspiration via upload eller screenshot. **✅ Nyt i runde 7 (godkendt af Heidi 2026-09-25):** Øverst på skærmen står en lille linje med brugerens valgte søgeord og de samme søge-knapper som i 4.3, så hun kan gå frem og tilbage mellem søgningen og sin samling uden at skulle huske noget.
 - **Eventuel respons eller feedback:** Hvert tilføjet billede vises i brugerens inspirationssamling.
 - **Hvad der leder videre til næste boble:** Når brugeren har samlet mindst 5 billeder, bliver knappen "Jeg har samlet mine billeder" tilgængelig.
 - **Gemmes/får betydning senere:** De valgte billeder gemmes under Min inspiration og bruges senere til at finde mønstre i brugerens visuelle præferencer.
@@ -200,8 +219,10 @@
 
 ### Boble 5.1 — Hvad er det, du lægger mærke til?
 
-- **Hvad brugeren møder på denne skærm:** Gå tilbage til din inspirationssamling, og kig på billederne igen. Denne gang skal du se efter, hvad de har til fælles — farverne, lyset, menneskerne, rummene, eller måden billederne føles på. Du behøver ikke kunne sætte det rigtige ord på endnu. Hvad er det første, dine øjne falder på, når du ser din samling?
-- **Eventuel interaktion:** Brugeren kan vælge én eller flere visuelle elementer, de lægger mærke til: Farver / Lys / Mennesker / Rum og omgivelser / Stemning / Komposition og detaljer / Noget andet. Der kan også være mulighed for at skrive en kort note.
+*Runde 7: I testen blev brugeren spurgt om sine billeder, men de blev kun vist på forrige side, så hun skulle huske dem. Samlingen vises nu direkte i boblen.*
+
+- **Hvad brugeren møder på denne skærm:** **✅ Første sætning ændret (godkendt af Heidi 2026-09-25):** Her er din inspirationssamling. Kig på billederne igen. Denne gang skal du se efter, hvad de har til fælles — farverne, lyset, menneskerne, rummene, eller måden billederne føles på. Du behøver ikke kunne sætte det rigtige ord på endnu. Hvad er det første, dine øjne falder på, når du ser din samling?
+- **Eventuel interaktion:** **Nyt i runde 7:** Brugerens billeder fra Min inspiration vises som små billeder øverst i boblen. Et tryk på et billede åbner det i stor størrelse oven på siden (lightbox), med pile til at bladre og et kryds til at lukke. Brugeren forlader ikke boblen. Derunder, som før: brugeren kan vælge én eller flere visuelle elementer, de lægger mærke til: Farver / Lys / Mennesker / Rum og omgivelser / Stemning / Komposition og detaljer / Noget andet. Der kan også være mulighed for at skrive en kort note.
 - **Eventuel respons eller feedback:** Ingen rigtig/forkert-feedback. Valgene hjælper brugeren med at begynde at sætte ord på det, de allerede reagerer på visuelt.
 - **Hvad der leder videre til næste boble:** Knappen "Lad os se på, hvad billeder kan gøre" leder videre.
 - **Gemmes/får betydning senere:** De valgte elementer og eventuelle noter gemmes som pejlemærker for arbejdet med brugerens billedretning.
@@ -217,18 +238,25 @@
 ### Boble 5.3 — Hvad går igen?
 
 - **Hvad brugeren møder på denne skærm:** Kig nu på din inspirationssamling som en helhed. Du har allerede valgt billederne, fordi der var noget ved dem, der fangede dig. Nu skal vi prøve at finde mønstrene. Det kan være et blødt lys, der går igen. Bestemte farver. Meget luft omkring motiverne. Eller en følelse — rolig, levende, naturlig, mere opstillet. Prøv at finde 2–3 ting, der går igen. Det behøver ikke være de samme ting, du lagde mærke til før — du er bare på jagt efter det, der begynder at tegne en fælles retning.
-- **Eventuel interaktion:** Brugeren kan vælge eller skrive 2–3 ting, de oplever går igen i samlingen.
+- **Eventuel interaktion:** **Nyt i runde 7:** Samlingen vises her på samme måde som i 5.1 (små billeder, der kan forstørres). Derunder kan brugeren vælge eller skrive 2–3 ting, de oplever går igen i samlingen.
 - **Eventuel respons eller feedback:** Når brugeren har valgt eller skrevet sine observationer, vises de samlet under overskriften "Det går igen i min inspiration".
 - **Hvad der leder videre til næste boble:** Knappen "Hvad fortæller det om min retning?" leder videre.
 - **Gemmes/får betydning senere:** De 2–3 observationer gemmes og indgår senere i arbejdet med brugerens visuelle kompas og endelige billedretning.
 
 ### Boble 5.4 — Hvad fortæller det om dig?
 
+*Runde 7: I testen var listen lang og svær at vælge fra ("nøj, det er en lang liste"), men ordene gav mening, da brugeren så dem samlet på næste side. Ordene inddeles derfor i grupper, og de valgte ord vises samlet med det samme.*
+
 - **Hvad brugeren møder på denne skærm:** De mønstre, du har fundet, siger ikke kun noget om billeder. De siger også noget om, hvordan du gerne vil opleves. Det kan handle om ro og tryghed. Om energi, nærvær eller kreativitet. Eller om at billederne føles naturlige og ægte. Prøv at sætte nogle få ord på den følelse eller oplevelse, du gerne vil give videre gennem dine billeder. Hvordan vil du gerne have, at det føles at møde din praksis visuelt? Du kan vælge op til 3 ord. Du må også gerne skrive dine egne.
-  - Du kan fx vælge mellem: Rolig · Tryg · Varm · Blød · Let · Enkel · Naturlig · Ægte · Nærværende · Personlig · Åben · Imødekommende · Jordnær · Sanselig · Legende · Kreativ · Energisk · Levende · Modig · Farverig · Frisk · Elegant · Eksklusiv · Rå · Organisk · Harmonisk · Inspirerende · Mystisk · Poetisk · Professionel
-  - Der er ikke noget rigtigt eller forkert valg. Vælg de ord, der føles mest som den oplevelse, du gerne vil skabe.
-- **Eventuel interaktion:** Brugeren kan vælge op til 3 ord fra listen eller skrive sine egne ord.
-- **Eventuel respons eller feedback:** De valgte ord samles under overskriften "Sådan vil jeg gerne opleves".
+  - **✅ Ordene i grupper (godkendt af Heidi 2026-09-25)** (samme 30 ord som før, bare sorteret):
+    - **Ro og tryghed:** Rolig · Tryg · Blød · Let · Enkel · Harmonisk
+    - **Varme og nærvær:** Varm · Nærværende · Personlig · Åben · Imødekommende · Ægte
+    - **Natur og sanser:** Naturlig · Jordnær · Organisk · Sanselig · Frisk · Rå
+    - **Energi og kreativitet:** Legende · Kreativ · Energisk · Levende · Modig · Farverig · Inspirerende
+    - **Stil og stemning:** Elegant · Eksklusiv · Professionel · Mystisk · Poetisk
+  - Der er ikke noget rigtigt eller forkert valg. Vælg de ord, der føles mest som den oplevelse, du gerne vil skabe. Du må gerne vælge ord fra forskellige grupper.
+- **Eventuel interaktion:** Brugeren kan vælge op til 3 ord fra listen eller skrive sine egne ord. **Nyt i runde 7:** Øverst på skærmen står feltet "Sådan vil jeg gerne opleves", som opdateres, hver gang brugeren vælger eller fravælger et ord (fx "Rolig · Varm · Naturlig"). Grupperne vises med overskrift, og på mobil kan de foldes ud en ad gangen.
+- **Eventuel respons eller feedback:** De valgte ord vises samlet med det samme (se ovenfor).
 - **Hvad der leder videre til næste boble:** Knappen "Lad os finde min visuelle retning" leder videre.
 - **Gemmes/får betydning senere:** De valgte ord gemmes og bruges som input til dit visuelle kompas i Modul 6.
 
@@ -237,6 +265,7 @@
 ### Boble 6.1 — Alt det, du har fundet, peger et sted hen
 
 - **Hvad brugeren møder på denne skærm:** Du har nu kigget på dine egne billeder, samlet inspiration og fundet mønstre, der går igen. Og du har sat ord på, hvordan du gerne vil opleves. Det er ikke tilfældige observationer. Det er byggestenene i din billedretning. Her samler vi dem til noget, du faktisk kan bruge, næste gang du skal vælge, tage eller bede om et billede.
+  - **✅ Variant uden egne billeder (godkendt af Heidi 2026-09-25):** Første sætning bliver "Du har nu samlet inspiration og fundet mønstre, der går igen." Resten er uændret.
   - 💬 *Guide:* Du skal ikke finde svaret et helt nyt sted fra. Det ligger allerede i det, du har kigget på.
 - **Eventuel interaktion:** Ingen.
 - **Eventuel respons eller feedback:** Ingen.
@@ -291,12 +320,10 @@
 ### Boble 7.2 — Din tjekliste, før du bruger et billede
 
 - **Hvad brugeren møder på denne skærm:** Uanset hvor billedet kommer fra, kan de samme spørgsmål hjælpe dig med at tjekke, om du er på sikker grund: 1. Hvor kommer billedet fra? 2. Har du selv taget det, fået tilladelse, eller en licens? 3. Dækker tilladelsen den konkrete brug — for eksempel din hjemmeside, sociale medier eller en annonce? 4. Er der personer på billedet, som kan genkendes? 5. Har du et lovligt og dokumenterbart grundlag for at vise dem? 6. Kan billedet afsløre eller antyde følsomme oplysninger — for eksempel om en klients helbred? 7. Skal fotografen eller en anden rettighedshaver krediteres? 8. Har du gemt dokumentation for tilladelsen eller licensen? 9. Kan billedet give et forkert indtryk af din praksis, dine resultater eller en persons situation? Kan du ikke svare sikkert på det hele, er det bedre at vælge et andet billede eller indhente en konkret tilladelse, end at gætte.
-- **Eventuel interaktion:** Brugeren kan afkrydse hvert af de 9 punkter enkeltvis via den nye, genbrugelige **Tjekliste-komponent** (se "DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)") — ét punkt ad gangen, i eget tempo, med en fremdriftsindikator ("X af 9 tjekket").
+- **Eventuel interaktion:** Brugeren kan afkrydse hvert af de 9 punkter enkeltvis via den genbrugelige **Tjekliste-komponent** (se [[DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)]]) — ét punkt ad gangen, i eget tempo, med en fremdriftsindikator ("X af 9 tjekket"). Siden fejlrettelserne i runde 7 har tjeklisten overskriften "Tjekliste" og knappen "Send listen til mig selv".
 - **Eventuel respons eller feedback:** Ingen rigtig/forkert-feedback pr. punkt. Er der punkter, brugeren ikke kan tjekke af, peger vi videre til de relevante bobler i dette modul og til den fulde "Billedrettigheder — praktisk oversigt" som opslagsværk.
 - **Hvad der leder videre til næste boble:** Knappen "Lad os se nærmere på personer på billeder" leder videre — uafhængigt af, hvor mange punkter der er tjekket af.
 - **Gemmes/får betydning senere:** Afkrydsningerne gemmes lokalt under `gemNoegle: "billeder-modul7-rettigheder"`, så brugeren kan vende tilbage og se, hvor de kom til. Er en selvvurdering, ikke en bekræftelse af, at billederne faktisk er lovlige.
-
-*Note til design/udvikling: denne tjekliste erstatter det nuværende manuskripts kortere 7-punkts liste med den fulde 9-punkts liste fra "Billedrettigheder — praktisk oversigt". Bruger Tjekliste-komponenten (ny, 2026-09-17, se separat teknisk dokument) — første brug af komponenten, tænkt genbrugelig til fx Byggesten og Logo senere.*
 
 ### Boble 7.3 — Når der er mennesker på billedet
 
@@ -316,16 +343,23 @@
 
 ### Boble 7.5 — Tjek kontrasten, hvis der skal tekst på billedet
 
-- **Hvad brugeren møder på denne skærm:** Skal du have tekst oven på et billede, er det sidste praktiske tjek: kan teksten faktisk læses? Placér teksten, og vurder ærligt. Er du i tvivl, kan en mørk eller lys boks bag teksten ofte løse det, uden at gå på kompromis med billedet. Det er ikke noget, vi kan måle for dig automatisk — et fotos kontrast er ikke det samme som to flade farver, der kan beregnes. Men et hurtigt kig gør det som regel klart.
-- **Eventuel interaktion:** Brugeren kan markere: "Ja, jeg kan tydeligt læse teksten" / "Nej, det er svært at læse".
-- **Eventuel respons eller feedback:** Svarer brugeren "Nej", vises tippet om en mørk eller lys boks bag teksten.
+*Runde 7: I testen gik brugeren i stå, fordi hun ikke vidste, hvor hun skulle teste kontrasten. Testen kan nu laves direkte i boblen.*
+
+- **Hvad brugeren møder på denne skærm:** **✅ Ny tekst (godkendt af Heidi 2026-09-25):** Skal du have tekst oven på et billede, er det sidste praktiske tjek: kan teksten faktisk læses? Prøv det her. Vælg et af dine billeder, og se, hvordan en kort tekst ser ud oven på det. Du kan skifte farve på teksten og prøve med en boks bag den. Vi kan ikke måle kontrasten for dig på et foto, sådan som vi kan med to flade farver. Men når du ser det, bliver det som regel hurtigt klart.
+- **Eventuel interaktion:** **Nyt i runde 7:**
+  - Brugeren vælger et billede fra "Billeder fra min praksis" eller "Min inspiration" (små billeder at trykke på).
+  - Billedet vises med en kort eksempeltekst ovenpå, fx "Book en tid hos mig".
+  - Tekstfarven kan skiftes mellem farverne i brugerens gemte palet fra Farver. Har hun ingen palet, kan hun vælge mellem hvid og sort.
+  - En knap slår en halvgennemsigtig mørk eller lys boks bag teksten til og fra.
+  - Derefter, som før: "Ja, jeg kan tydeligt læse teksten" / "Nej, det er svært at læse".
+- **Eventuel respons eller feedback:** Svarer brugeren "Nej", vises tippet om en mørk eller lys boks bag teksten, og knappen til boksen fremhæves, så hun kan prøve det med det samme.
 - **Hvad der leder videre til næste boble:** Knappen "Er du stadig i tvivl om noget?" leder videre.
 - **Gemmes/får betydning senere:** Nej.
 
 ### Boble 7.6 — Er du stadig i tvivl?
 
 - **Hvad brugeren møder på denne skærm:** Nogle situationer er værd at få set efter af en fagperson, fremfor at gætte: hvis nogen protesterer mod din brug af et billede, hvis du modtager et krav eller en klage, hvis du er usikker på, om en licens dækker din brug, hvis billedet viser en klient eller kan afsløre helbredsoplysninger, hvis det skal indgå i en større annoncekampagne, eller hvis du vil bruge et AI-genereret billede, der ligner en virkelig person eller begivenhed. At vælge et andet billede er ofte både enklere og billigere end at løbe en unødvendig risiko. Denne gennemgang er DUF's praktiske vejledning — den erstatter ikke juridisk rådgivning. Er du i tvivl i en konkret situation, særligt med penge, en klage eller en klient involveret, så søg professionel rådgivning.
-- **Eventuel interaktion:** Ingen.
+- **Eventuel interaktion:** Ingen. *(Parkeret fra brugertest 1: et link til, hvor man finder en fagperson. Kræver først en liste over relevante steder, se P2 i sorteringsdokumentet.)*
 - **Eventuel respons eller feedback:** Ingen.
 - **Hvad der leder videre til næste boble:** Knappen "Jeg har styr på mine billeder" leder videre til Modul 8.
 - **Gemmes/får betydning senere:** Nej.
@@ -343,10 +377,12 @@
 
 ### Boble 8.1 — Prøv din billedretning af
 
-- **Hvad brugeren møder på denne skærm:** Brug din billedretning ét sted i praksis — et opslag, en side på din hjemmeside, eller et dokument. Se, hvordan det føles, når det ikke bare er billeder i en samling, men noget, andre rent faktisk møder.
-- **Eventuel interaktion:** Ingen krævet — øvelsen foregår uden for DUF.
+*Runde 7: I testen havde brugeren intet at prøve billedretningen af på, og knappen "Jeg har prøvet det" gav ikke plads til det ("jeg trykker bare på linket alligevel"). Boblen viser nu en forhåndsvisning af brugerens valg, så alle kan se det med det samme, og har en knap til den, der ikke har noget at prøve på endnu.*
+
+- **Hvad brugeren møder på denne skærm:** **✅ Ny tekst (godkendt af Heidi 2026-09-25):** Her kan du se, hvordan din billedretning kunne se ud sammen med resten af dit visuelle udtryk. Vælg et billede, så sætter vi det sammen med de farver, skrifttyper og det logo, du har valgt i de andre rum, hvis du har været der. Har du et sted, hvor du kan prøve det af i virkeligheden, fx et opslag, en side på din hjemmeside eller et dokument, så gør det gerne. Det er noget helt andet, når det er noget, andre rent faktisk møder. Har du ikke det endnu, er forhåndsvisningen her et godt sted at starte.
+- **Eventuel interaktion:** **Nyt i runde 7:** En forhåndsvisning ("Sådan kunne det se ud"): et lille kort med det valgte billede øverst og en kort overskrift og tekstlinje under. Brugeren vælger billedet fra "Billeder fra min praksis" eller "Min inspiration". Kortet bruger brugerens gemte palet, skrifttyper og logo, hvis de findes, og udelader det, der ikke findes. Har hun ikke været i de andre rum, vises billedet med neutral tekst.
 - **Eventuel respons eller feedback:** Ingen.
-- **Hvad der leder videre til næste boble:** Knappen "Jeg har prøvet det" leder videre.
+- **Hvad der leder videre til næste boble:** To knapper, begge til 8.2: "Jeg har prøvet det i praksis" / ✅ "Jeg har ingen steder at prøve det af på endnu" *(Heidis formulering, 2026-09-25)*.
 - **Gemmes/får betydning senere:** Nej.
 
 ### Boble 8.2 — Skriv det ned, så du kan finde det igen
@@ -366,11 +402,14 @@
 - **Hvad der leder videre til næste boble:** Fører brugeren ud af Billeder-rummet, tilbage til rum-vælgeren.
 - **Gemmes/får betydning senere:** Nej — det, der skal gemmes (kompas + dokumentation), er allerede gemt i Modul 6 og 8.2.
 
-## Noter til design/udvikling, samlet
+## Spørgsmål til jer, inden I bygger videre
 
-- Denne revision erstatter den tidligere ca. 8-boble version af rummet. Motoren er omlagt til en data-drevet, boble-liste-baseret struktur (se `js/data/billeder.js`/`js/engine/billederEngine.js`/`billederUi.js`) i stedet for én navngiven metode pr. skærm, fordi antallet af skærme gør 1:1-mønsteret uholdbart. Selve motor-*arkitekturen* internt i rummet er dermed ændret — ikke den overordnede vækstrum-motor beskrevet i `docs/duf-vaekstrum-motor.md`, som fortsat gælder uændret for navigation *mellem* rum.
-- Tjekliste-komponenten (`js/components/tjekliste.js`) er ny og delt, bygget efter samme mønster som `js/components/exitDoor.js`. Modul 7.2 er dens første brug. Se "DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)" for den fulde spec.
-- "Min inspiration" (Modul 4) genbruger den eksisterende billedlagring i `js/storage/vaekstrumStorage.js` (`saveImage`/`getImagesForVaekstrum`/`deleteImage`), under en separat nøgle end "Billeder fra min praksis", så de to samlinger ikke blandes sammen.
-- Navigationslinjer (pin-og-sti) er ikke bygget i denne revision — se "DUF Teknisk - Navigationslinjer (modul og boble)".
-- "Hent billeder fra en indsat hjemmesideadresse" er ikke bygget i denne revision — en åben, ikke besluttet idé.
-- Guide-component-avatarer (💬-linjer) er bevaret som datafelter (`guideLine`), klar til når Guide-UI-componentet findes — selve componentet er ikke bygget her.
+- Modulopdelingen er markant finere end den forrige version af dette manuskript (40 bobler fordelt på 8 moduler, mod tidligere ca. 1-2 skærmtekster pr. modul). Bekræft, at `billederEngine.js`/`billederUi.js` kan rumme det uden ændringer i selve motoren — se [[DUF Teknisk - Navigationslinjer (modul og boble)]], som allerede fastslår, at antallet af moduler/bobler ikke er arkitektonisk fastlåst, men det er værd at bekræfte konkret for Billeder.
+- Modul 3.1 og Modul 4.4 bruger to adskilte gemte billedsamlinger: "Billeder fra min praksis" (egne billeder, allerede besluttet 2026-09-06) og en ny "Min inspiration"-samling (eksterne billeder/screenshots). Skal "Min inspiration" bygges som en ny datastruktur, eller kan den genbruge samme IndexedDB-mekanik som "Billeder fra min praksis"?
+- Modul 7.2 bruger den nye, genbrugelige Tjekliste-komponent (se [[DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)]]) — første sted, den tages i brug. Bekræft komponentens data-model og placering (`js/components/tjekliste.js`), før den bygges ind flere steder.
+- Modul 2 (den indledende rettighedsgennemgang) er stadig den lettere, kondenserede version. Kun Modul 7 er opdateret til at matche den fulde "Billedrettigheder — praktisk oversigt". Skal Modul 2 også uddybes til samme dybde, eller er forskellen mellem en kort "teaser" tidligt og en fuld gennemgang i Modul 7 tilsigtet?
+- "Dit visuelle kompas" (Modul 5-6) er et nyt begreb. Skal det bruges konsekvent fremover (fx også i Fælles samling og i andre uddybende rum), eller er det kun en arbejdstitel for denne del af Billeder?
+- **Nyt i runde 7 — billedvisning:** 5.1, 5.3, 7.5 og 8.1 skal nu alle vise brugerens billeder som små billeder, der kan vælges eller forstørres. Byg det som én lille, genbrugelig visning (fx `js/components/billedvaelger.js`) i stedet for fire gange.
+- **Afgjort 2026-09-25 (Heidi) — forhåndsvisningen i 8.1:** Byggestens "Prøv dem sammen" (`js/components/provSammen.js`, se [[DUF Teknisk - Byggesten-forhåndsvisning (Prøv dem sammen)]]) udvides med et valgfrit billede og genbruges i Billeder 8.1. Ingen ny komponent. Erstatter beslutningen fra 2026-09-23 om, at den skulle være selvstændig.
+- **Afgjort 2026-09-25 (Heidi) — hvor billederne kommer fra i 7.5 og 8.1:** Nu: brugerens egne samlinger ("Billeder fra min praksis" og "Min inspiration"). Senere: et lille DUF-arkiv med frie billeder, som alle kan prøve med. Arkivet kræver, at nogen først finder billeder med frie rettigheder (opgave til Marcus), og bygges ikke i denne runde. Byg billedvælgeren, så en ekstra kilde let kan tilføjes.
+- **Nyt i runde 7 — søge-links i 4.3/4.4:** søgesiderne åbnes med søgeordet i adressen (fx Pinterest, Google Billeder, Unsplash, Pexels). Tjek, at adresserne virker, før de bygges ind, og samle dem ét sted i koden, så de er lette at rette, hvis et site ændrer sig.

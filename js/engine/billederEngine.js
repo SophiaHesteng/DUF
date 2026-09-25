@@ -5,8 +5,9 @@ import {
     RENDERERS
 } from "./billederUi.js";
 
-import { bobler, velkomst, situationer } from "../data/billeder.js";
+import { bobler, velkomst, situationer, soegesteder } from "../data/billeder.js";
 import { saveVaekstrumOutput, saveImage, deleteImage, getImagesForVaekstrum, getVaekstrumOutput } from "../storage/vaekstrumStorage.js";
+import { hentUdgangspunkt } from "../storage/udgangspunkt.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
 
 const BILLEDE_VAEKSTRUM_ID = "billeder";
@@ -19,6 +20,16 @@ const BUCKET_IDS = {
     inspiration: INSPIRATION_BUCKET_ID
 };
 
+/*---- Kilder til billedvælgeren (js/components/billedvaelger.js), runde 7. Et DUF-arkiv med frie billeder er besluttet, men ikke bygget - det tilføjes som en kilde mere her, med sin egen `hent` ----*/
+const BILLEDKILDER = {
+    praksis: { titel: "Billeder fra min praksis", hent: () => getImagesForVaekstrum(BUCKET_IDS.praksis) },
+    inspiration: { titel: "Min inspiration", hent: () => getImagesForVaekstrum(BUCKET_IDS.inspiration) }
+};
+
+/*---- Byggesten og Logo læses kun (til 8.1's forhåndsvisning), aldrig skrevet. Samme nøgler, som Byggesten selv bruger ----*/
+const BYGGESTEN_VAEKSTRUM_ID = "byggesten";
+const LOGO_BUCKET_ID = "logo";
+
 /*----------------------------------------------------------------------------
  * Selvstændig motor for det uddybende vækstrum "Billeder" (Visuelt udtryk).
  * Adskilt fra Prøverummets FlowEngine.js og fra Overbliks/Farvers/Logos
@@ -28,9 +39,13 @@ const BUCKET_IDS = {
  * Data-drevet (gennemrevideret 2026-09-19, jf. docs/duf-manuskript-billeder.md):
  * `bobler` er én flad, ordnet liste - denne motor rykker blot til næste
  * indeks og slår op i `RENDERERS[boble.type]`, i stedet for én navngiven
- * metode pr. skærm (uholdbart ved ca. 40 skærme). Der er ingen reel
- * forgrening i det nuværende manuskript - kun rækkefølge og ét afsluttende
- * gem-trin.
+ * metode pr. skærm (uholdbart ved ca. 40 skærme).
+ *
+ * Runde 7 (2026-09-25): én forgrening - brugerens valg i 3.1 gemmes som
+ * `answers.harEgneBilleder`. Er det false, springes bobler med
+ * `kunMedEgneBilleder` over (3.3, 3.5), og bobler med `udenEgneBilleder`
+ * (3.4, 6.1) vises i deres variant. 3.1 har desuden en variant, når Overblik
+ * viser, at brugeren starter fra bunden (hentUdgangspunkt()).
  * ----------------------------------------------------------------------------
  */
 
@@ -39,6 +54,7 @@ export class BilledeEngine {
     index = 0;
     answers = {};
     previousScreen = null;
+    udgangspunkt = null;
 
     start() {
         const params = new URLSearchParams(window.location.search);
@@ -47,15 +63,41 @@ export class BilledeEngine {
 
         this.previousScreen = () => this.start();
 
+        /*---- null, hvis brugeren ikke har været i Overblik - så vises 3.1's almindelige tekst ----*/
+        hentUdgangspunkt().then((udgangspunkt) => { this.udgangspunkt = udgangspunkt; });
+
         showWelcome(text, () => {
             document.body.classList.add("in-flow");
             this.showBoble(0);
         });
     }
 
+    /*---- Den version af boblen, brugeren skal se: variant-tekst afhængigt af harEgneBilleder / Overblik. Selve data-objektet ændres ikke ----*/
+    tilpasBoble(boble) {
+        if (boble.udenEgneBilleder && this.answers.harEgneBilleder === false) {
+            return { ...boble, ...boble.udenEgneBilleder };
+        }
+        if (boble.paragraphsFraBunden && this.udgangspunkt?.starterFraBunden) {
+            return { ...boble, paragraphs: boble.paragraphsFraBunden };
+        }
+        return boble;
+    }
+
+    springesOver(boble) {
+        return Boolean(boble.kunMedEgneBilleder) && this.answers.harEgneBilleder === false;
+    }
+
+    async hentBilledkilder(ids) {
+        return Promise.all(ids.map(async (id) => ({
+            id,
+            titel: BILLEDKILDER[id].titel,
+            billeder: await BILLEDKILDER[id].hent()
+        })));
+    }
+
     async showBoble(index) {
         this.index = index;
-        const boble = bobler[index];
+        const boble = this.tilpasBoble(bobler[index]);
         this.previousScreen = () => this.showBoble(index);
 
         const onNext = (rawAnswer) => this.advance(boble, rawAnswer);
@@ -84,12 +126,39 @@ export class BilledeEngine {
                     upload: (file) => saveImage(bucketId, file),
                     remove: (imageId) => deleteImage(imageId),
                     refresh: () => getImagesForVaekstrum(bucketId)
-                });
+                }, this.soegeKontekst(boble));
+                break;
+            }
+            case "soegesteder":
+                render(boble, this.soegeKontekst(boble), onNext, onExit, onReference);
+                break;
+            case "multiChoice": {
+                const billedkilder = boble.visBilleder ? await this.hentBilledkilder(boble.visBilleder) : null;
+                render(boble, onNext, onExit, onReference, { billedkilder });
                 break;
             }
             case "paletteCompare": {
                 const farverOutput = await getVaekstrumOutput("farver");
                 render(boble, farverOutput, onNext, onExit, onReference);
+                break;
+            }
+            case "kontrasttest": {
+                const [billedkilder, farverOutput] = await Promise.all([
+                    this.hentBilledkilder(boble.billedkilder),
+                    getVaekstrumOutput("farver")
+                ]);
+                /*---- Samme læsning af paletten som 6.4 (farverOutput.data.palette). Uden palet: hvid og sort ----*/
+                const palette = farverOutput?.data?.palette;
+                const tekstfarver = palette?.length ? palette : boble.standardTekstfarver;
+                render(boble, { billedkilder, tekstfarver }, onNext, onExit, onReference);
+                break;
+            }
+            case "forhaandsvisning": {
+                const [billedkilder, provSammen] = await Promise.all([
+                    this.hentBilledkilder(boble.billedkilder),
+                    this.hentProvSammenData()
+                ]);
+                render(boble, { billedkilder, provSammen }, onNext, onExit, onReference);
                 break;
             }
             case "compassSummary":
@@ -100,7 +169,48 @@ export class BilledeEngine {
         }
     }
 
+    /*---- Søgeordene fra 4.2 og søgestederne, til 4.3 og søgelinjen øverst i 4.4 ----*/
+    soegeKontekst(boble) {
+        if (boble.type !== "soegesteder" && !boble.visSoegelinje) return null;
+        return { soegeord: this.answers.valgteSoegeord || [], soegesteder };
+    }
+
+    /*---- 8.1: det, "Prøv dem sammen" (js/components/provSammen.js) skal bruge fra de andre rum - kun læst. Palet og logo læses som i byggestenEngine.js' hentGemtPalet/hentGemtLogo. Fonte og ikon kun, hvis Byggesten har arbejdet med dem (fokusvalg). Mangler det hele, viser kortet DUF's standardfarver og -fonte ----*/
+    async hentProvSammenData() {
+        const [farverOutput, byggestenOutput, logoBilleder] = await Promise.all([
+            getVaekstrumOutput("farver"),
+            getVaekstrumOutput(BYGGESTEN_VAEKSTRUM_ID),
+            getImagesForVaekstrum(LOGO_BUCKET_ID)
+        ]);
+
+        const palette = farverOutput?.data?.palette;
+        const contrast = farverOutput?.data?.contrast;
+        const gemtPalet = palette?.length
+            ? {
+                farver: palette.map(({ hex, role, percent }) => ({ hex, role, percent })),
+                tekstfarve: farverOutput.data.textColor || null,
+                kombination: contrast?.textHex && contrast?.bgHex ? { tekst: contrast.textHex, baggrund: contrast.bgHex } : null
+            }
+            : null;
+
+        const byggesten = byggestenOutput?.data || {};
+        const fokusvalg = (byggesten.fokusvalg || []).filter((emne) => emne === "ikoner" || emne === "fonte");
+
+        return {
+            fokusvalg,
+            ikon: byggesten.ikonFoelelse ? { foelelse: byggesten.ikonFoelelse.id, tekst: byggesten.ikonFoelelse.text } : null,
+            fonte: { overskrift: byggesten.fontOverskrift || "", broedtekst: byggesten.fontBroedtekst || "" },
+            gemtPalet,
+            gemtLogo: logoBilleder?.length ? { blob: logoBilleder[0].blob, navn: logoBilleder[0].name } : null
+        };
+    }
+
     async advance(boble, rawAnswer) {
+        if (boble.ingenBilleder) {
+            /*---- 3.1: rawAnswer = { harEgneBilleder: true/false } ----*/
+            this.answers.harEgneBilleder = rawAnswer?.harEgneBilleder !== false;
+        }
+
         if (boble.answerKey) {
             this.answers[boble.answerKey] = this.resolveAnswer(boble, rawAnswer);
         }
@@ -110,12 +220,16 @@ export class BilledeEngine {
             return;
         }
 
-        this.showBoble(this.index + 1);
+        let next = this.index + 1;
+        while (next < bobler.length - 1 && this.springesOver(bobler[next])) next += 1;
+
+        this.showBoble(next);
     }
 
     resolveAnswer(boble, rawAnswer) {
         switch (boble.type) {
             case "choice":
+            case "kontrasttest":
             case "paletteCompare": {
                 if (rawAnswer && typeof rawAnswer === "object") {
                     return { id: rawAnswer.optionId, text: rawAnswer.text };
