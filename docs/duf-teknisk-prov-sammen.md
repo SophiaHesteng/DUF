@@ -21,6 +21,8 @@ Material Symbols understøtter heldigvis næsten præcis de fire følelser, Bobl
 - **Runde og bløde** → stilen "Rounded"
 - **Skarpe og geometriske** → stilen "Sharp"
 
+**Bygget (Byggesten runde 7, 2026-09-25):** Kortlægningen ligger ét sted, i `js/components/materialIkoner.js` (`IKON_STILE`), og bruges både her og i Byggesten 1.2, 3.1, 3.5 og 7.1, så brugeren ser de samme ikoner hele vejen. Byggesten viser tre eksempel-ikoner (`call`, `calendar_month`, `spa`); forhåndsvisningen bruger ét af dem, `calendar_month`, ved siden af tekstlinjen. Den tidligere pladsholder (en stiplet firkant) er fjernet. Ikonerne hentes fra Google Fonts med `icon_names`, så kun de tre ikoner downloades. Uden internet står ikonets navn som tekst.
+
 *Note til design/udvikling:* Material Symbols' egne akser (stil: Outlined/Rounded/Sharp × fyld: 0/1) er strengt taget to uafhængige valg, mens Boble 3.1 kun tilbyder ét samlet valg. Det er en bevidst forenkling for brugeren — hun skal ikke vælge på to akser samtidig. Kortlægningen ovenfor er standardvalget for hver af de fire følelser. Det konkrete ikon-motiv (fx et blad, en snak-boble, et hjerte) vælges af den, der bygger forhåndsvisningen, ud fra hvad der passer til Byggestens egen visuelle stil — det er ikke noget, brugeren selv vælger her.
 
 ## Hvad komponenten IKKE er
@@ -69,11 +71,14 @@ I Billeder hentes fonte og ikon fra Byggestens gemte data, hvis de findes.
 ## Hvor den bruges i dag
 
 - **Byggesten, Modul 6** ("Prøv dem sammen").
+- **Byggesten, Boble 7.1** ("Sådan ser det ud") — samme kort i lille størrelse (CSS-klassen `.prov-sammen-lille` på containeren), fra runde 7, 2026-09-25.
 - **Billeder, Boble 8.1** ("Sådan kunne det se ud") — fra runde 7, 2026-09-25.
+
+**CSS (runde 7):** Kortets småtekster (noter, "Din palet", ikonteksten) står i rummets brødtekst-skrift, Manrope. Overskrift og brødtekst får stadig brugerens valgte fonte. Paletten ved siden af kortet bruger klassen `.palette-swatches` (før `.palette-preview`, som også var navnet på Farvers store forhåndsvisning i 6.4 og gav en tom ramme her).
 
 ## Åbne spørgsmål
 
 - Skal kortets layout (overskrift/brødtekst/ikon/detalje) være fast, eller variere en smule afhængigt af, hvilke emner brugeren faktisk har valgt (fx et bredere kort, hvis kun fonte er valgt)?
-- Skal komponenten kunne genbruges direkte i Modul 7's opsummering ("Dit lille byggestens-sæt"), eller er en ren tekstlig opsummering nok dér?
-- Hvilke konkrete ikon-motiver (blad, snak-boble, hjerte, e.l.) skal bruges i eksemplet? Overlades til den visuelle stil, Byggesten ender med (afventer evt. Marcus).
+- ~~Skal komponenten kunne genbruges direkte i Modul 7's opsummering?~~ Ja, afgjort i Byggesten runde 7: 7.1 viser kortet i lille størrelse.
+- Hvilke konkrete ikon-motiver skal bruges i eksemplet? Indtil videre `calendar_month`, et af de tre eksempel-ikoner fra Byggesten runde 7. Kan stadig skiftes, når Marcus har kigget på Byggestens visuelle stil.
 - **Nyt:** Senere kan billedvælgeren også få et lille DUF-arkiv med frie billeder som kilde (besluttet 2026-09-25, ikke bygget endnu).

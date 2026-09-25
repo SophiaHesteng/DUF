@@ -4,7 +4,9 @@ import { renderImageUploadHtml, bindImageUpload } from "../components/imageGalle
 import { renderSeOgsaa } from "../components/seOgsaa.js";
 import { renderFontvaelger, indlaesGoogleFont } from "../components/fontvaelger.js";
 import { renderProvSammen } from "../components/provSammen.js";
+import { materialIkonHtml, ikonRaekkeHtml, EKSEMPEL_IKONER } from "../components/materialIkoner.js";
 import { SE_OGSAA_MAAL } from "../data/seOgsaaMaal.js";
+import { skiftEmne } from "../data/byggesten.js";
 
 /*---- UI til "Ikoner, fonte & andre grafiske byggesten" - én renderer pr. boble-type (jf. js/data/byggesten.js), samme opdeling som logoUi.js men Byggestens egen kopi ----*/
 
@@ -29,6 +31,9 @@ function headerHtml(boble, ctx = {}) {
             ${boble.afterList ? [].concat(boble.afterList).map((p) => `<p>${p}</p>`).join("") : ""}
         </div>
         ${boble.recap?.length ? recapHtml(boble.recap) : ""}
+        ${boble.visuelt ? visueltHtml(boble.visuelt, ctx) : ""}
+        ${boble.afterVisuelt ? `<div class="section-body"><p>${boble.afterVisuelt}</p></div>` : ""}
+        ${boble.kanalNote ? `<p class="byggesten-note">${escapeHtml(boble.kanalNote)}</p>` : ""}
         ${boble.externalLink ? externalLinkHtml(boble.externalLink) : ""}
         ${boble.guideLine ? `<div class="panel guide-line"><p><strong>💬 ${boble.guideAvatar ? `${boble.guideAvatar}:` : "Guide:"}</strong> ${boble.guideLine}</p></div>` : ""}
     `;
@@ -42,20 +47,104 @@ function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]));
 }
 
-/*---- "Skift fokus" - midlertidig, rum-lokal vej tilbage til 2.1 (jf. byggestenEngine.js). Samme slim-knap-placering som den gamle "Rettigheder"-knap ----*/
+/*---- Små eksempler i HTML/CSS (runde 7). Skrifttyperne sættes inline og hentes via fontvælgerens indlæser - kan de ikke hentes, står teksten i rummets egen skrift ----*/
+
+function fontStil(font) {
+    indlaesGoogleFont(font);
+    return `font-family:'${escapeHtml(font)}', sans-serif;`;
+}
+
+/*---- 5.2b's retninger og 1.2's "små detaljer" - samme udtryk som i "Prøv dem sammen" ----*/
+function detaljeEksempelHtml(retning) {
+    switch (retning) {
+        case "streg":
+            return `<span class="byggesten-eks-overskrift">Overskrift</span><hr class="prov-sammen-streg">`;
+        case "ramme":
+            return `<blockquote class="prov-sammen-ramme">"Et citat i en fast ramme."</blockquote>`;
+        case "knapper":
+            return `<span class="prov-sammen-knap">Book en tid</span>`;
+        case "moenster":
+            return `<span class="prov-sammen-moenster" role="img" aria-label="Et gentaget mønster"></span>`;
+        default:
+            return "";
+    }
+}
+
+function visueltHtml(visuelt, ctx = {}) {
+    switch (visuelt.type) {
+        /*---- 1.2: de tre slags byggesten med et lille eksempel hver ----*/
+        case "byggestenIntro": {
+            const eksempel = (id) => {
+                if (id === "ikoner") {
+                    return `<ul class="byggesten-ikonliste">${EKSEMPEL_IKONER.map((ikon) => `<li>${materialIkonHtml(ikon.navn, "enkleStreger")}<span>${ikon.tekst}</span></li>`).join("")}</ul>`;
+                }
+                if (id === "fonte") {
+                    return visuelt.fonte.map((font) => `<p class="byggesten-eks-font" style="${fontStil(font)}">${visuelt.eksempelSaetning}</p>`).join("");
+                }
+                return `${detaljeEksempelHtml("streg")}${detaljeEksempelHtml("knapper")}`;
+            };
+
+            return `
+                <div class="byggesten-intro">
+                    ${visuelt.emner.map((emne) => `
+                        <div class="byggesten-eksempel">
+                            <h3 class="section-subheading">${emne.navn}</h3>
+                            <div class="section-body"><p>${emne.tekst}</p></div>
+                            <div class="byggesten-eksempel-vist">${eksempel(emne.eksempel)}</div>
+                        </div>`).join("")}
+                </div>`;
+        }
+
+        /*---- 3.5: den valgte stil med de tre eksempel-ikoner fra 3.1 ----*/
+        case "ikonStil":
+            return `<div class="byggesten-eksempel-vist">${ikonRaekkeHtml(visuelt.stil, { medTekst: true })}</div>`;
+
+        /*---- 4.1: samme overskrift i tre typer skrifttyper + én linje brødtekst ----*/
+        case "fontEksempler":
+            return `
+                <div class="byggesten-fonteksempler">
+                    ${visuelt.eksempler.map((eks) => `
+                        <div class="byggesten-eksempel-vist">
+                            <p class="byggesten-eks-font" style="${fontStil(eks.font)}">${visuelt.overskrift}</p>
+                            <p class="byggesten-eks-etiket"><strong>${eks.etiket}:</strong> ${eks.tekst}</p>
+                        </div>`).join("")}
+                    <p class="byggesten-eks-broedtekst" style="${fontStil(visuelt.broedtekst.font)}">${visuelt.broedtekst.tekst}</p>
+                </div>`;
+
+        /*---- 4.5: prøveteksten i brugerens brødtekstfont, i 16 px og 13 px ----*/
+        case "laesbarhed": {
+            const { font, farver } = ctx.laesbarhed || {};
+            const farveStil = farver ? `background-color:${farver.baggrund};color:${farver.tekst};` : "";
+            return `
+                ${visuelt.stoerrelser.map((px) => `
+                    <p class="byggesten-proeve" style="${font ? fontStil(font) : ""}${farveStil}font-size:${px}px;">${visuelt.tekst}</p>`).join("")}
+                ${font ? `<p class="byggesten-proeve-label">Sat i ${escapeHtml(font)}</p>` : ""}`;
+        }
+
+        default:
+            return "";
+    }
+}
+
+/*---- "Gå til et andet emne" (før: "Skift fokus") - midlertidig, rum-lokal vej tilbage til 2.1 (jf. byggestenEngine.js). Samme slim-knap-placering som den gamle "Rettigheder"-knap. Forklaringen står under knappen, indtil den er brugt, eller brugeren når Modul 6 ----*/
 
 function skiftFokusHtml(ctx) {
-    return ctx?.visSkiftFokus
-        ? `<button id="skift-fokus-button" type="button" class="btn btn--slim btn--outline-green">Skift fokus</button>`
-        : "";
+    if (!ctx?.visSkiftFokus) return "";
+    return `
+        <div class="skift-fokus">
+            <button id="skift-fokus-button" type="button" class="btn btn--slim btn--outline-green"${ctx.visSkiftForklaring ? ` aria-describedby="skift-fokus-forklaring"` : ""}>${skiftEmne.knap}</button>
+            ${ctx.visSkiftForklaring ? `<p id="skift-fokus-forklaring" class="skift-fokus-forklaring">${skiftEmne.forklaring}</p>` : ""}
+        </div>`;
 }
 
 function renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit) {
     app.innerHTML = `
         <section class="section">
+            ${ctx?.emneTaeller ? `<p class="byggesten-emnetaeller">${ctx.emneTaeller}</p>` : ""}
             ${bodyHtml}
             ${boble.imageUpload ? renderImageUploadHtml({ label: boble.imageUpload.label, hint: boble.imageUpload.hint, images: ctx?.images || [] }) : ""}
             <div id="se-ogsaa-slot"></div>
+            ${boble.overgang ? `<div class="section-body byggesten-overgang"><p>${boble.overgang}</p></div>` : ""}
             <div class="section-cta">${ctaHtml}</div>
         </section>
         ${skiftFokusHtml(ctx)}
@@ -111,28 +200,27 @@ function showTextBoble(boble, ctx, onNext, onExit) {
     });
 }
 
-/*---- type: "choice" - envalgskort (eller ctaButtons: stakkede knapper, der handler med det samme). Understøtter pr.-option `response` og `next`, en fælles boble-`response` (3.2), en opfølgende mini-forgrening (`followUp`, 4.2 "Et andet værktøj") og en prøvesætning i brugerens valgte font (4.5) ----*/
+/*---- type: "choice" - envalgskort (eller ctaButtons: stakkede knapper, der handler med det samme). Understøtter pr.-option `response` og `next`, en fælles boble-`response` (3.2), en opfølgende mini-forgrening (`followUp`, 4.2 "Et andet værktøj"), et lille eksempel på kortet (`ikonStil` i 3.1, `detaljeEksempel` i 5.2b - runde 7) og et forvalgt svar (ctx.prefill.optionId, 1.3 - runde 7) ----*/
 
 function showChoiceBoble(boble, ctx, onNext, onExit) {
     const isCta = Boolean(boble.ctaButtons);
 
+    const kortEksempel = (option) => {
+        if (option.ikonStil) return `<span class="choice-card-eksempel">${ikonRaekkeHtml(option.ikonStil)}</span>`;
+        if (option.detaljeEksempel) return `<span class="choice-card-eksempel">${detaljeEksempelHtml(option.detaljeEksempel)}</span>`;
+        return "";
+    };
+
     const optionHtml = (option) => isCta
         ? `<button type="button" class="btn btn--regular btn--outline-green" data-option-id="${option.id}">${option.text}</button>`
         : `
-            <button type="button" class="choice-card choice-card--poll" aria-pressed="false" data-option-id="${option.id}">
+            <button type="button" class="choice-card choice-card--poll${kortEksempel(option) ? " choice-card--med-eksempel" : ""}" aria-pressed="false" data-option-id="${option.id}">
                 <span class="choice-card-title choice-card-title--plain">${option.text}</span>
+                ${kortEksempel(option)}
             </button>`;
-
-    const proeveHtml = boble.proeveSaetning
-        ? `
-            <p class="byggesten-proeve" id="proeve-saetning">${boble.proeveSaetning}</p>
-            ${ctx.proeveFont ? `<p class="byggesten-proeve-label">Sat i ${escapeHtml(ctx.proeveFont)}</p>` : ""}
-            ${boble.efterProeve ? `<div class="section-body"><p>${boble.efterProeve}</p></div>` : ""}`
-        : "";
 
     const bodyHtml = `
         ${headerHtml(boble, ctx)}
-        ${proeveHtml}
         <div class="${isCta ? "section-cta section-cta--column" : "choice-list"}">${boble.options.map(optionHtml).join("")}</div>
         <div id="choice-followup"></div>
         <div id="choice-response" aria-live="polite"></div>
@@ -140,13 +228,6 @@ function showChoiceBoble(boble, ctx, onNext, onExit) {
     const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green"${isCta ? " hidden" : " disabled"}>${boble.nextButtonText || "Næste"}</button>`;
 
     renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
-
-    if (ctx.proeveFont) {
-        indlaesGoogleFont(ctx.proeveFont).then(() => {
-            const el = document.querySelector("#proeve-saetning");
-            if (el) el.style.fontFamily = `"${ctx.proeveFont}", sans-serif`;
-        });
-    }
 
     const optionButtons = document.querySelectorAll("[data-option-id]");
     const nextButton = document.querySelector("#next-button");
@@ -214,6 +295,10 @@ function showChoiceBoble(boble, ctx, onNext, onExit) {
             if (!selectedOption) return;
             onNext(answer());
         });
+
+        /*---- Forvalgt svar: vises som om brugeren selv havde valgt det (markering + respons), og kan frit ændres ----*/
+        const forvalgt = ctx.prefill?.optionId && [...optionButtons].find((b) => b.dataset.optionId === ctx.prefill.optionId);
+        if (forvalgt) forvalgt.click();
     }
 }
 
@@ -305,7 +390,7 @@ function showFokusvalgBoble(boble, ctx, onNext, onExit) {
     });
 }
 
-/*---- type: "eksempler" (1.3) - tre valgfrie felter + valgfri upload, eller "Jeg har ikke noget endnu" ----*/
+/*---- type: "eksempler" (1.4) - tre valgfrie felter + valgfri upload, eller "Jeg har ikke noget endnu" ----*/
 
 function showEksemplerBoble(boble, ctx, onNext, onExit) {
     const eksisterende = ctx.prefill?.eksempler || [];
@@ -335,6 +420,8 @@ function showEksemplerBoble(boble, ctx, onNext, onExit) {
 
 /*---- type: "textNote" - et eller flere fritekstfelter, forudfyldt fra tidligere svar ----*/
 
+/*---- 7.2 (runde 7): `paamindelse` står over feltet, og `eksempler` under det - et tryk lægger eksemplet i feltet, hvor det kan rettes ----*/
+
 function showTextNoteBoble(boble, ctx, onNext, onExit) {
     const prefill = ctx?.prefill || {};
 
@@ -343,9 +430,25 @@ function showTextNoteBoble(boble, ctx, onNext, onExit) {
         <textarea id="field-${field.id}" class="text-input" rows="${field.rows || 3}"${field.placeholder ? ` placeholder="${field.placeholder}"` : ""}>${escapeHtml(prefill[field.id] || "")}</textarea>
     `).join("");
 
+    const paamindelseHtml = boble.paamindelse ? `<p class="byggesten-note">${escapeHtml(boble.paamindelse)}</p>` : "";
+    const eksemplerHtml = boble.eksempler?.length
+        ? `<div class="choice-list byggesten-eksempelforslag">${boble.eksempler.map((eks, i) => `
+            <button type="button" class="choice-card choice-card--poll" data-eksempel="${i}">
+                <span class="choice-card-title choice-card-title--plain">${escapeHtml(eks)}</span>
+            </button>`).join("")}</div>`
+        : "";
+
     const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
 
-    renderScreen(boble, ctx, { bodyHtml: `${headerHtml(boble, ctx)}${fieldsHtml}`, ctaHtml }, onExit);
+    renderScreen(boble, ctx, { bodyHtml: `${headerHtml(boble, ctx)}${paamindelseHtml}${fieldsHtml}${eksemplerHtml}`, ctaHtml }, onExit);
+
+    document.querySelectorAll("[data-eksempel]").forEach((knap) => {
+        knap.addEventListener("click", () => {
+            const felt = document.querySelector(`#field-${boble.fields[0].id}`);
+            felt.value = boble.eksempler[Number(knap.dataset.eksempel)];
+            felt.focus();
+        });
+    });
 
     document.querySelector("#next-button").addEventListener("click", () => {
         const values = {};
@@ -403,6 +506,72 @@ function showProvSammenBoble(boble, ctx, onNext, onExit) {
     document.querySelector("#next-button").addEventListener("click", () => onNext());
 }
 
+/*---- type: "saet" (7.1, runde 7) - oversigten med "Ret" pr. emne, "Sådan ser det ud" (6.1's forhåndsvisning i lille størrelse) og "Det skal du bruge" med "Kopiér" pr. linje ----*/
+
+const EMNE_OVERSKRIFT = { fonte: "Fonte", ikoner: "Ikoner", andreByggesten: "Andre byggesten" };
+
+function showSaetBoble(boble, ctx, onNext, onExit) {
+    const t = boble.tekster;
+
+    const gruppeHtml = boble.recapGrupper.map((gruppe) => `
+        <div class="byggesten-saet-gruppe">
+            <div class="byggesten-saet-gruppehoved">
+                <h3 class="section-subheading">${EMNE_OVERSKRIFT[gruppe.emne]}</h3>
+                <button type="button" class="byggesten-ret" data-ret="${gruppe.emne}" aria-label="${t.ret}: ${EMNE_OVERSKRIFT[gruppe.emne]}">${t.ret}</button>
+            </div>
+            ${recapHtml(gruppe.items)}
+        </div>`).join("");
+
+    const linjeHtml = (linje, i) => `
+        <li class="byggesten-brug-linje">
+            <span class="byggesten-brug-tekst">
+                <span class="byggesten-brug-label">${escapeHtml(linje.label)}</span>
+                <span class="byggesten-brug-vaerdi">
+                    ${linje.farve ? `<span class="palette-swatch byggesten-brug-farve" style="background-color:${linje.farve}"></span>` : ""}
+                    ${linje.url ? `<a href="${linje.url}" target="_blank" rel="noopener noreferrer">${escapeHtml(linje.kopi)}</a>` : escapeHtml(linje.kopi)}
+                </span>
+            </span>
+            <button type="button" class="btn btn--slim btn--outline-green" data-kopi="${i}" aria-label="${t.kopier}: ${escapeHtml(linje.kopi)}">${t.kopier}</button>
+        </li>`;
+
+    const bodyHtml = `
+        <h2 class="section-heading">${boble.heading}</h2>
+        ${gruppeHtml}
+        ${boble.eksempelRecap?.length ? recapHtml(boble.eksempelRecap) : ""}
+
+        <h3 class="section-subheading">${t.saadanSerDetUd}</h3>
+        <div id="prov-sammen-container" class="prov-sammen-lille"></div>
+
+        ${ctx.detSkalDuBruge.length ? `
+            <h3 class="section-subheading">${t.detSkalDuBruge}</h3>
+            <ul class="byggesten-brug">${ctx.detSkalDuBruge.map(linjeHtml).join("")}</ul>` : ""}
+    `;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
+
+    renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
+
+    renderProvSammen(document.querySelector("#prov-sammen-container"), ctx.provSammen);
+
+    document.querySelectorAll("[data-ret]").forEach((knap) => {
+        knap.addEventListener("click", () => ctx.onRet(knap.dataset.ret));
+    });
+
+    document.querySelectorAll("[data-kopi]").forEach((knap) => {
+        knap.addEventListener("click", async () => {
+            try {
+                await navigator.clipboard.writeText(ctx.detSkalDuBruge[Number(knap.dataset.kopi)].kopi);
+            } catch {
+                /*---- Udklipsholderen kan være utilgængelig (fx uden for en sikker kontekst) - teksten står stadig på skærmen ----*/
+                return;
+            }
+            knap.textContent = t.kopieret;
+            setTimeout(() => { knap.textContent = t.kopier; }, 1500);
+        });
+    });
+
+    document.querySelector("#next-button").addEventListener("click", () => onNext());
+}
+
 function showExitConfirmation(onStay, onExit) {
     app.innerHTML = `
         <section class="section exit-confirmation" role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-describedby="exit-description">
@@ -431,7 +600,8 @@ export const RENDERERS = {
     eksempler: showEksemplerBoble,
     textNote: showTextNoteBoble,
     fontvaelger: showFontvaelgerBoble,
-    provSammen: showProvSammenBoble
+    provSammen: showProvSammenBoble,
+    saet: showSaetBoble
 };
 
 export { showWelcome, showExitConfirmation };

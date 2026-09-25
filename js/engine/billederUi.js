@@ -612,7 +612,7 @@ function showPaletteCompareBoble(boble, farverOutput, onNext, onExit, onReferenc
     const hasPalette = Boolean(palette?.length);
 
     const paletteHtml = hasPalette
-        ? `<div class="palette-preview">${palette.map((color) => `<span class="palette-swatch" style="background-color:${color.hex}" title="${color.role || color.hex}"></span>`).join("")}</div>`
+        ? `<div class="palette-swatches">${palette.map((color) => `<span class="palette-swatch" style="background-color:${color.hex}" title="${color.role || color.hex}"></span>`).join("")}</div>`
         : "";
 
     const optionsHtml = hasPalette

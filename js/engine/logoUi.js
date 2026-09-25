@@ -92,10 +92,10 @@ function logoPreviewHtml(kind, images, smallImages) {
     return "";
 }
 
-/*---- Den gemte Farver-palet som farveflader - genbruger .palette-preview/.palette-swatch fra Billeders paletteCompare-boble. Bruges af 5.1 (paletteSwatches) og 5.2a (paletteBeside) ----*/
+/*---- Den gemte Farver-palet som farveflader - genbruger .palette-swatches/.palette-swatch fra Billeders paletteCompare-boble. Bruges af 5.1 (paletteSwatches) og 5.2a (paletteBeside) ----*/
 
 function paletteSwatchesHtml(palette) {
-    return `<div class="palette-preview">${palette.map((c) => `<span class="palette-swatch" style="background-color:${c.hex}" title="${c.role || c.hex}"></span>`).join("")}</div>`;
+    return `<div class="palette-swatches">${palette.map((c) => `<span class="palette-swatch" style="background-color:${c.hex}" title="${c.role || c.hex}"></span>`).join("")}</div>`;
 }
 
 /*---- Logo + gemt Farver-palet side om side (5.2a) ----*/
