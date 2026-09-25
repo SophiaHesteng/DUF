@@ -2,6 +2,8 @@
 
 *Status: Revideret 2026-09-11. Erstatter det tidligere flade modul-for-modul-udkast med en fuld boble-struktur (Vækstrum → Modul → Bobler, jf. [[DUF Teknisk - Navigationslinjer (modul og boble)]]). Bygger på revisionsarbejdet i `claude/DUF Manuskript-revision - Farver.md` (Heidis ChatGPT-udkast, gennemgået og afklaret med Claude i chatten). Modul 1-5 er bygget (branch `farver-update-content`, commit `717565bf...`) og efterfølgende justeret 2026-09-11 efter Heidis gennemgang — se de opdaterede punkter ved Boble 1.2 og Modul 4 nedenfor. Modul 6, 7 og 8 er nu også bygget — se "Status og næste skridt" nederst.*
 
+*⚠️ **Runde 7 (2026-09-25, efter brugertest 1):** se [[DUF Brugertest 1 - Visuelt vækstområde (sortering)]]. To fund: testbrugeren forstod ikke, hvad der mentes med "roller" (T3), og valgte derfor kun én farve første gang. Hun forstod først logikken, da hun skulle vælge farver til kontrasttjekket. Hun ønskede også en mere visuel markering af kontrasten, fx et flueben eller et minus (U3). Ændringer: 5.2 forklarer, *hvorfor* vi taler om roller, med et konkret eksempel; 6.1 opfordrer til mindst to farver og siger det, hvis der kun er én; 6.2 får forslag til roller, man kan trykke på; 7.2/7.3 får tydelige markeringer (✓ / ~ / –) og en oversigt over alle kombinationer. Desuden, i tråd med beslutningen om brugeren, der starter fra bunden: små varianter i 3.1, 8.1 og 8.2. Alle nye tekster er godkendt af Heidi 2026-09-25. Klar til implementering, se [[DUF Prompt - Farver (runde 7)]].*
+
 **Sådan læses dette dokument:** Et modul beskriver det overordnede emne eller skridt. En boble beskriver én konkret skærmvisning eller ét naturligt trin inde i modulet. En boble er ikke automatisk interaktiv — nogle er rene indholdstrin. Hver boble er markeret med, hvad brugeren møder, eventuel interaktion, eventuel respons, hvad der leder videre, og om noget gemmes.
 
 ## Velkomst til rummet
@@ -84,6 +86,8 @@ Det handler om kontrast. Og det er en af de ting, du skal have styr på, hvis di
 Når vi kigger på farver, handler det ikke kun om at finde ud af, hvilke farver der er brugt. Vi kigger også på, hvad de gør sammen.
 
 Går nogle af farverne igen? Hvilke lægger du først mærke til? Og hvilket samlet indtryk får du?"
+
+**✅ Variant af første afsnit (godkendt af Heidi 2026-09-25), når Overblik viser, at brugeren starter fra bunden** (`hentUdgangspunkt().starterFraBunden`)**:** "Farver møder du mange steder: på hjemmesider, i logoer, på sociale medier, i nyhedsbreve og på materialer. Også selvom du ikke har dine egne endnu, har du sikkert lagt mærke til dem hos andre." Resten af teksten er uændret.
 
 - **Interaktion:** Ingen.
 - **Respons:** Ingen.
@@ -213,6 +217,11 @@ Det afgørende er, hvordan farverne arbejder sammen — og hvilken plads de får
 
 Når du begynder at tænke over, hvilken rolle dine farver spiller, bliver det også lettere at se, om de arbejder sammen på en måde, der giver mening."
 
+**✅ Nyt afsnit (runde 7, godkendt af Heidi 2026-09-25) — hvorfor roller, med et eksempel:**
+
+"Hvorfor taler vi om roller og ikke bare om farver? Fordi den samme farve kan gøre noget helt forskelligt, alt efter hvor du bruger den. Tænk på en hjemmeside: Én farve er baggrunden, som fylder det meste. Én er teksten, som skal være let at læse. Og én bruges kun på knappen 'Book en tid', så den springer i øjnene. Det er tre forskellige opgaver, eller roller. Derfor skal du som regel bruge mindst to farver, som er tydeligt forskellige: én lys og én mørk, så din tekst kan ses."
+
+- **Visuelt (✅ nyt, godkendt af Heidi 2026-09-25):** Et lille, enkelt eksempel ved siden af teksten: en skitse af en hjemmeside eller et opslag i tre farver, hvor hver farve har en lille etiket med sin rolle ("Baggrund", "Tekst", "Knap"). Kan tegnes i HTML/CSS med DUF's egne farver.
 - **Interaktion:** Ingen.
 - **Respons:** Ingen.
 - **Leder videre:** Næste boble folder ud, at en farves rolle også hænger sammen med, hvor meget plads den får i det samlede udtryk.
@@ -243,11 +252,13 @@ Når du fordeler dine farver bevidst, bliver det lettere at skabe et udtryk, hvo
 
 "Nu skal vi samle dine farver. Start med de farver, du allerede bruger — eller de farver, du gerne vil arbejde med. Du behøver ikke vælge et bestemt antal. Tilføj de farver, der giver mening for dit udtryk."
 
+**✅ Ny linje under (runde 7, godkendt af Heidi 2026-09-25):** "Vælg gerne mindst to farver, en lys og en mørk. Så kan vi senere tjekke, om din tekst er let at læse."
+
 Herefter møder brugeren farvevælgeren og kan begynde at bygge sin palette.
 
 - **Visuelt:** Farvevælgeren er det centrale element på skærmen. Brugeren kan opbygge en voksende palette, hvor de valgte farver vises samlet. Der skal være mulighed for: at vælge en farve visuelt, at indtaste en HEX-kode, at tilføje farven til paletten, at tilføje et fleksibelt antal farver, at ændre en valgt farve, og at fjerne en valgt farve. Eksempel: 🎨 #0C3A2D · 🎨 #E8ECD1 · 🎨 #DE5B23, med en "➕ Tilføj en farve"-knap.
 - **Interaktion:** Brugeren vælger og tilføjer de farver, de ønsker at arbejde videre med. Der er ikke et fast antal farver, der skal vælges. Brugeren kan ændre eller fjerne farver undervejs.
-- **Respons:** Ingen.
+- **Respons (✅ nyt i runde 7, godkendt af Heidi 2026-09-25):** Trykker brugeren "Videre" med kun én farve, vises en venlig besked, før hun går videre: "Du har valgt én farve. Det er helt fint at starte der. Men for at din tekst kan ses, skal den have en farve at stå på. Vil du tilføje en farve mere, fx en lys eller mørk til tekst og baggrund?" Knapper: "Tilføj en farve" (bliver på skærmen) / "Gå videre med én farve". Går hun videre med én farve, tilbyder kontrasttjekket i Modul 7 hvid og sort som ekstra muligheder (se 7.2).
 - **Leder videre:** Når brugeren er klar til at arbejde videre med de valgte farver, går de videre til næste boble, hvor de skal tænke over, hvad farverne hver især skal bidrage med i deres udtryk.
 - **Gemmes:** Ja. Brugerens valgte farvepalette gemmes og følger med videre til resten af Modul 6, til Modul 7 (kontrasttjek) og til Modul 8 (dokumentation). Paletten er ikke låst, når brugeren går videre — den skal senere kunne åbnes og redigeres igen, når muligheden for at vende tilbage til rummene er implementeret (endnu ikke bygget for noget rum, bevidst fremtidigt punkt — se `docs/duf-teknisk-navigationslinjer-modul-og-boble.md`).
 
@@ -264,7 +275,7 @@ Du behøver ikke passe dine farver ind i faste kategorier. Det handler bare om a
 Herefter møder brugeren sine valgte farver én ad gangen: farven vises med sin farvekode, spørgsmålet *"Hvilken rolle forestiller du dig, at denne farve skal spille i dit udtryk?"* med et fritekstfelt, og en "→ Næste farve"-knap.
 
 - **Visuelt:** Den aktuelle farve vises tydeligt sammen med dens farvekode. Brugeren arbejder med én farve ad gangen for at kunne fokusere på den enkelte farves rolle. Den samlede palette kan eventuelt vises diskret på skærmen som en oversigt, så brugeren stadig kan se farverne i sammenhæng.
-- **Interaktion:** Brugeren skriver med egne ord, hvilken rolle de forestiller sig, at hver farve skal spille i deres udtryk. Der er ingen faste kategorier eller roller, som brugeren skal vælge imellem. Brugeren går videre til næste farve, indtil alle valgte farver har fået en beskrivelse.
+- **Interaktion:** Brugeren skriver med egne ord, hvilken rolle de forestiller sig, at hver farve skal spille i deres udtryk. **✅ Nyt i runde 7 (godkendt af Heidi 2026-09-25):** Over fritekstfeltet står nogle forslag, man kan trykke på for at få teksten sat ind (og derefter rette i den): *Baggrund · Tekst · Overskrifter · Knapper og links · Små detaljer · Sætter stemningen*. Linje over forslagene: "Du kan vælge et forslag eller skrive med dine egne ord." Forslagene er kun hjælp. Der er stadig ingen faste kategorier, og brugeren kan skrive, hvad hun vil. Brugeren går videre til næste farve, indtil alle valgte farver har fået en beskrivelse.
 - **Respons:** Ingen.
 - **Leder videre:** Når brugeren har tænkt over, hvilken rolle deres farver skal spille, går de videre til næste boble, hvor de kan prøve at lege med, hvor meget plads hver farve skal have i det samlede udtryk.
 - **Gemmes:** Ja. For hver farve gemmes farvekoden og brugerens beskrivelse af farvens rolle. Følger med videre til resten af Modul 6 og indgår senere i Modul 8's dokumentation.
@@ -330,6 +341,9 @@ Du kan starte med den tekstfarve, du eventuelt valgte i Modul 6 — men du kan o
 Det kan være en god idé at undersøge flere kombinationer. En farve, der fungerer godt som tekst på én baggrund, kan fungere helt anderledes på en anden."
 
 - **Visuelt:** Den eksisterende kontrasttjekker opdateres, så brugerens farver fra Modul 6 automatisk er tilgængelige. Skærmen består af: **Tekstfarve** (brugeren vælger en farve fra sin egen palette — hvis brugeren har valgt en tekstfarve i Modul 6, er denne valgt som udgangspunkt), **Baggrundsfarve** (brugeren vælger en anden farve fra sin egen palette), og **Kontrastresultat** (beregnes automatisk, når to farver er valgt). Den eksisterende tekniske beregning (`contrast.js`) beholdes, men resultatet præsenteres i et mere menneskeligt og DUF-venligt sprog.
+  - **✅ Nyt i runde 7 — tydelig markering (godkendt af Heidi 2026-09-25):** Kontrastresultatet vises med et tydeligt symbol og en kort tekst, der hører til de tre niveauer fra 7.3: **✓ Let at læse** · **~ Kan fungere** · **– Svær at læse**. Symbolet står altid sammen med teksten, så det ikke kun er farven, der viser forskellen.
+  - **✅ Nyt i runde 7 — alle kombinationer (godkendt af Heidi 2026-09-25):** Under tjekkeren er et lille felt, "Se alle dine kombinationer", som kan foldes ud. Det viser alle par af farver fra paletten som små prøver med teksten "Aa" og markeringen (✓ / ~ / –). Et tryk på en prøve vælger den kombination i tjekkeren. Det hjælper brugeren med hurtigt at se, hvilke farver der egner sig som tekst, og hvilke der hellere skal være flader og detaljer.
+  - **✅ Nyt i runde 7 — kun én farve i paletten (godkendt af Heidi 2026-09-25):** Har brugeren kun én farve, kan hun vælge mellem sin farve, hvid og sort som tekst- og baggrundsfarve, med linjen: "Du har kun én farve i din palet, så vi har lagt hvid og sort til, så du kan prøve den som både tekst og baggrund."
 - **Interaktion:** Brugeren kan vælge tekstfarve fra sin palette, vælge baggrundsfarve fra sin palette, skifte mellem forskellige kombinationer, og løbende se kontrastresultatet ændre sig — uden at skulle indtaste farvekoder igen.
 - **Respons:** Når brugeren vælger to farver, beregnes kontrasten automatisk. Selve kontrastforholdet vises som en del af resultatet, men den uddybende feedback kommer i Boble 7.3.
 - **Leder videre:** Når brugeren har valgt to farver og set deres kontrastresultat, går de videre til næste boble, hvor resultatet sættes i perspektiv i forhold til læsbarhed og brug.
@@ -341,10 +355,10 @@ Det kan være en god idé at undersøge flere kombinationer. En farve, der funge
 
 "Når du har valgt en kombination af farver, kan du her se, hvad kontrasten mellem dem kan betyde for læsbarheden. Det handler ikke om, hvorvidt dine farver er rigtige eller forkerte. Det handler om at få en fornemmelse af, hvordan de fungerer sammen i den situation, du gerne vil bruge dem i."
 
-- **Visuelt:** Brugeren ser den valgte kombination med eksempeltekst samt kontrastresultatet. Feedbacken ændrer sig afhængigt af kontrasten mellem den valgte tekstfarve og baggrundsfarve, i tre niveauer (afløser nuværende binære pass/fail):
-  - **Hvis teksten træder tydeligt frem:** "Her er der en tydelig forskel mellem farverne. Det gør det lettere for teksten at træde frem fra baggrunden og være rar at læse. Det giver dig gode muligheder, hvis du gerne vil bruge kombinationen til eksempelvis brødtekst, overskrifter eller anden vigtig information."
-  - **Hvis farverne ligger lidt tættere på hinanden:** "Her er forskellen mellem farverne mindre. Teksten kan stadig fungere, men hvor let den er at læse, kan blandt andet afhænge af tekstens størrelse og hvor meget tekst der er. Prøv eventuelt at se, hvordan kombinationen fungerer med både kort og længere tekst. Måske passer den bedre til nogle typer indhold end andre."
-  - **Hvis teksten kan have svært ved at træde frem:** "Her ligger farverne så tæt på hinanden, at teksten kan være sværere at få øje på. Det kan gøre den mindre behagelig at læse. Det betyder ikke, at der er noget galt med dine farver. Måske fungerer de bare bedre sammen i flader, former eller detaljer, hvor læsbarhed ikke spiller den samme rolle."
+- **Visuelt:** Brugeren ser den valgte kombination med eksempeltekst samt kontrastresultatet. Feedbacken ændrer sig afhængigt af kontrasten mellem den valgte tekstfarve og baggrundsfarve, i tre niveauer (afløser nuværende binære pass/fail). **✅ Nyt i runde 7 (godkendt af Heidi 2026-09-25):** Hvert niveau vises med sit symbol og sin korte tekst som overskrift over feedbacken (samme som i 7.2).
+  - **✓ Let at læse — hvis teksten træder tydeligt frem:** "Her er der en tydelig forskel mellem farverne. Det gør det lettere for teksten at træde frem fra baggrunden og være rar at læse. Det giver dig gode muligheder, hvis du gerne vil bruge kombinationen til eksempelvis brødtekst, overskrifter eller anden vigtig information."
+  - **~ Kan fungere — hvis farverne ligger lidt tættere på hinanden:** "Her er forskellen mellem farverne mindre. Teksten kan stadig fungere, men hvor let den er at læse, kan blandt andet afhænge af tekstens størrelse og hvor meget tekst der er. Prøv eventuelt at se, hvordan kombinationen fungerer med både kort og længere tekst. Måske passer den bedre til nogle typer indhold end andre."
+  - **– Svær at læse — hvis teksten kan have svært ved at træde frem:** "Her ligger farverne så tæt på hinanden, at teksten kan være sværere at få øje på. Det kan gøre den mindre behagelig at læse. Det betyder ikke, at der er noget galt med dine farver. Måske fungerer de bare bedre sammen i flader, former eller detaljer, hvor læsbarhed ikke spiller den samme rolle."
   - Kontrastforholdet vises fortsat som sekundær, teknisk information (fx "Kontrastforhold: 11.57 : 1"). Der kan desuden være et frivilligt link ("Nysgerrig på, hvad kontrastforhold og WCAG betyder? Læs mere →") til et kommende DUF-blogindlæg om WCAG, kontrast og webtilgængelighed.
 - **Interaktion:** Brugeren kan gå tilbage og prøve en anden kombination af farver. Når brugeren ændrer tekstfarve eller baggrundsfarve, opdateres eksempelvisning, kontrastforhold og feedback samtidig. Når brugeren har fundet en kombination, de gerne vil arbejde videre med, kan de vælge den som deres endelige kombination.
 - **Respons:** Feedbacken tilpasses automatisk ud fra kontrasten mellem brugerens valgte tekstfarve og baggrundsfarve. Formålet er at hjælpe brugeren med at forstå, hvad kontrasten kan betyde for læsbarheden — uden at præsentere resultatet som rigtigt eller forkert.
@@ -367,11 +381,13 @@ Du behøver ikke lave det perfekt. Formålet er bare at se, hvad der sker, når 
 
 Når du har prøvet dem af, kan du komme tilbage og se på, hvad du har opdaget."
 
-- **Visuelt:** En enkel skærm med fokus på invitationen til at afprøve paletten i praksis. Ingen yderligere elementer eller interaktion nødvendig.
-- **Interaktion:** Ingen.
+**✅ Ny sidste linje (runde 7, godkendt af Heidi 2026-09-25):** "Har du ingen steder at prøve den af endnu, kan du i stedet kigge på forhåndsvisningen af dine farver en gang til og mærke efter."
+
+- **Visuelt:** En enkel skærm med fokus på invitationen til at afprøve paletten i praksis. **✅ Nyt (godkendt 2026-09-25):** Forhåndsvisningen fra 6.4 vises i lille størrelse nederst, så brugeren uden noget at prøve på har noget at kigge på.
+- **Interaktion:** **✅ Nyt (godkendt 2026-09-25):** To knapper, begge til 8.2: "Jeg har prøvet det i praksis" / "Jeg har ingen steder at prøve det af på endnu" (samme formulering som i Billeder 8.1).
 - **Respons:** Ingen.
 - **Leder videre:** Brugeren går videre til næste boble, hvor de kan reflektere over, hvordan det var at se og bruge farverne i praksis.
-- **Gemmes:** Nej.
+- **Gemmes:** Valget gemmes kun i hukommelsen og styrer, hvilken version af 8.2 der vises.
 
 ### Boble 8.2 — Hvad lagde du mærke til?
 
@@ -382,6 +398,8 @@ Når du har prøvet dem af, kan du komme tilbage og se på, hvad du har opdaget.
 Du kan for eksempel tænke over: Var der noget, der fungerede, som du havde håbet? Var der noget, der overraskede dig? Er der noget, du får lyst til at justere?
 
 Hvad lagde du mærke til?"
+
+**✅ Variant for "Jeg har ingen steder at prøve det af på endnu" (godkendt af Heidi 2026-09-25):** "Når du ser dine farver samlet, kan du allerede opdage noget. Du kan for eksempel tænke over: Føles de som dig og din praksis? Er der en farve, der fylder mere eller mindre, end du havde forestillet dig? Er der noget, du får lyst til at justere? Hvad lagde du mærke til?"
 
 - **Visuelt:** En enkel refleksionsskærm med de tre spørgsmål som inspiration — de skal ikke besvares enkeltvis, men fungerer som mulige indgange til brugerens egen refleksion. Et frit tekstfelt giver brugeren mulighed for at samle de tanker, de gerne vil tage med videre.
 - **Interaktion:** Brugeren kan skrive sine refleksioner i et frit tekstfelt.
@@ -399,7 +417,7 @@ Hvad lagde du mærke til?"
 
 **Tekstfarve** — hvis brugeren har valgt en tekstfarve: 🎨 [Farveprøve], "Din valgte tekstfarve: #[XXXXXX]". Hvis ikke: "Tekstfarve: Sort som udgangspunkt."
 
-**Din valgte kontrastkombination** — Tekstfarve: 🎨 #[XXXXXX], Baggrundsfarve: 🎨 #[XXXXXX], Kontrastforhold: [XX : 1], Læsevenlighed: [den vurdering brugeren modtog i Boble 7.3].
+**Din valgte kontrastkombination** — Tekstfarve: 🎨 #[XXXXXX], Baggrundsfarve: 🎨 #[XXXXXX], Kontrastforhold: [XX : 1], Læsevenlighed: [den vurdering brugeren modtog i Boble 7.3, **med symbolet ✓ / ~ / –** (runde 7)].
 
 **Det lagde du mærke til** — brugerens egen refleksion fra Boble 8.2 vises her.
 
@@ -423,6 +441,7 @@ Hvad lagde du mærke til?"
 - **Rettet 2026-09-11:** `eksempel-3.2.png` (Boble 3.2's DUF-eksempel) er nu lagt i `img/` og korrekt navngivet (filen var fejlagtigt gemt som `eksempel-3.2.png.png` — rettet).
 - **Afgjort og bygget (2026-09-11):** Modul 6 og Modul 7 er ombygget markant ift. den tidligere kode — fri palet-bygger med rolle, procent-dosering og levende preview (Modul 6), og et kontrasttjek der trækker begge farver fra brugerens egen palette med tre-niveau-feedback i stedet for binær pass/fail (Modul 7). Bygget som selvstændige byggeopgaver, adskilt fra resten af Farver-revisionen, med almindelig HTML/CSS/JS.
 - **Uændret fra tidligere manuskript:** Velkomst, Modul 1, Modul 2, og strukturen i Modul 5. Kun opdelt i bobler, ingen indholdsændringer.
+- **Nyt i runde 7:** Den intern navigation mellem boblerne (P5 i sorteringsdokumentet) ville have hjulpet testbrugeren, da hun ville tilbage til farvevælgeren. Den er stadig planlagt som en fælles opgave for alle rum og er ikke en del af denne runde.
 
 ## Status og næste skridt
 
@@ -431,3 +450,10 @@ Modul 1-5 er bygget (branch `farver-update-content`, commit `717565bf...`) og er
 Modul 6, 7 og 8 er nu også bygget (2026-09-11, samme branch): `js/data/farver.js` og `js/engine/farverUi.js` er udvidet med indhold og skærme til den frie palet-bygger (Modul 6), det palette-drevne kontrasttjek (Modul 7) og den tre-boble-opdelte afprøvning/opsamling (Modul 8). `js/engine/farverEngine.js` styrer det fulde flow og gemmer den samlede palette, tekstfarve, kontrastvalg og refleksion via `saveVaekstrumOutput`. `js/engine/contrast.js` har fået en ny `contrastLevel()`-funktion til Modul 7's tre feedback-niveauer. CSS til palet-bygger, dosering, forhåndsvisning og kontrastprøve er tilføjet i `css/_components.scss` + `css/style.css`.
 
 **Ikke afprøvet endnu:** Flowet er testet på kode-niveau (kontrastberegning, tre-niveau-tærskler og procent-omfordelingsalgoritmen er verificeret isoleret, herunder stress-testet med tilfældige ændringer), men ikke afprøvet i en rigtig browser. Bør gennemgås i browseren (Live Server e.l.) før merge — især: tilføj/fjern/rediger farver i Modul 6's palet-bygger, tjek at doseringen altid summer til 100 % ved gentagne justeringer af sliderne, og gennemfør et helt kontrast-flow inklusive "Prøv en anden kombination".
+
+**Runde 7 bygget (2026-09-25, branch `farver-runde-7`):** Alle seks ændringer fra [[DUF Prompt - Farver (runde 7)]] er implementeret i `js/data/farver.js`, `js/engine/farverEngine.js`, `js/engine/farverUi.js` og css'en (`css/_components.scss` + `css/style.css`). `contrast.js` er uændret. Et par ting, der ikke står eksplicit ovenfor:
+- **6.1:** "Tilføj en farve" i én-farve-beskeden tilføjer en ny farve og sætter fokus på dens farvevælger. Mens beskeden er åben, er "Næste" skjult, så der kun er de to valg.
+- **7.2:** Med én farve i paletten viser "Se alle dine kombinationer" også par med hvid og sort (ellers ville feltet være tomt).
+- **Fælles samling:** Dokumentationsteksten fra 8.3 har nu også vurderingen med symbol, fx "(kontrastforhold 11.57 : 1, ✓ Let at læse)", så den matcher "Det tager du med dig".
+
+Afprøvet i Chrome og Edge (headless, 1280 px og 390 px) med et script, der kører hele flowet to gange: uden Overblik og med tre farver, og med Overblik "ingen kanaler" og én farve. Alle punkter i promptens testliste bestod, uden JS-fejl.
