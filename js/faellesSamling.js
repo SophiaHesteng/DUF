@@ -15,7 +15,13 @@ import {
     getImagesForVaekstrum
 } from "./storage/vaekstrumStorage.js";
 
-import { ROOM_ORDER, ROOMS, TEASERS, copy } from "./data/faellesSamling.js";
+import { ROOM_ORDER, ROOMS, TEASERS, EXTRA_IMAGE_BUCKETS, copy } from "./data/faellesSamling.js";
+
+async function getRoomImages(vaekstrumId) {
+    const buckets = [vaekstrumId, ...(EXTRA_IMAGE_BUCKETS[vaekstrumId] || [])];
+    const perBucket = await Promise.all(buckets.map((bucket) => getImagesForVaekstrum(bucket)));
+    return perBucket.flat();
+}
 
 function formatDate(isoString) {
     return new Date(isoString).toLocaleDateString("da-DK", { day: "numeric", month: "long", year: "numeric" });
@@ -33,7 +39,7 @@ function statusListHtml(savedIds) {
 
 async function roomPanelHtml(output) {
     const room = ROOMS[output.vaekstrumId];
-    const images = await getImagesForVaekstrum(output.vaekstrumId);
+    const images = await getRoomImages(output.vaekstrumId);
 
     const imagesHtml = images.length
         ? `<div class="section-cta section-cta--row">${images.map((img) => `<img src="${URL.createObjectURL(img.blob)}" alt="" style="max-width:120px;border-radius:10px;">`).join("")}</div>`
@@ -168,7 +174,7 @@ async function buildPdf(outputs, coherenceNotes) {
         addHeading(room.name);
         addParagraph(output.documentation || "(ingen dokumentationstekst endnu)");
 
-        const images = await getImagesForVaekstrum(output.vaekstrumId);
+        const images = await getRoomImages(output.vaekstrumId);
         for (const image of images) {
             await addImageBlob(image.blob);
         }

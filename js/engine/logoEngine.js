@@ -15,6 +15,8 @@ import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
 const LOGO_VAEKSTRUM_ID = "logo";
 const LOGO_BUCKET = "logo";
 const INSPIRATION_BUCKET = "logo-inspiration";
+/*---- Manuskriptets `logoUploadLille` (7.2, runde 7): den ekstra, lille udgave af logoet, fx kun symbolet ----*/
+const LOGO_LILLE_BUCKET = "logo-lille";
 
 /*---- 2B.3 → 6.1J: manuskriptets faste oversættelse fra "det skurrer"-svar til arbejdsliste-punkter (stabile id'er, så afkrydsning ikke går tabt, selvom listen udvides efter et besøg i Modul 7) ----*/
 const ARBEJDSLISTE_FRA_SKURRER = {
@@ -187,6 +189,16 @@ export class LogoEngine {
             ctx.images = await getImagesForVaekstrum(LOGO_BUCKET);
         }
 
+        if (boble.responseUpload) {
+            const bucket = boble.responseUpload.bucket;
+            ctx.responseImages = await getImagesForVaekstrum(bucket);
+            ctx.responseImageHandlers = {
+                upload: (file) => saveImage(bucket, file),
+                remove: (imageId) => deleteImage(imageId),
+                refresh: () => getImagesForVaekstrum(bucket)
+            };
+        }
+
         if (boble.paletteBeside || boble.type === "paletteColorPicker" || boble.id === "5.1") {
             ctx.palette = await this.getFarverPalette();
         }
@@ -237,10 +249,18 @@ export class LogoEngine {
 
             case "8.2": {
                 const images = await getImagesForVaekstrum(LOGO_BUCKET);
+                const smallImages = await getImagesForVaekstrum(LOGO_LILLE_BUCKET);
                 const results = this.svar.testResultater || {};
                 const checkLine = (label, ok) => `<li>${ok ? "✓" : "…"} ${label}</li>`;
-                const imageHtml = images.length
-                    ? `<img src="${URL.createObjectURL(images[0].blob)}" alt="Dit logo" style="max-width:200px;max-height:200px;object-fit:contain;display:block;margin-bottom:16px;">`
+                /*---- Den lille udgave fra 7.2 (runde 7) står ved siden af hovedlogoet, hvis hun lagde en ind ----*/
+                const logoImgHtml = images.length
+                    ? `<img src="${URL.createObjectURL(images[0].blob)}" alt="Dit logo" style="max-width:200px;max-height:200px;object-fit:contain;display:block;">`
+                    : "";
+                const smallImgHtml = smallImages.length
+                    ? `<img src="${URL.createObjectURL(smallImages[0].blob)}" alt="Den lille udgave af dit logo" style="max-width:96px;max-height:96px;object-fit:contain;display:block;">`
+                    : "";
+                const imageHtml = logoImgHtml || smallImgHtml
+                    ? `<div style="display:flex;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:16px;">${logoImgHtml}${smallImgHtml}</div>`
                     : "";
                 const begrundelseHtml = this.svar.begrundelse?.begrundelse ? `<p>${this.svar.begrundelse.begrundelse}</p>` : "";
                 const testHtml = `<ul>${checkLine("Kan kendes, når det er småt", results.smaat === "ja")}${checkLine("Virker uden farve", results.udenFarve === "ja")}${checkLine("Virker på både lys og mørk baggrund", results.baggrund === "begge")}</ul>`;
@@ -326,13 +346,19 @@ export class LogoEngine {
 
         if (tool === "illustrator") {
             return {
-                paragraphs: ["Du kender værktøjet, så kun en påmindelse: begynd enkelt, i én farve, tjek det småt undervejs, og gem en vektorfil sammen med de billedfiler, du eksporterer."],
+                paragraphs: [
+                    "Du kender værktøjet, så kun en påmindelse: begynd enkelt, i én farve, tjek det småt undervejs, og gem en vektorfil sammen med de billedfiler, du eksporterer.",
+                    "Lav også en udgave med kun symbolet, hvis dit logo har et."
+                ],
                 externalLink: { label: "Åbn Illustrator (åbner i nyt vindue)", url: "https://www.adobe.com/products/illustrator.html" }
             };
         }
 
         return {
-            paragraphs: ["Åbn Canva (åbner i nyt vindue). Begynd enkelt: én farve og få elementer. Tjek logoet småt undervejs, fx ved at zoome ud eller se det på din telefon. Gem dine udgaver undervejs, så du kan gå tilbage."],
+            paragraphs: [
+                "Åbn Canva (åbner i nyt vindue). Begynd enkelt: én farve og få elementer. Tjek logoet småt undervejs, fx ved at zoome ud eller se det på din telefon. Gem dine udgaver undervejs, så du kan gå tilbage.",
+                "Har dit logo både navn og symbol, så gem også en udgave med kun symbolet. Den skal du bruge de små steder, fx som profilbillede."
+            ],
             externalLink: { label: "Åbn Canva (åbner i nyt vindue)", url: "https://www.canva.com/" }
         };
     }
@@ -694,4 +720,4 @@ export class LogoEngine {
 }
 
 /*---- eksporteret til evt. senere genbrug (fx Fælles samling) ----*/
-export { LOGO_BUCKET, INSPIRATION_BUCKET };
+export { LOGO_BUCKET, INSPIRATION_BUCKET, LOGO_LILLE_BUCKET };

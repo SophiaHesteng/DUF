@@ -91,7 +91,9 @@ export const BOBLER = {
         id: "1.4", modul: 1, type: "text",
         heading: "Hvad et logo faktisk skal",
         paragraphs: [
-            "Så hvad skal et logo? Tre ting. Være til at genkende. Fungere mange steder, stort og småt, i farve og i sort/hvid, på lyse og mørke baggrunde. Og spille sammen med resten af dit visuelle udtryk. Det er det hele. Vi begynder ikke med at gøre det smukt. Vi begynder med at gøre det brugbart."
+            "Så hvad skal et logo? Tre ting. Være til at genkende. Fungere mange steder, stort og småt, i farve og i sort/hvid, på lyse og mørke baggrunde. Og spille sammen med resten af dit visuelle udtryk. Det er det hele. Vi begynder ikke med at gøre det smukt. Vi begynder med at gøre det brugbart.",
+            /*---- Runde 7 (brugertest 1, T6): flere udgaver af logoet og favicon - står til sidst, lige før guide-citatet (Heidi, 2026-09-25) ----*/
+            "Derfor har mange flere udgaver af det samme logo: fx en med navn og symbol til hjemmesiden og en med kun symbolet til de små steder. Det kan være dit profilbillede eller det lille ikon, der står i fanen øverst i browseren, når nogen besøger din hjemmeside. Det lille ikon kaldes et favicon, og der er kun plads til et symbol."
         ],
         guideLine: "Et logo skal ikke fortælle hele din historie. Det skal hjælpe folk med at kende dig igen.",
         guideAvatar: "Marcus",
@@ -280,7 +282,7 @@ export const BOBLER = {
             },
             {
                 id: "begge", text: "Navn og symbol sammen",
-                response: "Du får det bedste fra begge. Vi kigger på, hvordan de to kan hjælpe hinanden."
+                response: "Du får det bedste fra begge. Vi kigger på, hvordan de to kan hjælpe hinanden. Og du får en ekstra fordel: Symbolet kan stå alene på de små steder, fx som profilbillede, mens navn og symbol sammen bruges, hvor der er plads."
             },
             {
                 id: "ved_ikke", text: "Det ved jeg ikke endnu",
@@ -354,7 +356,9 @@ export const BOBLER = {
         id: "3.1", modul: 3, type: "text",
         heading: "Se, hvad andre gør",
         paragraphs: [
-            "Nu kigger vi ud over dit eget logo. Åbn Looka (looka.com/logo-maker), og leg med, hvordan forskellige stilarter kan se ud for en praksis som din. Her kan du hente inspiration. Det er gratis at prøve. Du betaler først, hvis du beslutter dig for at hente et logo. Og finder du et logo, du kan lide, kan du også vælge at bruge det, så behøver du ikke bygge det fra bunden senere. Vi kommer tilbage til, hvad du skal være opmærksom på, hvis du gør det."
+            "Nu kigger vi ud over dit eget logo. Åbn Looka (looka.com/logo-maker), og leg med, hvordan forskellige stilarter kan se ud for en praksis som din. Her kan du hente inspiration. Det er gratis at prøve. Du betaler først, hvis du beslutter dig for at hente et logo. Og finder du et logo, du kan lide, kan du også vælge at bruge det, så behøver du ikke bygge det fra bunden senere. Vi kommer tilbage til, hvad du skal være opmærksom på, hvis du gør det.",
+            /*---- Runde 7 (brugertest 1, P1): en lille bro, så brugeren kommer tilbage fra Looka ----*/
+            "Looka åbner i et nyt vindue. Lad denne side være åben, og kom tilbage hertil, når du har leget lidt. På næste skærm viser vi dig, hvordan du gemmer de logoer, du kan lide, så du har dem med."
         ],
         /*---- Spor C's fire tip-varianter (efter logoType) tilføjes i logoEngine.js ----*/
         externalLink: { label: "Åbn Looka (åbner i nyt vindue)", url: "https://looka.com/logo-maker" },
@@ -404,7 +408,7 @@ export const BOBLER = {
         options: [
             { id: "navn", text: "Kun mit navn, i en skrifttype jeg kan lide", response: "Enkelt og roligt. Her gør skrifttypen næsten hele arbejdet." },
             { id: "symbol", text: "Et lille symbol eller tegn", response: "Symbolet skal kunne stå alene og genkendes, også når det er småt. Det kræver lidt ekstra omtanke om rettigheder, og den tager vi, før du bygger." },
-            { id: "begge", text: "Navn og symbol sammen", response: "Du får det bedste fra begge. Vi kigger på, hvordan de to kan hjælpe hinanden." }
+            { id: "begge", text: "Navn og symbol sammen", response: "Du får det bedste fra begge. Vi kigger på, hvordan de to kan hjælpe hinanden. Og du får en ekstra fordel: Symbolet kan stå alene på de små steder, fx som profilbillede, mens navn og symbol sammen bruges, hvor der er plads." }
         ],
         answerKey: "logoType",
         nextButtonText: "Næste",
@@ -489,7 +493,7 @@ export const BOBLER = {
         options: [
             { id: "navn", text: "Kun mit navn, i en skrifttype jeg kan lide", response: "Enkelt og roligt. Her gør skrifttypen næsten hele arbejdet.", seOgsaa: { maal: "byggesten", tekst: "Ikoner, skrifttyper og andre grafiske byggesten." } },
             { id: "symbol", text: "Et lille symbol eller tegn", response: "Symbolet skal kunne stå alene og genkendes, også når det er småt. Det kræver lidt ekstra omtanke om rettigheder, og den tager vi, før du bygger." },
-            { id: "begge", text: "Navn og symbol sammen", response: "Du får det bedste fra begge. Vi kigger på, hvordan de to kan hjælpe hinanden." },
+            { id: "begge", text: "Navn og symbol sammen", response: "Du får det bedste fra begge. Vi kigger på, hvordan de to kan hjælpe hinanden. Og du får en ekstra fordel: Symbolet kan stå alene på de små steder, fx som profilbillede, mens navn og symbol sammen bruges, hvor der er plads." },
             { id: "ved_ikke", text: "Det ved jeg ikke endnu", response: "Så lader vi eksemplerne vise dig vejen." }
         ],
         answerKey: "logoType",
@@ -601,14 +605,27 @@ export const BOBLER = {
         id: "6.2", modul: 6, type: "choice",
         heading: "Hvordan vil du lave det?",
         paragraphs: [
-            "Vælg den vej, der føles mest overkommelig."
+            "Vælg den vej, der giver mest mening for dig.",
+            "Tryk på pilen ved en mulighed for at læse lidt mere om den."
         ],
-        /*---- Looka-muligheden vises kun for retning "nyt" - logoEngine.js filtrerer options ----*/
+        /*---- Looka-muligheden vises kun for retning "nyt" - logoEngine.js filtrerer options. `explanation` er runde 7's korte forklaring, der foldes ud med pilen ved siden af valget (brugertest 1, T4/U2) - at folde ud vælger IKKE muligheden, jf. logoUi.js ----*/
         options: [
-            { id: "canva", text: "I Canva (anbefalet)" },
-            { id: "looka", text: "I Looka, ud fra det, jeg allerede har leget med", nytOnly: true },
-            { id: "illustrator", text: "I Illustrator, hvis jeg har erfaring med Adobe" },
-            { id: "anden", text: "Jeg vil have en anden til at lave det", jumpTo: "2d.2" }
+            {
+                id: "canva", text: "I Canva (anbefalet)",
+                explanation: "Et gratis program i din browser, hvor du bygger logoet selv ud fra enkle skabeloner. Godt, hvis du vil prøve dig frem og have det hele i egne hænder."
+            },
+            {
+                id: "looka", text: "I Looka, ud fra det, jeg allerede har leget med", nytOnly: true,
+                explanation: "Du bygger videre på det, du allerede har leget med. Det er gratis at designe, og du betaler først, når du henter filerne."
+            },
+            {
+                id: "illustrator", text: "I Illustrator, hvis jeg har erfaring med Adobe",
+                explanation: "Et professionelt tegneprogram fra Adobe. Kun, hvis du kender det i forvejen. Det koster et abonnement."
+            },
+            {
+                id: "anden", text: "Jeg vil have en grafiker eller en anden til at lave det", jumpTo: "2d.2",
+                explanation: "Det kan være en grafiker, du betaler, eller en bekendt, der er god til det. Du har allerede gjort det vigtige forarbejde her: Du ved, hvilken slags logo du vil have, hvilke farver det skal have, og hvad der inspirerer dig. Det gør det meget nemmere at forklare, hvad du ønsker, og det kan gøre opgaven hurtigere og potentielt billigere. Vi giver dig en tjekliste med til samtalen."
+            }
         ],
         answerKey: "vaerktoej",
         nextButtonText: "Næste",
@@ -663,6 +680,8 @@ export const BOBLER = {
             "Kig på logoet i lille størrelse, som på et ikon eller i en profil. Kan du stadig kende det?"
         ],
         logoPreview: "small",
+        /*---- Runde 7 (brugertest 1, T6): vises under responsen, kun når svaret ikke er "Ja". Det er manuskriptets `logoUploadLille`, gemt i bucket "logo-lille", og vises ved siden af hovedlogoet i de tre små størrelser - logoUi.js ----*/
+        responseUpload: { bucket: "logo-lille", label: "Har du en udgave med kun symbolet? Læg den her, og se den i de små størrelser", hint: "Billedet forlader aldrig din egen enhed." },
         options: [
             { id: "ja", text: "Ja, det kan jeg stadig kende" },
             {
