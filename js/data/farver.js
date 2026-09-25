@@ -45,7 +45,9 @@ export const modul3 = {
             "Farver er allerede en del af din praksis mange steder. Du møder dem på din hjemmeside, i dit logo, på sociale medier, i et nyhedsbrev eller på noget af det materiale, du deler med andre.",
             "Når vi kigger på farver, handler det ikke kun om at finde ud af, hvilke farver der er brugt. Vi kigger også på, hvad de gør sammen.",
             "Går nogle af farverne igen? Hvilke lægger du først mærke til? Og hvilket samlet indtryk får du?"
-        ]
+        ],
+        /*---- Runde 7: erstatter første afsnit, når Overblik viser, at brugeren starter fra bunden (hentUdgangspunkt()?.starterFraBunden). Resten af teksten er uændret ----*/
+        firstParagraphFraBunden: "Farver møder du mange steder: på hjemmesider, i logoer, på sociale medier, i nyhedsbreve og på materialer. Også selvom du ikke har dine egne endnu, har du sikkert lagt mærke til dem hos andre."
     },
     boble2: {
         heading: "Har du selv et eksempel?",
@@ -152,7 +154,15 @@ export const modul5 = {
         paragraphs: [
             "Farver behøver ikke alle sammen at gøre det samme. Nogle farver får lov til at fylde meget og være med til at sætte tonen for dit samlede udtryk. Andre ligger mere i baggrunden og understøtter helheden. Og nogle farver bruger du måske kun i små doser — netop fordi de skal fange opmærksomheden, når det er meningen.",
             "Når du begynder at tænke over, hvilken rolle dine farver spiller, bliver det også lettere at se, om de arbejder sammen på en måde, der giver mening."
-        ]
+        ],
+        /*---- Runde 7 (efter brugertest 1, T3): hvorfor roller - vises efter teksten ovenfor, ved siden af en lille HTML/CSS-skitse med tre etiketter ----*/
+        roleExample: {
+            paragraph: "Hvorfor taler vi om roller og ikke bare om farver? Fordi den samme farve kan gøre noget helt forskelligt, alt efter hvor du bruger den. Tænk på en hjemmeside: Én farve er baggrunden, som fylder det meste. Én er teksten, som skal være let at læse. Og én bruges kun på knappen 'Book en tid', så den springer i øjnene. Det er tre forskellige opgaver, eller roller. Derfor skal du som regel bruge mindst to farver, som er tydeligt forskellige: én lys og én mørk, så din tekst kan ses.",
+            backgroundLabel: "Baggrund",
+            textLabel: "Tekst",
+            buttonLabel: "Knap",
+            buttonText: "Book en tid"
+        }
     },
     boble3: {
         heading: "Det handler også om fordelingen",
@@ -170,9 +180,14 @@ export const modul6 = {
     boble1: {
         heading: "Vælg dine farver",
         paragraphs: [
-            "Nu skal vi samle dine farver. Start med de farver, du allerede bruger — eller de farver, du gerne vil arbejde med. Du behøver ikke vælge et bestemt antal. Tilføj de farver, der giver mening for dit udtryk."
+            "Nu skal vi samle dine farver. Start med de farver, du allerede bruger — eller de farver, du gerne vil arbejde med. Du behøver ikke vælge et bestemt antal. Tilføj de farver, der giver mening for dit udtryk.",
+            "Vælg gerne mindst to farver, en lys og en mørk. Så kan vi senere tjekke, om din tekst er let at læse."
         ],
         addButtonLabel: "➕ Tilføj en farve",
+        /*---- Runde 7: vises på siden (ikke som browser-popup), hvis brugeren trykker "Næste" med kun én farve ----*/
+        oneColorMessage: "Du har valgt én farve. Det er helt fint at starte der. Men for at din tekst kan ses, skal den have en farve at stå på. Vil du tilføje en farve mere, fx en lys eller mørk til tekst og baggrund?",
+        oneColorAddLabel: "Tilføj en farve",
+        oneColorContinueLabel: "Gå videre med én farve",
         defaultHex: "#0C3A2D"
     },
     boble2: {
@@ -183,6 +198,9 @@ export const modul6 = {
             "Du behøver ikke passe dine farver ind i faste kategorier. Det handler bare om at tænke over, hvad du gerne vil have dem til at gøre."
         ],
         question: "Hvilken rolle forestiller du dig, at denne farve skal spille i dit udtryk?",
+        /*---- Runde 7: forslag, der sættes ind i fritekstfeltet og kan rettes bagefter. Det gemte er stadig fritekst ----*/
+        suggestionsIntro: "Du kan vælge et forslag eller skrive med dine egne ord.",
+        suggestions: ["Baggrund", "Tekst", "Overskrifter", "Knapper og links", "Små detaljer", "Sætter stemningen"],
         placeholder: "Skriv med dine egne ord...",
         nextColorLabel: "→ Næste farve"
     },
@@ -207,6 +225,12 @@ export const modul6 = {
 /*---- Modul 7 - kontrolleret, palette-drevet kontrasttjek: både tekst- og baggrundsfarve vælges fra brugerens egen palette fra Modul 6, kan afprøves i flere kombinationer, og kun den endelige, valgte kombination gemmes. `contrast.js`s WCAG-beregning genbruges uændret - kun UI'en og antallet af niveauer i feedbacken (tre, i stedet for binær pass/fail) er nyt. ----*/
 
 export const modul7 = {
+    /*---- Runde 7 (efter brugertest 1, U3): hvert niveau fra contrastLevel() vises altid med symbol OG tekst - bruges i 7.2, 7.3 og 8.3 ----*/
+    levels: {
+        high: { symbol: "✓", label: "Let at læse" },
+        medium: { symbol: "~", label: "Kan fungere" },
+        low: { symbol: "–", label: "Svær at læse" }
+    },
     boble1: {
         heading: "Når farver mødes",
         paragraphs: [
@@ -225,7 +249,16 @@ export const modul7 = {
         ],
         textColorLabel: "Tekstfarve",
         bgColorLabel: "Baggrundsfarve",
-        previewText: "Sådan ser din tekst ud på denne baggrund."
+        previewText: "Sådan ser din tekst ud på denne baggrund.",
+        /*---- Runde 7: foldbar oversigt over alle par fra paletten, i begge retninger ----*/
+        allCombinationsLabel: "Se alle dine kombinationer",
+        combinationSampleText: "Aa",
+        /*---- Runde 7: har brugeren kun én farve, lægges hvid og sort til som valgmuligheder her - IKKE til den gemte palet ----*/
+        oneColorLine: "Du har kun én farve i din palet, så vi har lagt hvid og sort til, så du kan prøve den som både tekst og baggrund.",
+        extraColors: [
+            { id: "ekstra-hvid", hex: "#FFFFFF", role: "Hvid" },
+            { id: "ekstra-sort", hex: "#000000", role: "Sort" }
+        ]
     },
     boble3: {
         heading: "Hvad betyder det for læsbarheden?",
@@ -251,8 +284,12 @@ export const modul8 = {
             "Nu er det tid til at prøve din palette af i praksis. Indtil nu har du set dine farver samlet og undersøgt, hvordan de fungerer sammen. Men farver kan godt opleves anderledes, når de bliver en del af noget rigtigt.",
             "Prøv at bruge din palette ét sted i dit visuelle udtryk. Det kan være et opslag til sociale medier, en side på din hjemmeside, et nyhedsbrev, et dokument — eller noget helt andet.",
             "Du behøver ikke lave det perfekt. Formålet er bare at se, hvad der sker, når dine farver kommer i brug.",
-            "Når du har prøvet dem af, kan du komme tilbage og se på, hvad du har opdaget."
-        ]
+            "Når du har prøvet dem af, kan du komme tilbage og se på, hvad du har opdaget.",
+            "Har du ingen steder at prøve den af endnu, kan du i stedet kigge på forhåndsvisningen af dine farver en gang til og mærke efter."
+        ],
+        /*---- Runde 7: begge knapper går til 8.2 - valget huskes kun i hukommelsen og styrer, hvilken version af 8.2 der vises ----*/
+        triedButtonLabel: "Jeg har prøvet det i praksis",
+        notTriedButtonLabel: "Jeg har ingen steder at prøve det af på endnu"
     },
     boble2: {
         heading: "Hvad lagde du mærke til?",
@@ -264,7 +301,18 @@ export const modul8 = {
             "Var der noget, der overraskede dig?",
             "Er der noget, du får lyst til at justere?"
         ],
-        placeholder: "Hvad lagde du mærke til?"
+        placeholder: "Hvad lagde du mærke til?",
+        /*---- Runde 7: variant, når brugeren i 8.1 valgte "Jeg har ingen steder at prøve det af på endnu". Tekstfeltet og det gemte er det samme ----*/
+        notTried: {
+            paragraphs: [
+                "Når du ser dine farver samlet, kan du allerede opdage noget. Du kan for eksempel tænke over:"
+            ],
+            questions: [
+                "Føles de som dig og din praksis?",
+                "Er der en farve, der fylder mere eller mindre, end du havde forestillet dig?",
+                "Er der noget, du får lyst til at justere?"
+            ]
+        }
     },
     boble3: {
         heading: "Din valgte farvepalette",
@@ -273,6 +321,7 @@ export const modul8 = {
         textColorLabel: "Din valgte tekstfarve",
         noTextColorText: "Tekstfarve: Sort som udgangspunkt.",
         contrastLabel: "Din valgte kontrastkombination",
+        readabilityLabel: "Læsevenlighed",
         reflectionLabel: "Det lagde du mærke til",
         closing: "Du har nu afsluttet vækstrummet Farver — og fået sat konkrete farver op, givet dem nogle roller og tjekket kontrasterne. Din valgte farvepalette gør det lettere at arbejde med dit visuelle udtryk, fordi du allerede har taget stilling til, hvilken rolle dine farver kan spille. Når du bruger paletten igen og igen, kan det også være med til at skabe genkendelighed i det, andre møder fra dig. Og rollerne behøver ikke være de samme for altid. I takt med at din praksis udvikler sig, vil du opdage, at en farve skal have mere plads, mindre plads eller måske spille en helt anden rolle. Du kan nu afslutte dette vækstrum og begynde at bruge din palette i din praksis.",
         guideLabel: "Guide",

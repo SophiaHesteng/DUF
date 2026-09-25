@@ -1,5 +1,5 @@
 import { activateFocusTrap } from "./accessibility.js";
-import { isValidHex, contrastRatio } from "./contrast.js";
+import { isValidHex, contrastRatio, contrastLevel } from "./contrast.js";
 import { renderExitDoor as renderSharedExitDoor, bindExit } from "../components/exitDoor.js";
 import { renderImageUploadHtml, bindImageUpload } from "../components/imageGallery.js";
 
@@ -40,7 +40,35 @@ function renderExamplesGrid(examples) {
     `;
 }
 
-function showTextScreen({ heading, paragraphs = [], callout, examples, buttonText = "Næste" }, onNext, onExit) {
+/*---- Boble 5.2 (runde 7) - "hvorfor roller"-afsnittet ved siden af (mobil: under) en lille skitse af en hjemmeside i tre af DUF's egne farver. Tegnet i HTML/CSS, ingen billedfil. Etiketterne er rigtig tekst, så skærmlæsere kan læse dem; resten af skitsen er dekoration (aria-hidden) ----*/
+
+function renderRoleExample({ paragraph, backgroundLabel, textLabel, buttonLabel, buttonText }) {
+    return `
+        <div class="rolle-eksempel">
+            <div class="section-body"><p>${paragraph}</p></div>
+
+            <figure class="rolle-skitse">
+                <div class="rolle-skitse-side">
+                    <span class="rolle-skitse-etiket rolle-skitse-etiket--baggrund">${backgroundLabel}</span>
+
+                    <div class="rolle-skitse-raekke">
+                        <div class="rolle-skitse-tekst" aria-hidden="true">
+                            <span></span><span></span><span></span>
+                        </div>
+                        <span class="rolle-skitse-etiket">${textLabel}</span>
+                    </div>
+
+                    <div class="rolle-skitse-raekke">
+                        <span class="rolle-skitse-knap" aria-hidden="true">${buttonText}</span>
+                        <span class="rolle-skitse-etiket">${buttonLabel}</span>
+                    </div>
+                </div>
+            </figure>
+        </div>
+    `;
+}
+
+function showTextScreen({ heading, paragraphs = [], callout, examples, roleExample, buttonText = "Næste" }, onNext, onExit) {
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${heading}</h2>
@@ -48,6 +76,8 @@ function showTextScreen({ heading, paragraphs = [], callout, examples, buttonTex
             ${examples ? renderExamplesGrid(examples) : ""}
 
             <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
+
+            ${roleExample ? renderRoleExample(roleExample) : ""}
 
             ${callout ? `
                 <div class="panel">
@@ -210,7 +240,7 @@ function paletteChipHtml(color, index) {
     `;
 }
 
-function showPaletteBuilder({ heading, paragraphs = [], addButtonLabel }, palette, callbacks, onNext, onExit) {
+function showPaletteBuilder({ heading, paragraphs = [], addButtonLabel, oneColorMessage, oneColorAddLabel, oneColorContinueLabel }, palette, callbacks, onNext, onExit) {
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${heading}</h2>
@@ -224,7 +254,15 @@ function showPaletteBuilder({ heading, paragraphs = [], addButtonLabel }, palett
                 <button type="button" id="add-color-button" class="btn btn--slim btn--outline-green">${addButtonLabel}</button>
             </div>
 
-            <div class="section-cta">
+            <div class="panel boble-respons en-farve-besked" id="one-color-message" tabindex="-1" hidden>
+                <p>${oneColorMessage}</p>
+                <div class="section-cta section-cta--column">
+                    <button id="one-color-add-button" type="button" class="btn btn--regular btn--solid-green">${oneColorAddLabel}</button>
+                    <button id="one-color-continue-button" type="button" class="btn btn--regular btn--outline-green">${oneColorContinueLabel}</button>
+                </div>
+            </div>
+
+            <div class="section-cta" id="next-row">
                 <button id="next-button" type="button" class="btn btn--regular btn--solid-green" ${palette.length ? "" : "disabled"}>Næste</button>
             </div>
         </section>
@@ -232,9 +270,24 @@ function showPaletteBuilder({ heading, paragraphs = [], addButtonLabel }, palett
 
     const list = document.querySelector("#palette-list");
     const nextButton = document.querySelector("#next-button");
+    const nextRow = document.querySelector("#next-row");
+    const oneColorMessageEl = document.querySelector("#one-color-message");
 
     function refreshNextState() {
         nextButton.disabled = callbacks.getPalette().length === 0;
+    }
+
+    /*---- Runde 7: beskeden erstatter "Næste", mens den er åben, så der kun er de to valg ----*/
+    function setOneColorMessageOpen(open) {
+        oneColorMessageEl.hidden = !open;
+        nextRow.hidden = open;
+    }
+
+    function addColorChip() {
+        const color = callbacks.addColor();
+        list.insertAdjacentHTML("beforeend", paletteChipHtml(color, callbacks.getPalette().length - 1));
+        refreshNextState();
+        return list.querySelector(`[data-color-id="${color.id}"]`);
     }
 
     list.addEventListener("input", (event) => {
@@ -264,19 +317,33 @@ function showPaletteBuilder({ heading, paragraphs = [], addButtonLabel }, palett
     });
 
     document.querySelector("#add-color-button").addEventListener("click", () => {
-        const color = callbacks.addColor();
-        list.insertAdjacentHTML("beforeend", paletteChipHtml(color, callbacks.getPalette().length - 1));
-        refreshNextState();
+        addColorChip();
+        setOneColorMessageOpen(false);
     });
 
+    /*---- "Tilføj en farve" bliver på skærmen: tilføjer en ny farve og sætter fokus på dens farvevælger ----*/
+    document.querySelector("#one-color-add-button").addEventListener("click", () => {
+        setOneColorMessageOpen(false);
+        addColorChip().querySelector('[data-role="swatch"]').focus();
+    });
+
+    document.querySelector("#one-color-continue-button").addEventListener("click", onNext);
+
     activateFocusTrap(app);
-    nextButton.addEventListener("click", onNext);
+    nextButton.addEventListener("click", () => {
+        if (callbacks.getPalette().length === 1) {
+            setOneColorMessageOpen(true);
+            oneColorMessageEl.focus();
+            return;
+        }
+        onNext();
+    });
     bindExit(onExit);
 }
 
 /*---- Modul 6, Boble 6.2 - én farve ad gangen: fritekst-rolle, ingen faste kategorier. En diskret oversigt af hele paletten vises øverst, jf. manuskriptet. ----*/
 
-function showColorRoleStep({ heading, paragraphs = [], question, placeholder, nextColorLabel }, palette, index, onNext, onExit) {
+function showColorRoleStep({ heading, paragraphs = [], question, suggestionsIntro, suggestions = [], placeholder, nextColorLabel }, palette, index, onNext, onExit) {
     const current = palette[index];
     const isLast = index === palette.length - 1;
 
@@ -295,6 +362,12 @@ function showColorRoleStep({ heading, paragraphs = [], question, placeholder, ne
             </div>
 
             <p class="section-subheading">${question}</p>
+
+            <p class="section-body">${suggestionsIntro}</p>
+            <div class="keyword-list" id="role-suggestions">
+                ${suggestions.map((s) => `<button type="button" class="keyword-chip" data-suggestion="${s}">${s}</button>`).join("")}
+            </div>
+
             <textarea id="role-input" class="text-input" rows="2" placeholder="${placeholder || ""}">${current.role || ""}</textarea>
 
             <div class="section-cta">
@@ -302,6 +375,16 @@ function showColorRoleStep({ heading, paragraphs = [], question, placeholder, ne
             </div>
         </section>
         ${renderExitDoor()}`;
+
+    /*---- Runde 7: et forslag erstatter feltets tekst, og fokus flyttes til feltet, så hun kan rette eller skrive videre ----*/
+    const roleInput = document.querySelector("#role-input");
+    document.querySelector("#role-suggestions").addEventListener("click", (event) => {
+        const chip = event.target.closest("[data-suggestion]");
+        if (!chip) return;
+        roleInput.value = chip.dataset.suggestion;
+        roleInput.focus();
+        roleInput.setSelectionRange(roleInput.value.length, roleInput.value.length);
+    });
 
     activateFocusTrap(app);
     document.querySelector("#next-button").addEventListener("click", () => {
@@ -391,10 +474,19 @@ function showDosageStep({ heading, paragraphs = [] }, palette, onNext, onExit) {
 
 /*---- Modul 6, Boble 6.4 - levende forhåndsvisning (farvernes dosering styrer flex-grow på hvert segment) + valg af tekstfarve blandt paletten (eller ingen, som falder tilbage til sort) ----*/
 
+/*---- Delt mellem Boble 6.4 og 8.1 (runde 7, med `small`) ----*/
+function palettePreviewHtml(palette, textHex, exampleText, { small = false } = {}) {
+    return `
+        <div class="palette-preview${small ? " palette-preview--lille" : ""}">
+            ${palette.map((c) => `<div class="palette-preview-segment" style="flex-grow:${c.percent}; background-color:${c.hex};"></div>`).join("")}
+            <div class="palette-preview-text" id="preview-text" style="color:${textHex};">${exampleText}</div>
+        </div>
+    `;
+}
+
 function showPreviewStep({ heading, paragraphs = [], exampleText, textColorLabel, noTextColorLabel }, palette, initialTextColorId, onNext, onExit) {
     let textColorId = initialTextColorId;
 
-    const segmentsHtml = () => palette.map((c) => `<div class="palette-preview-segment" style="flex-grow:${c.percent}; background-color:${c.hex};"></div>`).join("");
     const currentTextColorHex = () => {
         const chosen = palette.find((c) => c.id === textColorId);
         return chosen ? chosen.hex : "#000000";
@@ -419,10 +511,7 @@ function showPreviewStep({ heading, paragraphs = [], exampleText, textColorLabel
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
 
-            <div class="palette-preview">
-                ${segmentsHtml()}
-                <div class="palette-preview-text" id="preview-text" style="color:${currentTextColorHex()};">${exampleText}</div>
-            </div>
+            ${palettePreviewHtml(palette, currentTextColorHex(), exampleText)}
 
             <p class="section-subheading">${textColorLabel}</p>
             <div class="text-color-list" id="text-color-list">${optionsHtml()}</div>
@@ -452,13 +541,50 @@ function contrastSampleHtml(previewText, textHex, bgHex) {
     return `<div class="contrast-sample" style="background-color:${bgHex}; color:${textHex};"><p style="margin:0;">${previewText}</p></div>`;
 }
 
-function showContrastPickerStep({ heading, paragraphs = [], textColorLabel, bgColorLabel, previewText }, palette, defaults, onNext, onExit) {
-    const optionHtml = (selectedId) => palette.map((c) => `<option value="${c.id}" ${c.id === selectedId ? "selected" : ""}>${c.hex}${c.role ? ` — ${c.role}` : ""}</option>`).join("");
+/*---- Runde 7 (brugertest 1, U3): niveauet fra contrastLevel() vises altid som symbol + tekst. Symbolet er skjult for skærmlæsere, så de kun læser teksten ----*/
+function contrastLevelHtml(levels, level, { tag = "span", className = "" } = {}) {
+    const { symbol, label } = levels[level];
+    return `<${tag} class="contrast-level contrast-level--${level} ${className}"><span class="contrast-level-symbol" aria-hidden="true">${symbol}</span> ${label}</${tag}>`;
+}
+
+/*---- Runde 7: "Se alle dine kombinationer" - alle par i begge retninger som små "Aa"-prøver. Et tryk vælger kombinationen i tjekkeren ovenfor ----*/
+function allCombinationsHtml(colors, levels, { allCombinationsLabel, combinationSampleText }) {
+    const pairs = colors.flatMap((text) => colors.filter((bg) => bg.id !== text.id).map((bg) => ({ text, bg })));
+
+    const samplesHtml = pairs.map(({ text, bg }) => {
+        const level = contrastLevel(contrastRatio(text.hex, bg.hex));
+        return `
+            <button type="button" class="kombination" data-text-id="${text.id}" data-bg-id="${bg.id}"
+                aria-label="Tekst ${text.hex} på baggrund ${bg.hex}: ${levels[level].label}">
+                <span class="kombination-proeve" style="background-color:${bg.hex}; color:${text.hex};" aria-hidden="true">${combinationSampleText}</span>
+                <span aria-hidden="true">${contrastLevelHtml(levels, level)}</span>
+            </button>
+        `;
+    }).join("");
+
+    return `
+        <div class="accordion-item kombinationer" data-open="false">
+            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="kombinationer-panel">
+                <span>${allCombinationsLabel}</span>
+                <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
+            </button>
+            <div class="accordion-panel" id="kombinationer-panel" hidden>
+                <div class="kombination-gitter">${samplesHtml}</div>
+            </div>
+        </div>
+    `;
+}
+
+function showContrastPickerStep(copy, levels, colors, hasOneColor, defaults, onNext, onExit) {
+    const { heading, paragraphs = [], textColorLabel, bgColorLabel, previewText, oneColorLine } = copy;
+    const optionHtml = (selectedId) => colors.map((c) => `<option value="${c.id}" ${c.id === selectedId ? "selected" : ""}>${c.hex}${c.role ? ` — ${c.role}` : ""}</option>`).join("");
 
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
+
+            ${hasOneColor ? `<div class="panel boble-respons"><p>${oneColorLine}</p></div>` : ""}
 
             <p class="section-subheading">${textColorLabel}</p>
             <select id="contrast-text-select" class="text-input">${optionHtml(defaults.textId)}</select>
@@ -467,7 +593,9 @@ function showContrastPickerStep({ heading, paragraphs = [], textColorLabel, bgCo
             <select id="contrast-bg-select" class="text-input">${optionHtml(defaults.bgId)}</select>
 
             <div id="contrast-preview"></div>
-            <p class="section-body" id="contrast-ratio-text" style="font-size:14px;"></p>
+            <div class="section-body contrast-result" id="contrast-result" aria-live="polite"></div>
+
+            ${allCombinationsHtml(colors, levels, copy)}
 
             <div class="section-cta">
                 <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
@@ -478,12 +606,12 @@ function showContrastPickerStep({ heading, paragraphs = [], textColorLabel, bgCo
     const textSelect = document.querySelector("#contrast-text-select");
     const bgSelect = document.querySelector("#contrast-bg-select");
     const previewEl = document.querySelector("#contrast-preview");
-    const ratioEl = document.querySelector("#contrast-ratio-text");
+    const resultEl = document.querySelector("#contrast-result");
 
     function currentSelection() {
         return {
-            textColor: palette.find((c) => c.id === textSelect.value),
-            bgColor: palette.find((c) => c.id === bgSelect.value)
+            textColor: colors.find((c) => c.id === textSelect.value),
+            bgColor: colors.find((c) => c.id === bgSelect.value)
         };
     }
 
@@ -491,12 +619,34 @@ function showContrastPickerStep({ heading, paragraphs = [], textColorLabel, bgCo
         const { textColor, bgColor } = currentSelection();
         const ratio = contrastRatio(textColor.hex, bgColor.hex);
         previewEl.innerHTML = contrastSampleHtml(previewText, textColor.hex, bgColor.hex);
-        ratioEl.innerHTML = `<strong>Kontrastforhold: ${ratio.toFixed(2)} : 1</strong>`;
+        resultEl.innerHTML = `
+            ${contrastLevelHtml(levels, contrastLevel(ratio), { tag: "p", className: "contrast-level--stor" })}
+            <p style="font-size:14px;">Kontrastforhold: ${ratio.toFixed(2)} : 1</p>
+        `;
     }
 
     textSelect.addEventListener("change", updatePreview);
     bgSelect.addEventListener("change", updatePreview);
     updatePreview();
+
+    const trigger = document.querySelector(".kombinationer .accordion-trigger");
+    trigger.addEventListener("click", () => {
+        const item = trigger.closest(".accordion-item");
+        const isOpen = trigger.getAttribute("aria-expanded") === "true";
+        trigger.setAttribute("aria-expanded", String(!isOpen));
+        item.dataset.open = String(!isOpen);
+        item.querySelector(".accordion-panel").hidden = isOpen;
+        trigger.querySelector(".accordion-icon").src = isOpen ? "img/accordion-closed.svg" : "img/accordion-open.svg";
+    });
+
+    document.querySelector(".kombination-gitter").addEventListener("click", (event) => {
+        const sample = event.target.closest(".kombination");
+        if (!sample) return;
+        textSelect.value = sample.dataset.textId;
+        bgSelect.value = sample.dataset.bgId;
+        updatePreview();
+        previewEl.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
 
     activateFocusTrap(app);
     document.querySelector("#next-button").addEventListener("click", () => {
@@ -508,7 +658,7 @@ function showContrastPickerStep({ heading, paragraphs = [], textColorLabel, bgCo
 
 /*---- Modul 7, Boble 7.3 - tre-niveau feedback (jf. modul7.boble3.feedback) + mulighed for at prøve en anden kombination eller bekræfte den endelige ----*/
 
-function showContrastResultStep({ heading, intro, previewText, feedback, retryLabel, confirmLabel }, combo, onRetry, onConfirm, onExit) {
+function showContrastResultStep({ heading, intro, previewText, feedback, retryLabel, confirmLabel }, levels, combo, onRetry, onConfirm, onExit) {
     app.innerHTML = `
         <section class="section">
             <h2 class="section-heading">${heading}</h2>
@@ -516,6 +666,7 @@ function showContrastResultStep({ heading, intro, previewText, feedback, retryLa
 
             ${contrastSampleHtml(previewText, combo.textHex, combo.bgHex)}
 
+            ${contrastLevelHtml(levels, combo.level, { tag: "h3", className: "section-subheading contrast-level--stor" })}
             <div class="section-body">
                 <p>${feedback[combo.level]}</p>
                 <p style="font-size:14px;opacity:0.8;">Kontrastforhold: ${combo.ratio.toFixed(2)} : 1</p>
@@ -531,6 +682,29 @@ function showContrastResultStep({ heading, intro, previewText, feedback, retryLa
     activateFocusTrap(app);
     document.querySelector("#retry-button").addEventListener("click", onRetry);
     document.querySelector("#confirm-button").addEventListener("click", onConfirm);
+    bindExit(onExit);
+}
+
+/*---- Modul 8, Boble 8.1 (runde 7) - invitationen til at prøve paletten af, med 6.4's forhåndsvisning i lille størrelse nederst og to knapper, begge til 8.2. Valget styrer kun, hvilken version af 8.2 der vises ----*/
+
+function showTryInPracticeStep({ heading, paragraphs = [], exampleText, triedButtonLabel, notTriedButtonLabel }, palette, textHex, onNext, onExit) {
+    app.innerHTML = `
+        <section class="section">
+            <h2 class="section-heading">${heading}</h2>
+            <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
+
+            ${palettePreviewHtml(palette, textHex, exampleText, { small: true })}
+
+            <div class="section-cta section-cta--column">
+                <button id="tried-button" type="button" class="btn btn--regular btn--solid-green">${triedButtonLabel}</button>
+                <button id="not-tried-button" type="button" class="btn btn--regular btn--outline-green">${notTriedButtonLabel}</button>
+            </div>
+        </section>
+        ${renderExitDoor()}`;
+
+    activateFocusTrap(app);
+    document.querySelector("#tried-button").addEventListener("click", () => onNext(true));
+    document.querySelector("#not-tried-button").addEventListener("click", () => onNext(false));
     bindExit(onExit);
 }
 
@@ -561,7 +735,7 @@ function showReflectionStep({ heading, paragraphs = [], questions = [], placehol
 
 /*---- Modul 8, Boble 8.3 - ren opsamlingsskærm (ingen redigerbart felt, jf. manuskriptet): palette med rolle/dosering, tekstfarve, kontrastkombination og refleksion, samlet fra motorens state ----*/
 
-function showPaletteSummary(copy, { palette, textColorId, contrast, reflection }, onFinish, onExit) {
+function showPaletteSummary(copy, levels, { palette, textColorId, contrast, reflection }, onFinish, onExit) {
     const colorsHtml = palette.map((c) => `
         <div class="color-field">
             <span class="color-field-swatch" style="background-color:${c.hex}; display:inline-block; cursor:default;"></span>
@@ -579,6 +753,7 @@ function showPaletteSummary(copy, { palette, textColorId, contrast, reflection }
         <div class="color-field"><span class="color-field-swatch" style="background-color:${contrast.textHex}; display:inline-block; cursor:default;"></span><span>Tekstfarve: ${contrast.textHex}</span></div>
         <div class="color-field"><span class="color-field-swatch" style="background-color:${contrast.bgHex}; display:inline-block; cursor:default;"></span><span>Baggrundsfarve: ${contrast.bgHex}</span></div>
         <p class="section-body">Kontrastforhold: ${contrast.ratio.toFixed(2)} : 1</p>
+        <p class="section-body">${copy.readabilityLabel}: ${contrastLevelHtml(levels, contrast.level)}</p>
     ` : "";
 
     app.innerHTML = `
@@ -657,5 +832,6 @@ export {
     showContrastResultStep,
     showReflectionStep,
     showPaletteSummary,
+    showTryInPracticeStep,
     showExitConfirmation
 };

@@ -13,11 +13,13 @@ import {
     showContrastResultStep,
     showReflectionStep,
     showPaletteSummary,
+    showTryInPracticeStep,
     showExitConfirmation
 } from "./farverUi.js";
 
 import { velkomst, modul1, modul2, modul3, modul4, modul5, modul6, modul7, modul8 } from "../data/farver.js";
 import { saveVaekstrumOutput, saveImage, deleteImage, getImagesForVaekstrum } from "../storage/vaekstrumStorage.js";
+import { hentUdgangspunkt } from "../storage/udgangspunkt.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
 import { contrastRatio, contrastLevel } from "./contrast.js";
 
@@ -34,6 +36,8 @@ export class FarverEngine {
     contrast = null; // { textId, bgId, textHex, bgHex, ratio, level } - kun den ENDELIGT valgte kombination fra Modul 7
     reflection = ""; // fri tekst fra Boble 8.2
     modul3ImageSource = null; // "upload" | "duf" - sat i Boble 3.2, bruges i Boble 3.3
+    triedInPractice = true; // runde 7: valget i Boble 8.1 - styrer kun, hvilken version af 8.2 der vises (gemmes ikke)
+    udgangspunkt = null; // runde 7: fra Overblik via hentUdgangspunkt() - null, hvis brugeren ikke har været der
     previousScreen = null;
 
     start() {
@@ -42,6 +46,9 @@ export class FarverEngine {
         const text = fromOverblik ? velkomst.fraOverblik : velkomst.standard;
 
         this.previousScreen = () => this.start();
+
+        /*---- Bruges til 3.1's variant for brugeren, der starter fra bunden. Er det ikke hentet, når hun når 3.1, vises den almindelige tekst ----*/
+        hentUdgangspunkt().then((udgangspunkt) => { this.udgangspunkt = udgangspunkt; });
         showWelcome(text, () => this.showModul1());
     }
 
@@ -82,8 +89,13 @@ export class FarverEngine {
     showModul3Boble1() {
         this.previousScreen = () => this.showModul3Boble1();
 
+        const { firstParagraphFraBunden, ...boble } = modul3.boble1;
+        const paragraphs = this.udgangspunkt?.starterFraBunden
+            ? [firstParagraphFraBunden, ...boble.paragraphs.slice(1)]
+            : boble.paragraphs;
+
         showTextScreen(
-            modul3.boble1,
+            { ...boble, paragraphs },
             () => this.showModul3Boble2(),
             () => this.exitRoom()
         );
@@ -322,12 +334,19 @@ export class FarverEngine {
 
     /*---- Modul 7 - palette-drevet kontrasttjek (tre bobler: intro, prøv kombinationer, se læsbarhedsvurdering) ----*/
 
+    /*---- Farverne, der kan vælges i kontrasttjekket: paletten, plus hvid og sort, hvis paletten kun har én farve (runde 7). Hvid og sort føjes aldrig til this.palette, så de hverken ses i 8.3's palet eller gemmes som en del af den ----*/
+    getContrastColors() {
+        return this.palette.length === 1
+            ? [...this.palette, ...modul7.boble2.extraColors]
+            : this.palette;
+    }
+
     getContrastDefaults() {
         const textId = this.textColorId && this.palette.some((c) => c.id === this.textColorId)
             ? this.textColorId
             : this.palette[0].id;
 
-        const bgCandidate = this.palette.find((c) => c.id !== textId);
+        const bgCandidate = this.getContrastColors().find((c) => c.id !== textId);
 
         return { textId, bgId: bgCandidate ? bgCandidate.id : textId };
     }
@@ -347,7 +366,9 @@ export class FarverEngine {
 
         showContrastPickerStep(
             modul7.boble2,
-            this.palette,
+            modul7.levels,
+            this.getContrastColors(),
+            this.palette.length === 1,
             defaults,
             (selection) => this.showModul7Boble3(selection),
             () => this.exitRoom()
@@ -355,8 +376,9 @@ export class FarverEngine {
     }
 
     showModul7Boble3({ textId, bgId }) {
-        const textColor = this.palette.find((c) => c.id === textId);
-        const bgColor = this.palette.find((c) => c.id === bgId);
+        const colors = this.getContrastColors();
+        const textColor = colors.find((c) => c.id === textId);
+        const bgColor = colors.find((c) => c.id === bgId);
         const ratio = contrastRatio(textColor.hex, bgColor.hex);
         const combo = { textId, bgId, textHex: textColor.hex, bgHex: bgColor.hex, ratio, level: contrastLevel(ratio) };
 
@@ -364,6 +386,7 @@ export class FarverEngine {
 
         showContrastResultStep(
             modul7.boble3,
+            modul7.levels,
             combo,
             () => this.showModul7Boble2({ textId, bgId }),
             () => {
@@ -379,9 +402,14 @@ export class FarverEngine {
     showModul8Boble1() {
         this.previousScreen = () => this.showModul8Boble1();
 
-        showTextScreen(
-            modul8.boble1,
-            () => this.showModul8Boble2(),
+        showTryInPracticeStep(
+            { ...modul8.boble1, exampleText: modul6.boble4.exampleText },
+            this.palette,
+            this.getTextColorHex() ?? "#000000",
+            (tried) => {
+                this.triedInPractice = tried;
+                this.showModul8Boble2();
+            },
             () => this.exitRoom()
         );
     }
@@ -389,8 +417,10 @@ export class FarverEngine {
     showModul8Boble2() {
         this.previousScreen = () => this.showModul8Boble2();
 
+        const { notTried, ...boble } = modul8.boble2;
+
         showReflectionStep(
-            modul8.boble2,
+            this.triedInPractice ? boble : { ...boble, ...notTried },
             this.reflection,
             (value) => {
                 this.reflection = value;
@@ -405,14 +435,19 @@ export class FarverEngine {
 
         showPaletteSummary(
             modul8.boble3,
+            modul7.levels,
             { palette: this.palette, textColorId: this.textColorId, contrast: this.contrast, reflection: this.reflection },
             () => this.saveAndFinish(),
             () => this.exitRoom()
         );
     }
 
+    getTextColorHex() {
+        return this.textColorId ? (this.palette.find((c) => c.id === this.textColorId)?.hex ?? null) : null;
+    }
+
     async saveAndFinish() {
-        const textColorHex = this.textColorId ? (this.palette.find((c) => c.id === this.textColorId)?.hex ?? null) : null;
+        const textColorHex = this.getTextColorHex();
 
         const data = {
             palette: this.palette.map(({ id, hex, role, percent }) => ({ id, hex, role, percent })),
@@ -455,8 +490,9 @@ function buildDocumentationText(palette, textColorHex, contrast, reflection) {
 
     const textColorText = textColorHex ? `Tekstfarve: ${textColorHex}.` : "Tekstfarve: sort som udgangspunkt.";
 
+    const level = contrast ? modul7.levels[contrast.level] : null;
     const contrastText = contrast
-        ? `Kontrastkombination: tekst ${contrast.textHex} på baggrund ${contrast.bgHex} (kontrastforhold ${contrast.ratio.toFixed(2)} : 1).`
+        ? `Kontrastkombination: tekst ${contrast.textHex} på baggrund ${contrast.bgHex} (kontrastforhold ${contrast.ratio.toFixed(2)} : 1, ${level.symbol} ${level.label}).`
         : "";
 
     const reflectionText = reflection ? `Det lagde jeg mærke til: ${reflection}` : "";

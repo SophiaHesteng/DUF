@@ -1710,3 +1710,226 @@ body.har-lightbox {
     outline: 3px solid colors.$choiceBgColor;
     outline-offset: 2px;
 }
+
+/*---- Farver runde 7 (efter brugertest 1) ----*/
+
+/*---- Billeders .palette-preview (6.4-sammenligningen) har samme klassenavn og giver mellemrum mellem segmenterne - i Farver skal forhåndsvisningen være én sammenhængende flade ----*/
+body[data-vaekstrum="farver"] .palette-preview {
+    gap: 0;
+    margin: 24px 0;
+}
+
+/*---- Lille udgave af 6.4's forhåndsvisning, nederst i 8.1 ----*/
+body[data-vaekstrum="farver"] .palette-preview--lille {
+    height: 70px;
+    max-width: 320px;
+    margin: 24px auto;
+
+    .palette-preview-text {
+        font-size: 28px;
+    }
+}
+
+/*---- .section-cta er display:flex, som ellers ville vinde over hidden-attributten (6.1's "Næste", mens én-farve-beskeden er åben) ----*/
+.section-cta[hidden] {
+    display: none;
+}
+
+.en-farve-besked {
+    &:focus {
+        outline: 3px solid colors.$actionRoomBgColor;
+        outline-offset: 2px;
+    }
+}
+
+/*---- Lange knaptekster (6.1, 8.1) må bryde over flere linjer på mobil ----*/
+@media (max-width: 480px) {
+    body[data-vaekstrum="farver"] .section-cta .btn {
+        white-space: normal;
+        text-align: center;
+    }
+}
+
+/*---- Boble 5.2 - "hvorfor roller" ved siden af en lille skitse af en hjemmeside (på mobil: under) ----*/
+
+.rolle-eksempel {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin: 16px 0;
+
+    > .section-body {
+        flex: 1;
+    }
+}
+
+.rolle-skitse {
+    flex: 0 0 260px;
+    margin: 0;
+}
+
+.rolle-skitse-side {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background-color: colors.$contactBgColor;
+    border: 1px solid colors.$outlineColor;
+    border-radius: 20px;
+    box-shadow: 0 4px 4px 2px colors.$dropshadowColor;
+    padding: 20px;
+}
+
+.rolle-skitse-raekke {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.rolle-skitse-tekst {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    span {
+        display: block;
+        height: 8px;
+        border-radius: 4px;
+        background-color: colors.$textColor;
+    }
+
+    span:last-child {
+        width: 60%;
+    }
+}
+
+.rolle-skitse-knap {
+    background-color: colors.$actionRoomBgColor;
+    color: colors.$primaryBgColor;
+    border-radius: 1000px;
+    padding: 6px 14px;
+    font-family: colors.$buttonFont, sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+}
+
+.rolle-skitse-etiket {
+    flex-shrink: 0;
+    background-color: colors.$primaryBgColor;
+    border: 1px solid colors.$outlineColor;
+    border-radius: 999px;
+    padding: 2px 10px;
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 12px;
+    color: colors.$textColor;
+}
+
+.rolle-skitse-etiket--baggrund {
+    align-self: flex-end;
+}
+
+@media (max-width: 480px) {
+    .rolle-eksempel {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .rolle-skitse {
+        flex-basis: auto;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+}
+
+/*---- Modul 7 - kontrastniveau: altid symbol + tekst. Symbolets farve er kun en ekstra hjælp ----*/
+
+.contrast-level {
+    font-family: colors.$regularFont, sans-serif;
+    color: colors.$textColor;
+}
+
+.contrast-level-symbol {
+    display: inline-block;
+    min-width: 1em;
+    font-weight: 700;
+    text-align: center;
+}
+
+.contrast-level--stor {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 8px 0;
+
+    .contrast-level-symbol {
+        font-size: 24px;
+    }
+}
+
+h3.contrast-level--stor {
+    font-weight: 400;
+}
+
+.contrast-level--high .contrast-level-symbol {
+    color: colors.$navCTAColor;
+}
+
+.contrast-level--medium .contrast-level-symbol,
+.contrast-level--low .contrast-level-symbol {
+    color: colors.$actionRoomBgColor;
+}
+
+/*---- Modul 7.2 - "Se alle dine kombinationer" ----*/
+
+.kombinationer {
+    margin: 16px 0;
+
+    .accordion-trigger {
+        font-size: 18px;
+    }
+
+    .accordion-icon {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+.kombination-gitter {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 12px;
+    max-height: 360px;
+    overflow-y: auto;
+    padding: 4px;
+}
+
+.kombination {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 4px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 13px;
+
+    &:hover,
+    &:focus-visible {
+        outline: 2px solid colors.$actionRoomBgColor;
+    }
+}
+
+.kombination-proeve {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 56px;
+    border: 1px solid colors.$outlineColor;
+    border-radius: 10px;
+    font-family: colors.$headingFont, sans-serif;
+    font-size: 24px;
+}
