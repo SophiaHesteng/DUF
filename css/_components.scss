@@ -303,6 +303,21 @@
     opacity: 0.7;
 }
 
+/*---- Accordion-knap med både overskrift og en altid synlig intro-linje (Overblik Modul 3, runde 7) ----*/
+
+.accordion-trigger-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    min-width: 0;
+}
+
+.accordion-trigger-teaser {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
 /*---- Biblioteks-hylde ----*/
 
 .library-row {

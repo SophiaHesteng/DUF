@@ -26,14 +26,16 @@ export const modul1 = {
         heading: "Hvor starter du?",
         intro: "Først vil vi gerne vide, hvor du starter. Vi starter ikke alle sammen det samme sted — nogle har allerede et visuelt udtryk, de har brugt i noget tid, andre har samlet forskellige elementer undervejs uden at have set på, hvordan de fungerer sammen, og nogle er stadig ved at finde ud af, hvilken retning der passer. Du behøver ikke have styr på det hele, før du begynder.",
         guide: "Der er ikke noget rigtigt sted at starte fra. Vi skal bare finde ud af, hvor du står lige nu.",
-        question: "Hvad passer bedst på dig?",
+        question: "Hvad passer bedst til dig?",
         options: [
             "Jeg har allerede et visuelt udtryk, men vil gerne forstå det bedre",
             "Jeg har allerede valgt nogle ting, men er ikke sikker på, om de hænger sammen",
             "Jeg er i gang med at skabe noget nyt og prøver stadig at finde min retning",
             "Jeg føler mig helt på bar bund og ved dårligt, hvor jeg skal starte",
             "Jeg vil helst starte med at få et overblik"
-        ]
+        ],
+        /*---- Runde 7: nøglerne, svaret gemmes varigt under som `udgangspunkt` (samme rækkefølge som options) ----*/
+        optionKeys: ["harUdtryk", "valgtNoget", "skaberNyt", "barBund", "overblik"]
     },
     responses: {
         "Jeg har allerede et visuelt udtryk, men vil gerne forstå det bedre": {
@@ -68,15 +70,43 @@ export const modul1 = {
     }
 };
 
-/*---- Modul 2 - Boble 2.2/2.3/2.4/2.5's tekst er nu fuldt hentet fra revisionsdokumentet (rettet 2026-09-09, se docs/duf-manuskript-overblik.md). Bemærk: modsat Modul 1's responses (som har separat text+guide) er Boble 2.3/2.4's responser rene strenge - manuskriptets guide/avatar-citater for enkelte af Boble 2.4's svar er derfor ikke medtaget, kun hovedteksten. ----*/
+/*---- Modul 2 - boblenumre efter runde 7 (ny Boble 2.2 om kanaler, de gamle 2.2-2.5 er nu 2.3-2.6). Bemærk: modsat Modul 1's responses (som har separat text+guide) er Boble 2.4/2.5's responser rene strenge - manuskriptets guide/avatar-citater for enkelte af Boble 2.5's svar er derfor ikke medtaget, kun hovedteksten.
+
+Modul 2 har to veje (jf. tabellen øverst i Modul 2 i manuskriptet): har brugeren krydset kanaler af i 2.2, går hun 2.3 → 2.4 → 2.5 → 2.6. Har hun valgt "Jeg har ikke noget endnu", får hun hvadBrugerDuNy (variant af 2.3) og derefter outroNy (variant af 2.6). ----*/
 
 export const modul2 = {
     intro: {
         heading: "Du har allerede et udgangspunkt",
         paragraphs: [
-            "Du starter ikke nødvendigvis fra nul. Når man hører ordene visuelt udtryk eller visuel identitet, kan det hurtigt lyde som noget, man først har, når man har fået lavet det hele færdigt. Men sådan behøver det ikke være — du har sandsynligvis allerede truffet nogle valg, bevidst eller ej. Det hele er et udgangspunkt. Før du kan tage stilling til, hvad du vil ændre eller bygge videre på, giver det mening at få øje på, hvad der allerede er der."
+            "Du starter ikke nødvendigvis fra nul. Når man hører ordene visuelt udtryk eller visuel identitet, kan det hurtigt lyde som noget, man først har, når man har fået lavet det hele færdigt. Men sådan behøver det ikke være — du har sandsynligvis allerede truffet nogle valg, bevidst eller ej. Det hele er et udgangspunkt. Før du kan tage stilling til, hvad du vil ændre eller bygge videre på, giver det mening at få øje på, hvad der allerede er der.",
+            "Og har du ikke noget endnu, er det også et helt fint sted at starte. Det finder vi ud af sammen på næste skærm."
         ],
         guide: "Du skal ikke rydde bordet og starte forfra. Vi begynder med at se på det, du allerede har."
+    },
+    /*---- Boble 2.2 - "key" er det, der gemmes varigt i `kanaler[]`. exclusiveKey ("Jeg har ikke noget endnu") kan ikke kombineres med de andre ----*/
+    kanaler: {
+        heading: "Hvor møder folk din praksis?",
+        intro: "Før vi ser på farver, billeder og logo, vil vi gerne vide, hvor mennesker kan møde din praksis i dag. Det hjælper os med at tale ud fra det, du rent faktisk har, og ikke ud fra noget, du måske slet ikke er gået i gang med endnu.",
+        options: [
+            { key: "hjemmeside", title: "Hjemmeside" },
+            { key: "facebook", title: "Facebook" },
+            { key: "instagram", title: "Instagram" },
+            { key: "linkedin", title: "LinkedIn" },
+            { key: "andreSociale", title: "Andre sociale medier" },
+            { key: "nyhedsbrev", title: "Nyhedsbrev" },
+            { key: "booking", title: "Bookingsystem" },
+            { key: "trykt", title: "Visitkort, flyers eller andet trykt" },
+            { key: "andet", title: "Noget andet" },
+            { key: "ingen", title: "Jeg har ikke noget endnu" }
+        ],
+        exclusiveKey: "ingen",
+        responses: {
+            harKanaler: "Godt. Så har vi noget konkret at kigge på sammen.",
+            ingen: "Det er et rigtig godt sted at starte. Så kan du bygge dit visuelle udtryk op fra begyndelsen, uden at skulle rydde op i noget først. Hvor vi spørger om det, du allerede har, kan du bare tænke på det, du gerne vil have."
+        },
+        /*---- Boble 6.1's linje om kanalerne ----*/
+        recapPrefix: "Folk kan møde din praksis her:",
+        recapIngen: "Du starter med et rent bord."
     },
     hvadBrugerDu: {
         heading: "Hvad bruger du allerede?",
@@ -98,6 +128,23 @@ export const modul2 = {
             faa: "Det, du allerede bruger, er nok til, at vi kan tage det næste skridt.",
             ikkeSikker: "Vi hjælper dig med at få øje på det undervejs.",
             ikonNudge: "Du bruger allerede nogle af de ting, der er med til at give din praksis sit eget visuelle præg. Senere kan vi se nærmere på, hvordan de kan fungere sammen og understøtte resten af dit visuelle udtryk."
+        }
+    },
+    /*---- Variant af Boble 2.3 - kun for brugeren, der valgte "Jeg har ikke noget endnu" i 2.2 ----*/
+    hvadBrugerDuNy: {
+        heading: "Hvad har du lyst til at starte med?",
+        intro: "Du har ikke noget i brug endnu, og det er helt fint. Så lad os i stedet se, om der er noget, du allerede har tænkt over, eller noget, du har lyst til at starte med. Vælg det, der trækker i dig. Du kan altid ændre mening.",
+        options: [
+            { key: "farver", title: "🎨 Farver", description: "Jeg har nogle farver, jeg godt kan lide" },
+            { key: "billeder", title: "🖼️ Billeder", description: "Jeg har en idé om, hvilke billeder jeg vil vise" },
+            { key: "logo", title: "✳️ Logo", description: "Jeg vil gerne have et logo" },
+            { key: "byggesten", title: "🔤 Skrifttyper, ikoner og illustrationer", description: "De små detaljer interesserer mig" },
+            { key: "vedIkke", title: "🤷 Jeg ved det ikke endnu" }
+        ],
+        vedIkkeKey: "vedIkke",
+        responses: {
+            nogetValgt: "Så har du allerede et sted at begynde. Det tager vi med videre.",
+            vedIkke: "Det behøver du heller ikke. Det er det, de næste skridt skal hjælpe dig med."
         }
     },
     moenster: {
@@ -143,36 +190,47 @@ export const modul2 = {
             "Uanset hvor du står, har du nu et udgangspunkt at arbejde videre fra. For det bliver lettere at tage stilling til de enkelte dele, når du ved lidt mere om, hvad du allerede har — og hvordan du har det med det."
         ],
         guide: "Du skal ikke løse det hele nu. Vi tager det ét område ad gangen."
+    },
+    /*---- Variant af Boble 2.6 - kun for brugeren, der valgte "Jeg har ikke noget endnu" i 2.2 ----*/
+    outroNy: {
+        heading: "Du har et sted at starte",
+        paragraphs: [
+            "Du behøver ikke have noget på plads for at begynde. Du ved nu, at du starter med et rent bord, og det kan faktisk være en fordel: Du kan vælge med omtanke fra første dag, i stedet for at skulle rette til bagefter. Resten af vejen tager vi ét område ad gangen, og vi tager udgangspunkt i det, du gerne vil have, og ikke i noget, du burde have haft."
+        ],
+        guide: "Et tomt lærred er ikke et tomt udgangspunkt."
     }
 };
 
+/*---- Modul 3 - én skærm med en accordion (runde 7, erstatter "oversigt + valgfrie bobler" 3.2A-D). Overskrift (title) og intro-linje (teaser) er altid synlige, body folder sig ud ved tryk ----*/
+
 export const modul3 = {
     heading: "Farver, billeder, logo og ikoner/fonte: hvad er hvad?",
-    intro: "Dit visuelle udtryk består af fire dele. De hænger sammen, men kan også arbejdes med hver for sig. Her er en hurtig introduktion til hver af dem.",
-    bubbles: [
+    intro: "Dit visuelle udtryk består af fire dele. De hænger sammen, men kan også arbejdes med hver for sig. Her er en hurtig introduktion til hver af dem. Tryk på en af dem for at læse lidt mere.",
+    buttonText: "Videre",
+    items: [
         {
             key: "farver",
-            title: "Farver",
+            title: "🎨 Farver",
             teaser: "Farver er ofte det første, folk lægger mærke til — og det, der binder resten sammen.",
-            body: "Farver er ofte det første, folk lægger mærke til — og det, der binder resten sammen. Den rigtige farve på det rigtige sted kan gøre hele forskellen for, om noget føles gennemtænkt."
+            body: "Farver sætter en stemning, før nogen har læst et ord, og de hjælper folk med at kende dig igen næste gang, de ser dig. Det kan være farven på din hjemmeside, dit visitkort eller dine opslag. De fleste har brug for nogle få farver, der har hver sin opgave: én, der bærer det meste, én, der fremhæver det vigtige, og én, der gør teksten let at læse. Du behøver ikke kunne det endnu. Det er det, Farver-rummet hjælper dig med."
         },
         {
             key: "billeder",
-            title: "Billeder",
+            title: "🖼️ Billeder",
             teaser: "Billeder fortæller en historie, før nogen har læst et eneste ord.",
-            body: "Billeder fortæller en historie, før nogen har læst et eneste ord. De skal understøtte den historie, du gerne vil fortælle — og du skal vide, hvor de kommer fra, og om du må bruge dem."
+            body: "Billeder viser, hvordan det føles at komme hos dig: rummet, lyset, stemningen, måske dig selv. Et roligt billede fra din behandlingsstol kan sige mere end en lang tekst. Du kan tage billederne selv eller hente dem fra en billedbank. Uanset hvad skal du vide, at du må bruge dem. Og har du ingen billeder endnu, kan du vælge med omtanke fra begyndelsen."
         },
         {
             key: "logo",
-            title: "Logo",
+            title: "✳️ Logo",
             teaser: "Dit logo er ikke hele din identitet, men det er ofte det første, folk genkender.",
-            body: "Dit logo er ikke hele din identitet, men det er ofte det første, folk genkender. Det skal fungere overalt: stort, småt, i farve og i sort/hvid."
+            body: "Et logo er et genkendelsestegn. Det kan være dit navn skrevet på en bestemt måde, et lille symbol eller begge dele. Det behøver ikke fortælle hele din historie. Det skal kunne kendes igen, både stort på et skilt og småt som profilbillede. Mange har derfor flere udgaver af det samme logo, fx kun symbolet til de små steder."
         },
         {
             key: "byggesten",
-            title: "Ikoner, fonte og andre byggesten",
+            title: "🧩 Ikoner, fonte og andre byggesten",
             teaser: "De mindre detaljer er ofte det, folk ikke lægger mærke til, når det virker — men de lægger mærke til det, når det ikke gør.",
-            body: "De mindre detaljer — skrifttype, ikoner, streger, mønstre — er ofte det, folk ikke lægger mærke til, når det virker. Men de lægger mærke til det, når det ikke gør."
+            body: "Det er de små ting, der binder det hele sammen. <strong>Ikoner</strong> er små, enkle tegn, der viser noget hurtigt, fx en telefon ved dit nummer eller en kalender ved 'Book tid'. <strong>Illustrationer</strong> er tegninger, der kan forklare noget eller give stemning. <strong>Skrifttyper</strong> er bogstavernes udseende. De påvirker både, hvordan din tekst føles, og hvor let den er at læse, på skærmen og på papir."
         }
     ]
 };
@@ -247,7 +305,7 @@ export const modul5 = {
     ]
 };
 
-/*---- Modul 6 - ingen automatisk matchning (fjernet 2026-09-09, jf. docs/duf-manuskript-overblik.md). Boble 6.1 opsummerer i stedet Boble 2.2/2.3/2.4's svar ordret og lader brugeren vælge frit mellem alle fire uddybende rum. Rækkefølgen Farver → Logo → Billeder → Byggesten følger manuskriptets opremsning i Boble 6.1. ----*/
+/*---- Modul 6 - ingen automatisk matchning (fjernet 2026-09-09, jf. docs/duf-manuskript-overblik.md). Boble 6.1 opsummerer i stedet Boble 2.2's kanaler og Boble 2.3/2.4/2.5's svar ordret (for brugeren, der ikke har noget endnu: kanal-linjen og 2.3-variantens svar, uden 2.4/2.5) og lader brugeren vælge frit mellem alle fire uddybende rum. Rækkefølgen Farver → Logo → Billeder → Byggesten følger manuskriptets opremsning i Boble 6.1. ----*/
 
 export const modul6 = {
     recapIntro: "Du har nu set nærmere på, hvor du står i dag. Her er en opsamling af det, du har fortalt os undervejs:",

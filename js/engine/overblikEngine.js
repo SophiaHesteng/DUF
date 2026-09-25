@@ -3,6 +3,7 @@ import {
     showTextScreen,
     showChoiceQuestion,
     showMultiChoiceQuestion,
+    showAccordionStep,
     showModuleHub,
     showModuleBubble,
     showModul6Recap,
@@ -11,11 +12,10 @@ import {
 
 import { velkomst, modul1, modul2, modul3, modul4, modul5, modul6, ROOMS } from "../data/overblik.js";
 import { saveVaekstrumOutput } from "../storage/vaekstrumStorage.js";
+import { OVERBLIK_VAEKSTRUM_ID, INGEN_KANALER } from "../storage/udgangspunkt.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
 
-const OVERBLIK_VAEKSTRUM_ID = "overblik";
-
-/*---- Boble 2.2's respons kan sammensættes af flere relevante responser (jf. manuskriptet): "ikke sikker endnu" vinder over antal, ellers afgør antallet af valg "mange"/"få"-responsen, og et ekstra nik tilføjes, hvis brugeren har valgt ikoner/illustrationer/skrifttyper. Delt mellem Boble 2.2's egen respons og Modul 6's opsummering af den. ----*/
+/*---- Boble 2.3's respons kan sammensættes af flere relevante responser (jf. manuskriptet): "ikke sikker endnu" vinder over antal, ellers afgør antallet af valg "mange"/"få"-responsen, og et ekstra nik tilføjes, hvis brugeren har valgt ikoner/illustrationer/skrifttyper. Delt mellem Boble 2.3's egen respons og Modul 6's opsummering af den. ----*/
 
 function getHvadBrugerDuFeedback(selected) {
     const { responses, ikonAgtigeValg, ikkeSikkerValg } = modul2.hvadBrugerDu;
@@ -37,12 +37,41 @@ function getHvadBrugerDuFeedback(selected) {
     return paragraphs;
 }
 
-/*---- Selvstændig motor for det grundlæggende vækstrum "Overblik" (Visuelt udtryk). Bevidst adskilt fra Prøverummets FlowEngine.js: Overblik har forgrenede spørgsmål, et browsbart modul (Modul 3) og en resultatskærm bygget på flere samtidige signaler, i stedet for én lineær spørgsmål/point-rækkefølge. ----*/
+/*---- Variant af Boble 2.3 ("Hvad har du lyst til at starte med?"): "Jeg ved det ikke endnu" - eller intet valgt - giver vedIkke-responsen, ellers nogetValgt. Delt med Modul 6's opsummering ----*/
+
+function getHvadBrugerDuNyFeedback(selectedKeys) {
+    const { responses, vedIkkeKey } = modul2.hvadBrugerDuNy;
+
+    if (selectedKeys.length === 0 || selectedKeys.includes(vedIkkeKey)) {
+        return [responses.vedIkke];
+    }
+
+    return [responses.nogetValgt];
+}
+
+/*---- Boble 6.1's første linje - brugerens kanaler fra Boble 2.2, eller "rent bord" ----*/
+
+function getKanalerRecap(kanalKeys) {
+    const { options, recapPrefix, recapIngen } = modul2.kanaler;
+
+    if (kanalKeys.includes(INGEN_KANALER)) return recapIngen;
+
+    const titles = kanalKeys.map((key) => options.find((option) => option.key === key).title);
+    return `${recapPrefix} ${titles.join(", ")}`;
+}
+
+/*---- Selvstændig motor for det grundlæggende vækstrum "Overblik" (Visuelt udtryk). Bevidst adskilt fra Prøverummets FlowEngine.js: Overblik har forgrenede spørgsmål, et accordion-modul (Modul 3), et browsbart modul (Modul 5) og en opsummering bygget på flere samtidige svar, i stedet for én lineær spørgsmål/point-rækkefølge.
+
+Modul 2 forgrener sig efter Boble 2.2 (runde 7): starterFraBunden afgør, om 2.3/2.6 vises i deres almindelige version eller som variant, og om 2.4/2.5 springes over. Vejen afgøres af det gemte svar, hver gang en skærm vises - går brugeren tilbage (via "Tilbage"-knapperne i Modul 2) og ændrer sit svar i 2.2, følger hun derfor automatisk den nye vej. ----*/
 
 export class OverblikEngine {
 
     answers = {};
     previousScreen = null;
+
+    get starterFraBunden() {
+        return this.answers.kanaler?.includes(INGEN_KANALER) ?? false;
+    }
 
     start() {
         this.previousScreen = () => this.start();
@@ -66,7 +95,7 @@ export class OverblikEngine {
         showChoiceQuestion(
             modul1.question,
             (answer) => {
-                this.answers.udgangspunkt = answer;
+                this.answers.udgangspunkt = modul1.question.optionKeys[modul1.question.options.indexOf(answer)];
                 this.showModul1Response(answer);
             },
             () => this.exitRoom()
@@ -102,31 +131,91 @@ export class OverblikEngine {
 
         showTextScreen(
             modul2.intro,
-            () => this.showModul2HvadBrugerDu(),
+            () => this.showModul2Kanaler(),
             () => this.exitRoom()
         );
     }
+
+    /*---- Boble 2.2 - kanaler. Tidligere valg er forudvalgt, hvis brugeren kommer tilbage hertil ----*/
+
+    showModul2Kanaler() {
+        this.previousScreen = () => this.showModul2Kanaler();
+
+        const { options, exclusiveKey } = modul2.kanaler;
+        const previousKeys = this.answers.kanaler ?? [];
+
+        showMultiChoiceQuestion(
+            modul2.kanaler,
+            (selected) => {
+                this.answers.kanaler = selected.map((option) => option.key);
+                this.showModul2KanalerResponse();
+            },
+            () => this.exitRoom(),
+            {
+                exclusiveIndex: options.findIndex((option) => option.key === exclusiveKey),
+                preselected: options.flatMap((option, index) => (previousKeys.includes(option.key) ? [index] : [])),
+                requireSelection: true
+            }
+        );
+    }
+
+    showModul2KanalerResponse() {
+        this.previousScreen = () => this.showModul2KanalerResponse();
+
+        const { heading, responses } = modul2.kanaler;
+
+        showTextScreen(
+            { heading, paragraphs: [this.starterFraBunden ? responses.ingen : responses.harKanaler] },
+            () => this.showModul2HvadBrugerDu(),
+            () => this.exitRoom(),
+            () => this.showModul2Kanaler()
+        );
+    }
+
+    /*---- Boble 2.3 - almindelig version eller varianten "Hvad har du lyst til at starte med?" ----*/
 
     showModul2HvadBrugerDu() {
         this.previousScreen = () => this.showModul2HvadBrugerDu();
 
+        if (this.starterFraBunden) {
+            showMultiChoiceQuestion(
+                modul2.hvadBrugerDuNy,
+                (selected, selectedIndexes) => {
+                    this.answers.starteMed = selected.map((option) => option.key);
+                    this.answers.starteMedIndexes = selectedIndexes;
+                    this.showModul2HvadBrugerDuResponse();
+                },
+                () => this.exitRoom(),
+                { preselected: this.answers.starteMedIndexes ?? [], onBack: () => this.showModul2KanalerResponse() }
+            );
+            return;
+        }
+
         showMultiChoiceQuestion(
             modul2.hvadBrugerDu,
-            (selected) => {
+            (selected, selectedIndexes) => {
                 this.answers.brugerAllerede = selected;
-                this.showModul2HvadBrugerDuResponse(selected);
+                this.answers.brugerAlleredeIndexes = selectedIndexes;
+                this.showModul2HvadBrugerDuResponse();
             },
-            () => this.exitRoom()
+            () => this.exitRoom(),
+            { preselected: this.answers.brugerAlleredeIndexes ?? [], onBack: () => this.showModul2KanalerResponse() }
         );
     }
 
-    showModul2HvadBrugerDuResponse(selected) {
-        this.previousScreen = () => this.showModul2HvadBrugerDuResponse(selected);
+    showModul2HvadBrugerDuResponse() {
+        this.previousScreen = () => this.showModul2HvadBrugerDuResponse();
+
+        const screen = this.starterFraBunden
+            ? { heading: modul2.hvadBrugerDuNy.heading, paragraphs: getHvadBrugerDuNyFeedback(this.answers.starteMed) }
+            : { heading: modul2.hvadBrugerDu.heading, paragraphs: getHvadBrugerDuFeedback(this.answers.brugerAllerede) };
 
         showTextScreen(
-            { heading: modul2.hvadBrugerDu.heading, paragraphs: getHvadBrugerDuFeedback(selected) },
-            () => this.showModul2Moenster(),
-            () => this.exitRoom()
+            screen,
+            // 2.4 og 2.5 springes over for brugeren, der ikke har noget endnu
+            () => (this.starterFraBunden ? this.showModul2Outro() : this.showModul2Moenster()),
+            () => this.exitRoom(),
+            () => this.showModul2HvadBrugerDu()
         );
     }
 
@@ -139,7 +228,8 @@ export class OverblikEngine {
                 this.answers.moenster = answer;
                 this.showModul2MoensterResponse(answer);
             },
-            () => this.exitRoom()
+            () => this.exitRoom(),
+            () => this.showModul2HvadBrugerDuResponse()
         );
     }
 
@@ -149,7 +239,8 @@ export class OverblikEngine {
         showTextScreen(
             { heading: modul2.moenster.heading, paragraphs: [modul2.moenster.responses[answer]] },
             () => this.showModul2Folelse(),
-            () => this.exitRoom()
+            () => this.exitRoom(),
+            () => this.showModul2Moenster()
         );
     }
 
@@ -162,7 +253,8 @@ export class OverblikEngine {
                 this.answers.folelse = answer;
                 this.showModul2FolelseResponse(answer);
             },
-            () => this.exitRoom()
+            () => this.exitRoom(),
+            () => this.showModul2MoensterResponse(this.answers.moenster)
         );
     }
 
@@ -172,37 +264,31 @@ export class OverblikEngine {
         showTextScreen(
             { heading: modul2.folelse.heading, paragraphs: [modul2.folelse.responses[answer]] },
             () => this.showModul2Outro(),
-            () => this.exitRoom()
+            () => this.exitRoom(),
+            () => this.showModul2Folelse()
         );
     }
+
+    /*---- Boble 2.6 - almindelig version eller varianten for brugeren, der ikke har noget endnu ----*/
 
     showModul2Outro() {
         this.previousScreen = () => this.showModul2Outro();
 
         showTextScreen(
-            modul2.outro,
+            this.starterFraBunden ? modul2.outroNy : modul2.outro,
             () => this.showModul3(),
-            () => this.exitRoom()
+            () => this.exitRoom(),
+            () => (this.starterFraBunden
+                ? this.showModul2HvadBrugerDuResponse()
+                : this.showModul2FolelseResponse(this.answers.folelse))
         );
     }
 
     showModul3() {
         this.previousScreen = () => this.showModul3();
 
-        showModuleHub(
+        showAccordionStep(
             modul3,
-            (key) => this.showModul3Bubble(key),
-            () => this.showModul4(),
-            () => this.exitRoom()
-        );
-    }
-
-    showModul3Bubble(key) {
-        this.previousScreen = () => this.showModul3Bubble(key);
-
-        showModuleBubble(
-            modul3.bubbles.find((bubble) => bubble.key === key),
-            () => this.showModul3(),
             () => this.showModul4(),
             () => this.exitRoom()
         );
@@ -240,20 +326,30 @@ export class OverblikEngine {
         );
     }
 
+    /*---- Boble 6.1 - brugerens udgangspunkt gemmes varigt, så snart hun når hertil (også hvis hun ikke vælger et rum). For brugeren, der ikke har noget endnu, vises 2.3-variantens svar, og 2.4/2.5 udelades ----*/
+
     showModul6() {
         this.previousScreen = () => this.showModul6();
 
-        const summary = {
-            hvadBrugerDu: getHvadBrugerDuFeedback(this.answers.brugerAllerede),
-            moenster: {
-                answer: this.answers.moenster,
-                response: modul2.moenster.responses[this.answers.moenster]
-            },
-            folelse: {
-                answer: this.answers.folelse,
-                response: modul2.folelse.responses[this.answers.folelse]
+        this.saveUdgangspunkt();
+
+        const summary = this.starterFraBunden
+            ? {
+                kanaler: getKanalerRecap(this.answers.kanaler),
+                hvadBrugerDu: getHvadBrugerDuNyFeedback(this.answers.starteMed)
             }
-        };
+            : {
+                kanaler: getKanalerRecap(this.answers.kanaler),
+                hvadBrugerDu: getHvadBrugerDuFeedback(this.answers.brugerAllerede),
+                moenster: {
+                    answer: this.answers.moenster,
+                    response: modul2.moenster.responses[this.answers.moenster]
+                },
+                folelse: {
+                    answer: this.answers.folelse,
+                    response: modul2.folelse.responses[this.answers.folelse]
+                }
+            };
 
         const rooms = [ROOMS.farver, ROOMS.logo, ROOMS.billeder, ROOMS.byggesten];
 
@@ -272,19 +368,23 @@ export class OverblikEngine {
 
     /*---- Rum-kort er knapper, ikke rene links (jf. manuskriptet), fordi valget skal gemmes, FØR browseren navigerer videre ----*/
 
-    chooseRoom(room) {
-        this.saveChosenRoom(room);
+    async chooseRoom(room) {
+        await this.saveUdgangspunkt(room);
         window.location.href = room.link;
     }
 
-    /*---- "Den lille version" (jf. docs/duf-manuskript-overblik.md, besluttet 2026-09-08, justeret 2026-09-09): der er ikke længere en "anbefalings-type" at gemme, kun det rum, brugeren faktisk valgte. De granulære boble-svar fra Modul 1-5 gemmes fortsat ikke, kun i this.answers ----*/
+    /*---- "Det, Overblik husker" (runde 7, jf. docs/duf-manuskript-overblik.md): udgangspunkt (1.2), kanaler (2.2) og - når hun vælger et - det valgte rum. De øvrige boble-svar fra Modul 1-5 gemmes fortsat ikke, kun i this.answers. Læses af de andre rum via hentUdgangspunkt() i js/storage/udgangspunkt.js. Et nyt gennemløb overskriver det gemte ----*/
 
-    saveChosenRoom(room) {
-        saveVaekstrumOutput(
-            OVERBLIK_VAEKSTRUM_ID,
-            { room: room.id, chosenAt: new Date().toISOString() },
-            `Overblik gennemført. Brugeren valgte at gå videre til: ${room.name}.`
-        );
+    saveUdgangspunkt(room) {
+        const { udgangspunkt, kanaler } = this.answers;
+        const data = room
+            ? { udgangspunkt, kanaler, room: room.id, chosenAt: new Date().toISOString() }
+            : { udgangspunkt, kanaler };
+        const documentation = room
+            ? `Overblik gennemført. Brugeren valgte at gå videre til: ${room.name}.`
+            : "Overblik gennemført. Brugeren har ikke valgt et rum endnu.";
+
+        return saveVaekstrumOutput(OVERBLIK_VAEKSTRUM_ID, data, documentation).catch(() => ({ ok: false }));
     }
 
     exitRoom() {
