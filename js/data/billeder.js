@@ -5,6 +5,35 @@ export const velkomst = {
     standard: "Velkommen til Billeder. Her får du hjælp til at vælge billeder, der understøtter din praksis — og til at få styr på, hvilke rettigheder du faktisk har til dem."
 };
 
+/*---- Søgesteder til Modul 4.3/4.4 (runde 7). Samlet ét sted, så en adresse er let at rette, hvis et site ændrer sig. `soeg(ord)` bygger søgesiden med søgeordet udfyldt, `forside` bruges, når brugeren ikke har valgt et søgeord. Testet 2026-09-25: Pinterest og Google Billeder åbner med søgeordet udfyldt. Unsplash og Pexels blokerer automatiske browsere, så de to er ikke testet automatisk - adresserne følger stedernes egne søgeadresser (Unsplash bruger bindestreg mellem ordene) ----*/
+
+export const soegesteder = [
+    {
+        id: "pinterest",
+        knapTekst: "Søg på Pinterest",
+        forside: "https://www.pinterest.com/",
+        soeg: (ord) => `https://www.pinterest.com/search/pins/?q=${encodeURIComponent(ord)}`
+    },
+    {
+        id: "google",
+        knapTekst: "Søg på Google Billeder",
+        forside: "https://images.google.com/",
+        soeg: (ord) => `https://www.google.com/search?udm=2&q=${encodeURIComponent(ord)}`
+    },
+    {
+        id: "unsplash",
+        knapTekst: "Søg på Unsplash",
+        forside: "https://unsplash.com/",
+        soeg: (ord) => `https://unsplash.com/s/photos/${encodeURIComponent(ord.trim().replace(/\s+/g, "-"))}`
+    },
+    {
+        id: "pexels",
+        knapTekst: "Søg på Pexels",
+        forside: "https://www.pexels.com/",
+        soeg: (ord) => `https://www.pexels.com/search/${encodeURIComponent(ord)}/`
+    }
+];
+
 /*---- Fast opslagsværk ("Rettigheder"-knappen), tilgængeligt fra enhver boble fra Modul 2 og frem ----*/
 
 export const situationer = [
@@ -37,6 +66,15 @@ export const situationer = [
  * bygget, så feltet er ren data, klar til at blive taget i brug.
  * ----------------------------------------------------------------------------
  */
+
+/*---- Ordene i Boble 5.4, i grupper (runde 7) ----*/
+const ordgrupper = [
+    { label: "Ro og tryghed", words: ["Rolig", "Tryg", "Blød", "Let", "Enkel", "Harmonisk"] },
+    { label: "Varme og nærvær", words: ["Varm", "Nærværende", "Personlig", "Åben", "Imødekommende", "Ægte"] },
+    { label: "Natur og sanser", words: ["Naturlig", "Jordnær", "Organisk", "Sanselig", "Frisk", "Rå"] },
+    { label: "Energi og kreativitet", words: ["Legende", "Kreativ", "Energisk", "Levende", "Modig", "Farverig", "Inspirerende"] },
+    { label: "Stil og stemning", words: ["Elegant", "Eksklusiv", "Professionel", "Mystisk", "Poetisk"] }
+].map((gruppe) => ({ label: gruppe.label, options: gruppe.words.map((ord) => ({ id: ord.toLowerCase(), text: ord })) }));
 
 export const bobler = [
 
@@ -141,8 +179,18 @@ export const bobler = [
         paragraphs: [
             "Du behøver ikke starte med et tomt lærred. Du har måske allerede billeder fra din praksis, nogle du er glad for, eller lidt inspiration, du har samlet undervejs. Det hele kan fortælle os noget om, hvad der allerede fungerer for dig. Før vi finder en tydelig billedretning, skal vi derfor først se på det, du allerede har. Har du billeder fra din praksis, du gerne vil arbejde videre med? Du kan tilføje dem her — og altid tilføje flere senere."
         ],
+        /*---- Runde 7: variant, når Overblik viser, at brugeren starter fra bunden (hentUdgangspunkt()?.starterFraBunden) ----*/
+        paragraphsFraBunden: [
+            "Du fortalte i Overblik, at du ikke har noget i brug endnu. Så har du nok heller ikke billeder, og det er helt fint. Du kan springe direkte videre. Har du alligevel nogle billeder liggende, som du gerne vil have med, kan du tilføje dem her."
+        ],
         uploadLabel: "Billeder fra min praksis",
         uploadHint: "Dine billeder bliver på din enhed. De uploades ikke til en server.",
+        /*---- Runde 7: vejen uden egne billeder. Valget gemmes som `harEgneBilleder` og styrer resten af Modul 3 (kunMedEgneBilleder/udenEgneBilleder nedenfor). "Jeg har tilføjet mine billeder" vises først, når mindst ét billede er tilføjet ----*/
+        ingenBilleder: {
+            knapTekst: "Jeg har ikke nogen billeder endnu",
+            respons: "Det er et fint sted at starte. Så tager vi udgangspunkt i det, du gerne vil vise, i stedet for det, du allerede har. Du kan altid komme tilbage og tilføje billeder senere.",
+            videreTekst: "Videre"
+        },
         nextButtonText: "Jeg har tilføjet mine billeder"
     },
     {
@@ -160,6 +208,7 @@ export const bobler = [
     },
     {
         id: "3.3", modul: 3, type: "text",
+        kunMedEgneBilleder: true,
         heading: "Det, du allerede har, er et godt sted at starte",
         paragraphs: [
             "Kig på de billeder, du allerede har samlet fra din praksis. Du behøver ikke vurdere dem endnu. Læg bare mærke til, hvad der er der. Er der billeder af dig? Af dit rum eller det, du arbejder med? Er der detaljer, stemninger eller situationer, du allerede synes fungerer godt? Der findes ikke rigtige eller forkerte svar her. Vi skal bare begynde at få øje på, hvad du allerede viser med dine billeder."
@@ -173,6 +222,11 @@ export const bobler = [
         paragraphs: [
             "Når du ser på dine billeder, så læg mærke til, hvad de fortæller om din praksis. Nogle viser dig som person. Andre viser det, du laver. Nogle fanger stemningen omkring praksissen. Og nogle gør flere af delene på én gang. Du skal ikke vælge én bestemt kategori. Bare læg mærke til, hvad der fylder mest lige nu. Hvad får du øje på, når du ser på dine billeder?"
         ],
+        udenEgneBilleder: {
+            paragraphs: [
+                "Tænk på de billeder, du gerne vil have. Hvad skal de vise om din praksis? Nogle billeder viser dig som person. Andre viser det, du laver. Nogle fanger stemningen. Og nogle gør flere af delene på én gang. Du må gerne vælge én eller kombinere flere. Det vigtige er ikke, hvor mange du vælger, men at du bliver bevidst om, hvad dine billeder skal vise, så de hænger sammen med det udtryk, du gerne vil have."
+            ]
+        },
         options: [
             { id: "mig", text: "Mig og mennesket bag praksissen" },
             { id: "praksis", text: "Min praksis og det, jeg tilbyder" },
@@ -185,6 +239,7 @@ export const bobler = [
     },
     {
         id: "3.5", modul: 3, type: "textNote",
+        kunMedEgneBilleder: true,
         heading: "Hvad mangler du?",
         paragraphs: [
             "Nu har du kigget på det, du allerede har. Måske kan du se en retning i dine billeder. Måske kan du også se noget, der mangler — billeder af dig selv, billeder der viser din praksis, eller den stemning, du gerne vil skabe. Du behøver ikke løse det endnu. Bare læg mærke til, hvis der er noget, du savner, når du ser på din samling. Er der noget, du gerne ville kunne vise med dine billeder, som du ikke kan se endnu?"
@@ -232,22 +287,23 @@ export const bobler = [
             { label: "🎨 Farver, lys og visuel stil", words: ["warm neutral photography", "earthy color photography", "muted pastel photography", "bold colorful photography"] }
         ],
         afterList: "Du kan også oversætte søgeordene til dansk eller kombinere flere af dem. Det vigtigste er ikke at finde det perfekte billede. Det er at finde noget, der får dig til at stoppe op.",
-        answerKey: "modul4_soegeord",
+        answerKey: "valgteSoegeord",
         nextButtonText: "Hvor skal jeg lede?"
     },
     {
-        id: "4.3", modul: 4, type: "choice",
+        id: "4.3", modul: 4, type: "soegesteder",
         heading: "Hvor vil du lede?",
         paragraphs: [
-            "Nu har du nogle søgeord at starte med. Så skal vi finde det sted, der passer bedst til det, du gerne vil undersøge. Du behøver ikke vælge det samme sted som andre. Vælg det sted, hvor du har mest lyst til at gå på opdagelse. Og husk: vi leder efter inspiration, ikke billeder, du nødvendigvis må bruge."
+            "Nu har du nogle søgeord at starte med. Så skal vi finde det sted, der passer bedst til det, du gerne vil undersøge. Tryk på et af stederne herunder. Det åbner i et nyt vindue, og dine søgeord er allerede sat ind, så du kan gå direkte i gang. Kom tilbage hertil, når du har fundet noget, der fanger dig."
         ],
-        options: [
-            { id: "pinterest", text: "Pinterest", description: "Godt, hvis du vil gå på opdagelse i stemninger, farver og visuelle udtryk. Her kan ét billede hurtigt føre dig videre til mange andre." },
-            { id: "stockfotos", text: "Stockfotos", description: "Godt, hvis du vil undersøge forskellige måder at fotografere mennesker, rum, detaljer eller situationer på." },
-            { id: "andre", text: "Andre steder på nettet", description: "Der findes måske allerede en virksomhed, en profil eller et univers, du bliver inspireret af. Gå på opdagelse dér." }
+        /*---- Runde 7: forklaringen på de tre slags steder. Selve knapperne og deres adresser ligger i `soegesteder` øverst i filen. Det valgte sted gemmes ikke ----*/
+        steder: [
+            { navn: "Pinterest", tekst: "godt, hvis du vil gå på opdagelse i stemninger, farver og visuelle udtryk. Her kan ét billede hurtigt føre dig videre til mange andre." },
+            { navn: "Google Billeder", tekst: "godt, hvis du vil se bredt og finde andre virksomheder, profiler eller universer, du bliver inspireret af." },
+            { navn: "Stockfotos (Unsplash og Pexels)", tekst: "Stockfotos er billeder, som fotografer lægger ud i en billedbank, så andre kan bruge dem på bestemte vilkår. Nogle er gratis, andre koster penge. De er gode, hvis du vil se forskellige måder at fotografere mennesker, rum, detaljer og stemninger på." }
         ],
-        answerKey: "modul4_sted",
-        nextButtonText: "Jeg er klar til at finde inspiration"
+        afterList: "Husk: Lige nu leder vi efter inspiration, ikke efter billeder, du nødvendigvis må bruge. Hvad du må bruge, kigger vi på i Modul 7.",
+        nextButtonText: "Jeg er klar til at gemme det, jeg har fundet"
     },
     {
         id: "4.4", modul: 4, type: "imageUpload",
@@ -256,6 +312,7 @@ export const bobler = [
         paragraphs: [
             "Nu er det tid til at gå på opdagelse. Brug søgeordene som inspiration, men lad dig også føre videre af det, du finder. Du skal ikke tænke for meget over, om et billede passer til din praksis endnu. Når noget får dig til at stoppe op, så gem det i Min inspiration. Prøv at samle 5–10 billeder. De må gerne være forskellige — det kan faktisk være en fordel. Læg mærke til, hvad du bliver ved med at vende tilbage til."
         ],
+        visSoegelinje: true,
         uploadLabel: "Min inspiration",
         uploadHint: "Tilføj billeder via upload eller screenshot. Dine billeder bliver på din enhed. De uploades ikke til en server.",
         minImages: 5,
@@ -279,7 +336,7 @@ export const bobler = [
         id: "5.1", modul: 5, type: "multiChoice",
         heading: "Hvad er det, du lægger mærke til?",
         paragraphs: [
-            "Gå tilbage til din inspirationssamling, og kig på billederne igen. Denne gang skal du se efter, hvad de har til fælles — farverne, lyset, menneskerne, rummene, eller måden billederne føles på. Du behøver ikke kunne sætte det rigtige ord på endnu. Hvad er det første, dine øjne falder på, når du ser din samling?"
+            "Her er din inspirationssamling. Kig på billederne igen. Denne gang skal du se efter, hvad de har til fælles — farverne, lyset, menneskerne, rummene, eller måden billederne føles på. Du behøver ikke kunne sætte det rigtige ord på endnu. Hvad er det første, dine øjne falder på, når du ser din samling?"
         ],
         options: [
             { id: "farver", text: "Farver" },
@@ -292,6 +349,7 @@ export const bobler = [
         ],
         allowNote: true,
         notePlaceholder: "Vil du tilføje en kort note? (valgfrit)",
+        visBilleder: ["inspiration"],
         answerKey: "modul5_elementer",
         nextButtonText: "Lad os se på, hvad billeder kan gøre"
     },
@@ -327,6 +385,7 @@ export const bobler = [
         allowNote: true,
         notePlaceholder: "Skriv dine egne observationer (valgfrit)",
         resultHeading: "Det går igen i min inspiration",
+        visBilleder: ["inspiration"],
         answerKey: "modul5_moenstre",
         nextButtonText: "Hvad fortæller det om min retning?"
     },
@@ -334,14 +393,15 @@ export const bobler = [
         id: "5.4", modul: 5, type: "multiChoice",
         heading: "Hvad fortæller det om dig?",
         paragraphs: [
-            "De mønstre, du har fundet, siger ikke kun noget om billeder. De siger også noget om, hvordan du gerne vil opleves. Prøv at sætte nogle få ord på den følelse eller oplevelse, du gerne vil give videre gennem dine billeder. Hvordan vil du gerne have, at det føles at møde din praksis visuelt? Du kan vælge op til 3 ord. Du må også gerne skrive dine egne. Der er ikke noget rigtigt eller forkert valg."
+            "De mønstre, du har fundet, siger ikke kun noget om billeder. De siger også noget om, hvordan du gerne vil opleves. Prøv at sætte nogle få ord på den følelse eller oplevelse, du gerne vil give videre gennem dine billeder. Hvordan vil du gerne have, at det føles at møde din praksis visuelt? Du kan vælge op til 3 ord. Du må også gerne skrive dine egne.",
+            "Der er ikke noget rigtigt eller forkert valg. Vælg de ord, der føles mest som den oplevelse, du gerne vil skabe. Du må gerne vælge ord fra forskellige grupper."
         ],
-        options: [
-            "Rolig", "Tryg", "Varm", "Blød", "Let", "Enkel", "Naturlig", "Ægte", "Nærværende", "Personlig",
-            "Åben", "Imødekommende", "Jordnær", "Sanselig", "Legende", "Kreativ", "Energisk", "Levende", "Modig",
-            "Farverig", "Frisk", "Elegant", "Eksklusiv", "Rå", "Organisk", "Harmonisk", "Inspirerende", "Mystisk", "Poetisk", "Professionel"
-        ].map((ord) => ({ id: ord.toLowerCase(), text: ord })),
+        /*---- Runde 7: samme 30 ord som før, sorteret i fem grupper. `options` er den flade liste, som motoren slår svarene op i ----*/
+        groups: ordgrupper,
+        options: ordgrupper.flatMap((gruppe) => gruppe.options),
+        resultAtTop: true,
         maxSelect: 3,
+        noteCountsTowardMax: true,
         allowNote: true,
         notePlaceholder: "Skriv dine egne ord (valgfrit)",
         resultHeading: "Sådan vil jeg gerne opleves",
@@ -357,6 +417,11 @@ export const bobler = [
         paragraphs: [
             "Du har nu kigget på dine egne billeder, samlet inspiration og fundet mønstre, der går igen. Og du har sat ord på, hvordan du gerne vil opleves. Det er ikke tilfældige observationer. Det er byggestenene i din billedretning. Her samler vi dem til noget, du faktisk kan bruge, næste gang du skal vælge, tage eller bede om et billede."
         ],
+        udenEgneBilleder: {
+            paragraphs: [
+                "Du har nu samlet inspiration og fundet mønstre, der går igen. Og du har sat ord på, hvordan du gerne vil opleves. Det er ikke tilfældige observationer. Det er byggestenene i din billedretning. Her samler vi dem til noget, du faktisk kan bruge, næste gang du skal vælge, tage eller bede om et billede."
+            ]
+        },
         guideLine: "Du skal ikke finde svaret et helt nyt sted fra. Det ligger allerede i det, du har kigget på.",
         nextButtonText: "Lad os gøre det konkret"
     },
@@ -469,11 +534,15 @@ export const bobler = [
         nextButtonText: "Og hvad hvis teksten skal stå oven på billedet?"
     },
     {
-        id: "7.5", modul: 7, type: "choice",
+        id: "7.5", modul: 7, type: "kontrasttest",
         heading: "Tjek kontrasten, hvis der skal tekst på billedet",
         paragraphs: [
-            "Skal du have tekst oven på et billede, er det sidste praktiske tjek: kan teksten faktisk læses? Placér teksten, og vurder ærligt. Det er ikke noget, vi kan måle for dig automatisk — et fotos kontrast er ikke det samme som to flade farver, der kan beregnes. Men et hurtigt kig gør det som regel klart."
+            "Skal du have tekst oven på et billede, er det sidste praktiske tjek: kan teksten faktisk læses? Prøv det her. Vælg et af dine billeder, og se, hvordan en kort tekst ser ud oven på det. Du kan skifte farve på teksten og prøve med en boks bag den. Vi kan ikke måle kontrasten for dig på et foto, sådan som vi kan med to flade farver. Men når du ser det, bliver det som regel hurtigt klart."
         ],
+        /*---- Runde 7: testen laves direkte i boblen. Intet måles automatisk - det er brugerens egen vurdering. Tekstfarverne kommer fra den gemte palet i Farver (samme læsning som 6.4), ellers hvid og sort ----*/
+        billedkilder: ["praksis", "inspiration"],
+        eksempeltekst: "Book en tid hos mig",
+        standardTekstfarver: [{ hex: "#FFFFFF", role: "Hvid" }, { hex: "#000000", role: "Sort" }],
         options: [
             { id: "kan_laese", text: "Ja, jeg kan tydeligt læse teksten" },
             { id: "svaert", text: "Nej, det er svært at læse" }
@@ -504,12 +573,16 @@ export const bobler = [
     /*---- Modul 8 — Afprøv og dokumentér ----*/
 
     {
-        id: "8.1", modul: 8, type: "text",
+        id: "8.1", modul: 8, type: "forhaandsvisning",
         heading: "Prøv din billedretning af",
         paragraphs: [
-            "Brug din billedretning ét sted i praksis — et opslag, en side på din hjemmeside, eller et dokument. Se, hvordan det føles, når det ikke bare er billeder i en samling, men noget, andre rent faktisk møder."
+            "Her kan du se, hvordan din billedretning kunne se ud sammen med resten af dit visuelle udtryk. Vælg et billede, så sætter vi det sammen med de farver, skrifttyper og det logo, du har valgt i de andre rum, hvis du har været der. Har du et sted, hvor du kan prøve det af i virkeligheden, fx et opslag, en side på din hjemmeside eller et dokument, så gør det gerne. Det er noget helt andet, når det er noget, andre rent faktisk møder. Har du ikke det endnu, er forhåndsvisningen her et godt sted at starte."
         ],
-        nextButtonText: "Jeg har prøvet det"
+        /*---- Runde 7: forhåndsvisningen er Byggestens "Prøv dem sammen" (js/components/provSammen.js) med et billede øverst, jf. docs/duf-teknisk-prov-sammen.md. Begge knapper leder til 8.2 ----*/
+        billedkilder: ["praksis", "inspiration"],
+        forhaandsvisningOverskrift: "Sådan kunne det se ud",
+        nextButtonText: "Jeg har prøvet det i praksis",
+        altNextButtonText: "Jeg har ingen steder at prøve det af på endnu"
     },
     {
         id: "8.2", modul: 8, type: "textNote",
