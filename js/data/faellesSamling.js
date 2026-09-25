@@ -7,6 +7,11 @@ export const ROOM_ORDER = ["farver", "logo", "billeder", "byggesten"];
 
 export { ROOMS };
 
+/*---- Billeder, et rum gemmer uden for sin egen bucket, men som hører til rummets side i guiden. Logo 7.2 (runde 7): den lille udgave (`logoUploadLille`) vises ved siden af hovedlogoet ----*/
+export const EXTRA_IMAGE_BUCKETS = {
+    logo: ["logo-lille"]
+};
+
 /*---- Genbruger Overbliks egne, allerede godkendte teaser-tekster (Modul 5) for "hvad rummet kan give dig" - ikke ny, opfundet copy ----*/
 export const TEASERS = {
     farver: "En bevidst farvepalet, du kan bruge igen og igen — og en forklaring på, hvorfor den fungerer.",

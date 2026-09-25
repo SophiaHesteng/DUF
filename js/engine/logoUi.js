@@ -23,16 +23,57 @@ function externalLinkHtml(link) {
 
 /*---- Automatisk logo-preview (Modul 7.2-7.4) - rent client-side, jf. css/_components.scss ----*/
 
-function logoPreviewHtml(kind, images) {
+const LOGO_PREVIEW_EMPTY_HINT = `<p class="logo-preview-empty-hint">Du har endnu ikke lagt et logo ind ovenfor - læg det ind, eller forestil dig situationen ud fra dit eget skøn.</p>`;
+
+/*---- 7.2 (runde 7): de tre små størrelser med etiket, så brugeren kan se, hvor hun møder logoet i den størrelse. Favicon'et står i en lille, tegnet browserfane (ren HTML/CSS), så det er tydeligt, hvad et favicon er. ----*/
+
+function smallSizesGroupHtml(src, heading) {
+    return `
+        <div class="logo-preview-sizes-group">
+            <p class="logo-preview-sizes-heading">${heading}</p>
+            <div class="logo-preview-sizes">
+                <figure class="logo-preview-size">
+                    <img class="logo-preview-size-img--64" src="${src}" alt="">
+                    <figcaption>Profilbillede</figcaption>
+                </figure>
+                <figure class="logo-preview-size">
+                    <img class="logo-preview-size-img--32" src="${src}" alt="">
+                    <figcaption>Lille profilbillede</figcaption>
+                </figure>
+                <figure class="logo-preview-size">
+                    <span class="logo-preview-browser-tab" aria-hidden="true">
+                        <img class="logo-preview-size-img--16" src="${src}" alt="">
+                        <span class="logo-preview-browser-tab-title">Min praksis</span>
+                    </span>
+                    <figcaption>Favicon, ikonet i browserfanen</figcaption>
+                </figure>
+            </div>
+        </div>`;
+}
+
+function smallPreviewHtml(images, smallImages) {
+    const hasLogo = Boolean(images?.length);
+    const hasSmall = Boolean(smallImages?.length);
+    if (!hasLogo && !hasSmall) return LOGO_PREVIEW_EMPTY_HINT;
+
+    return `
+        ${hasLogo ? "" : LOGO_PREVIEW_EMPTY_HINT}
+        <div class="logo-preview-small">
+            ${hasLogo ? smallSizesGroupHtml(URL.createObjectURL(images[0].blob), "Dit logo") : ""}
+            ${hasSmall ? smallSizesGroupHtml(URL.createObjectURL(smallImages[0].blob), "Den lille udgave") : ""}
+        </div>`;
+}
+
+function logoPreviewHtml(kind, images, smallImages) {
+    if (kind === "small") {
+        return `<div id="logo-preview-small-slot">${smallPreviewHtml(images, smallImages)}</div>`;
+    }
+
     if (!images || !images.length) {
-        return `<p class="logo-preview-empty-hint">Du har endnu ikke lagt et logo ind ovenfor - læg det ind, eller forestil dig situationen ud fra dit eget skøn.</p>`;
+        return LOGO_PREVIEW_EMPTY_HINT;
     }
 
     const src = URL.createObjectURL(images[0].blob);
-
-    if (kind === "small") {
-        return `<div class="logo-preview-sizes"><img src="${src}" alt="Logoet i faldende størrelse"><img src="${src}" alt=""><img src="${src}" alt=""></div>`;
-    }
 
     if (kind === "grayscale") {
         return `
@@ -92,7 +133,7 @@ function headerHtml(boble, ctx = {}) {
         ${boble.externalLink ? externalLinkHtml(boble.externalLink) : ""}
         ${boble.guideLine ? `<div class="panel guide-line"><p><strong>💬 ${boble.guideAvatar ? `${boble.guideAvatar}:` : "Guide:"}</strong> ${boble.guideLine}</p></div>` : ""}
         ${boble.imageUpload ? renderImageUploadHtml({ label: boble.imageUpload.label, hint: boble.imageUpload.hint, images: ctx.images || [] }) : ""}
-        ${boble.logoPreview ? logoPreviewHtml(boble.logoPreview, ctx.images) : ""}
+        ${boble.logoPreview ? logoPreviewHtml(boble.logoPreview, ctx.images, ctx.responseImages) : ""}
         ${boble.checklist ? `<div id="tjekliste-container"></div>` : ""}
         <div id="se-ogsaa-slot"></div>
     `;
@@ -166,20 +207,36 @@ function showTextBoble(boble, ctx, onNext, onExit) {
     });
 }
 
-/*---- type: "choice" - envalgskort (eller, med ctaButtons: true, stakkede CTA-knapper der handler med det samme uden en separat "Næste"). Understøtter pr.-option `response` (vises i et panel efter valg), `badgeText` (lille markering, fx 4.2's forslag), og `followUpOptions` (5.2a: erstatter "Næste" med 1-2 nye knapper efter et bestemt svar). ----*/
+/*---- type: "choice" - envalgskort (eller, med ctaButtons: true, stakkede CTA-knapper der handler med det samme uden en separat "Næste"). Understøtter pr.-option `response` (vises i et panel efter valg), `badgeText` (lille markering, fx 4.2's forslag), `explanation` (6.2, runde 7: en kort forklaring, der foldes ud med en separat pil-knap ved siden af kortet - selve kortet og pilen er to forskellige knapper, så at folde ud aldrig vælger muligheden), og `followUpOptions` (5.2a: erstatter "Næste" med 1-2 nye knapper efter et bestemt svar). På boble-niveau: `responseUpload` (7.2, runde 7) - en ekstra billedupload under responsen, kun når den valgte mulighed har en respons. ----*/
 
 function showChoiceBoble(boble, ctx, onNext, onExit) {
     const isCta = Boolean(boble.ctaButtons);
 
-    const optionHtml = (option) => isCta
-        ? `<button type="button" class="btn btn--regular btn--outline-green" data-option-id="${option.id}">${option.text}</button>`
-        : `
+    const cardHtml = (option) => `
             <button type="button" class="choice-card choice-card--poll" aria-pressed="false" data-option-id="${option.id}">
                 <span class="choice-card-body">
                     <span class="choice-card-title choice-card-title--plain">${option.text}</span>
                     ${option.badgeText ? `<span class="choice-card-description">${option.badgeText}</span>` : ""}
                 </span>
             </button>`;
+
+    const explainedCardHtml = (option) => `
+            <div class="choice-option">
+                <div class="choice-option-row">
+                    ${cardHtml(option)}
+                    <button type="button" class="choice-option-toggle" aria-expanded="false" aria-controls="choice-explanation-${option.id}" aria-label="Læs mere om: ${option.text}" data-explanation-toggle="${option.id}">
+                        <span class="choice-option-toggle-chevron" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="choice-option-explanation" id="choice-explanation-${option.id}" hidden>
+                    <p>${option.explanation}</p>
+                </div>
+            </div>`;
+
+    const optionHtml = (option) => {
+        if (isCta) return `<button type="button" class="btn btn--regular btn--outline-green" data-option-id="${option.id}">${option.text}</button>`;
+        return option.explanation ? explainedCardHtml(option) : cardHtml(option);
+    };
 
     const optionsHtml = boble.options.map(optionHtml).join("");
     const noteHtml = boble.allowNote
@@ -202,6 +259,37 @@ function showChoiceBoble(boble, ctx, onNext, onExit) {
     const noteField = document.querySelector("#choice-note");
     let selectedOption = null;
 
+    /*---- Pilen folder kun forklaringen ud/ind - den rører ikke ved valget (aria-pressed/selectedOption) ----*/
+    document.querySelectorAll("[data-explanation-toggle]").forEach((toggle) => {
+        toggle.addEventListener("click", () => {
+            const panel = document.getElementById(toggle.getAttribute("aria-controls"));
+            const isOpen = toggle.getAttribute("aria-expanded") === "true";
+            toggle.setAttribute("aria-expanded", String(!isOpen));
+            if (panel) panel.hidden = isOpen;
+        });
+    });
+
+    /*---- 7.2's lille udgave: uploades under responsen og vises straks i de små størrelser ved siden af hovedlogoet ----*/
+    const renderResponseUpload = () => {
+        if (!boble.responseUpload || !ctx?.responseImageHandlers) return;
+
+        const handlers = ctx.responseImageHandlers;
+        const refreshAndPreview = async () => {
+            const smallImages = await handlers.refresh();
+            ctx.responseImages = smallImages;
+            const previewSlot = document.querySelector("#logo-preview-small-slot");
+            if (previewSlot) previewSlot.innerHTML = smallPreviewHtml(ctx.images, smallImages);
+            return smallImages;
+        };
+
+        responseContainer.insertAdjacentHTML("beforeend", `<div class="logo-response-upload">${renderImageUploadHtml({
+            label: boble.responseUpload.label,
+            hint: boble.responseUpload.hint,
+            images: ctx.responseImages || []
+        })}</div>`);
+        bindImageUpload({ upload: handlers.upload, remove: handlers.remove, refresh: refreshAndPreview });
+    };
+
     const answerFor = (option) => ({
         optionId: option.id,
         text: option.text,
@@ -220,6 +308,7 @@ function showChoiceBoble(boble, ctx, onNext, onExit) {
             }
 
             responseContainer.innerHTML = selectedOption.response ? `<div class="panel"><p>${selectedOption.response}</p></div>` : "";
+            if (selectedOption.response) renderResponseUpload();
 
             if (selectedOption.followUpOptions) {
                 nextButton.hidden = true;
