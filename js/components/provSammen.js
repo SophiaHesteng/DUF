@@ -26,15 +26,17 @@
  * "selvstændig komponent"-beslutningen nedenfor for netop den brug. Uden
  * `billede` er kortet præcis som i Byggesten.
  *
- * Ikonet: skal være et konkret Material Symbols-ikon i den valgte følelse
- * (besluttet 2026-09-23). TODO: selve motivet bestemmer Marcus, og koblingen
- * følelse → stil (Outlined/Rounded/Sharp) + fyld (0/1) står i "DUF Teknisk -
- * Byggesten-forhåndsvisning (Prøv dem sammen)", som endnu ikke ligger i
- * repoet. Indtil da vises en neutral pladsholder med følelsens navn.
+ * Ikonet: et konkret Material Symbols-ikon i den valgte følelse (besluttet
+ * 2026-09-23). Kortlægningen følelse → stil + fyld ligger i
+ * js/components/materialIkoner.js og deles med Byggesten 1.2/3.1/3.5 (runde
+ * 7). Motivet er et af de tre eksempel-ikoner derfra, så brugeren genkender
+ * det - kan stadig skiftes, når Marcus har kigget på Byggestens visuelle stil.
  * ----------------------------------------------------------------------------
  */
 
-const GOOGLE_FONTS_CSS = "https://fonts.googleapis.com/css2";
+import { materialIkonHtml } from "./materialIkoner.js";
+
+const GOOGLE_FONTS_CSS ="https://fonts.googleapis.com/css2";
 const indlaeste = new Map();
 
 function indlaesFont(navn) {
@@ -61,10 +63,9 @@ function escapeHtml(value) {
 
 function ikonHtml(ikon) {
     if (!ikon) return "";
-    /*---- TODO (Marcus + teknisk spec): erstat pladsholderen med et Material Symbols-ikon i den valgte stil/fyld ----*/
     return `
         <div class="prov-sammen-ikonlinje">
-            <span class="prov-sammen-ikon prov-sammen-ikon--${escapeHtml(ikon.foelelse)}" role="img" aria-label="Ikon: ${escapeHtml(ikon.tekst)}"></span>
+            ${materialIkonHtml("calendar_month", ikon.foelelse, { label: `Ikon: ${escapeHtml(ikon.tekst)}` })}
             <span class="prov-sammen-ikontekst">En kort linje tekst ved siden af ikonet</span>
         </div>
         <p class="prov-sammen-note">Ikonstil: ${escapeHtml(ikon.tekst)}</p>`;
@@ -108,7 +109,7 @@ function sideHtml(gemtPalet, gemtLogo) {
     const palet = gemtPalet?.farver?.length
         ? `<div>
                 <p class="prov-sammen-sidelabel">Din palet</p>
-                <div class="palette-preview">${gemtPalet.farver.map((c) => `<span class="palette-swatch" style="background-color:${c.hex}" title="${escapeHtml(c.role || c.hex)}"></span>`).join("")}</div>
+                <div class="palette-swatches">${gemtPalet.farver.map((c) => `<span class="palette-swatch" style="background-color:${c.hex}" title="${escapeHtml(c.role || c.hex)}"></span>`).join("")}</div>
            </div>`
         : "";
 

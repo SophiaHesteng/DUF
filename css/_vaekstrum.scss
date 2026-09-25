@@ -1,3 +1,5 @@
+@use 'colors';
+
 /*---- Velkomstskærmen viser den almindelige header/footer, men selve flowet (spørgsmål/feedback/resultat) er en immersiv oplevelse uden dem - jf. Figma har ingen af flow-skærmene navigationsbjælken, kun rummets egen dør ----*/
 
 body.in-flow #site-header,
@@ -64,11 +66,28 @@ body.in-flow #app {
     z-index: 10;
 }
 
-/*---- Byggesten: midlertidig "Skift fokus"-knap (tilbage til Modul 2's fokusvalg), samme placering som opslagsværk-linket ovenfor. Kan erstattes af den fælles modul-navigationslinje, når den bygges ----*/
+/*---- Byggesten: midlertidig "Gå til et andet emne"-knap (tilbage til Modul 2's fokusvalg, før "Skift fokus"), samme placering som opslagsværk-linket ovenfor. Forklaringen (runde 7) står under knappen. Kan erstattes af den fælles modul-navigationslinje, når den bygges ----*/
 
-#skift-fokus-button {
+.skift-fokus {
     position: fixed;
     left: 2rem;
     bottom: 2.75rem;
     z-index: 10;
+    max-width: 240px;
+}
+
+.skift-fokus-forklaring {
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 13px;
+    color: colors.$textColor;
+    background-color: colors.$primaryBgColor;
+    border: 1px solid colors.$outlineColor;
+    border-radius: 10px;
+    padding: 6px 10px;
+    margin-top: 8px;
+}
+
+/*---- Mens forklaringen står der, er det faste felt højere end dør-knappen - mere luft i bunden, så det ikke dækker skærmens sidste knap ----*/
+body.in-flow #app:has(.skift-fokus-forklaring) {
+    padding-bottom: 180px;
 }

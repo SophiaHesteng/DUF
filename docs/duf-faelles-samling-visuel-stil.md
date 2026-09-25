@@ -16,7 +16,7 @@ Fælles samling trækker på outputtet fra hvert af de vækstrum, brugeren har a
 - **Fra Farver:** den valgte (eller foreløbige) farvepalet med begrundelse.
 - **Fra Logo:** et nyt eller vurderet logo, med begrundelse for retning (behold/justér/byg nyt).
 - **Fra Billeder:** kriterier for billedvalg og et afklaret overblik over rettigheder.
-- **Fra Ikoner, fonte & andre grafiske byggesten:** valgt ikonstil, fonte og andre grafiske byggesten med retningslinjer for brug.
+- **Fra Ikoner, fonte & andre grafiske byggesten:** valgt ikonstil, fonte og andre grafiske byggesten med retningslinjer for brug. *(Fra runde 7, 2026-09-25: `begrundelse` indeholder også listen "Det skal du bruge" fra Boble 7.1, dvs. fontnavne, ikonstilens navn i Material Symbols og farvekoderne fra den gemte palet. Listen gemmes desuden som `detSkalDuBruge[]` i Byggestens output.)*
 
 Har brugeren kun arbejdet med nogle af de fire uddybende vækstrum, samler fælles samling kun det, der reelt er relevant for dem — ikke et krav om, at alle fire skal være gennemført.
 
