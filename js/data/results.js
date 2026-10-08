@@ -8,7 +8,7 @@ export const results = [
     },
     {
         title: "Du er godt på vej!",
-        description: "Du virker til at have en grundlæggende idé om, hvem du er som behandler. Det næste skridt er at gøre den identitet synlig, så andre også kan få øje på den. Når din visuelle stil hænger sammen med den, du er, bliver det lettere for dine kommende kunder at få en fornemmelse af dig – allerede før I mødes. Derfor anbefaler vi, at du starter i vækstrummet Visuel stil, hvor vi hjælper dig med at omsætte din personlighed og dine værdier til et enkelt og autentisk visuelt udtryk.",
+        description: "Du virker til at have en grundlæggende idé om, hvem du er som behandler. Det næste skridt er at gøre den identitet synlig, så andre også kan få øje på den. Når din visuelle stil hænger sammen med den, du er, bliver det lettere for dine kommende kunder at få en fornemmelse af dig – allerede før I mødes. Derfor anbefaler vi, at du starter i vækstområdet Visuelt udtryk for din praksis, hvor vi hjælper dig med at omsætte din personlighed og dine værdier til et enkelt og autentisk visuelt udtryk.",
         recommendedRoom: "Visuelt - basic", //SKAL TILPASSES NÅR RUMMENE ER LAVET!
         buttonText: "Dit udtryk",
         buttonLink: "/visuel" //TILRET LINKS NÅR VI HAR DEM!

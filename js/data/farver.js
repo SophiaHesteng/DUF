@@ -1,9 +1,9 @@
-/*---- Indhold til vækstrummet "Farver" (uddybende, hjem: Visuelt udtryk) - jf. docs/duf-manuskript-farver.md ----*/
+/*---- Indhold til vækstrummet "Farver" (uddybende, hjem: Visuelt udtryk for din praksis) - jf. docs/duf-manuskript-farver.md ----*/
 
 /*---- Modul 1-5 er bygget om til den fulde Vækstrum -> Modul -> Bobler-struktur (manuskript revideret 2026-09-11). Teksten herunder følger manuskriptets ordlyd direkte, frem for den ældre, flade tekst fra før revisionen - jf. commit-beskeden for denne ombygning. Modul 6, 7 og 8 er nu også bygget om til den fri palet-bygger / palette-drevet kontrasttjek / tre-boble-opsamling, jf. docs/duf-manuskript-farver.md. ----*/
 
 export const velkomst = {
-    fraOverblik: "Du nævnte tidligere, at du er usikker på dine farver — derfor foreslog vi at kigge nærmere på det her.",
+    fraVisueltVaekstrum: "Du nævnte tidligere, at du er usikker på dine farver — derfor foreslog vi at kigge nærmere på det her.",
     standard: "Velkommen til Farver. Her får du hjælp til at vælge en farvepalet, der understøtter din praksis — uanset om du starter fra bunden eller bare vil kvalitetssikre det, du allerede har."
 };
 
@@ -46,7 +46,7 @@ export const modul3 = {
             "Når vi kigger på farver, handler det ikke kun om at finde ud af, hvilke farver der er brugt. Vi kigger også på, hvad de gør sammen.",
             "Går nogle af farverne igen? Hvilke lægger du først mærke til? Og hvilket samlet indtryk får du?"
         ],
-        /*---- Runde 7: erstatter første afsnit, når Overblik viser, at brugeren starter fra bunden (hentUdgangspunkt()?.starterFraBunden). Resten af teksten er uændret ----*/
+        /*---- Runde 7: erstatter første afsnit, når VisueltVaekstrum viser, at brugeren starter fra bunden (hentUdgangspunkt()?.starterFraBunden). Resten af teksten er uændret ----*/
         firstParagraphFraBunden: "Farver møder du mange steder: på hjemmesider, i logoer, på sociale medier, i nyhedsbreve og på materialer. Også selvom du ikke har dine egne endnu, har du sikkert lagt mærke til dem hos andre."
     },
     boble2: {
@@ -328,6 +328,6 @@ export const modul8 = {
         guide: "Du er altid velkommen til at vende tilbage til vækstrummet og justere din palette, hvis dine farver eller deres roller ændrer sig undervejs.",
         takeawayLabel: "Det tager du med dig",
         takeaway: "Det arbejde, du har lavet her, bliver samlet i Fælles samling. Her kan du finde: den valgte farvepalette med farvekoder, farvernes roller, den valgte dosering af farverne, en eventuel tekstfarve, den valgte kontrastkombination, kontrastforholdet og vurderingen af læsbarheden, og dine egne refleksioner fra afprøvningen. Fælles samling kan bruges til at vende tilbage til det, du har arbejdet med, når det skal bruges i praksis.",
-        finishButtonLabel: "Gem og fortsæt i Visuelt udtryk"
+        finishButtonLabel: "Gem og fortsæt i Visuelt udtryk for din praksis"
     }
 };

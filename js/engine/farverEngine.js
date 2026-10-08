@@ -25,7 +25,7 @@ import { contrastRatio, contrastLevel } from "./contrast.js";
 
 const FARVER_VAEKSTRUM_ID = "farver";
 
-/*---- Selvstændig motor for det uddybende vækstrum "Farver" (Visuelt udtryk). Adskilt fra Prøverummets FlowEngine.js og fra Overbliks OverblikEngine.js: Farver har øvelsesskærme med flere fritekstfelter, farvevalg og et indbygget kontrasttjek - en anden form end begge de andre. ----*/
+/*---- Selvstændig motor for det uddybende vækstrum "Farver" (Visuelt udtryk for din praksis). Adskilt fra Prøverummets FlowEngine.js og fra VisueltVaekstrums visueltVaekstrumEngine.js: Farver har øvelsesskærme med flere fritekstfelter, farvevalg og et indbygget kontrasttjek - en anden form end begge de andre. ----*/
 
 export class FarverEngine {
 
@@ -37,13 +37,13 @@ export class FarverEngine {
     reflection = ""; // fri tekst fra Boble 8.2
     modul3ImageSource = null; // "upload" | "duf" - sat i Boble 3.2, bruges i Boble 3.3
     triedInPractice = true; // runde 7: valget i Boble 8.1 - styrer kun, hvilken version af 8.2 der vises (gemmes ikke)
-    udgangspunkt = null; // runde 7: fra Overblik via hentUdgangspunkt() - null, hvis brugeren ikke har været der
+    udgangspunkt = null; // runde 7: fra VisueltVaekstrum via hentUdgangspunkt() - null, hvis brugeren ikke har været der
     previousScreen = null;
 
     start() {
         const params = new URLSearchParams(window.location.search);
-        const fromOverblik = params.get("fra") === "overblik";
-        const text = fromOverblik ? velkomst.fraOverblik : velkomst.standard;
+        const fromVisueltVaekstrum = params.get("fra") === "vaekstrum-visuelt-udtryk";
+        const text = fromVisueltVaekstrum ? velkomst.fraVisueltVaekstrum : velkomst.standard;
 
         this.previousScreen = () => this.start();
 

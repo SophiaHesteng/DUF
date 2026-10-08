@@ -1,11 +1,11 @@
 /*----------------------------------------------------------------------------
  * DUF — delt "oversigt + valgfrie bobler"-mønster
  * ----------------------------------------------------------------------------
- * Bruges af Overbliks Modul 5 (Modul 3 blev en accordion i runde 7, jf. docs/duf-manuskript-overblik.md):
+ * Bruges af VisueltVaekstrums Modul 5 (Modul 3 blev en accordion i runde 7, jf. docs/duf-manuskript-visuelt-udtryk.md):
  * en fast oversigtsskærm (hub) med klikbare kort, ét pr. boble, som brugeren
  * kan besøge i vilkårlig rækkefølge - efterfulgt af en delt detaljeskærm, der
  * viser den valgte boblets indhold. Samme princip som js/components/exitDoor.js:
- * markup/logik samlet ét sted, tynde wrappers i overblikUi.js leverer modulets
+ * markup/logik samlet ét sted, tynde wrappers i visueltVaekstrumUi.js leverer modulets
  * egne tekster.
  * ----------------------------------------------------------------------------
  */

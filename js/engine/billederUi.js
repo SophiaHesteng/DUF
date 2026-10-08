@@ -225,7 +225,7 @@ function showChoiceBoble(boble, onNext, onExit, onReference) {
     });
 }
 
-/*---- type: "multiChoice" - togglebare kort (samme "Stemmepunkt"-mønster som Overbliks flervalgsspørgsmål), valgfri fritekst-note, og valgfrit loft over antal valg (maxSelect, Modul 5.4).
+/*---- type: "multiChoice" - togglebare kort (samme "Stemmepunkt"-mønster som VisueltVaekstrums flervalgsspørgsmål), valgfri fritekst-note, og valgfrit loft over antal valg (maxSelect, Modul 5.4).
  * Runde 7: `billedkilder` viser brugerens billeder øverst (5.1/5.3, billedvælgerens vis-udgave). `groups` viser ordene som små knapper i grupper, der på mobil foldes ud én ad gangen, og `resultAtTop` flytter "Sådan vil jeg gerne opleves" op øverst (5.4). Med `noteCountsTowardMax` tæller brugerens egne ord med i loftet ----*/
 
 function optionCardHtml(option, index) {

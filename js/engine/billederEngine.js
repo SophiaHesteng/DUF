@@ -31,8 +31,8 @@ const BYGGESTEN_VAEKSTRUM_ID = "byggesten";
 const LOGO_BUCKET_ID = "logo";
 
 /*----------------------------------------------------------------------------
- * Selvstændig motor for det uddybende vækstrum "Billeder" (Visuelt udtryk).
- * Adskilt fra Prøverummets FlowEngine.js og fra Overbliks/Farvers/Logos
+ * Selvstændig motor for det uddybende vækstrum "Billeder" (Visuelt udtryk for din praksis).
+ * Adskilt fra Prøverummets FlowEngine.js og fra VisueltVaekstrums/Farvers/Logos
  * motorer - Billeder har et fast opslagsværk tilgængeligt gennem hele rummet
  * (rettighedsoversigten), som ingen af de andre rum har brug for.
  *
@@ -44,7 +44,7 @@ const LOGO_BUCKET_ID = "logo";
  * Runde 7 (2026-09-25): én forgrening - brugerens valg i 3.1 gemmes som
  * `answers.harEgneBilleder`. Er det false, springes bobler med
  * `kunMedEgneBilleder` over (3.3, 3.5), og bobler med `udenEgneBilleder`
- * (3.4, 6.1) vises i deres variant. 3.1 har desuden en variant, når Overblik
+ * (3.4, 6.1) vises i deres variant. 3.1 har desuden en variant, når VisueltVaekstrum
  * viser, at brugeren starter fra bunden (hentUdgangspunkt()).
  * ----------------------------------------------------------------------------
  */
@@ -58,12 +58,12 @@ export class BilledeEngine {
 
     start() {
         const params = new URLSearchParams(window.location.search);
-        const fromOverblik = params.get("fra") === "overblik";
-        const text = fromOverblik ? velkomst.fraOverblik : velkomst.standard;
+        const fromVisueltVaekstrum = params.get("fra") === "vaekstrum-visuelt-udtryk";
+        const text = fromVisueltVaekstrum ? velkomst.fraVisueltVaekstrum : velkomst.standard;
 
         this.previousScreen = () => this.start();
 
-        /*---- null, hvis brugeren ikke har været i Overblik - så vises 3.1's almindelige tekst ----*/
+        /*---- null, hvis brugeren ikke har været i VisueltVaekstrum - så vises 3.1's almindelige tekst ----*/
         hentUdgangspunkt().then((udgangspunkt) => { this.udgangspunkt = udgangspunkt; });
 
         showWelcome(text, () => {
@@ -72,7 +72,7 @@ export class BilledeEngine {
         });
     }
 
-    /*---- Den version af boblen, brugeren skal se: variant-tekst afhængigt af harEgneBilleder / Overblik. Selve data-objektet ændres ikke ----*/
+    /*---- Den version af boblen, brugeren skal se: variant-tekst afhængigt af harEgneBilleder / VisueltVaekstrum. Selve data-objektet ændres ikke ----*/
     tilpasBoble(boble) {
         if (boble.udenEgneBilleder && this.answers.harEgneBilleder === false) {
             return { ...boble, ...boble.udenEgneBilleder };

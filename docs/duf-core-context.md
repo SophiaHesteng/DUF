@@ -57,7 +57,7 @@ Et **vækstområde** er et afgrænset udviklingsområde med et fast overordnet f
 
 Hvert vækstområde har en fast overordnet progression med en **fælles åbning** (hjælper brugeren forstå området, finde udgangspunkt, etablere grundlag) og en **fælles samling** (hjælper brugeren samle arbejdet og opdatere vækstområdets samlede resultat). Mellem åbning og samling bevæger brugeren sig fleksibelt mellem relevante, kuraterede vækstrum.
 
-Nuværende planlagte vækstområder (arbejdsversion, kan udvikle sig): Visuel stil, Branding, Produktudvikling, Sociale medier, Hjemmeside, Markedsføring, Den gode praksis.
+Nuværende planlagte vækstområder (arbejdsversion, kan udvikle sig): Visuelt udtryk for din praksis, Branding, Produktudvikling, Sociale medier, Hjemmeside, Markedsføring, Den gode praksis.
 
 ## Hvad er et vækstrum?
 

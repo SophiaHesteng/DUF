@@ -30,7 +30,7 @@ const ARBEJDSLISTE_FRA_SKURRER = {
 };
 
 /*----------------------------------------------------------------------------
- * Selvstændig motor for det uddybende vækstrum "Logo" (Visuelt udtryk).
+ * Selvstændig motor for det uddybende vækstrum "Logo" (Visuelt udtryk for din praksis).
  *
  * Data-drevet som Billeder (js/data/logo.js's `BOBLER`), men - i modsætning
  * til Billeder - udvidet til reel forgrening: BOBLER er et objekt keyet på
@@ -52,13 +52,13 @@ export class LogoEngine {
     svar = {};
     sequenceQueue = null;
     previousScreen = null;
-    fraOverblik = false;
+    fraVisueltVaekstrum = false;
     _farverPaletteCache;
     _pendingSkurrerGroups = null;
 
     async start() {
         const params = new URLSearchParams(window.location.search);
-        this.fraOverblik = params.get("fra") === "overblik";
+        this.fraVisueltVaekstrum = params.get("fra") === "vaekstrum-visuelt-udtryk";
 
         const savedPosition = await getVaekstrumPosition(LOGO_VAEKSTRUM_ID);
 
@@ -71,7 +71,7 @@ export class LogoEngine {
         }
 
         /*---- Denne velkomstskærm ER manuskriptets Boble 1.1 (jf. logoUi.js's showWelcome) - flowet fortsætter derfor direkte til 1.2, ikke til en gentagelse af 1.1 ----*/
-        const text = this.fraOverblik ? velkomst.fraOverblik : velkomst.standard;
+        const text = this.fraVisueltVaekstrum ? velkomst.fraVisueltVaekstrum : velkomst.standard;
         this.previousScreen = () => this.start();
 
         showWelcome(text, () => {

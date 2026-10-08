@@ -1,6 +1,6 @@
 # VÆKSTRUM-MOTOR — navigation inde i et vækstområde
 
-*Status: Implementeret 2026-09-07 på branchen `feature-vaekstrum-motor`, som en rettelse af en navigationsbug i Visuelt udtryk. Beskriver et arkitekturmønster, der gælder for ethvert vækstområde — ikke kun Visuelt udtryk — og bør følges, når de næste vækstområder (Branding, Hjemmeside, osv.) bygges.*
+*Status: Implementeret 2026-09-07 på branchen `feature-vaekstrum-motor`, som en rettelse af en navigationsbug i Visuelt udtryk for din praksis. Beskriver et arkitekturmønster, der gælder for ethvert vækstområde — ikke kun Visuelt udtryk for din praksis — og bør følges, når de næste vækstområder (Branding, Hjemmeside, osv.) bygges.*
 
 ## Reglen
 
@@ -8,14 +8,14 @@ Man kan gå IND i et uddybende vækstrum uden at forlade vækstområdet. At genn
 
 Konkret betyder det to ting for ethvert vækstområde:
 
-1. **Én "vælg dit rum"-side inde i området**, adskilt fra den offentlige forside. For Visuelt udtryk er det `vaelg-rum-visuelt-udtryk.html`. Den viser det grundlæggende vækstrum, alle uddybende vækstrum (med et "✓ Gennemført"-badge, trukket fra `getSavedVaekstrumIds()` i `js/storage/vaekstrumStorage.js` — intet nyt lager, bare det, der allerede findes), og et link til fælles samling.
+1. **Én "vælg dit rum"-side inde i området**, adskilt fra den offentlige forside. For Visuelt udtryk for din praksis er det `vaelg-rum-visuelt-udtryk.html`. Den viser det grundlæggende vækstrum, alle uddybende vækstrum (med et "✓ Gennemført"-badge, trukket fra `getSavedVaekstrumIds()` i `js/storage/vaekstrumStorage.js` — intet nyt lager, bare det, der allerede findes), og et link til fælles samling.
    Den offentlige forside (`vaekstomraade-<omraade>.html`) må ikke selv indeholde direkte links til de enkelte rum indlejret på siden — kun ét link videre til "vælg dit rum"-siden. Begrundelse: alt, hvad der ligger inde i området, skal kunne lægges bag en fremtidig betalingsmur på ét sted (mappen/siderne "inde i" området), uden at skulle skille marketingindhold fra rum-adgang bagefter.
 
-2. **Ét centralt navigationsmål pr. vækstområde**, importeret af alle det områdes motorer i stedet for hardkodet. For Visuelt udtryk: `js/engine/vaekstomraadeExit.js` eksporterer `VISUELT_UDTRYK_HUB`. Både `saveAndFinish()` (efter sidste modul) og `exitRoom()` (dør-ikonets "gå ud", efter bekræftelse) i hvert af områdets `*Engine.js`-filer skal bruge den konstant. Byg et tilsvarende lille modul for hvert nyt vækstområde, fremfor at skrive filnavnet direkte i motoren.
+2. **Ét centralt navigationsmål pr. vækstområde**, importeret af alle det områdes motorer i stedet for hardkodet. For Visuelt udtryk for din praksis: `js/engine/vaekstomraadeExit.js` eksporterer `VISUELT_UDTRYK_HUB`. Både `saveAndFinish()` (efter sidste modul) og `exitRoom()` (dør-ikonets "gå ud", efter bekræftelse) i hvert af områdets `*Engine.js`-filer skal bruge den konstant. Byg et tilsvarende lille modul for hvert nyt vækstområde, fremfor at skrive filnavnet direkte i motoren.
 
 ## Hvorfor dette blev rettet
 
-Før denne ændring gjorde alle fire uddybende motorer i Visuelt udtryk (`farverEngine.js`, `logoEngine.js`, `billederEngine.js`, `byggestenEngine.js`) det samme: `window.location.href = "vaekstomraade-visuelt-udtryk.html"` — hardkodet 2 steder pr. fil, 8 steder i alt. Det sendte brugeren helt ud af vækstområdet, uanset om rummet var fuldført eller forladt tidligt. Samtidig lå "Eller gå direkte til et vækstrum" (fire rum-kort) og "Klar til at samle op?" (link til fælles samling) direkte på den offentlige forside.
+Før denne ændring gjorde alle fire uddybende motorer i Visuelt udtryk for din praksis (`farverEngine.js`, `logoEngine.js`, `billederEngine.js`, `byggestenEngine.js`) det samme: `window.location.href = "vaekstomraade-visuelt-udtryk.html"` — hardkodet 2 steder pr. fil, 8 steder i alt. Det sendte brugeren helt ud af vækstområdet, uanset om rummet var fuldført eller forladt tidligt. Samtidig lå "Eller gå direkte til et vækstrum" (fire rum-kort) og "Klar til at samle op?" (link til fælles samling) direkte på den offentlige forside.
 
 ## Delt "gå ud"-dør
 
@@ -23,7 +23,9 @@ Før denne ændring gjorde alle fire uddybende motorer i Visuelt udtryk (`farver
 
 ## Filnavne på vækstrum
 
-Hvert vækstrums egen HTML-side følger `vaekstrum-<navn>.html` (fx `vaekstrum-farver.html`, `vaekstrum-logo.html`) — gælder både grundlæggende og uddybende rum. `overblik.html` (det grundlæggende rum i Visuelt udtryk) blev omdøbt til `vaekstrum-overblik.html` 2026-09-08 for at følge samme mønster; de to links, der pegede på den gamle fil, er opdateret. Rummets interne identifikator ("overblik", brugt i `data-vaekstrum` og i `fra=overblik`-query-parametre) er ikke det samme som filnavnet og skal ikke ændres, blot fordi filnavnet gør.
+Hvert vækstrums egen HTML-side følger `vaekstrum-<navn>.html` (fx `vaekstrum-farver.html`, `vaekstrum-logo.html`) — gælder både grundlæggende og uddybende rum. `overblik.html` (det grundlæggende rum i Visuelt udtryk for din praksis) blev omdøbt til `vaekstrum-overblik.html` 2026-09-08 for at følge samme mønster; de to links, der pegede på den gamle fil, er opdateret. Rummets interne identifikator ("overblik", brugt i `data-vaekstrum` og i `fra=overblik`-query-parametre) er ikke det samme som filnavnet og skal ikke ændres, blot fordi filnavnet gør.
+
+2026-10-08 blev selve rummet omdøbt fra "Overblik" til **"Det visuelle udtryk for din praksis"**, og denne gang blev både filnavn og identifikator ændret: siden hedder nu `vaekstrum-visuelt-udtryk.html`, og identifikatoren er `vaekstrum-visuelt-udtryk` (i `data-vaekstrum`, `data-room-id`, `fra=vaekstrum-visuelt-udtryk` og som storage-ID, `VISUELT_VAEKSTRUM_ID` i `js/storage/udgangspunkt.js`). "vaekstrum-"-præfikset i identifikatoren er bevidst, så den ikke forveksles med vækstområdets eget slug (`visuelt-udtryk`). `hentUdgangspunkt()` og "vælg rum"-siden læser stadig det gamle storage-ID `"overblik"` som reserve, så browsere fra brugertesten ikke mister deres svar; reserven kan fjernes, før siden går offentligt live.
 
 ## Ikke løst her
 

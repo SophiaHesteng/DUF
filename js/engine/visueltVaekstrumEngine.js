@@ -8,11 +8,11 @@ import {
     showModuleBubble,
     showModul6Recap,
     showExitConfirmation
-} from "./overblikUi.js";
+} from "./visueltVaekstrumUi.js";
 
-import { velkomst, modul1, modul2, modul3, modul4, modul5, modul6, ROOMS } from "../data/overblik.js";
+import { velkomst, modul1, modul2, modul3, modul4, modul5, modul6, ROOMS } from "../data/visueltVaekstrum.js";
 import { saveVaekstrumOutput } from "../storage/vaekstrumStorage.js";
-import { OVERBLIK_VAEKSTRUM_ID, INGEN_KANALER } from "../storage/udgangspunkt.js";
+import { VISUELT_VAEKSTRUM_ID, INGEN_KANALER } from "../storage/udgangspunkt.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
 
 /*---- Boble 2.3's respons kan sammensættes af flere relevante responser (jf. manuskriptet): "ikke sikker endnu" vinder over antal, ellers afgør antallet af valg "mange"/"få"-responsen, og et ekstra nik tilføjes, hvis brugeren har valgt ikoner/illustrationer/skrifttyper. Delt mellem Boble 2.3's egen respons og Modul 6's opsummering af den. ----*/
@@ -60,11 +60,11 @@ function getKanalerRecap(kanalKeys) {
     return `${recapPrefix} ${titles.join(", ")}`;
 }
 
-/*---- Selvstændig motor for det grundlæggende vækstrum "Overblik" (Visuelt udtryk). Bevidst adskilt fra Prøverummets FlowEngine.js: Overblik har forgrenede spørgsmål, et accordion-modul (Modul 3), et browsbart modul (Modul 5) og en opsummering bygget på flere samtidige svar, i stedet for én lineær spørgsmål/point-rækkefølge.
+/*---- Selvstændig motor for det grundlæggende vækstrum "Det visuelle udtryk for din praksis" (vækstområdet Visuelt udtryk for din praksis). Bevidst adskilt fra Prøverummets FlowEngine.js: rummet har forgrenede spørgsmål, et accordion-modul (Modul 3), et browsbart modul (Modul 5) og en opsummering bygget på flere samtidige svar, i stedet for én lineær spørgsmål/point-rækkefølge.
 
 Modul 2 forgrener sig efter Boble 2.2 (runde 7): starterFraBunden afgør, om 2.3/2.6 vises i deres almindelige version eller som variant, og om 2.4/2.5 springes over. Vejen afgøres af det gemte svar, hver gang en skærm vises - går brugeren tilbage (via "Tilbage"-knapperne i Modul 2) og ændrer sit svar i 2.2, følger hun derfor automatisk den nye vej. ----*/
 
-export class OverblikEngine {
+export class VisueltVaekstrumEngine {
 
     answers = {};
     previousScreen = null;
@@ -373,7 +373,7 @@ export class OverblikEngine {
         window.location.href = room.link;
     }
 
-    /*---- "Det, Overblik husker" (runde 7, jf. docs/duf-manuskript-overblik.md): udgangspunkt (1.2), kanaler (2.2) og - når hun vælger et - det valgte rum. De øvrige boble-svar fra Modul 1-5 gemmes fortsat ikke, kun i this.answers. Læses af de andre rum via hentUdgangspunkt() i js/storage/udgangspunkt.js. Et nyt gennemløb overskriver det gemte ----*/
+    /*---- "Det, rummet husker" (runde 7, jf. docs/duf-manuskript-visuelt-udtryk.md): udgangspunkt (1.2), kanaler (2.2) og - når hun vælger et - det valgte rum. De øvrige boble-svar fra Modul 1-5 gemmes fortsat ikke, kun i this.answers. Læses af de andre rum via hentUdgangspunkt() i js/storage/udgangspunkt.js. Et nyt gennemløb overskriver det gemte ----*/
 
     saveUdgangspunkt(room) {
         const { udgangspunkt, kanaler } = this.answers;
@@ -381,10 +381,10 @@ export class OverblikEngine {
             ? { udgangspunkt, kanaler, room: room.id, chosenAt: new Date().toISOString() }
             : { udgangspunkt, kanaler };
         const documentation = room
-            ? `Overblik gennemført. Brugeren valgte at gå videre til: ${room.name}.`
-            : "Overblik gennemført. Brugeren har ikke valgt et rum endnu.";
+            ? `Det visuelle udtryk for din praksis gennemført. Brugeren valgte at gå videre til: ${room.name}.`
+            : "Det visuelle udtryk for din praksis gennemført. Brugeren har ikke valgt et rum endnu.";
 
-        return saveVaekstrumOutput(OVERBLIK_VAEKSTRUM_ID, data, documentation).catch(() => ({ ok: false }));
+        return saveVaekstrumOutput(VISUELT_VAEKSTRUM_ID, data, documentation).catch(() => ({ ok: false }));
     }
 
     exitRoom() {

@@ -8,7 +8,7 @@
 
 ## Velkomst til rummet
 
-**Skærmtekst (vises kun, hvis brugeren kommer fra Overblik med et farve-relateret svar):**
+**Skærmtekst (vises kun, hvis brugeren kommer fra Det visuelle udtryk for din praksis med et farve-relateret svar):**
 
 "Du nævnte tidligere, at du er usikker på dine farver — derfor foreslog vi at kigge nærmere på det her."
 
@@ -87,7 +87,7 @@ Når vi kigger på farver, handler det ikke kun om at finde ud af, hvilke farver
 
 Går nogle af farverne igen? Hvilke lægger du først mærke til? Og hvilket samlet indtryk får du?"
 
-**✅ Variant af første afsnit (godkendt af Heidi 2026-09-25), når Overblik viser, at brugeren starter fra bunden** (`hentUdgangspunkt().starterFraBunden`)**:** "Farver møder du mange steder: på hjemmesider, i logoer, på sociale medier, i nyhedsbreve og på materialer. Også selvom du ikke har dine egne endnu, har du sikkert lagt mærke til dem hos andre." Resten af teksten er uændret.
+**✅ Variant af første afsnit (godkendt af Heidi 2026-09-25), når Det visuelle udtryk for din praksis viser, at brugeren starter fra bunden** (`hentUdgangspunkt().starterFraBunden`)**:** "Farver møder du mange steder: på hjemmesider, i logoer, på sociale medier, i nyhedsbreve og på materialer. Også selvom du ikke har dine egne endnu, har du sikkert lagt mærke til dem hos andre." Resten af teksten er uændret.
 
 - **Interaktion:** Ingen.
 - **Respons:** Ingen.
@@ -121,7 +121,7 @@ Går nogle af farverne igen? Hvilke lægger du først mærke til? Og hvilket sam
 
 ## Modul 4 — Inspiration og sammenligning
 
-*Status: erstatter det nuværende Modul 4 ("find 2-3 andre praksisser selv"). I stedet møder brugeren fire fiktive, AI-genererede eksempler direkte i rummet, med envalg + matchet feedback — samme grundmønster som Overbliks Modul 2, men **opdateret 2026-09-11 efter Heidis gennemgang: envalg, ikke flervalg** — kun ét af de fem svar kan vælges ad gangen, så det altid er entydigt, hvilken feedback der skal gives. Billedfiler: `roligt-so-me.png` (4.2), `varm-hjemmeside.png` (4.3), `energisk-logo.png` (4.4), `larmende-nyhedsbrev.png` (4.5) — alle fire ligger nu i `img/`.*
+*Status: erstatter det nuværende Modul 4 ("find 2-3 andre praksisser selv"). I stedet møder brugeren fire fiktive, AI-genererede eksempler direkte i rummet, med envalg + matchet feedback — samme grundmønster som Modul 2 i Det visuelle udtryk for din praksis, men **opdateret 2026-09-11 efter Heidis gennemgang: envalg, ikke flervalg** — kun ét af de fem svar kan vælges ad gangen, så det altid er entydigt, hvilken feedback der skal gives. Billedfiler: `roligt-so-me.png` (4.2), `varm-hjemmeside.png` (4.3), `energisk-logo.png` (4.4), `larmende-nyhedsbrev.png` (4.5) — alle fire ligger nu i `img/`.*
 
 ### Boble 4.1 — Læg mærke til det
 

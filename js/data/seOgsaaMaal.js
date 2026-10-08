@@ -22,17 +22,17 @@ export const SE_OGSAA_MAAL = {
     },
     farver: {
         navn: "Farver",
-        vaekstomraade: "Visuelt udtryk",
+        vaekstomraade: "Visuelt udtryk for din praksis",
         farveKlasse: "visuelt"
     },
     logo: {
         navn: "Logo",
-        vaekstomraade: "Visuelt udtryk",
+        vaekstomraade: "Visuelt udtryk for din praksis",
         farveKlasse: "visuelt"
     },
     byggesten: {
         navn: "Byggesten",
-        vaekstomraade: "Visuelt udtryk",
+        vaekstomraade: "Visuelt udtryk for din praksis",
         farveKlasse: "visuelt"
     }
 };

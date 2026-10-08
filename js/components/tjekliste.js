@@ -70,7 +70,7 @@ function buildMailtoHref(titel, punkter, checkedIds, afslutning) {
     ];
 
     if (afslutning) linjer.push("", plainText(afslutning));
-    linjer.push("", "Sendt fra DUF, Dit visuelle udtryk.");
+    linjer.push("", "Sendt fra DUF, Visuelt udtryk for din praksis.");
 
     const emne = `Min tjekliste fra DUF: ${plainText(titel)}`;
     return `mailto:?subject=${encodeURIComponent(emne)}&body=${encodeURIComponent(linjer.join("\r\n"))}`;

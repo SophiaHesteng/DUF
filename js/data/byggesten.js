@@ -1,6 +1,6 @@
 /*----------------------------------------------------------------------------
  * DUF — Indhold til vækstrummet "Ikoner, fonte & andre grafiske byggesten"
- * (uddybende, hjem: Visuelt udtryk)
+ * (uddybende, hjem: Visuelt udtryk for din praksis)
  * ----------------------------------------------------------------------------
  * Jf. docs/duf-manuskript-byggesten.md (nyt manuskript, skrevet fra bunden
  * 2026-09-24). Rummet har en LET forgrening: brugeren vælger i Modul 2 selv,
@@ -118,7 +118,7 @@ export const BOBLER = {
         id: "1.3", modul: 1, type: "choice",
         heading: "Hvor starter du?",
         paragraphs: ["Hvor føles det rigtigt at starte?"],
-        /*---- Runde 7: "Fra bunden" springer 1.4 og 1.5 over. Er Overbliks starterFraBunden sand, er "Fra bunden" valgt på forhånd (byggestenEngine.js) ----*/
+        /*---- Runde 7: "Fra bunden" springer 1.4 og 1.5 over. Er VisueltVaekstrums starterFraBunden sand, er "Fra bunden" valgt på forhånd (byggestenEngine.js) ----*/
         options: [
             { id: "allerede-udtryk", text: "Jeg har allerede et visuelt udtryk", response: "Så tager vi udgangspunkt i det, du har.", next: "1.4" },
             { id: "hist-og-her", text: "Jeg har lidt hist og her", response: "Så finder vi ud af, hvad der er værd at samle.", next: "1.4" },
@@ -324,7 +324,7 @@ export const BOBLER = {
         heading: "Hvor skal du bruge dine fonte?",
         paragraphs: ["Hvor bruger du dem oftest?"],
         spoergsmaalFraBunden: "Hvor forestiller du dig at bruge dem?", /* runde 7 */
-        /*---- Runde 7: "På sociale medier" og "Det ved jeg ikke endnu" (kun ved "Fra bunden") har hver sit eget svar. `kanaler` = Overbliks kanal-nøgler, der rykker valget øverst (byggestenEngine.js) ----*/
+        /*---- Runde 7: "På sociale medier" og "Det ved jeg ikke endnu" (kun ved "Fra bunden") har hver sit eget svar. `kanaler` = VisueltVaekstrums kanal-nøgler, der rykker valget øverst (byggestenEngine.js) ----*/
         options: [
             { id: "egen", text: "På min egen hjemmeside", googleFontsDirekte: true, kanaler: ["hjemmeside"] },
             { id: "canva", text: "I Canva", googleFontsDirekte: false, vaerktoejNavn: "Canva" },
@@ -352,7 +352,7 @@ export const BOBLER = {
                 response: "Det er helt fint. Så vælger du bare det, du kan lide. Når du ved, hvor du skal bruge dem, kan du altid se, om du kan bruge dem direkte, eller om du skal finde noget, der ligner."
             }
         ],
-        /*---- Noten over valgene, når Overblik kender brugerens kanaler. {kanaler} = fx "en hjemmeside og Instagram" ----*/
+        /*---- Noten over valgene, når VisueltVaekstrum kender brugerens kanaler. {kanaler} = fx "en hjemmeside og Instagram" ----*/
         kanalNote: "Du nævnte tidligere, at du har {kanaler}.",
         kanalNavne: {
             hjemmeside: "en hjemmeside",

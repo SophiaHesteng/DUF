@@ -1,4 +1,4 @@
-/*---- Indhold til vækstrummet "Overblik" (grundlæggende, hjem: Visuelt udtryk) - jf. docs/duf-manuskript-overblik.md ----*/
+/*---- Indhold til vækstrummet "Det visuelle udtryk for din praksis" (grundlæggende, hjem: Visuelt udtryk for din praksis) - jf. docs/duf-manuskript-visuelt-udtryk.md ----*/
 
 export const velkomst = {
     heading: "Velkommen til dit visuelle udtryk",
@@ -235,7 +235,7 @@ export const modul3 = {
     ]
 };
 
-/*---- Modul 4 - manuskriptets tre "Section"-afsnit samlet til to afsnitsgrupper med guide-citatet imellem Section 2 og 3, jf. designnoten i docs/duf-manuskript-overblik.md ----*/
+/*---- Modul 4 - manuskriptets tre "Section"-afsnit samlet til to afsnitsgrupper med guide-citatet imellem Section 2 og 3, jf. designnoten i docs/duf-manuskript-visuelt-udtryk.md ----*/
 
 export const modul4 = {
     heading: "Når tingene begynder at hænge sammen",
@@ -305,7 +305,7 @@ export const modul5 = {
     ]
 };
 
-/*---- Modul 6 - ingen automatisk matchning (fjernet 2026-09-09, jf. docs/duf-manuskript-overblik.md). Boble 6.1 opsummerer i stedet Boble 2.2's kanaler og Boble 2.3/2.4/2.5's svar ordret (for brugeren, der ikke har noget endnu: kanal-linjen og 2.3-variantens svar, uden 2.4/2.5) og lader brugeren vælge frit mellem alle fire uddybende rum. Rækkefølgen Farver → Logo → Billeder → Byggesten følger manuskriptets opremsning i Boble 6.1. ----*/
+/*---- Modul 6 - ingen automatisk matchning (fjernet 2026-09-09, jf. docs/duf-manuskript-visuelt-udtryk.md). Boble 6.1 opsummerer i stedet Boble 2.2's kanaler og Boble 2.3/2.4/2.5's svar ordret (for brugeren, der ikke har noget endnu: kanal-linjen og 2.3-variantens svar, uden 2.4/2.5) og lader brugeren vælge frit mellem alle fire uddybende rum. Rækkefølgen Farver → Logo → Billeder → Byggesten følger manuskriptets opremsning i Boble 6.1. ----*/
 
 export const modul6 = {
     recapIntro: "Du har nu set nærmere på, hvor du står i dag. Her er en opsamling af det, du har fortalt os undervejs:",
@@ -317,17 +317,17 @@ export const ROOMS = {
     farver: {
         id: "farver",
         name: "Farver",
-        link: "vaekstrum-farver.html?fra=overblik"
+        link: "vaekstrum-farver.html?fra=vaekstrum-visuelt-udtryk"
     },
     logo: {
         id: "logo",
         name: "Logo",
-        link: "vaekstrum-logo.html?fra=overblik"
+        link: "vaekstrum-logo.html?fra=vaekstrum-visuelt-udtryk"
     },
     billeder: {
         id: "billeder",
         name: "Billeder",
-        link: "vaekstrum-billeder.html?fra=overblik"
+        link: "vaekstrum-billeder.html?fra=vaekstrum-visuelt-udtryk"
     },
     byggesten: {
         id: "byggesten",

@@ -42,7 +42,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 ### Boble 1.1 — Velkommen til Logo
 
 - **Hvad brugeren møder på denne skærm:**
-  - *Kommer fra Overblik med et logo-relateret svar:* Du nævnte tidligere, at dit logo mangler, er på vej eller er noget, du gerne vil have på plads. Så lad os kigge på det her. Sammen.
+  - *Kommer fra Det visuelle udtryk for din praksis med et logo-relateret svar:* Du nævnte tidligere, at dit logo mangler, er på vej eller er noget, du gerne vil have på plads. Så lad os kigge på det her. Sammen.
   - *Kommer direkte til rummet:* Velkommen til Logo. Her får du hjælp til enten at lave et logo, du er tryg ved, eller til at finde ud af, om det, du allerede har, faktisk fungerer. Der er ingen rigtige eller forkerte svar. Vi tager det ét skridt ad gangen.
 - **Hvad der leder videre:** Knappen "Lad os begynde".
 

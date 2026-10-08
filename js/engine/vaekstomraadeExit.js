@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
- * DUF — centralt navigationsmål for Visuelt udtryks vækstrum
+ * DUF — centralt navigationsmål for vækstrummene i Visuelt udtryk for din praksis
  * ----------------------------------------------------------------------------
  * Før denne fil fandtes, sendte hvert vækstrums saveAndFinish() og
  * exitRoom() brugeren direkte til den offentlige forside
@@ -8,7 +8,7 @@
  * vækstområdet, i stedet for at blive inde i det.
  *
  * Nu peger alle rum i stedet på den nye "vælg dit rum"-side, som ligger
- * INDE i vækstområdet (viser Overblik, de fire uddybende rum og fælles
+ * INDE i vækstområdet (viser VisueltVaekstrum, de fire uddybende rum og fælles
  * samling - ikke marketingindhold). Skal målet ændres senere, sker det ét
  * sted her, ikke i fem motorer.
  * ----------------------------------------------------------------------------

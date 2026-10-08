@@ -1,6 +1,6 @@
-/*---- Indhold til Fælles samling - Visuel stil (lukkeskærm, ikke et vækstrum - jf. docs/duf-faelles-samling-visuel-stil.md). Ingen manuskript findes for denne skærm (dokumentet er en kort specifikation, ikke en fuld Vækstrum Context), så teksten herunder er skrevet i DUF's etablerede tone ud fra specifikationens krav, ikke transskriberet fra et eksisterende manuskript. ----*/
+/*---- Indhold til Fælles samling - Visuelt udtryk for din praksis (lukkeskærm, ikke et vækstrum - jf. docs/duf-faelles-samling-visuel-stil.md). Ingen manuskript findes for denne skærm (dokumentet er en kort specifikation, ikke en fuld Vækstrum Context), så teksten herunder er skrevet i DUF's etablerede tone ud fra specifikationens krav, ikke transskriberet fra et eksisterende manuskript. ----*/
 
-import { ROOMS } from "./overblik.js";
+import { ROOMS } from "./visueltVaekstrum.js";
 
 /*---- Rækkefølgen, rummene vises i overalt på siden ----*/
 export const ROOM_ORDER = ["farver", "logo", "billeder", "byggesten"];
@@ -12,7 +12,7 @@ export const EXTRA_IMAGE_BUCKETS = {
     logo: ["logo-lille"]
 };
 
-/*---- Genbruger Overbliks egne, allerede godkendte teaser-tekster (Modul 5) for "hvad rummet kan give dig" - ikke ny, opfundet copy ----*/
+/*---- Genbruger VisueltVaekstrums egne, allerede godkendte teaser-tekster (Modul 5) for "hvad rummet kan give dig" - ikke ny, opfundet copy ----*/
 export const TEASERS = {
     farver: "En bevidst farvepalet, du kan bruge igen og igen — og en forklaring på, hvorfor den fungerer.",
     logo: "Enten et nyt logo, eller en klar vurdering af det, du allerede har — så du ved, om det gør sit arbejde.",
@@ -21,7 +21,7 @@ export const TEASERS = {
 };
 
 export const copy = {
-    intro: "Her samler vi det, du har arbejdet med i Visuel stil — uanset hvor mange af de fire rum du er nået omkring. Resultatet er en prototype, ikke et facit.",
+    intro: "Her samler vi det, du har arbejdet med i Visuelt udtryk for din praksis — uanset hvor mange af de fire rum du er nået omkring. Resultatet er en prototype, ikke et facit.",
 
     optedOutNotice: "Du har valgt, at dine ting ikke skal gemmes i browseren. Det er en gyldig præference — men det betyder også, at der ikke er noget at samle op her automatisk. Du kan stadig bruge dine egne noter undervejs til at samle din visuelle guide.",
 

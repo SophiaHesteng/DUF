@@ -194,7 +194,7 @@ body.in-flow #app:has(.skift-fokus-forklaring) {
 }
 
 /*---- Tekstfelt ----*/
-/*---- Valgfri fritekst/refleksion i vækstrum, fx Overblik ----*/
+/*---- Valgfri fritekst/refleksion i vækstrum, fx VisueltVaekstrum ----*/
 .text-input {
   width: 100%;
   background-color: #FEF3E8;
@@ -447,7 +447,7 @@ body.in-flow #app:has(.skift-fokus-forklaring) {
   opacity: 0.7;
 }
 
-/*---- Accordion-knap med både overskrift og en altid synlig intro-linje (Overblik Modul 3, runde 7) ----*/
+/*---- Accordion-knap med både overskrift og en altid synlig intro-linje (VisueltVaekstrum Modul 3, runde 7) ----*/
 .accordion-trigger-text {
   display: flex;
   flex-direction: column;
@@ -663,7 +663,7 @@ body.in-flow #app:has(.skift-fokus-forklaring) {
   border-radius: 20px;
 }
 
-/*---- Klikbart værdikort (fx Overbliks Modul 3/5-oversigt, jf. js/components/bubbleHub.js) - samme visuelle stil som det statiske værdikort ovenfor, men som en rigtig <button> for tastatur-/skærmlæserunderstøttelse ----*/
+/*---- Klikbart værdikort (fx VisueltVaekstrums Modul 3/5-oversigt, jf. js/components/bubbleHub.js) - samme visuelle stil som det statiske værdikort ovenfor, men som en rigtig <button> for tastatur-/skærmlæserunderstøttelse ----*/
 button.value-card {
   display: block;
   width: 100%;

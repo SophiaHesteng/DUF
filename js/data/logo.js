@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
- * DUF — Indhold til vækstrummet "Logo" (uddybende, hjem: Visuelt udtryk)
+ * DUF — Indhold til vækstrummet "Logo" (uddybende, hjem: Visuelt udtryk for din praksis)
  * ----------------------------------------------------------------------------
  * Jf. docs/duf-manuskript-logo.md (nyt manuskript, skrevet fra bunden
  * 2026-09-21). Rummet forgrener sig reelt i fire spor (A-D) fra Modul 2, med
@@ -23,7 +23,7 @@
  */
 
 export const velkomst = {
-    fraOverblik: "Du nævnte tidligere, at dit logo mangler, er på vej eller er noget, du gerne vil have på plads. Så lad os kigge på det her. Sammen.",
+    fraVisueltVaekstrum: "Du nævnte tidligere, at dit logo mangler, er på vej eller er noget, du gerne vil have på plads. Så lad os kigge på det her. Sammen.",
     standard: "Velkommen til Logo. Her får du hjælp til enten at lave et logo, du er tryg ved, eller til at finde ud af, om det, du allerede har, faktisk fungerer. Der er ingen rigtige eller forkerte svar. Vi tager det ét skridt ad gangen."
 };
 

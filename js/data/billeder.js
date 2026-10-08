@@ -1,7 +1,7 @@
-/*---- Indhold til vækstrummet "Billeder" (uddybende, hjem: Visuelt udtryk) - jf. docs/duf-manuskript-billeder.md (gennemrevideret 2026-09-17 til den fulde, boble-strukturerede form - ca. 8 til 40 bobler, fordelt på de samme 8 moduler) ----*/
+/*---- Indhold til vækstrummet "Billeder" (uddybende, hjem: Visuelt udtryk for din praksis) - jf. docs/duf-manuskript-billeder.md (gennemrevideret 2026-09-17 til den fulde, boble-strukturerede form - ca. 8 til 40 bobler, fordelt på de samme 8 moduler) ----*/
 
 export const velkomst = {
-    fraOverblik: "Du nævnte tidligere, at du ikke er helt sikker på rettighederne til de billeder, du bruger. Det anbefaler vi altid at få styr på — uanset hvad du ellers vælger at arbejde med. Derfor starter vi der i dette rum.",
+    fraVisueltVaekstrum: "Du nævnte tidligere, at du ikke er helt sikker på rettighederne til de billeder, du bruger. Det anbefaler vi altid at få styr på — uanset hvad du ellers vælger at arbejde med. Derfor starter vi der i dette rum.",
     standard: "Velkommen til Billeder. Her får du hjælp til at vælge billeder, der understøtter din praksis — og til at få styr på, hvilke rettigheder du faktisk har til dem."
 };
 
@@ -179,9 +179,9 @@ export const bobler = [
         paragraphs: [
             "Du behøver ikke starte med et tomt lærred. Du har måske allerede billeder fra din praksis, nogle du er glad for, eller lidt inspiration, du har samlet undervejs. Det hele kan fortælle os noget om, hvad der allerede fungerer for dig. Før vi finder en tydelig billedretning, skal vi derfor først se på det, du allerede har. Har du billeder fra din praksis, du gerne vil arbejde videre med? Du kan tilføje dem her — og altid tilføje flere senere."
         ],
-        /*---- Runde 7: variant, når Overblik viser, at brugeren starter fra bunden (hentUdgangspunkt()?.starterFraBunden) ----*/
+        /*---- Runde 7: variant, når VisueltVaekstrum viser, at brugeren starter fra bunden (hentUdgangspunkt()?.starterFraBunden) ----*/
         paragraphsFraBunden: [
-            "Du fortalte i Overblik, at du ikke har noget i brug endnu. Så har du nok heller ikke billeder, og det er helt fint. Du kan springe direkte videre. Har du alligevel nogle billeder liggende, som du gerne vil have med, kan du tilføje dem her."
+            "Du fortalte tidligere, at du ikke har noget i brug endnu. Så har du nok heller ikke billeder, og det er helt fint. Du kan springe direkte videre. Har du alligevel nogle billeder liggende, som du gerne vil have med, kan du tilføje dem her."
         ],
         uploadLabel: "Billeder fra min praksis",
         uploadHint: "Dine billeder bliver på din enhed. De uploades ikke til en server.",
@@ -603,7 +603,7 @@ export const bobler = [
             "Din billedretning er ikke hugget i sten. Den er en prototype, ligesom resten af dit visuelle udtryk — og den må gerne udvikle sig, i takt med at din praksis og dit materiale gør det. Du har nu et kompas, en tjekliste og et sted at starte, næste gang du skal vælge et billede. Det er nok til at komme videre."
         ],
         guideLine: "Du skal ikke ramme den perfekte billedretning i dag. Du skal bare have en, du kan bruge i morgen.",
-        nextButtonText: "Gem og fortsæt i Visuelt udtryk",
+        nextButtonText: "Gem og fortsæt i Visuelt udtryk for din praksis",
         isFinal: true
     }
 ];

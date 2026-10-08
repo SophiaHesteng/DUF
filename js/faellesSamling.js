@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
- * Fælles samling - Visuel stil
+ * Fælles samling - Visuelt udtryk for din praksis
  * ----------------------------------------------------------------------------
  * Lukkeskærmen for vækstområdet. Bevidst IKKE et vækstrum (intet ID, ingen
  * type, ingen flow-motor) - jf. docs/duf-faelles-samling-visuel-stil.md's
@@ -166,7 +166,7 @@ async function buildPdf(outputs, coherenceNotes) {
 
     doc.setFont("helvetica", "normal");
     doc.setFontSize(11);
-    doc.text(`Visuel stil — udarbejdet ${formatDate(new Date().toISOString())}`, margin, y);
+    doc.text(`Visuelt udtryk for din praksis — udarbejdet ${formatDate(new Date().toISOString())}`, margin, y);
     y += 30;
 
     for (const output of outputs) {

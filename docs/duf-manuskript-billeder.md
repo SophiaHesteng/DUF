@@ -93,7 +93,7 @@
 
 ## Modul 3 — Dit udgangspunkt
 
-*Runde 7: Modul 3 har nu to veje, afhængigt af om brugeren har egne billeder. Vejen vælges af brugeren selv i 3.1, ikke ud fra Overblik, fordi man godt kan have en hjemmeside uden at have billeder, man vil bruge. Overblik bruges kun til at tilpasse introteksten i 3.1.*
+*Runde 7: Modul 3 har nu to veje, afhængigt af om brugeren har egne billeder. Vejen vælges af brugeren selv i 3.1, ikke ud fra Det visuelle udtryk for din praksis, fordi man godt kan have en hjemmeside uden at have billeder, man vil bruge. Det visuelle udtryk for din praksis bruges kun til at tilpasse introteksten i 3.1.*
 
 | Boble | Har egne billeder | Har ingen billeder endnu |
 |---|---|---|
@@ -107,7 +107,7 @@
 ### Boble 3.1 — Lad os se på dit udgangspunkt
 
 - **Hvad brugeren møder på denne skærm:** Du behøver ikke starte med et tomt lærred. Du har måske allerede billeder fra din praksis, nogle du er glad for, eller lidt inspiration, du har samlet undervejs. Det hele kan fortælle os noget om, hvad der allerede fungerer for dig. Før vi finder en tydelig billedretning, skal vi derfor først se på det, du allerede har. Har du billeder fra din praksis, du gerne vil arbejde videre med? Du kan tilføje dem her — og altid tilføje flere senere.
-  - **✅ Variant (godkendt af Heidi 2026-09-25), når Overblik viser, at brugeren starter fra bunden** (`hentUdgangspunkt().starterFraBunden`)**:** Du fortalte i Overblik, at du ikke har noget i brug endnu. Så har du nok heller ikke billeder, og det er helt fint. Du kan springe direkte videre. Har du alligevel nogle billeder liggende, som du gerne vil have med, kan du tilføje dem her.
+  - **✅ Variant (godkendt af Heidi 2026-09-25), når Det visuelle udtryk for din praksis viser, at brugeren starter fra bunden** (`hentUdgangspunkt().starterFraBunden`)**:** Du fortalte tidligere, at du ikke har noget i brug endnu. Så har du nok heller ikke billeder, og det er helt fint. Du kan springe direkte videre. Har du alligevel nogle billeder liggende, som du gerne vil have med, kan du tilføje dem her.
 - **Eventuel interaktion:** Brugeren kan uploade billeder fra sin egen praksis. **✅ Ny i runde 7 (godkendt af Heidi 2026-09-25):** Under upload-feltet står en ekstra knap: "Jeg har ikke nogen billeder endnu".
 - **Eventuel respons eller feedback:** De uploadede billeder vises i området "Billeder fra min praksis". Dine billeder bliver på din enhed. De uploades ikke til en server.
   - **✅ Respons på "Jeg har ikke nogen billeder endnu" (godkendt af Heidi 2026-09-25):** Det er et fint sted at starte. Så tager vi udgangspunkt i det, du gerne vil vise, i stedet for det, du allerede har. Du kan altid komme tilbage og tilføje billeder senere.

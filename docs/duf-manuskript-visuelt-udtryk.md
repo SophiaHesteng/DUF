@@ -1,6 +1,6 @@
-# MANUSKRIPT — Dit visuelle udtryk: Overblik
+# MANUSKRIPT — Det visuelle udtryk for din praksis
 
-*Status: Revideret 2026-09-08. Erstatter det tidligere flade modul-for-modul-udkast med en fuld boble-struktur (Vækstrum → Modul → Bobler, jf. [[DUF Teknisk - Navigationslinjer (modul og boble)]]). Bygger på revisionsarbejdet i `claude/DUF Manuskript-revision - Overblik.md` (Heidis udkast + Claudes tekniske vurdering af, hvad der matcher den eksisterende motor). Beslutninger taget undervejs: ingen tie-break i Modul 6 (brugeren vælger frit mellem de reelt relevante rum, uanset hvor mange der er); Modul 3 og Modul 5 bygges som "oversigt + valgfrie bobler", der kan besøges i vilkårlig rækkefølge.*
+*Status: Revideret 2026-09-08. Erstatter det tidligere flade modul-for-modul-udkast med en fuld boble-struktur (Vækstrum → Modul → Bobler, jf. [[DUF Teknisk - Navigationslinjer (modul og boble)]]). Bygger på revisionsarbejdet i `arkiv/DUF Manuskript-revision - Overblik.md` (projektdokument, arkiveret) (Heidis udkast + Claudes tekniske vurdering af, hvad der matcher den eksisterende motor). Beslutninger taget undervejs: ingen tie-break i Modul 6 (brugeren vælger frit mellem de reelt relevante rum, uanset hvor mange der er); Modul 3 og Modul 5 bygges som "oversigt + valgfrie bobler", der kan besøges i vilkårlig rækkefølge.*
 
 *⚠️ **Runde 7 (2026-09-25, efter brugertest 1):** se [[DUF Brugertest 1 - Visuelt vækstområde (sortering)]]. Ændringer: ny Boble 2.2 om kanaler (godkendt af Heidi), boblerne i Modul 2 nummereres én op (2.2 → 2.3 osv.), et nyt spor for brugeren, der ikke har noget endnu, Modul 3 laves om til en accordion med nye uddybende tekster, lagringen udvides, og "på dig" → "til dig" i 1.2. Alle nye tekster er godkendt af Heidi 2026-09-25. Klar til implementering, se [[DUF Prompt - Overblik (runde 7)]].*
 
@@ -49,7 +49,7 @@ Når de forskellige valg mødes, begynder der at tegne sig et visuelt udtryk, de
 
 - **Interaktion:** "Hvad passer bedst **til** dig?" *(rettet i runde 7, før: "på dig")* (ét valg): (1) Jeg har allerede et visuelt udtryk, men vil gerne forstå det bedre; (2) Jeg har allerede valgt nogle ting, men er ikke sikker på, om de hænger sammen; (3) Jeg er i gang med at skabe noget nyt og prøver stadig at finde min retning; (4) Jeg føler mig helt på bar bund og ved dårligt, hvor jeg skal starte; (5) Jeg vil helst starte med at få et overblik.
 - **Respons:** Fører til en personlig respons i Boble 1.3.
-- **Gemmes:** Ja, **varigt** (ændret i runde 7) som `udgangspunkt`, så alle vækstrum kan læse det. Se "Det, Overblik husker" nederst.
+- **Gemmes:** Ja, **varigt** (ændret i runde 7) som `udgangspunkt`, så alle vækstrum kan læse det. Se "Det, rummet husker" nederst.
 
 ### Boble 1.3 — Din respons
 
@@ -114,7 +114,7 @@ Når de forskellige valg mødes, begynder der at tegne sig et visuelt udtryk, de
   - *Har krydset kanaler af:* "Godt. Så har vi noget konkret at kigge på sammen."
   - *"Jeg har ikke noget endnu":* "Det er et rigtig godt sted at starte. Så kan du bygge dit visuelle udtryk op fra begyndelsen, uden at skulle rydde op i noget først. Hvor vi spørger om det, du allerede har, kan du bare tænke på det, du gerne vil have."
 - **Leder videre:** Boble 2.3 (den almindelige version eller varianten, se tabellen ovenfor).
-- **Gemmes:** Ja, **varigt** som `kanaler[]`, så alle vækstrum kan læse det. Se "Det, Overblik husker" nederst.
+- **Gemmes:** Ja, **varigt** som `kanaler[]`, så alle vækstrum kan læse det. Se "Det, rummet husker" nederst.
 
 ### Boble 2.3 — Hvad bruger du allerede? *(tidligere 2.2)*
 
@@ -279,9 +279,9 @@ Herefter præsenteres alle fire uddybende rum (Farver, Logo, Billeder, Ikoner/fo
 
 - **Interaktion:** Brugeren vælger selv, hvilket af de fire rum de vil fortsætte til.
 - **Leder videre:** Direkte til det valgte uddybende vækstrum.
-- **Gemmes:** Ja — det valgte rum (som før), se "Det, Overblik husker" nedenfor.
+- **Gemmes:** Ja — det valgte rum (som før), se "Det, rummet husker" nedenfor.
 
-## Det, Overblik husker *(ny i runde 7, til udvikling)*
+## Det, rummet husker *(ny i runde 7, til udvikling)*
 
 *Beslutning 2026-09-25 (Heidi): lagringen udvides fra "den lille version" (kun det valgte rum) til også at gemme brugerens udgangspunkt, så alle vækstrum, og senere de andre vækstområder, kan tilpasse sig den bruger, der ikke har noget endnu. Samme mekanisme som i dag: `js/storage/vaekstrumStorage.js`, lokalt på brugerens enhed.*
 
@@ -297,16 +297,16 @@ Gemmes IKKE (uændret): de øvrige boble-svar fra Modul 1–5. De lever kun i hu
 
 - **"Starter fra bunden"** betyder `kanaler` = `["ingen"]`. Det er dette signal, rummene skal reagere på, fx Billeder 3.1 og 8.1 og Byggestens intro og modul 4 (se sorteringsdokumentet, afsnit 0).
 - `udgangspunkt = barBund` betyder **ikke** det samme. En bruger kan føle sig på bar bund og stadig have en hjemmeside. Brug det kun til tone, fx en ekstra blid formulering, ikke til at springe indhold over.
-- **Har brugeren ikke været i Overblik** (ingen gemte data), opfører rummene sig som i dag.
+- **Har brugeren ikke været i Det visuelle udtryk for din praksis** (ingen gemte data), opfører rummene sig som i dag.
 - **Byggesten 4.2** ("Hvor skal du bruge dine fonte?") kan vise brugerens egne kanaler som de første valgmuligheder (jf. T11 i sorteringsdokumentet).
-- Går brugeren igennem Overblik igen, overskrives de gemte svar.
+- Går brugeren igennem rummet igen, overskrives de gemte svar.
 
 ## Spørgsmål til jer, inden I bygger videre
 
 - **Afgjort 2026-09-08:** ingen tie-break i Modul 6 — brugeren skal kunne vælge frit mellem alle reelt relevante rum, uanset om det er to eller flere.
 - **Afgjort 2026-09-08:** Modul 3 og Modul 5 bygges som "oversigt + valgfrie bobler" (3.2A–D, 5.2A–D), som brugeren kan besøge i vilkårlig rækkefølge og springe over. **Ændret for Modul 3 i runde 7 (2026-09-25):** Modul 3 bliver en accordion på én skærm, se ovenfor. Modul 5 er uændret.
-- **Afgjort 2026-09-08:** lagring — "den lille version". **Udvidet i runde 7 (2026-09-25):** se "Det, Overblik husker".
-- **Afgjort 2026-09-09:** Boble 2.5's (nu 2.6) "Hvad brugeren møder"-tekst er skrevet af Heidi og sat ind både her og i `js/data/overblik.js`.
+- **Afgjort 2026-09-08:** lagring — "den lille version". **Udvidet i runde 7 (2026-09-25):** se "Det, rummet husker".
+- **Afgjort 2026-09-09:** Boble 2.5's (nu 2.6) "Hvad brugeren møder"-tekst er skrevet af Heidi og sat ind både her og i `js/data/visueltVaekstrum.js`.
 - **Rettet 2026-09-09:** Boblerne 2.2, 2.3 og 2.4 (nu 2.3, 2.4 og 2.5) er citeret ordret. Eneste reelle tab: guide/avatar-citaterne i den nuværende 2.5 for 🌱, 🔍 og 🧭 er ikke med i koden i dag, fordi Modul 2's responser kun gemmes som ren tekst uden separat guide-felt — kræver en lille motor-tilføjelse, hvis I vil have dem med.
 - **Afgjort 2026-09-09:** den automatiske matchning er fjernet. Boble 6.1 er en **opsummering** af det, brugeren allerede har fortalt, hvorefter hun selv vælger frit mellem alle fire uddybende rum. `overblikMatcher.js` er slettet. Rammeteksten omkring opsummeringen i Boble 6.1 er godkendt af Heidi 2026-09-25.
-- **Nyt i runde 7:** Modul 2 har nu en forgrening (se tabellen øverst i Modul 2). Bekræft, at `overblikEngine.js` kan springe 2.4 og 2.5 over ud fra svaret i 2.2, i stedet for lineær navigation.
+- **Nyt i runde 7:** Modul 2 har nu en forgrening (se tabellen øverst i Modul 2). Bekræft, at `visueltVaekstrumEngine.js` kan springe 2.4 og 2.5 over ud fra svaret i 2.2, i stedet for lineær navigation.

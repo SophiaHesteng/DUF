@@ -42,7 +42,7 @@ const OVERGANGS_BOBLER = ["3.5", "4.6", "5.2a", "5.2b", "5.2c"];
 
 /*----------------------------------------------------------------------------
  * Selvstændig motor for det uddybende vækstrum "Ikoner, fonte & andre
- * grafiske byggesten" (Visuelt udtryk) - jf. docs/duf-manuskript-byggesten.md.
+ * grafiske byggesten" (Visuelt udtryk for din praksis) - jf. docs/duf-manuskript-byggesten.md.
  *
  * Data-drevet efter samme mønster som Logo (BOBLER keyet på id, `next` pr.
  * boble eller pr. option), men Byggestens egen kopi - ingen delt kode.
@@ -61,7 +61,7 @@ const OVERGANGS_BOBLER = ["3.5", "4.6", "5.2a", "5.2b", "5.2c"];
  * rum-lokal løsning - den fælles modul-navigationslinje (pin-og-sti) er en
  * separat, endnu ikke bygget spec og kan erstatte knappen senere.
  *
- * Runde 7: læser brugerens udgangspunkt fra Overblik (hentUdgangspunkt) til
+ * Runde 7: læser brugerens udgangspunkt fra VisueltVaekstrum (hentUdgangspunkt) til
  * 1.3 (forvalgt "Fra bunden") og 4.2 (kanalerne øverst).
  * ----------------------------------------------------------------------------
  */
@@ -73,7 +73,7 @@ export class ByggestenEngine {
     koe = null; // { jobs: [...], efter: bobleId }
     aktivtJob = null;
     previousScreen = null;
-    overblik = null; // hentUdgangspunkt() - null, hvis brugeren ikke har været i Overblik
+    visueltVaekstrum = null; // hentUdgangspunkt() - null, hvis brugeren ikke har været i VisueltVaekstrum
     skiftForklaringSlut = false; // "Gå til et andet emne"-forklaringen er brugt op for dette besøg
     _paletCache;
 
@@ -84,7 +84,7 @@ export class ByggestenEngine {
     async start() {
         const kontekst = this.harArbejdetMedFarverEllerLogo() ? velkomst.kontekstuel : velkomst.standard;
         this.previousScreen = () => this.start();
-        this.overblik = await hentUdgangspunkt();
+        this.visueltVaekstrum = await hentUdgangspunkt();
 
         showWelcome([kontekst, velkomst.faelles], velkomst.knap, () => {
             document.body.classList.add("in-flow");
@@ -179,7 +179,7 @@ export class ByggestenEngine {
         return boble;
     }
 
-    /*---- 4.2 (runde 7): variant ved "Fra bunden", egne svar for "På sociale medier" og "Det ved jeg ikke endnu", og Overbliks kanaler øverst med en note ----*/
+    /*---- 4.2 (runde 7): variant ved "Fra bunden", egne svar for "På sociale medier" og "Det ved jeg ikke endnu", og VisueltVaekstrums kanaler øverst med en note ----*/
 
     tilpas42(boble, base) {
         const respons = (o) => (o.googleFontsDirekte
@@ -199,7 +199,7 @@ export class ByggestenEngine {
             }
         });
 
-        const kanaler = this.overblik?.kanaler || [];
+        const kanaler = this.visueltVaekstrum?.kanaler || [];
         const matcher = (option) => (option.kanaler || []).filter((k) => kanaler.includes(k));
         const oeverst = boble.options.filter((o) => matcher(o).length);
 
@@ -301,8 +301,8 @@ export class ByggestenEngine {
             case "multiChoice":
                 return { valgte: Array.isArray(value) ? value.map((v) => v.id || v) : [] };
             case "choice":
-                /*---- 1.3 (runde 7): "Fra bunden" er valgt på forhånd, hvis Overblik viser, at brugeren starter fra bunden. Hun kan frit vælge om ----*/
-                if (boble.id === "1.3" && !value && this.overblik?.starterFraBunden) return { optionId: "fra-bunden" };
+                /*---- 1.3 (runde 7): "Fra bunden" er valgt på forhånd, hvis VisueltVaekstrum viser, at brugeren starter fra bunden. Hun kan frit vælge om ----*/
+                if (boble.id === "1.3" && !value && this.visueltVaekstrum?.starterFraBunden) return { optionId: "fra-bunden" };
                 return {};
             default:
                 return {};

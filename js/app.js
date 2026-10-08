@@ -2,7 +2,7 @@ console.log("Hello from Script"); // Kobling er good to go!
 
 
 import { FlowEngine } from "./engine/flowEngine.js";
-import { OverblikEngine } from "./engine/overblikEngine.js";
+import { VisueltVaekstrumEngine } from "./engine/visueltVaekstrumEngine.js";
 import { FarverEngine } from "./engine/farverEngine.js";
 import { LogoEngine } from "./engine/logoEngine.js";
 import { BilledeEngine } from "./engine/billederEngine.js";
@@ -30,8 +30,8 @@ if (document.body.dataset.flow) {
     engine.start();
 }
 
-if (document.body.dataset.vaekstrum === "overblik") {
-    const engine = new OverblikEngine();
+if (document.body.dataset.vaekstrum === "vaekstrum-visuelt-udtryk") {
+    const engine = new VisueltVaekstrumEngine();
 
     engine.start();
 }

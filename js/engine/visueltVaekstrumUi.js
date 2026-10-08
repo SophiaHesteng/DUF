@@ -7,7 +7,7 @@ import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
 const app = document.querySelector("#app");
 
 function renderExitDoor() {
-    return renderSharedExitDoor("Gå ud af Overblik");
+    return renderSharedExitDoor("Gå ud af Det visuelle udtryk for din praksis");
 }
 
 /*---- Knaprække nederst på en skærm - med en "Tilbage"-knap over næste-knappen, når skærmen har en onBack (jf. bubbleHub.js' "Tilbage til oversigt"). Bruges i Modul 2 efter Boble 2.2, så brugeren kan gå tilbage og ændre sit kanal-svar (runde 7) ----*/
@@ -206,14 +206,14 @@ function showMultiChoiceQuestion({ heading, intro, options }, onSelectionConfirm
 function showAccordionStep({ heading, intro, items, buttonText = "Videre" }, onNext, onExit) {
     const itemsHtml = items.map((item, index) => `
         <div class="accordion-item" data-open="false">
-            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="overblik-panel-${index}">
+            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="visuelt-vaekstrum-panel-${index}">
                 <span class="accordion-trigger-text">
                     <span class="accordion-trigger-title">${item.title}</span>
                     <span class="accordion-trigger-teaser">${item.teaser}</span>
                 </span>
                 <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
             </button>
-            <div class="accordion-panel" id="overblik-panel-${index}" hidden>
+            <div class="accordion-panel" id="visuelt-vaekstrum-panel-${index}" hidden>
                 <p>${item.body}</p>
             </div>
         </div>
@@ -256,7 +256,7 @@ function showModuleBubble(bubble, onBack, onNext, onExit) {
     bindExit(onExit);
 }
 
-/*---- Modul 6 - opsummering af Modul 2's svar (kanal-linjen fra 2.2 øverst; moenster/folelse mangler for brugeren, der ikke har noget endnu) + frit valg mellem alle fire uddybende rum (ingen automatisk matchning, jf. docs/duf-manuskript-overblik.md, ændret 2026-09-09) ----*/
+/*---- Modul 6 - opsummering af Modul 2's svar (kanal-linjen fra 2.2 øverst; moenster/folelse mangler for brugeren, der ikke har noget endnu) + frit valg mellem alle fire uddybende rum (ingen automatisk matchning, jf. docs/duf-manuskript-visuelt-udtryk.md, ændret 2026-09-09) ----*/
 
 function showModul6Recap({ summary, introText, guideText, closingText, rooms }, onChooseRoom, onExit) {
     const roomsHtml = rooms.map((room) => `
@@ -293,7 +293,7 @@ function showModul6Recap({ summary, introText, guideText, closingText, rooms }, 
             <div class="section-body"><p>${closingText}</p></div>
 
             <div class="section-cta section-cta--column">
-                <a href="${VISUELT_UDTRYK_HUB}" class="btn btn--regular btn--solid-green">Se alle rum i Visuelt udtryk</a>
+                <a href="${VISUELT_UDTRYK_HUB}" class="btn btn--regular btn--solid-green">Se alle rum i Visuelt udtryk for din praksis</a>
                 <a href="vaelg-din-dor.html" class="btn btn--regular btn--outline-green">Tilbage til Vælg din dør</a>
             </div>
         </section>
@@ -312,7 +312,7 @@ function showModul6Recap({ summary, introText, guideText, closingText, rooms }, 
 function showExitConfirmation(onStay, onExit) {
     app.innerHTML = `
         <section class="section exit-confirmation" role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-describedby="exit-description">
-            <h2 id="exit-title" class="section-subheading">Vil du forlade Overblik?</h2>
+            <h2 id="exit-title" class="section-subheading">Vil du forlade rummet?</h2>
 
             <div class="section-body">
                 <p id="exit-description">Hvis du går ud nu, bliver dine svar ikke gemt.</p>

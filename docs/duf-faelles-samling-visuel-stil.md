@@ -1,18 +1,18 @@
-# FÆLLES SAMLING — Visuel stil (Dit visuelle udtryk)
+# FÆLLES SAMLING — Visuelt udtryk for din praksis
 
-*Status: Udkast — kort specifikation af vækstområdets fælles samling, bygget efter fælles åbning (Overblik) og de fire uddybende vækstrum (Farver, Logo, Billeder, Ikoner/fonte & andre grafiske byggesten). Bygger på DUF Vækstområde Context (skabelonens "Fælles samling"-sektion) og de beslutninger, der allerede ligger i DUF Vækstområde Context — Visuel stil. Opdateret 2026-09-06 med et konkret forslag til den midlertidige tekniske løsning (se "Teknisk løsning" nedenfor), efter en indledende drøftelse af, hvordan de fire vækstrums output reelt skal samles, før login/brugerkonto findes.*
+*Status: Udkast — kort specifikation af vækstområdets fælles samling, bygget efter fælles åbning (Det visuelle udtryk for din praksis) og de fire uddybende vækstrum (Farver, Logo, Billeder, Ikoner/fonte & andre grafiske byggesten). Bygger på DUF Vækstområde Context (skabelonens "Fælles samling"-sektion) og de beslutninger, der allerede ligger i DUF Vækstområde Context — Visuelt udtryk for din praksis. Opdateret 2026-09-06 med et konkret forslag til den midlertidige tekniske løsning (se "Teknisk løsning" nedenfor), efter en indledende drøftelse af, hvordan de fire vækstrums output reelt skal samles, før login/brugerkonto findes.*
 
-**Hvorfor et kort dokument, og ikke en fuld Vækstrum Context?** DUF Vækstområde Context-skabelonen beskriver eksplicit, at det vækstrum, der fungerer som fælles åbning, skal have en defineret type (grundlæggende/uddybende) — derfor blev Overblik bygget som et fuldt, selvstændigt vækstrum. Skabelonen stiller ikke det samme krav til fælles samling: den beskrives som afslutningen på progressionen, ikke som et vækstrum med sit eget ID, sine egne moduler eller sin egen type. Dette dokument holder sig derfor til en let specifikation af, hvad fælles samling skal gøre og indeholde for Visuel stil — ikke den fulde Vækstrum Context-struktur.
+**Hvorfor et kort dokument, og ikke en fuld Vækstrum Context?** DUF Vækstområde Context-skabelonen beskriver eksplicit, at det vækstrum, der fungerer som fælles åbning, skal have en defineret type (grundlæggende/uddybende) — derfor blev Det visuelle udtryk for din praksis bygget som et fuldt, selvstændigt vækstrum. Skabelonen stiller ikke det samme krav til fælles samling: den beskrives som afslutningen på progressionen, ikke som et vækstrum med sit eget ID, sine egne moduler eller sin egen type. Dette dokument holder sig derfor til en let specifikation af, hvad fælles samling skal gøre og indeholde for Visuelt udtryk for din praksis — ikke den fulde Vækstrum Context-struktur.
 
 ## Hvad er fælles samling?
 
-Fælles samling markerer afslutningen på brugerens aktuelle tur gennem Visuel stil. Den skal hjælpe brugeren med at samle de valg, de har truffet i de vækstrum, der var relevante for dem, skabe sammenhæng mellem elementerne, og vurdere, om resultatet — den visuelle guide — kan bruges i praksis. Fælles samling betyder ikke, at arbejdet er færdigt eller permanent; resultatet er, som alt andet i Visuel stil, en prototype.
+Fælles samling markerer afslutningen på brugerens aktuelle tur gennem Visuelt udtryk for din praksis. Den skal hjælpe brugeren med at samle de valg, de har truffet i de vækstrum, der var relevante for dem, skabe sammenhæng mellem elementerne, og vurdere, om resultatet — den visuelle guide — kan bruges i praksis. Fælles samling betyder ikke, at arbejdet er færdigt eller permanent; resultatet er, som alt andet i Visuelt udtryk for din praksis, en prototype.
 
 ## Hvad samles her
 
 Fælles samling trækker på outputtet fra hvert af de vækstrum, brugeren har arbejdet med:
 
-- **Fra fælles åbning (Overblik):** brugerens indledende udgangspunktsoverblik og forståelse af sammenhængene mellem de fire elementer.
+- **Fra fælles åbning (Det visuelle udtryk for din praksis):** brugerens indledende udgangspunktsoverblik og forståelse af sammenhængene mellem de fire elementer.
 - **Fra Farver:** den valgte (eller foreløbige) farvepalet med begrundelse.
 - **Fra Logo:** et nyt eller vurderet logo, med begrundelse for retning (behold/justér/byg nyt).
 - **Fra Billeder:** kriterier for billedvalg og et afklaret overblik over rettigheder.
@@ -22,7 +22,7 @@ Har brugeren kun arbejdet med nogle af de fire uddybende vækstrum, samler fæll
 
 ## Hvad fælles samling skal vise brugeren
 
-Jf. skabelonens to budskaber, skal fælles samling for Visuel stil konkret vise:
+Jf. skabelonens to budskaber, skal fælles samling for Visuelt udtryk for din praksis konkret vise:
 
 **"Her er det, jeg har nu":**
 - et samlet overblik over alle valgte elementer, med deres begrundelser — den visuelle guide i sin aktuelle form
@@ -68,7 +68,7 @@ PDF'en erstatter dermed den tidligere idé om en ren tekstkopi som det, der bær
 
 ## Forbindelser videre
 
-- **Fælles åbning (Overblik):** leverer det indledende udgangspunkt, fælles samling bygger videre på.
+- **Fælles åbning (Det visuelle udtryk for din praksis):** leverer det indledende udgangspunkt, fælles samling bygger videre på.
 - **Farver, Logo, Billeder, Ikoner/fonte & andre grafiske byggesten:** leverer hver deres del af den visuelle guide.
 - **Branding, Hjemmeside, Sociale medier, Markedsføring:** naturlige forbindelser til, hvor den samlede visuelle guide efterfølgende skal bruges i praksis.
 
