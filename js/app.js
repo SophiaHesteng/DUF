@@ -9,6 +9,7 @@ import { BilledeEngine } from "./engine/billederEngine.js";
 import { ByggestenEngine } from "./engine/byggestenEngine.js";
 import { initFaellesSamling } from "./faellesSamling.js";
 import { initVaelgRumVisueltUdtryk } from "./vaelgRumVisueltUdtryk.js";
+import { initDoerkarrusel } from "./components/doerkarrusel.js";
 
 import { renderHeader } from "./components/header.js";
 import { renderFooter } from "./components/footer.js";
@@ -66,5 +67,9 @@ if (document.body.dataset.page === "faelles-samling") {
 
 if (document.body.dataset.page === "vaelg-rum-visuelt-udtryk") {
     initVaelgRumVisueltUdtryk();
+}
+
+if (document.body.dataset.page === "vaelg-din-dor") {
+    initDoerkarrusel();
 }
 

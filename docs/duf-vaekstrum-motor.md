@@ -30,9 +30,15 @@ Hvert vækstrums egen HTML-side følger `vaekstrum-<navn>.html` (fx `vaekstrum-f
 ## Ikke løst her
 
 - **Betalingsmur:** ikke bygget. Strukturen (offentlig forside → "vælg rum"-side → rum) er forberedt til, at et adgangstjek kan lægges på "vælg rum"-siden og alle rum-sider under ét, men selve tjekket findes ikke endnu.
-- **Farvetema pr. vækstområde** (fx dørikon i områdets egen farve) — ikke bygget. Kræver en beslutning om, hvorvidt design-tokens ovenfor skal udvides pr. område, eller forblive fælles for hele DUF.
+- **Farvetema pr. vækstområde** — delvist bygget 2026-10-08 (branch `feature-doerkarrusel`): hvert vækstområde har nu sin egen dørfarve som CSS custom property (`--omraade-<slug>` i `css/_colors.scss`), brugt af dørkarrusellen på `vaelg-din-dor.html`. Kun lyse varianter, fordi DUF ikke har en mørk tilstand endnu; de mørke varianter og reglen for tekstfarve på døren ligger i `js/data/vaekstomraader.js`. Selve rummene og "vælg rum"-siderne bruger endnu ikke områdets farve.
 - **"✓ Gennemført"-badgets styling** — ren tekst, ingen ny SCSS. Kosmetisk finish mangler.
+
+## Dørvalget på tværs af vækstområder (`vaelg-din-dor.html`)
+
+Over de enkelte vækstområder ligger DUF's fælles dørvalg, `vaelg-din-dor.html`. Siden viser alle vækstområder som en vandret dørkarrusel (`js/components/doerkarrusel.js`) bygget ud fra én liste, `js/data/vaekstomraader.js`. Hver dør linker til områdets offentlige forside (`vaekstomraade-<omraade>.html`), aldrig direkte til "vælg rum"-siden eller rummene, så reglen ovenfor holder. Et område uden side har `href: null` og vises som en dør med "Kommer snart", der ikke kan klikkes (2026-10-08: Det gode indhold og AI i din praksis). Den gamle "?"-dør er erstattet af et link til Receptionen under karrusellen.
+
+Pins-og-sti-navigationen under karrusellen er en delt komponent (`js/components/pinSti.js`), lavet så de planlagte navigationslinjer i vækstrummene kan genbruge den.
 
 ## Når I bygger det næste vækstområde
 
-Kopiér mønstret: en `vaelg-rum-<omraade>.html`, et lille `js/engine/<omraade>Exit.js` med områdets HUB-konstant, og motorer der importerer den i stedet for at hardkode filnavnet. Den offentlige forside for det nye område skal kun linke videre til dets "vælg rum"-side, aldrig indeholde rum-kortene selv.
+Kopiér mønstret: en `vaelg-rum-<omraade>.html`, et lille `js/engine/<omraade>Exit.js` med områdets HUB-konstant, og motorer der importerer den i stedet for at hardkode filnavnet. Den offentlige forside for det nye område skal kun linke videre til dets "vælg rum"-side, aldrig indeholde rum-kortene selv. Får et nyt område sin forside, så udfyld dets `href` i `js/data/vaekstomraader.js`, så døren i karrusellen bliver klikbar.

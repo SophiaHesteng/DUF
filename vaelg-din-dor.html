@@ -18,7 +18,7 @@
      <script src="https://kit.fontawesome.com/1cd7809a70.js" crossorigin="anonymous"></script>
 
 </head>
-<body>
+<body data-page="vaelg-din-dor">
     <header id="site-header"></header>
 
     <p class="breadcrumb">
@@ -27,40 +27,17 @@
     </p>
 
     <main>
-        <section class="section">
+        <section class="section doerkarrusel-intro">
             <h1 class="section-heading">Vælg din retning</h1>
+        </section>
 
-            <div class="door-grid">
-                <div class="door-row">
-                    <a href="vaekstomraade-sociale-medier.html" class="door-item">
-                        <img class="door-icon" src="img/door-some.png" alt="Sociale medier">
-                    </a>
-                    <a href="vaekstomraade-den-gode-praksis.html" class="door-item">
-                        <img class="door-icon" src="img/door-praksis.png" alt="Den gode praksis">
-                    </a>
-                    <a href="vaekstomraade-visuelt-udtryk.html" class="door-item">
-                        <img class="door-icon" src="img/door-visual.png" alt="Visuelt udtryk for din praksis">
-                    </a>
-                </div>
+        <!-- Dørkarrusellen bygges af js/components/doerkarrusel.js ud fra js/data/vaekstomraader.js -->
+        <section id="doerkarrusel" class="doerkarrusel" aria-label="Vækstområder"></section>
 
-                <div class="door-row">
-                    <a href="vaekstomraade-hjemmeside.html" class="door-item">
-                        <img class="door-icon" src="img/door-web.png" alt="Hjemmeside">
-                    </a>
-                    <a href="receptionen.html" class="door-item door-item--mystery" aria-label="Ved du ikke, hvor du skal begynde? Gå til receptionen">?</a>
-                    <a href="vaekstomraade-branding.html" class="door-item">
-                        <img class="door-icon" src="img/door-branding.png" alt="Branding">
-                    </a>
-                </div>
-
-                <div class="door-row">
-                    <a href="vaekstomraade-markedsfoering.html" class="door-item">
-                        <img class="door-icon" src="img/door-marketing.png" alt="Markedsføring">
-                    </a>
-                    <a href="vaekstomraade-produkter-ydelser.html" class="door-item">
-                        <img class="door-icon" src="img/door-product.png" alt="Produkter & ydelser">
-                    </a>
-                </div>
+        <section class="section doerkarrusel-reception">
+            <p class="section-body"><strong>Ved du ikke, hvor du skal begynde?</strong></p>
+            <div class="section-cta">
+                <a href="receptionen.html" class="btn btn--slim btn--outline-green">Gå til Receptionen</a>
             </div>
         </section>
     </main>

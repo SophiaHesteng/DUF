@@ -22,3 +22,24 @@ $brandingColor: #F24822;
 $webDevelopmentColor: #3DADFF;
 $marketingColor: #DCCCFF;
 $productDevelopmentColor: #66D575;
+
+/*---- Navigationssti (pin-og-sti), jf. "Navigation"-sektionen i Figma ----*/
+
+$navPathColor: #7B8582;
+$navPlaceBorderColor: rgba(12, 58, 45, 0.3);
+
+/*---- Vækstområdernes dørfarver (dørkarrusellen på vaelg-din-dor.html) ----*/
+/*---- Farveblind- og kontrasttjekket palet (2026-10-08). CSS custom properties, fordi hvert dørkort vælger sin farve i JS (--doer-farve: var(--omraade-<slug>)). Kun lyse varianter: DUF har ingen mørk tilstand endnu - de mørke varianter ligger i js/data/vaekstomraader.js (farveMoerk). Tekstfarven direkte på døren styres af feltet "tekst" samme sted. ----*/
+/*---- De ældre farver ovenfor ($someColor m.fl.) bruges stadig af bibliotekets hylder og er ikke erstattet af disse ----*/
+
+:root {
+    --omraade-visuelt-udtryk: #EB6834;
+    --omraade-branding: #E34948;
+    --omraade-markedsfoering: #E87BA4;
+    --omraade-den-gode-praksis: #8B4513;
+    --omraade-produkter-ydelser: #008300;
+    --omraade-hjemmeside: #2A78D6;
+    --omraade-det-gode-indhold: #EDA100;
+    --omraade-sociale-medier: #1BAF7A;
+    --omraade-ai: #4A3AA7;
+}
