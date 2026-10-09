@@ -17,7 +17,12 @@
  *   og skal gås igen, så ruten genberegnes ud fra de svar, brugeren giver nu.
  * - Kommer brugeren tilbage til en boble, der allerede ligger tidligere i
  *   historikken (fx Farvers "Prøv en anden kombination" fra 7.3 til 7.2),
- *   behandles det som et hop tilbage til den boble.
+ *   behandles det som et hop tilbage til den boble. Rum, hvor flowet selv går
+ *   i ring (Byggestens "Gå til et andet emne", 6.3 og 7.1's "Ret"), slår det
+ *   fra med `new RumHistorik({ afkortVedGenbesoeg: false })`: så lægges
+ *   runden i forlængelse af ruten, og kun pins og "Tilbage" afkorter.
+ * - Boble-linjen viser den seneste sammenhængende tur gennem det aktuelle
+ *   modul, og en modul-pin hopper til starten af den seneste tur i modulet.
  * - Et modul før det aktuelle, som ikke findes i historikken (fx når Logos
  *   spor springer Modul 3-6 over), markeres "sprunget over" på modul-linjen
  *   i stedet for "færdig".
@@ -34,13 +39,18 @@ export class RumHistorik {
 
     #trin = []; // { modul, boble, vis }
     #genviser = false;
+    #afkortVedGenbesoeg;
+
+    constructor({ afkortVedGenbesoeg = true } = {}) {
+        this.#afkortVedGenbesoeg = afkortVedGenbesoeg;
+    }
 
     besoeg(modul, boble, vis) {
         if (this.#genviser) return;
 
         const sidste = this.#trin.at(-1);
 
-        if (sidste?.boble !== boble) {
+        if (this.#afkortVedGenbesoeg && sidste?.boble !== boble) {
             const tidligere = this.#trin.findIndex((trin) => trin.boble === boble);
             if (tidligere !== -1) this.#trin.length = tidligere;
         }
@@ -71,13 +81,20 @@ export class RumHistorik {
         const aktuel = this.#trin.at(-1);
         if (!aktuel) return null;
 
+        /*---- Starten af den seneste sammenhængende tur gennem et modul ----*/
+        const turStart = (modul) => {
+            let index = this.#trin.findLastIndex((trin) => trin.modul === modul);
+            if (index === -1) return -1;
+            while (index > 0 && this.#trin[index - 1].modul === modul) index -= 1;
+            return index;
+        };
+
         const bobler = [];
 
-        this.#trin.forEach((trin, index) => {
-            if (trin.modul === aktuel.modul && !bobler.some((boble) => boble.boble === trin.boble)) {
-                bobler.push({ boble: trin.boble, index });
-            }
-        });
+        for (let index = turStart(aktuel.modul); index < this.#trin.length; index += 1) {
+            const trin = this.#trin[index];
+            if (!bobler.some((boble) => boble.boble === trin.boble)) bobler.push({ boble: trin.boble, index });
+        }
 
         const besoegte = new Set(this.#trin.map((trin) => trin.modul));
 
@@ -90,8 +107,8 @@ export class RumHistorik {
             aktivBoble: bobler.findIndex((boble) => boble.boble === aktuel.boble),
             antalBobler: moduler[aktuel.modul - 1]?.antalBobler ?? null,
             onModul: (index) => {
-                const foerste = this.#trin.findIndex((trin) => trin.modul === index + 1);
-                if (foerste !== -1) this.hopTil(foerste);
+                const start = turStart(index + 1);
+                if (start !== -1) this.hopTil(start);
             },
             onBoble: (index) => this.hopTil(bobler[index].index),
             onTilbage: this.#trin.length > 1 ? () => this.hopTil(this.#trin.length - 2) : null

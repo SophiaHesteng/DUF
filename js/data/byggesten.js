@@ -15,7 +15,7 @@
  *
  * Fælles felter: id, modul, type, heading, nextButtonText, answerKey.
  * Valgfrie, generiske "påhæng" (jf. byggestenUi.js):
- *   guideLine + guideAvatar  - 💬-linje, ren data (Guide-UI'et er ikke bygget)
+ *   guideLine + guideAvatar  - 💬-linje; med guideAvatar vist som guide-boble (js/components/guide.js)
  *   seOgsaa                  - { maal: <nøgle i seOgsaaMaal.js>, tekst }
  *   imageUpload               - { bucket, label, hint }
  *   externalLink              - { url, label } (åbner i nyt vindue)
@@ -86,6 +86,18 @@ export const EMNER = [
     { id: "ikoner", navn: "Ikoner", taellerNavn: "Ikoner" },
     { id: "fonte", navn: "Fonte", taellerNavn: "Fonte" },
     { id: "andreByggesten", navn: "Andre byggesten", taellerNavn: "De små detaljer" }
+];
+
+/*---- Modulernes titler (fra manuskriptets overskrifter, uden noterne) og antal bobler, til navigationslinjerne (js/components/rumRamme.js). Antallet af moduler læses herfra. Kun moduler, hvor alle ser lige mange bobler, har et antal. Modul 3-5 vises kun for de emner, der er valgt i 2.1 ----*/
+
+export const moduler = [
+    { titel: "Se hvad du allerede har" },
+    { titel: "Hvad vil du have styr på?", antalBobler: 1 },
+    { titel: "Ikoner" },
+    { titel: "Fonte", antalBobler: 6 },
+    { titel: "Andre byggesten", antalBobler: 2 },
+    { titel: "Prøv dem sammen" },
+    { titel: "Dit lille byggestens-sæt", antalBobler: 3 }
 ];
 
 export const BOBLER = {

@@ -9,7 +9,7 @@
  * lægges det oven på bogstavet; kan billedet ikke hentes, fjernes det, og
  * bogstavet står tilbage.
  *
- * Bruges af Logo (2026-10-09), hvor 💬-linjerne har et navn (guideAvatar).
+ * Bruges af Logo og Byggesten (2026-10-09), hvor 💬-linjerne har et navn (guideAvatar).
  * Linjer uden navn (fx i Billeder) vises stadig som det gamle "Guide:"-panel.
  *
  * Brug:

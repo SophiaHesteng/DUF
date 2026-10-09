@@ -7,13 +7,33 @@ import { renderProvSammen } from "../components/provSammen.js";
 import { materialIkonHtml, ikonRaekkeHtml, EKSEMPEL_IKONER } from "../components/materialIkoner.js";
 import { SE_OGSAA_MAAL } from "../data/seOgsaaMaal.js";
 import { skiftEmne } from "../data/byggesten.js";
+import { rumRammeHtml, bindRumRamme } from "../components/rumRamme.js";
+import { guideHtml } from "../components/guide.js";
 
 /*---- UI til "Ikoner, fonte & andre grafiske byggesten" - én renderer pr. boble-type (jf. js/data/byggesten.js), samme opdeling som logoUi.js men Byggestens egen kopi ----*/
 
 const app = document.querySelector("#app");
 
+const RUM = "Ikoner, fonte & andre grafiske byggesten";
+
 function renderExitDoor() {
-    return renderSharedExitDoor("Gå ud af Ikoner, fonte & andre grafiske byggesten");
+    return renderSharedExitDoor(`Gå ud af ${RUM}`);
+}
+
+const OMRAADE = { navn: "Visuelt udtryk for din praksis", slug: "visuelt-udtryk" };
+
+/*---- Sættes af ByggestenEngine.start(): giver navigationslinjerne og "Tilbage" data fra engine-historikken (js/engine/rumHistorik.js) ----*/
+let rumNavigation = () => null;
+
+function setRumNavigation(provider) {
+    rumNavigation = provider;
+}
+
+/*---- 💬-linjen: med et navn (guideAvatar) vises den som guide-boble (js/components/guide.js) med pladsholder-avatar; uden navn som det gamle panel ----*/
+function guideLineHtml(boble) {
+    if (!boble.guideLine) return "";
+    if (boble.guideAvatar) return guideHtml({ navn: boble.guideAvatar, citat: boble.guideLine });
+    return `<div class="panel guide-line"><p><strong>💬 Guide:</strong> ${boble.guideLine}</p></div>`;
 }
 
 function externalLinkHtml(link) {
@@ -35,7 +55,7 @@ function headerHtml(boble, ctx = {}) {
         ${boble.afterVisuelt ? `<div class="section-body"><p>${boble.afterVisuelt}</p></div>` : ""}
         ${boble.kanalNote ? `<p class="byggesten-note">${escapeHtml(boble.kanalNote)}</p>` : ""}
         ${boble.externalLink ? externalLinkHtml(boble.externalLink) : ""}
-        ${boble.guideLine ? `<div class="panel guide-line"><p><strong>💬 ${boble.guideAvatar ? `${boble.guideAvatar}:` : "Guide:"}</strong> ${boble.guideLine}</p></div>` : ""}
+        ${guideLineHtml(boble)}
     `;
 }
 
@@ -126,7 +146,7 @@ function visueltHtml(visuelt, ctx = {}) {
     }
 }
 
-/*---- "Gå til et andet emne" (før: "Skift fokus") - midlertidig, rum-lokal vej tilbage til 2.1 (jf. byggestenEngine.js). Samme slim-knap-placering som den gamle "Rettigheder"-knap. Forklaringen står under knappen, indtil den er brugt, eller brugeren når Modul 6 ----*/
+/*---- "Gå til et andet emne" (før: "Skift fokus") - rum-lokal vej tilbage til 2.1 (jf. byggestenEngine.js), bevaret ved siden af navigationslinjerne indtil videre. Samme slim-knap-placering som den gamle "Rettigheder"-knap. Forklaringen står under knappen, indtil den er brugt, eller brugeren når Modul 6 ----*/
 
 function skiftFokusHtml(ctx) {
     if (!ctx?.visSkiftFokus) return "";
@@ -137,19 +157,23 @@ function skiftFokusHtml(ctx) {
         </div>`;
 }
 
+/*---- Fælles ramme (js/components/rumRamme.js): topbjælke, modul- og boble-linje, indholdskort og knaprække med "Tilbage" til venstre og boblens egne knapper til højre. "Gå til et andet emne" og exit-døren ligger uden for rammen som før ----*/
 function renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit) {
+    const navigation = rumNavigation();
+    const indhold = `
+        ${ctx?.emneTaeller ? `<p class="byggesten-emnetaeller">${ctx.emneTaeller}</p>` : ""}
+        ${bodyHtml}
+        ${boble.imageUpload ? renderImageUploadHtml({ label: boble.imageUpload.label, hint: boble.imageUpload.hint, images: ctx?.images || [] }) : ""}
+        <div id="se-ogsaa-slot"></div>
+        ${boble.overgang ? `<div class="section-body byggesten-overgang"><p>${boble.overgang}</p></div>` : ""}
+    `;
+
     app.innerHTML = `
-        <section class="section">
-            ${ctx?.emneTaeller ? `<p class="byggesten-emnetaeller">${ctx.emneTaeller}</p>` : ""}
-            ${bodyHtml}
-            ${boble.imageUpload ? renderImageUploadHtml({ label: boble.imageUpload.label, hint: boble.imageUpload.hint, images: ctx?.images || [] }) : ""}
-            <div id="se-ogsaa-slot"></div>
-            ${boble.overgang ? `<div class="section-body byggesten-overgang"><p>${boble.overgang}</p></div>` : ""}
-            <div class="section-cta">${ctaHtml}</div>
-        </section>
+        ${rumRammeHtml({ omraade: OMRAADE, rum: RUM, indhold, knapper: ctaHtml, navigation })}
         ${skiftFokusHtml(ctx)}
         ${renderExitDoor()}`;
 
+    bindRumRamme(app, navigation);
     activateFocusTrap(app);
     bindExit(onExit);
 
@@ -186,7 +210,7 @@ function showWelcome(paragraphs, buttonText, onStart) {
 /*---- type: "text" - ren læseskærm. Terminale bobler (saveOutput/isExit) viser en kort ventetilstand ----*/
 
 function showTextBoble(boble, ctx, onNext, onExit) {
-    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular ${boble.isExit ? "btn--outline-green" : "btn--solid-green"}">${boble.nextButtonText || "Næste"}</button>`;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText || "Næste"}</button>`;
 
     renderScreen(boble, ctx, { bodyHtml: headerHtml(boble, ctx), ctaHtml }, onExit);
 
@@ -225,7 +249,7 @@ function showChoiceBoble(boble, ctx, onNext, onExit) {
         <div id="choice-followup"></div>
         <div id="choice-response" aria-live="polite"></div>
     `;
-    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green"${isCta ? " hidden" : " disabled"}>${boble.nextButtonText || "Næste"}</button>`;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade"${isCta ? " hidden" : " disabled"}>${boble.nextButtonText || "Næste"}</button>`;
 
     renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
 
@@ -313,7 +337,7 @@ function showMultiChoiceBoble(boble, ctx, onNext, onExit) {
         </button>`).join("");
 
     const bodyHtml = `${headerHtml(boble, ctx)}<div class="choice-list">${optionsHtml}</div>`;
-    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText || "Næste"}</button>`;
 
     renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
 
@@ -355,7 +379,7 @@ function showFokusvalgBoble(boble, ctx, onNext, onExit) {
     }).join("");
 
     const bodyHtml = `${headerHtml(boble, ctx)}<div class="choice-list">${optionsHtml}</div>`;
-    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText || "Næste"}</button>`;
 
     renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
 
@@ -401,8 +425,8 @@ function showEksemplerBoble(boble, ctx, onNext, onExit) {
     `).join("");
 
     const ctaHtml = `
-        <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-        <button id="ingen-button" type="button" class="btn btn--regular btn--outline-green">Jeg har ikke noget endnu</button>`;
+        <button id="ingen-button" type="button" class="btn btn--regular btn--outline-green">Jeg har ikke noget endnu</button>
+        <button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">Næste</button>`;
 
     renderScreen(boble, ctx, { bodyHtml: `${headerHtml(boble, ctx)}${felterHtml}<div id="ingen-response" aria-live="polite"></div>`, ctaHtml }, onExit);
 
@@ -438,7 +462,7 @@ function showTextNoteBoble(boble, ctx, onNext, onExit) {
             </button>`).join("")}</div>`
         : "";
 
-    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText || "Næste"}</button>`;
 
     renderScreen(boble, ctx, { bodyHtml: `${headerHtml(boble, ctx)}${paamindelseHtml}${fieldsHtml}${eksemplerHtml}`, ctaHtml }, onExit);
 
@@ -462,7 +486,7 @@ function showTextNoteBoble(boble, ctx, onNext, onExit) {
 /*---- type: "fontvaelger" (4.3/4.4) - selve vælgeren er en selvstændig komponent (js/components/fontvaelger.js) ----*/
 
 function showFontvaelgerBoble(boble, ctx, onNext, onExit) {
-    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green" disabled>${boble.nextButtonText || "Næste"}</button>`;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade" disabled>${boble.nextButtonText || "Næste"}</button>`;
 
     renderScreen(boble, ctx, { bodyHtml: `${headerHtml(boble, ctx)}<div id="fontvaelger-container"></div>`, ctaHtml }, onExit);
 
@@ -495,9 +519,9 @@ function showProvSammenBoble(boble, ctx, onNext, onExit) {
         <div id="prov-sammen-container"></div>
         <div class="section-body">${(boble.paragraphs || []).map((p) => `<p>${p}</p>`).join("")}</div>
         ${ctx.recap?.length ? recapHtml(ctx.recap) : ""}
-        ${boble.guideLine ? `<div class="panel guide-line"><p><strong>💬 ${boble.guideAvatar}:</strong> ${boble.guideLine}</p></div>` : ""}
+        ${guideLineHtml(boble)}
     `;
-    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText || "Næste"}</button>`;
 
     renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
 
@@ -546,7 +570,7 @@ function showSaetBoble(boble, ctx, onNext, onExit) {
             <h3 class="section-subheading">${t.detSkalDuBruge}</h3>
             <ul class="byggesten-brug">${ctx.detSkalDuBruge.map(linjeHtml).join("")}</ul>` : ""}
     `;
-    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText || "Næste"}</button>`;
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText || "Næste"}</button>`;
 
     renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
 
@@ -573,19 +597,25 @@ function showSaetBoble(boble, ctx, onNext, onExit) {
 }
 
 function showExitConfirmation(onStay, onExit) {
-    app.innerHTML = `
-        <section class="section exit-confirmation" role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-describedby="exit-description">
-            <h2 id="exit-title" class="section-subheading">Vil du forlade Byggesten?</h2>
+    app.innerHTML = rumRammeHtml({
+        omraade: OMRAADE,
+        rum: RUM,
+        kortAttributter: 'role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-describedby="exit-description"',
+        indhold: `
+            <div class="exit-confirmation">
+                <h2 id="exit-title" class="section-subheading">Vil du forlade Byggesten?</h2>
 
-            <div class="section-body">
-                <p id="exit-description">Hvis du går ud nu, bliver dine svar ikke gemt.</p>
-            </div>
+                <div class="section-body">
+                    <p id="exit-description">Hvis du går ud nu, bliver dine svar ikke gemt.</p>
+                </div>
 
-            <div class="section-cta section-cta--column">
-                <button id="stay-button" type="button" class="btn btn--regular btn--solid-green">Bliv i rummet</button>
-                <button id="leave-button" type="button" class="btn btn--regular btn--solid-green">Ja, gå ud</button>
+                <div class="section-cta section-cta--column">
+                    <button id="stay-button" type="button" class="btn btn--regular btn--solid-green">Bliv i rummet</button>
+                    <button id="leave-button" type="button" class="btn btn--regular btn--solid-green">Ja, gå ud</button>
+                </div>
             </div>
-        </section>`;
+        `
+    });
 
     activateFocusTrap(app);
     document.querySelector("#stay-button").addEventListener("click", onStay);
@@ -604,4 +634,4 @@ export const RENDERERS = {
     saet: showSaetBoble
 };
 
-export { showWelcome, showExitConfirmation };
+export { showWelcome, showExitConfirmation, setRumNavigation };

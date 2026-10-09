@@ -1,5 +1,5 @@
-import { RENDERERS, showWelcome, showExitConfirmation } from "./byggestenUi.js";
-import { velkomst, BOBLER, EMNER, OVERGANGE, saetTekster } from "../data/byggesten.js";
+import { RENDERERS, showWelcome, showExitConfirmation, setRumNavigation } from "./byggestenUi.js";
+import { velkomst, moduler, BOBLER, EMNER, OVERGANGE, saetTekster } from "../data/byggesten.js";
 import {
     saveVaekstrumOutput,
     saveImage,
@@ -11,6 +11,7 @@ import { hentUdgangspunkt } from "../storage/udgangspunkt.js";
 import { KURATEREDE_PAR } from "../components/fontvaelger.js";
 import { IKON_STILE } from "../components/materialIkoner.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
+import { RumHistorik } from "./rumHistorik.js";
 
 const BYGGESTEN_VAEKSTRUM_ID = "byggesten";
 const DETALJE_BUCKET = "byggesten-detalje";
@@ -57,9 +58,16 @@ const OVERGANGS_BOBLER = ["3.5", "4.6", "5.2a", "5.2b", "5.2c"];
  * går tilbage til 2.1 med de nuværende valg markeret. Tilføjes et emne,
  * køres kun det nye, derefter 6.1 - allerede gennemførte emner og deres svar
  * bevares. Fravælges et emne, bliver svarene liggende i `svar`, men vises og
- * gemmes kun for de emner, der står i fokusvalg. Dette er en midlertidig,
- * rum-lokal løsning - den fælles modul-navigationslinje (pin-og-sti) er en
- * separat, endnu ikke bygget spec og kan erstatte knappen senere.
+ * gemmes kun for de emner, der står i fokusvalg. Knappen var tænkt som en
+ * midlertidig løsning, indtil modul-navigationslinjen fandtes. Linjen er
+ * bygget (2026-10-09), men knappen er bevaret, indtil teamet beslutter andet.
+ *
+ * Navigationslinjerne (js/engine/rumHistorik.js): fordi flowet selv går i
+ * ring (Gå til et andet emne, 6.3, 7.1's Ret), afkorter et genbesøg ikke
+ * ruten her - runden lægges i forlængelse. Et hop via pin eller "Tilbage"
+ * genskaber køen, det aktive emne og de gennemførte emner, som de var, da
+ * boblen blev vist. Svarene bevares, så felterne er udfyldt som ved et
+ * genbesøg.
  *
  * Runde 7: læser brugerens udgangspunkt fra VisueltVaekstrum (hentUdgangspunkt) til
  * 1.3 (forvalgt "Fra bunden") og 4.2 (kanalerne øverst).
@@ -72,7 +80,7 @@ export class ByggestenEngine {
     faerdigeEmner = [];
     koe = null; // { jobs: [...], efter: bobleId }
     aktivtJob = null;
-    previousScreen = null;
+    historik = new RumHistorik({ afkortVedGenbesoeg: false }); // brugerens rute gennem moduler/bobler - til navigationslinjerne, "Tilbage" og "Bliv i rummet"
     visueltVaekstrum = null; // hentUdgangspunkt() - null, hvis brugeren ikke har været i VisueltVaekstrum
     skiftForklaringSlut = false; // "Gå til et andet emne"-forklaringen er brugt op for dette besøg
     _paletCache;
@@ -83,7 +91,7 @@ export class ByggestenEngine {
 
     async start() {
         const kontekst = this.harArbejdetMedFarverEllerLogo() ? velkomst.kontekstuel : velkomst.standard;
-        this.previousScreen = () => this.start();
+        setRumNavigation(() => this.historik.navigation("Ikoner, fonte & andre grafiske byggesten", moduler));
         this.visueltVaekstrum = await hentUdgangspunkt();
 
         showWelcome([kontekst, velkomst.faelles], velkomst.knap, () => {
@@ -93,8 +101,13 @@ export class ByggestenEngine {
     }
 
     async showBoble(id) {
+        const flow = structuredClone({ koe: this.koe, aktivtJob: this.aktivtJob, faerdigeEmner: this.faerdigeEmner });
+        this.historik.besoeg(BOBLER[id].modul, id, () => {
+            Object.assign(this, structuredClone(flow));
+            this.showBoble(id);
+        });
+
         const boble = this.resolveContent(id);
-        this.previousScreen = () => this.showBoble(id);
 
         /*---- Forklaringen under "Gå til et andet emne" forsvinder, når brugeren når Modul 6 ----*/
         if (boble.modul >= 6) this.skiftForklaringSlut = true;
@@ -722,7 +735,7 @@ export class ByggestenEngine {
 
     exitRoom() {
         showExitConfirmation(
-            () => this.previousScreen(),
+            () => this.historik.genvis(),
             () => {
                 window.location.href = VISUELT_UDTRYK_HUB;
             }

@@ -129,7 +129,7 @@ body.in-flow #app {
   z-index: 10;
 }
 
-/*---- Byggesten: midlertidig "Gå til et andet emne"-knap (tilbage til Modul 2's fokusvalg, før "Skift fokus"), samme placering som opslagsværk-linket ovenfor. Forklaringen (runde 7) står under knappen. Kan erstattes af den fælles modul-navigationslinje, når den bygges ----*/
+/*---- Byggesten: midlertidig "Gå til et andet emne"-knap (tilbage til Modul 2's fokusvalg, før "Skift fokus"), samme placering som opslagsværk-linket ovenfor. Forklaringen (runde 7) står under knappen. Navigationslinjerne er bygget (2026-10-09); knappen er bevaret ved siden af dem, indtil teamet beslutter andet ----*/
 .skift-fokus {
   position: fixed;
   left: 2rem;
