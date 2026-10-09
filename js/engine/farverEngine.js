@@ -14,14 +14,16 @@ import {
     showReflectionStep,
     showPaletteSummary,
     showTryInPracticeStep,
-    showExitConfirmation
+    showExitConfirmation,
+    setRumNavigation
 } from "./farverUi.js";
 
-import { velkomst, modul1, modul2, modul3, modul4, modul5, modul6, modul7, modul8 } from "../data/farver.js";
+import { velkomst, moduler, modul1, modul2, modul3, modul4, modul5, modul6, modul7, modul8 } from "../data/farver.js";
 import { saveVaekstrumOutput, saveImage, deleteImage, getImagesForVaekstrum } from "../storage/vaekstrumStorage.js";
 import { hentUdgangspunkt } from "../storage/udgangspunkt.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
 import { contrastRatio, contrastLevel } from "./contrast.js";
+import { RumHistorik } from "./rumHistorik.js";
 
 const FARVER_VAEKSTRUM_ID = "farver";
 
@@ -31,21 +33,21 @@ export class FarverEngine {
 
     palette = []; // { id, hex, role, percent } - fri længde, jf. Modul 6
     nextColorId = 1; // tæller til at generere stabile, unikke palette-id'er ("c1", "c2", ...)
-    paletteDosageReady = false; // sikrer at doseringen kun initialiseres jævnt ÉN gang (ikke ved genbesøg via "Bliv i rummet")
+    paletteDosageReady = false; // doseringen initialiseres jævnt, når paletten er ny eller ændret (fx efter et hop tilbage til 6.1) - ikke ved genbesøg uden ændringer
     textColorId = null; // id på den palette-farve, der er valgt som tekstfarve i Boble 6.4 - null = sort som udgangspunkt
     contrast = null; // { textId, bgId, textHex, bgHex, ratio, level } - kun den ENDELIGT valgte kombination fra Modul 7
     reflection = ""; // fri tekst fra Boble 8.2
     modul3ImageSource = null; // "upload" | "duf" - sat i Boble 3.2, bruges i Boble 3.3
     triedInPractice = true; // runde 7: valget i Boble 8.1 - styrer kun, hvilken version af 8.2 der vises (gemmes ikke)
     udgangspunkt = null; // runde 7: fra VisueltVaekstrum via hentUdgangspunkt() - null, hvis brugeren ikke har været der
-    previousScreen = null;
+    historik = new RumHistorik(); // brugerens rute gennem moduler/bobler - til navigationslinjerne, "Tilbage" og "Bliv i rummet"
 
     start() {
         const params = new URLSearchParams(window.location.search);
         const fromVisueltVaekstrum = params.get("fra") === "vaekstrum-visuelt-udtryk";
         const text = fromVisueltVaekstrum ? velkomst.fraVisueltVaekstrum : velkomst.standard;
 
-        this.previousScreen = () => this.start();
+        setRumNavigation(() => this.historik.navigation("Farver", moduler));
 
         /*---- Bruges til 3.1's variant for brugeren, der starter fra bunden. Er det ikke hentet, når hun når 3.1, vises den almindelige tekst ----*/
         hentUdgangspunkt().then((udgangspunkt) => { this.udgangspunkt = udgangspunkt; });
@@ -54,7 +56,7 @@ export class FarverEngine {
 
     showModul1() {
         document.body.classList.add("in-flow");
-        this.previousScreen = () => this.showModul1();
+        this.historik.besoeg(1, "1.1", () => this.showModul1());
 
         /*---- Let session-markering (ikke svar/indhold) - bruges af Byggesten til at vise en anden velkomst, hvis brugeren allerede har arbejdet med Farver i samme besøg ----*/
         sessionStorage.setItem("duf-visited-farver", "1");
@@ -67,7 +69,7 @@ export class FarverEngine {
     }
 
     showModul1Boble2() {
-        this.previousScreen = () => this.showModul1Boble2();
+        this.historik.besoeg(1, "1.2", () => this.showModul1Boble2());
 
         showTextScreen(
             { heading: modul1.boble2.heading, examples: modul1.boble2.examples, paragraphs: modul1.boble2.closing },
@@ -77,7 +79,7 @@ export class FarverEngine {
     }
 
     showModul2() {
-        this.previousScreen = () => this.showModul2();
+        this.historik.besoeg(2, "2.1", () => this.showModul2());
 
         showTextScreen(
             modul2,
@@ -87,7 +89,7 @@ export class FarverEngine {
     }
 
     showModul3Boble1() {
-        this.previousScreen = () => this.showModul3Boble1();
+        this.historik.besoeg(3, "3.1", () => this.showModul3Boble1());
 
         const { firstParagraphFraBunden, ...boble } = modul3.boble1;
         const paragraphs = this.udgangspunkt?.starterFraBunden
@@ -102,7 +104,7 @@ export class FarverEngine {
     }
 
     showModul3Boble2() {
-        this.previousScreen = () => this.showModul3Boble2();
+        this.historik.besoeg(3, "3.2", () => this.showModul3Boble2());
 
         showExampleChoice(
             modul3.boble2,
@@ -119,7 +121,7 @@ export class FarverEngine {
     }
 
     async showModul3Upload() {
-        this.previousScreen = () => this.showModul3Upload();
+        this.historik.besoeg(3, "3.2", () => this.showModul3Upload());
 
         const images = await getImagesForVaekstrum(FARVER_VAEKSTRUM_ID);
 
@@ -142,7 +144,7 @@ export class FarverEngine {
     }
 
     async showModul3Reflection() {
-        this.previousScreen = () => this.showModul3Reflection();
+        this.historik.besoeg(3, "3.3", () => this.showModul3Reflection());
 
         let imageUrl = modul3.boble2.dufImage;
         let imageAlt = modul3.boble2.dufImageAlt;
@@ -167,7 +169,7 @@ export class FarverEngine {
     }
 
     showModul4Intro() {
-        this.previousScreen = () => this.showModul4Intro();
+        this.historik.besoeg(4, "4.1", () => this.showModul4Intro());
 
         showTextScreen(
             modul4.intro,
@@ -177,7 +179,7 @@ export class FarverEngine {
     }
 
     showModul4Example(index) {
-        this.previousScreen = () => this.showModul4Example(index);
+        this.historik.besoeg(4, `4.${index + 2}`, () => this.showModul4Example(index));
 
         const example = modul4.examples[index];
 
@@ -189,7 +191,7 @@ export class FarverEngine {
     }
 
     showModul4Response(index, selected) {
-        this.previousScreen = () => this.showModul4Response(index, selected);
+        this.historik.besoeg(4, `4.${index + 2}`, () => this.showModul4Response(index, selected));
 
         const example = modul4.examples[index];
         const isLastExample = index === modul4.examples.length - 1;
@@ -205,7 +207,7 @@ export class FarverEngine {
     }
 
     showModul5Boble1() {
-        this.previousScreen = () => this.showModul5Boble1();
+        this.historik.besoeg(5, "5.1", () => this.showModul5Boble1());
 
         showTextScreen(
             modul5.boble1,
@@ -215,7 +217,7 @@ export class FarverEngine {
     }
 
     showModul5Boble2() {
-        this.previousScreen = () => this.showModul5Boble2();
+        this.historik.besoeg(5, "5.2", () => this.showModul5Boble2());
 
         showTextScreen(
             modul5.boble2,
@@ -225,7 +227,7 @@ export class FarverEngine {
     }
 
     showModul5Boble3() {
-        this.previousScreen = () => this.showModul5Boble3();
+        this.historik.besoeg(5, "5.3", () => this.showModul5Boble3());
 
         showTextScreen(
             modul5.boble3,
@@ -239,6 +241,7 @@ export class FarverEngine {
     addColor(hex = modul6.boble1.defaultHex) {
         const color = { id: `c${this.nextColorId++}`, hex, role: "", percent: 0 };
         this.palette.push(color);
+        this.paletteDosageReady = false;
         return color;
     }
 
@@ -249,10 +252,11 @@ export class FarverEngine {
 
     removeColor(id) {
         this.palette = this.palette.filter((c) => c.id !== id);
+        this.paletteDosageReady = false;
         if (this.textColorId === id) this.textColorId = null;
     }
 
-    /*---- Fordeler doseringen jævnt på tværs af paletten - kaldes kun første gang brugeren når Boble 6.3 (this.paletteDosageReady), så et genbesøg via "Bliv i rummet" ikke nulstiller justeringer, brugeren allerede har lavet ----*/
+    /*---- Fordeler doseringen jævnt på tværs af paletten - kaldes, når brugeren når Boble 6.3 med en ny eller ændret palet (this.paletteDosageReady sættes til false, når en farve tilføjes eller fjernes), så et genbesøg via "Bliv i rummet" eller et hop tilbage uden ændringer ikke nulstiller justeringer, brugeren allerede har lavet ----*/
     initializeDosage() {
         const n = this.palette.length;
         const even = Math.floor(100 / n);
@@ -264,7 +268,7 @@ export class FarverEngine {
     }
 
     showModul6Boble1() {
-        this.previousScreen = () => this.showModul6Boble1();
+        this.historik.besoeg(6, "6.1", () => this.showModul6Boble1());
 
         if (this.palette.length === 0) {
             this.addColor(modul6.boble1.defaultHex);
@@ -285,7 +289,7 @@ export class FarverEngine {
     }
 
     showModul6Boble2(index) {
-        this.previousScreen = () => this.showModul6Boble2(index);
+        this.historik.besoeg(6, "6.2", () => this.showModul6Boble2(index));
 
         showColorRoleStep(
             modul6.boble2,
@@ -302,7 +306,7 @@ export class FarverEngine {
     }
 
     showModul6Boble3() {
-        this.previousScreen = () => this.showModul6Boble3();
+        this.historik.besoeg(6, "6.3", () => this.showModul6Boble3());
 
         if (!this.paletteDosageReady) {
             this.initializeDosage();
@@ -318,7 +322,7 @@ export class FarverEngine {
     }
 
     showModul6Boble4() {
-        this.previousScreen = () => this.showModul6Boble4();
+        this.historik.besoeg(6, "6.4", () => this.showModul6Boble4());
 
         showPreviewStep(
             modul6.boble4,
@@ -352,7 +356,7 @@ export class FarverEngine {
     }
 
     showModul7Boble1() {
-        this.previousScreen = () => this.showModul7Boble1();
+        this.historik.besoeg(7, "7.1", () => this.showModul7Boble1());
 
         showTextScreen(
             modul7.boble1,
@@ -362,7 +366,7 @@ export class FarverEngine {
     }
 
     showModul7Boble2(defaults) {
-        this.previousScreen = () => this.showModul7Boble2(defaults);
+        this.historik.besoeg(7, "7.2", () => this.showModul7Boble2(defaults));
 
         showContrastPickerStep(
             modul7.boble2,
@@ -382,7 +386,7 @@ export class FarverEngine {
         const ratio = contrastRatio(textColor.hex, bgColor.hex);
         const combo = { textId, bgId, textHex: textColor.hex, bgHex: bgColor.hex, ratio, level: contrastLevel(ratio) };
 
-        this.previousScreen = () => this.showModul7Boble3(combo);
+        this.historik.besoeg(7, "7.3", () => this.showModul7Boble3(combo));
 
         showContrastResultStep(
             modul7.boble3,
@@ -400,7 +404,7 @@ export class FarverEngine {
     /*---- Modul 8 - afprøvning og dokumentation (tre bobler: prøv i praksis, reflekter, opsamling) ----*/
 
     showModul8Boble1() {
-        this.previousScreen = () => this.showModul8Boble1();
+        this.historik.besoeg(8, "8.1", () => this.showModul8Boble1());
 
         showTryInPracticeStep(
             { ...modul8.boble1, exampleText: modul6.boble4.exampleText },
@@ -415,7 +419,7 @@ export class FarverEngine {
     }
 
     showModul8Boble2() {
-        this.previousScreen = () => this.showModul8Boble2();
+        this.historik.besoeg(8, "8.2", () => this.showModul8Boble2());
 
         const { notTried, ...boble } = modul8.boble2;
 
@@ -431,7 +435,7 @@ export class FarverEngine {
     }
 
     showModul8Boble3() {
-        this.previousScreen = () => this.showModul8Boble3();
+        this.historik.besoeg(8, "8.3", () => this.showModul8Boble3());
 
         showPaletteSummary(
             modul8.boble3,
@@ -464,7 +468,7 @@ export class FarverEngine {
 
     exitRoom() {
         showExitConfirmation(
-            () => this.previousScreen(),
+            () => this.historik.genvis(),
             () => {
                 window.location.href = VISUELT_UDTRYK_HUB;
             }

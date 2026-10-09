@@ -43,3 +43,12 @@ $navPlaceBorderColor: rgba(12, 58, 45, 0.3);
     --omraade-sociale-medier: #1BAF7A;
     --omraade-ai: #4A3AA7;
 }
+
+/*---- Vækstrummenes fælles ramme (css/_rum.scss): hvidt indholdskort, svag kant og blød skygge i tekstfarvens nuance, dæmpet tekst til topbjælke og navigationslinjer. Kun lyse varianter, som resten af DUF. Dæmpet tekst = 72% tekstfarve, ca. 6,6:1 mod baggrunden ----*/
+
+:root {
+    --rum-kort-flade: #FFFFFF;
+    --rum-kant: rgba(15, 32, 27, 0.12);
+    --rum-skygge: 0 1px 2px rgba(15, 32, 27, 0.06), 0 10px 24px -12px rgba(15, 32, 27, 0.18);
+    --rum-daempet-tekst: rgba(15, 32, 27, 0.72);
+}

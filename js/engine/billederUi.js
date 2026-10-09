@@ -4,11 +4,21 @@ import { imageGalleryHtml, renderImageUploadHtml, bindImageUpload } from "../com
 import { renderTjekliste } from "../components/tjekliste.js";
 import { renderBilledvaelger } from "../components/billedvaelger.js";
 import { renderProvSammen } from "../components/provSammen.js";
+import { rumRammeHtml, bindRumRamme } from "../components/rumRamme.js";
 
 const app = document.querySelector("#app");
 
 function renderExitDoor() {
     return renderSharedExitDoor("Gå ud af Billeder");
+}
+
+const OMRAADE = { navn: "Visuelt udtryk for din praksis", slug: "visuelt-udtryk" };
+
+/*---- Sættes af BilledeEngine.start(): giver navigationslinjerne og "Tilbage" data fra engine-historikken (js/engine/rumHistorik.js) ----*/
+let rumNavigation = () => null;
+
+function setRumNavigation(provider) {
+    rumNavigation = provider;
 }
 
 function renderReferenceButton() {
@@ -79,16 +89,17 @@ function showWelcome(text, onStart) {
 
 /*---- Fast opslagsværk - tilgængeligt fra enhver boble fra Modul 2 og frem ----*/
 
+/*---- Opslagsværket er ikke en boble, så det står i rammen uden navigationslinjer. "Tilbage" viser boblen, brugeren kom fra ----*/
 function showReference(situationer, onBack) {
-    app.innerHTML = `
-        <section class="section">
+    app.innerHTML = rumRammeHtml({
+        omraade: OMRAADE,
+        rum: "Billeder",
+        indhold: `
             <h2 class="section-heading">Billedrettigheder — praktisk oversigt</h2>
             <div class="choice-list">${situationsAccordionHtml(situationer)}</div>
-            <div class="section-cta">
-                <button id="back-button" type="button" class="btn btn--regular btn--outline-green">Tilbage</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `,
+        knapper: `<button id="back-button" type="button" class="btn btn--regular btn--outline-green">Tilbage</button>`
+    }) + renderExitDoor();
 
     bindAccordions();
     activateFocusTrap(app);
@@ -96,19 +107,25 @@ function showReference(situationer, onBack) {
 }
 
 function showExitConfirmation(onStay, onExit) {
-    app.innerHTML = `
-        <section class="section exit-confirmation" role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-describedby="exit-description">
-            <h2 id="exit-title" class="section-subheading">Vil du forlade Billeder?</h2>
+    app.innerHTML = rumRammeHtml({
+        omraade: OMRAADE,
+        rum: "Billeder",
+        kortAttributter: 'role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-describedby="exit-description"',
+        indhold: `
+            <div class="exit-confirmation">
+                <h2 id="exit-title" class="section-subheading">Vil du forlade Billeder?</h2>
 
-            <div class="section-body">
-                <p id="exit-description">Hvis du går ud nu, bliver dine svar ikke gemt.</p>
-            </div>
+                <div class="section-body">
+                    <p id="exit-description">Hvis du går ud nu, bliver dine svar ikke gemt.</p>
+                </div>
 
-            <div class="section-cta section-cta--column">
-                <button id="stay-button" type="button" class="btn btn--regular btn--solid-green">Bliv i rummet</button>
-                <button id="leave-button" type="button" class="btn btn--regular btn--solid-green">Ja, gå ud</button>
+                <div class="section-cta section-cta--column">
+                    <button id="stay-button" type="button" class="btn btn--regular btn--solid-green">Bliv i rummet</button>
+                    <button id="leave-button" type="button" class="btn btn--regular btn--solid-green">Ja, gå ud</button>
+                </div>
             </div>
-        </section>`;
+        `
+    });
 
     activateFocusTrap(app);
     document.querySelector("#stay-button").addEventListener("click", onStay);
@@ -139,20 +156,21 @@ function headerHtml(boble, topHtml = "") {
     `;
 }
 
+/*---- Fælles ramme (js/components/rumRamme.js): topbjælke, modul- og boble-linje, indholdskort og knaprække med "Tilbage" til venstre og boblens egne knapper til højre. Rettigheder-knappen og exit-døren ligger uden for rammen som før ----*/
 function renderScreen({ bodyHtml, ctaHtml }, onExit, onReference) {
+    const navigation = rumNavigation();
+
     app.innerHTML = `
-        <section class="section">
-            ${bodyHtml}
-            <div class="section-cta">${ctaHtml}</div>
-        </section>
+        ${rumRammeHtml({ omraade: OMRAADE, rum: "Billeder", indhold: bodyHtml, knapper: ctaHtml, navigation })}
         ${onReference ? renderReferenceButton() : ""}
         ${renderExitDoor()}`;
 
+    bindRumRamme(app, navigation);
     activateFocusTrap(app);
     bindChrome(onExit, onReference);
 }
 
-/*---- type: "text" - ren læseskærm, med valgfri billedgalleri-visning (Modul 3.3/4.5), 💬-guide-linje, og valgfrit "isFinal"-slutknap-udseende (Modul 8.3) ----*/
+/*---- type: "text" - ren læseskærm, med valgfri billedgalleri-visning (Modul 3.3/4.5), 💬-guide-linje, og "Gemmer..." på slutknappen (isFinal, Modul 8.3) ----*/
 
 function showTextBoble(boble, images, onNext, onExit, onReference) {
     const galleryHtml = images
@@ -161,7 +179,7 @@ function showTextBoble(boble, images, onNext, onExit, onReference) {
 
     renderScreen({
         bodyHtml: `${headerHtml(boble)}${galleryHtml}`,
-        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular ${boble.isFinal ? "btn--outline-green" : "btn--solid-green"}">${boble.nextButtonText}</button>`
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText}</button>`
     }, onExit, onReference);
 
     const nextButton = document.querySelector("#next-button");
@@ -196,7 +214,7 @@ function showChoiceBoble(boble, onNext, onExit, onReference) {
 
     renderScreen({
         bodyHtml: `${headerHtml(boble)}<div class="choice-list">${optionsHtml}</div>${freeTextHtml}${revealHtml}`,
-        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green" disabled>${boble.nextButtonText}</button>`
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade" disabled>${boble.nextButtonText}</button>`
     }, onExit, onReference);
 
     const optionButtons = document.querySelectorAll("[data-option-id]");
@@ -316,7 +334,7 @@ function showMultiChoiceBoble(boble, onNext, onExit, onReference, { billedkilder
         bodyHtml: boble.resultAtTop
             ? `${headerHtml(boble, billederHtml)}${resultHtml}${optionsHtml}${noteHtml}`
             : `${headerHtml(boble, billederHtml)}${optionsHtml}${noteHtml}${resultHtml}`,
-        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText}</button>`
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText}</button>`
     }, onExit, onReference);
 
     if (billedkilder) {
@@ -396,7 +414,7 @@ function showTextNoteBoble(boble, prefillText, onNext, onExit, onReference) {
 
     renderScreen({
         bodyHtml: `${headerHtml(boble)}${fieldsHtml}`,
-        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText}</button>`
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText}</button>`
     }, onExit, onReference);
 
     document.querySelector("#next-button").addEventListener("click", () => {
@@ -464,7 +482,7 @@ function showSoegestederBoble(boble, soegeKontekst, onNext, onExit, onReference)
             ${soegelinjeHtml(soegeKontekst)}
             <div class="section-body"><p>${boble.afterList}</p></div>
         `,
-        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText}</button>`
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText}</button>`
     }, onExit, onReference);
 
     bindSoegelinje(soegeKontekst);
@@ -488,9 +506,9 @@ function showImageUploadBoble(boble, images, onNext, onExit, onReference, imageH
         : "";
 
     const ctaHtml = ingen
-        ? `<button id="next-button" type="button" class="btn btn--regular btn--solid-green" ${images.length ? "" : "hidden"}>${boble.nextButtonText}</button>
-           <button id="no-images-continue" type="button" class="btn btn--regular btn--solid-green" hidden>${ingen.videreTekst}</button>`
-        : `<button id="next-button" type="button" class="btn btn--regular btn--solid-green" ${minImages && !meetsMin ? "disabled" : ""}>${boble.nextButtonText}</button>`;
+        ? `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade" ${images.length ? "" : "hidden"}>${boble.nextButtonText}</button>
+           <button id="no-images-continue" type="button" class="btn btn--regular btn--solid-omraade" hidden>${ingen.videreTekst}</button>`
+        : `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade" ${minImages && !meetsMin ? "disabled" : ""}>${boble.nextButtonText}</button>`;
 
     const soegelinje = boble.visSoegelinje && soegeKontekst ? soegelinjeHtml(soegeKontekst, { kompakt: true }) : "";
 
@@ -563,7 +581,7 @@ function showKeywordPickerBoble(boble, onNext, onExit, onReference) {
 
     renderScreen({
         bodyHtml: `${headerHtml(boble)}${groupsHtml}`,
-        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText}</button>`
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText}</button>`
     }, onExit, onReference);
 
     const chips = [...document.querySelectorAll(".keyword-chip")];
@@ -592,7 +610,7 @@ function showKeywordPickerBoble(boble, onNext, onExit, onReference) {
 function showChecklistBoble(boble, onNext, onExit, onReference) {
     renderScreen({
         bodyHtml: `${headerHtml(boble)}<div id="tjekliste-container"></div>`,
-        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText}</button>`
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText}</button>`
     }, onExit, onReference);
 
     renderTjekliste(document.querySelector("#tjekliste-container"), {
@@ -624,7 +642,7 @@ function showPaletteCompareBoble(boble, farverOutput, onNext, onExit, onReferenc
         : "";
 
     const ctaHtml = hasPalette
-        ? `<button id="next-button" type="button" class="btn btn--regular btn--solid-green" disabled>${boble.nextButtonText}</button>`
+        ? `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade" disabled>${boble.nextButtonText}</button>`
         : `<button id="skip-button" type="button" class="btn btn--regular btn--outline-green">${boble.skipButtonText}</button>`;
 
     renderScreen({
@@ -660,7 +678,7 @@ function showCompassSummaryBoble(boble, summaryItems, onNext, onExit, onReferenc
 
     renderScreen({
         bodyHtml: `${headerHtml(boble)}${itemsHtml}`,
-        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText}</button>`
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText}</button>`
     }, onExit, onReference);
 
     document.querySelector("#next-button").addEventListener("click", () => onNext());
@@ -705,7 +723,7 @@ function showKontrasttestBoble(boble, { billedkilder, tekstfarver }, onNext, onE
             <div class="choice-list">${optionsHtml}</div>
             <div class="panel boble-respons" id="choice-reveal" hidden><p>${boble.revealText}</p></div>
         `,
-        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-green" disabled>${boble.nextButtonText}</button>`
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade" disabled>${boble.nextButtonText}</button>`
     }, onExit, onReference);
 
     const test = document.querySelector("#kontrast-test");
@@ -777,10 +795,8 @@ function showForhaandsvisningBoble(boble, { billedkilder, provSammen }, onNext, 
             <div id="prov-sammen-container"></div>
         `,
         ctaHtml: `
-            <div class="section-cta--column">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">${boble.nextButtonText}</button>
-                <button id="alt-next-button" type="button" class="btn btn--regular btn--outline-green">${boble.altNextButtonText}</button>
-            </div>
+            <button id="alt-next-button" type="button" class="btn btn--regular btn--outline-green">${boble.altNextButtonText}</button>
+            <button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText}</button>
         `
     }, onExit, onReference);
 
@@ -815,5 +831,6 @@ export const RENDERERS = {
 export {
     showWelcome,
     showReference,
-    showExitConfirmation
+    showExitConfirmation,
+    setRumNavigation
 };

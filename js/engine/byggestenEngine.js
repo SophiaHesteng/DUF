@@ -1,5 +1,5 @@
-import { RENDERERS, showWelcome, showExitConfirmation } from "./byggestenUi.js";
-import { velkomst, BOBLER, EMNER, OVERGANGE, saetTekster } from "../data/byggesten.js";
+import { RENDERERS, showWelcome, showExitConfirmation, setRumNavigation } from "./byggestenUi.js";
+import { velkomst, moduler, BOBLER, EMNER, OVERGANGE, saetTekster } from "../data/byggesten.js";
 import {
     saveVaekstrumOutput,
     saveImage,
@@ -11,6 +11,7 @@ import { hentUdgangspunkt } from "../storage/udgangspunkt.js";
 import { KURATEREDE_PAR } from "../components/fontvaelger.js";
 import { IKON_STILE } from "../components/materialIkoner.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
+import { RumHistorik } from "./rumHistorik.js";
 
 const BYGGESTEN_VAEKSTRUM_ID = "byggesten";
 const DETALJE_BUCKET = "byggesten-detalje";
@@ -53,13 +54,19 @@ const OVERGANGS_BOBLER = ["3.5", "4.6", "5.2a", "5.2b", "5.2c"];
  * til justeringer og lander bagefter i 6.1 igen; 7.1's "Ret" (runde 7) gør
  * det samme, men lander i 7.1.
  *
- * Fokusvalg er ikke låst: "Gå til et andet emne" (vist fra Modul 3 og frem)
- * går tilbage til 2.1 med de nuværende valg markeret. Tilføjes et emne,
- * køres kun det nye, derefter 6.1 - allerede gennemførte emner og deres svar
- * bevares. Fravælges et emne, bliver svarene liggende i `svar`, men vises og
- * gemmes kun for de emner, der står i fokusvalg. Dette er en midlertidig,
- * rum-lokal løsning - den fælles modul-navigationslinje (pin-og-sti) er en
- * separat, endnu ikke bygget spec og kan erstatte knappen senere.
+ * Fokusvalg er ikke låst: modul-linjen (pin for Modul 2) fører tilbage til
+ * 2.1 med de nuværende valg markeret. Derfra køres de valgte emner igen, med
+ * felterne udfyldt af de tidligere svar. Fravælges et emne, bliver svarene
+ * liggende i `svar`, men vises og gemmes kun for de emner, der står i
+ * fokusvalg. Knappen "Gå til et andet emne" (runde 7) var en midlertidig vej
+ * tilbage til 2.1, indtil navigationslinjen fandtes; den er fjernet 2026-10-09.
+ *
+ * Navigationslinjerne (js/engine/rumHistorik.js): fordi flowet selv går i
+ * ring (6.3, 7.1's Ret), afkorter et genbesøg ikke
+ * ruten her - runden lægges i forlængelse. Et hop via pin eller "Tilbage"
+ * genskaber køen, det aktive emne og de gennemførte emner, som de var, da
+ * boblen blev vist. Svarene bevares, så felterne er udfyldt som ved et
+ * genbesøg.
  *
  * Runde 7: læser brugerens udgangspunkt fra VisueltVaekstrum (hentUdgangspunkt) til
  * 1.3 (forvalgt "Fra bunden") og 4.2 (kanalerne øverst).
@@ -72,9 +79,8 @@ export class ByggestenEngine {
     faerdigeEmner = [];
     koe = null; // { jobs: [...], efter: bobleId }
     aktivtJob = null;
-    previousScreen = null;
+    historik = new RumHistorik({ afkortVedGenbesoeg: false }); // brugerens rute gennem moduler/bobler - til navigationslinjerne, "Tilbage" og "Bliv i rummet"
     visueltVaekstrum = null; // hentUdgangspunkt() - null, hvis brugeren ikke har været i VisueltVaekstrum
-    skiftForklaringSlut = false; // "Gå til et andet emne"-forklaringen er brugt op for dette besøg
     _paletCache;
 
     harArbejdetMedFarverEllerLogo() {
@@ -83,7 +89,7 @@ export class ByggestenEngine {
 
     async start() {
         const kontekst = this.harArbejdetMedFarverEllerLogo() ? velkomst.kontekstuel : velkomst.standard;
-        this.previousScreen = () => this.start();
+        setRumNavigation(() => this.historik.navigation("Ikoner, fonte & andre grafiske byggesten", moduler));
         this.visueltVaekstrum = await hentUdgangspunkt();
 
         showWelcome([kontekst, velkomst.faelles], velkomst.knap, () => {
@@ -93,11 +99,13 @@ export class ByggestenEngine {
     }
 
     async showBoble(id) {
-        const boble = this.resolveContent(id);
-        this.previousScreen = () => this.showBoble(id);
+        const flow = structuredClone({ koe: this.koe, aktivtJob: this.aktivtJob, faerdigeEmner: this.faerdigeEmner });
+        this.historik.besoeg(BOBLER[id].modul, id, () => {
+            Object.assign(this, structuredClone(flow));
+            this.showBoble(id);
+        });
 
-        /*---- Forklaringen under "Gå til et andet emne" forsvinder, når brugeren når Modul 6 ----*/
-        if (boble.modul >= 6) this.skiftForklaringSlut = true;
+        const boble = this.resolveContent(id);
 
         const ctx = await this.gatherContext(boble);
         const render = RENDERERS[boble.type];
@@ -227,15 +235,12 @@ export class ByggestenEngine {
         return this.koe?.efter === "7.1" ? "tilbageTil71" : "provSammen";
     }
 
-    /*---- Asynkront hentet kontekst (billeder, gemt Farver-palet/Logo) + forudfyldning af tidligere svar, så et genbesøg (Gå til et andet emne, 6.3, 7.1's Ret, 4.5 "Nej") ikke starter fra tomme felter ----*/
+    /*---- Asynkront hentet kontekst (billeder, gemt Farver-palet/Logo) + forudfyldning af tidligere svar, så et genbesøg (via navigationslinjerne, 6.3, 7.1's Ret, 4.5 "Nej") ikke starter fra tomme felter ----*/
 
     async gatherContext(boble) {
         const iEmneModul = boble.modul >= 3 && boble.modul <= 5;
         const ctx = {
             prefill: this.prefillFor(boble),
-            visSkiftFokus: boble.modul >= 3 && !boble.isExit,
-            visSkiftForklaring: iEmneModul && !this.skiftForklaringSlut,
-            onSkiftFokus: () => this.skiftFokus(),
             emneTaeller: iEmneModul ? this.emneTaeller(boble.modul) : ""
         };
 
@@ -450,13 +455,6 @@ export class ByggestenEngine {
         this.koe = null;
         this.aktivtJob = null;
         this.showBoble(efter);
-    }
-
-    skiftFokus() {
-        this.skiftForklaringSlut = true;
-        this.koe = null;
-        this.aktivtJob = null;
-        this.showBoble("2.1");
     }
 
     /*---- 7.1's "Ret" (runde 7): samme mekanisme som 6.3, men brugeren lander i 7.1 bagefter ----*/
@@ -722,7 +720,7 @@ export class ByggestenEngine {
 
     exitRoom() {
         showExitConfirmation(
-            () => this.previousScreen(),
+            () => this.historik.genvis(),
             () => {
                 window.location.href = VISUELT_UDTRYK_HUB;
             }

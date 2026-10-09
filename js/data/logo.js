@@ -15,7 +15,7 @@
  *
  * Fælles felter: id, modul, type, heading, nextButtonText.
  * Valgfrie, generiske "påhæng" (understøttet af enhver type, jf. logoUi.js):
- *   guideLine + guideAvatar  - 💬-linje, ren data (Guide-UI'et er ikke bygget)
+ *   guideLine + guideAvatar  - 💬-linje; med guideAvatar vist som guide-boble (js/components/guide.js)
  *   seOgsaa                  - { maal: <nøgle i seOgsaaMaal.js>, tekst }
  *   imageUpload               - { bucket, label, hint }
  *   logoPreview               - "small" | "grayscale" | "backgrounds"
@@ -26,6 +26,19 @@ export const velkomst = {
     fraVisueltVaekstrum: "Du nævnte tidligere, at dit logo mangler, er på vej eller er noget, du gerne vil have på plads. Så lad os kigge på det her. Sammen.",
     standard: "Velkommen til Logo. Her får du hjælp til enten at lave et logo, du er tryg ved, eller til at finde ud af, om det, du allerede har, faktisk fungerer. Der er ingen rigtige eller forkerte svar. Vi tager det ét skridt ad gangen."
 };
+
+/*---- Modulernes titler (fra manuskriptets overskrifter, uden spor-noterne) og antal bobler, til navigationslinjerne (js/components/rumRamme.js). Antallet af moduler læses herfra. Kun moduler, hvor alle spor ser lige mange bobler, har et antal - resten forgrener sig ----*/
+
+export const moduler = [
+    { titel: "Hvad et logo faktisk skal" },
+    { titel: "Hvor står du?" },
+    { titel: "Inspiration og sammenligning" },
+    { titel: "Vælg retning" },
+    { titel: "Logo og din palet", antalBobler: 2 },
+    { titel: "Skab eller opdatér dit logo" },
+    { titel: "Tjek i praksis", antalBobler: 5 },
+    { titel: "Dokumentér", antalBobler: 3 }
+];
 
 export const BOBLER = {
 
