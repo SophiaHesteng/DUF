@@ -7,10 +7,10 @@ body.in-flow #site-footer {
     display: none;
 }
 
-/*---- Sikrer plads til den fast placerede dør-knap, så den ikke overlapper indhold i lange skærme (fx Modul 3's byggeklodser) ----*/
+/*---- Sikrer plads til den fast placerede dør-knap (ca. 76px høj inkl. "Gå ud"-teksten, plus 2rem fra bunden), så den ikke overlapper indhold i lange skærme (fx Modul 3's byggeklodser) ----*/
 
 body.in-flow #app {
-    padding-bottom: 100px;
+    padding-bottom: 120px;
 }
 
 /*---- accessibility.js sætter tabindex="-1" og fokuserer skærmens overskrift ved hvert skift, så skærmlæsere annoncerer det nye indhold. Det er ikke et rigtigt tab-stop, så vi undlader browserens fokusring her - almindelige interaktive elementer beholder deres egen ----*/
@@ -19,41 +19,91 @@ body.in-flow #app {
     outline: none;
 }
 
+/*---- Delt "gå ud"-dør (js/components/exitDoor.js): to dør-tegninger oven på hinanden, der glider fra lukket dør til dør på klem ved hover og tastaturfokus. Synlig "Gå ud"-tekst under ikonet, så betydningen ikke kun ligger i ikonet/animationen. Lys baggrund, så teksten kan læses, når indhold scrolles ind under knappen ----*/
+
 #exit-button {
 
     position: fixed;
     bottom: 2rem;
     right: 2rem;
+    z-index: 10;
 
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
+    gap: 2px;
 
-    width: 4rem;
-    height: 4rem;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 6px 8px 4px;
 
-    background: none;
+    background-color: colors.$primaryBgColor;
     border: none;
+    border-radius: 12px;
     cursor: pointer;
-    font-size: 4rem;
 
-        .closed-door {
-            display: inline;
-        }
-
-        .open-door {
-            display: none;
-        }
+    &:focus-visible {
+        outline: 3px solid colors.$navCTAColor;
+        outline-offset: 2px;
+    }
 }
 
-#exit-button:hover {
+.exit-door {
+    position: relative;
+    display: block;
+    width: 32px;
+    height: 48px;
 
-    .closed-door {
-        display: none;
+    img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        transition: opacity .18s ease;
+    }
+}
+
+.exit-door-closed {
+    opacity: 1;
+}
+
+.exit-door-klem {
+    opacity: 0;
+}
+
+#exit-button:hover,
+#exit-button:focus-visible {
+
+    .exit-door-closed {
+        opacity: 0;
     }
 
-    .open-door {
-        display: inline;
+    .exit-door-klem {
+        opacity: 1;
+    }
+}
+
+.exit-door-text {
+    font-family: colors.$buttonFont, sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    line-height: 1.2;
+    color: colors.$textColor;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .exit-door img {
+        transition: none;
+    }
+}
+
+/*---- Smal skærm: tættere på kanten, så knappen fylder mindre oven på indholdet ----*/
+
+@media (max-width: 480px) {
+    #exit-button {
+        bottom: 1rem;
+        right: 1rem;
     }
 }
 

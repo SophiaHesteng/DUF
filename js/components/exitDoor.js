@@ -16,11 +16,16 @@
  * ----------------------------------------------------------------------------
  */
 
+/*---- Heidis egne dør-tegninger, lagt oven på hinanden og skiftet med opacity i CSS (hover + focus-visible) - ingen JS. Billederne er dekorative; knappens navn kommer fra aria-label, og den synlige tekst "Gå ud" sikrer, at betydningen ikke kun ligger i ikonet (fx på touch, hvor der ikke er hover). Mellemrummet i filnavnet er URL-kodet (%20) ----*/
+
 export function renderExitDoor(label = "Gå ud af rummet") {
     return `
         <button id="exit-button" aria-label="${label}">
-            <i class="fa-solid fa-door-closed closed-door" aria-hidden="true"></i>
-            <i class="fa-solid fa-door-open open-door" aria-hidden="true"></i>
+            <span class="exit-door" aria-hidden="true">
+                <img class="exit-door-closed" src="img/door1_closed%201.svg" alt="">
+                <img class="exit-door-klem" src="img/door-icon-klem.svg" alt="">
+            </span>
+            <span class="exit-door-text" aria-hidden="true">Gå ud</span>
         </button>
     `;
 }
