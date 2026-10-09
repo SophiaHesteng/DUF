@@ -129,31 +129,6 @@ body.in-flow #app {
   z-index: 10;
 }
 
-/*---- Byggesten: midlertidig "Gå til et andet emne"-knap (tilbage til Modul 2's fokusvalg, før "Skift fokus"), samme placering som opslagsværk-linket ovenfor. Forklaringen (runde 7) står under knappen. Navigationslinjerne er bygget (2026-10-09); knappen er bevaret ved siden af dem, indtil teamet beslutter andet ----*/
-.skift-fokus {
-  position: fixed;
-  left: 2rem;
-  bottom: 2.75rem;
-  z-index: 10;
-  max-width: 240px;
-}
-
-.skift-fokus-forklaring {
-  font-family: "Manrope", sans-serif;
-  font-size: 13px;
-  color: #0F201B;
-  background-color: #FEF3E8;
-  border: 1px solid rgba(15, 32, 27, 0.6);
-  border-radius: 10px;
-  padding: 6px 10px;
-  margin-top: 8px;
-}
-
-/*---- Mens forklaringen står der, er det faste felt højere end dør-knappen - mere luft i bunden, så det ikke dækker skærmens sidste knap ----*/
-body.in-flow #app:has(.skift-fokus-forklaring) {
-  padding-bottom: 180px;
-}
-
 /*---- Sektionstypografi ----*/
 .section-heading {
   font-family: "Nova Flat", sans-serif;

@@ -31,12 +31,6 @@ export const velkomst = {
     knap: "Hvilke elementer består byggesten af?"
 };
 
-/*---- Knappen "Gå til et andet emne" (før: "Skift fokus", runde 7). Forklaringen vises fra første gang, knappen dukker op i Modul 3-5, indtil den er brugt, eller brugeren når Modul 6 ----*/
-export const skiftEmne = {
-    knap: "Gå til et andet emne",
-    forklaring: "Her kan du altid hoppe til ikoner, fonte eller de små detaljer, eller vælge flere emner til."
-};
-
 /*---- Overgange mellem emnerne (runde 7). Vises i slutningen af 3.5, 4.6 og 5.2a/b/c - hvilken, afgøres af byggestenEngine.js ud fra, hvad der kommer næst ----*/
 export const OVERGANGE = {
     fonte: {

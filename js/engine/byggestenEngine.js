@@ -54,16 +54,15 @@ const OVERGANGS_BOBLER = ["3.5", "4.6", "5.2a", "5.2b", "5.2c"];
  * til justeringer og lander bagefter i 6.1 igen; 7.1's "Ret" (runde 7) gør
  * det samme, men lander i 7.1.
  *
- * Fokusvalg er ikke låst: "Gå til et andet emne" (vist fra Modul 3 og frem)
- * går tilbage til 2.1 med de nuværende valg markeret. Tilføjes et emne,
- * køres kun det nye, derefter 6.1 - allerede gennemførte emner og deres svar
- * bevares. Fravælges et emne, bliver svarene liggende i `svar`, men vises og
- * gemmes kun for de emner, der står i fokusvalg. Knappen var tænkt som en
- * midlertidig løsning, indtil modul-navigationslinjen fandtes. Linjen er
- * bygget (2026-10-09), men knappen er bevaret, indtil teamet beslutter andet.
+ * Fokusvalg er ikke låst: modul-linjen (pin for Modul 2) fører tilbage til
+ * 2.1 med de nuværende valg markeret. Derfra køres de valgte emner igen, med
+ * felterne udfyldt af de tidligere svar. Fravælges et emne, bliver svarene
+ * liggende i `svar`, men vises og gemmes kun for de emner, der står i
+ * fokusvalg. Knappen "Gå til et andet emne" (runde 7) var en midlertidig vej
+ * tilbage til 2.1, indtil navigationslinjen fandtes; den er fjernet 2026-10-09.
  *
  * Navigationslinjerne (js/engine/rumHistorik.js): fordi flowet selv går i
- * ring (Gå til et andet emne, 6.3, 7.1's Ret), afkorter et genbesøg ikke
+ * ring (6.3, 7.1's Ret), afkorter et genbesøg ikke
  * ruten her - runden lægges i forlængelse. Et hop via pin eller "Tilbage"
  * genskaber køen, det aktive emne og de gennemførte emner, som de var, da
  * boblen blev vist. Svarene bevares, så felterne er udfyldt som ved et
@@ -82,7 +81,6 @@ export class ByggestenEngine {
     aktivtJob = null;
     historik = new RumHistorik({ afkortVedGenbesoeg: false }); // brugerens rute gennem moduler/bobler - til navigationslinjerne, "Tilbage" og "Bliv i rummet"
     visueltVaekstrum = null; // hentUdgangspunkt() - null, hvis brugeren ikke har været i VisueltVaekstrum
-    skiftForklaringSlut = false; // "Gå til et andet emne"-forklaringen er brugt op for dette besøg
     _paletCache;
 
     harArbejdetMedFarverEllerLogo() {
@@ -108,9 +106,6 @@ export class ByggestenEngine {
         });
 
         const boble = this.resolveContent(id);
-
-        /*---- Forklaringen under "Gå til et andet emne" forsvinder, når brugeren når Modul 6 ----*/
-        if (boble.modul >= 6) this.skiftForklaringSlut = true;
 
         const ctx = await this.gatherContext(boble);
         const render = RENDERERS[boble.type];
@@ -240,15 +235,12 @@ export class ByggestenEngine {
         return this.koe?.efter === "7.1" ? "tilbageTil71" : "provSammen";
     }
 
-    /*---- Asynkront hentet kontekst (billeder, gemt Farver-palet/Logo) + forudfyldning af tidligere svar, så et genbesøg (Gå til et andet emne, 6.3, 7.1's Ret, 4.5 "Nej") ikke starter fra tomme felter ----*/
+    /*---- Asynkront hentet kontekst (billeder, gemt Farver-palet/Logo) + forudfyldning af tidligere svar, så et genbesøg (via navigationslinjerne, 6.3, 7.1's Ret, 4.5 "Nej") ikke starter fra tomme felter ----*/
 
     async gatherContext(boble) {
         const iEmneModul = boble.modul >= 3 && boble.modul <= 5;
         const ctx = {
             prefill: this.prefillFor(boble),
-            visSkiftFokus: boble.modul >= 3 && !boble.isExit,
-            visSkiftForklaring: iEmneModul && !this.skiftForklaringSlut,
-            onSkiftFokus: () => this.skiftFokus(),
             emneTaeller: iEmneModul ? this.emneTaeller(boble.modul) : ""
         };
 
@@ -463,13 +455,6 @@ export class ByggestenEngine {
         this.koe = null;
         this.aktivtJob = null;
         this.showBoble(efter);
-    }
-
-    skiftFokus() {
-        this.skiftForklaringSlut = true;
-        this.koe = null;
-        this.aktivtJob = null;
-        this.showBoble("2.1");
     }
 
     /*---- 7.1's "Ret" (runde 7): samme mekanisme som 6.3, men brugeren lander i 7.1 bagefter ----*/

@@ -18,7 +18,7 @@
  * - Kommer brugeren tilbage til en boble, der allerede ligger tidligere i
  *   historikken (fx Farvers "Prøv en anden kombination" fra 7.3 til 7.2),
  *   behandles det som et hop tilbage til den boble. Rum, hvor flowet selv går
- *   i ring (Byggestens "Gå til et andet emne", 6.3 og 7.1's "Ret"), slår det
+ *   i ring (Byggestens 6.3 og 7.1's "Ret"), slår det
  *   fra med `new RumHistorik({ afkortVedGenbesoeg: false })`: så lægges
  *   runden i forlængelse af ruten, og kun pins og "Tilbage" afkorter.
  * - Boble-linjen viser den seneste sammenhængende tur gennem det aktuelle

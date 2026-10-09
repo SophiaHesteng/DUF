@@ -31,13 +31,15 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 - Modul 7: `tommelfingerregel` (fri tekst), `begrundelse` (samlet, til Fælles samling)
 - **Læses fra Det visuelle udtryk for din praksis (ny i runde 7):** `hentUdgangspunkt()` → `{ udgangspunkt, kanaler, starterFraBunden }`. Bruges i 1.3 (se nedenfor) og 4.2. Har brugeren ikke været i Det visuelle udtryk for din praksis, opfører rummet sig som før.
 
-## Knappen "Skift fokus" *(gælder hele rummet)*
+## Knappen "Skift fokus" *(fjernet 2026-10-09)*
+
+*Fjernet efter Heidis beslutning 2026-10-09: modul-linjen øverst i rummet afløser knappen. Pinnen for Modul 2 fører tilbage til 2.1, hvor brugeren kan ændre sit fokus, og de valgte emner står allerede markeret. Derfra går brugeren de valgte emner igennem igen, med felterne udfyldt af de tidligere svar (før kørte knappen kun nye emner). Afsnittet herunder er bevaret som historik.*
 
 *Runde 7: Testbrugeren lagde mærke til knappen i hjørnet, men spurgte "Hvad betyder skift fokus?". Hun kunne ikke se, at den førte til de andre emner.*
 
-- **✅ Ny tekst på knappen (godkendt af Heidi 2026-09-25):** "Gå til et andet emne" *(før: "Skift fokus")*.
-- **✅ Ny forklaring (godkendt af Heidi 2026-09-25):** Første gang knappen vises (i Modul 3, 4 eller 5), står der en lille linje under den: "Her kan du altid hoppe til ikoner, fonte eller de små detaljer, eller vælge flere emner til." Linjen forsvinder, når brugeren har brugt knappen eller er kommet til Modul 6.
-- Knappen fører, som i dag, tilbage til 2.1, hvor brugeren kan ændre sit fokus. De valgte emner står allerede markeret.
+- ~~**✅ Ny tekst på knappen (godkendt af Heidi 2026-09-25):** "Gå til et andet emne" *(før: "Skift fokus")*.~~
+- ~~**✅ Ny forklaring (godkendt af Heidi 2026-09-25):** Første gang knappen vises (i Modul 3, 4 eller 5), står der en lille linje under den: "Her kan du altid hoppe til ikoner, fonte eller de små detaljer, eller vælge flere emner til." Linjen forsvinder, når brugeren har brugt knappen eller er kommet til Modul 6.~~
+- ~~Knappen fører, som i dag, tilbage til 2.1, hvor brugeren kan ændre sit fokus. De valgte emner står allerede markeret.~~
 
 ## Modul 1 — Se hvad du allerede har *(alle)*
 
@@ -95,7 +97,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 - **Eventuel interaktion:** Multivalg (mindst ét): "Ikoner — jeg vil gerne have, at mine ikoner hænger sammen" / "Fonte — jeg vil gerne have styr på mine skrifttyper" / "De små detaljer — jeg har nogle grafiske elementer, men ved ikke, om de hænger sammen" / "Det hele — jeg vil gerne have et enkelt, samlet system" (markerer automatisk de tre andre).
   - **✅ Variant af valgmulighederne ved "Fra bunden" (runde 7, godkendt af Heidi 2026-09-25):** "Ikoner — jeg vil gerne finde nogle ikoner, der passer til mig" / "Fonte — jeg vil gerne finde mine skrifttyper" / "De små detaljer — jeg vil gerne have en lille detalje, der går igen" / "Det hele — jeg vil gerne have et enkelt, samlet system".
 - **Gemmes/får betydning senere:** Ja, `fokusvalg[]`. Kun de valgte af Modul 3-5 vises. Rækkefølge ved flere valg: Ikoner → Fonte → Andre byggesten.
-- **Note til design/udvikling:** Dette valg er ikke låst — brugeren kan altid komme tilbage til denne boble (via knappen "Gå til et andet emne" eller modul-linjen) og tilføje flere emner (jf. [[DUF Teknisk - Navigationslinjer (modul og boble)]]). **Eksplicit regel:** `fokusvalg[]` styrer kun, hvilke moduler der *vises* — ikke hvilke data der findes. Fjerner brugeren fx "Fonte" fra sit fokus, efter hun har svaret i Modul 4, slettes de svar ikke; de bliver liggende og vises igen, hvis hun senere tilføjer "Fonte" til sit fokus igen.
+- **Note til design/udvikling:** Dette valg er ikke låst — brugeren kan altid komme tilbage til denne boble (via modul-linjen) og tilføje flere emner (jf. [[DUF Teknisk - Navigationslinjer (modul og boble)]]). **Eksplicit regel:** `fokusvalg[]` styrer kun, hvilke moduler der *vises* — ikke hvilke data der findes. Fjerner brugeren fx "Fonte" fra sit fokus, efter hun har svaret i Modul 4, slettes de svar ikke; de bliver liggende og vises igen, hvis hun senere tilføjer "Fonte" til sit fokus igen.
 
 ## Overgange mellem emnerne *(✅ nyt i runde 7, godkendt af Heidi 2026-09-25)*
 

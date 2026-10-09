@@ -6,7 +6,6 @@ import { renderFontvaelger, indlaesGoogleFont } from "../components/fontvaelger.
 import { renderProvSammen } from "../components/provSammen.js";
 import { materialIkonHtml, ikonRaekkeHtml, EKSEMPEL_IKONER } from "../components/materialIkoner.js";
 import { SE_OGSAA_MAAL } from "../data/seOgsaaMaal.js";
-import { skiftEmne } from "../data/byggesten.js";
 import { rumRammeHtml, bindRumRamme } from "../components/rumRamme.js";
 import { guideHtml } from "../components/guide.js";
 
@@ -146,18 +145,7 @@ function visueltHtml(visuelt, ctx = {}) {
     }
 }
 
-/*---- "Gå til et andet emne" (før: "Skift fokus") - rum-lokal vej tilbage til 2.1 (jf. byggestenEngine.js), bevaret ved siden af navigationslinjerne indtil videre. Samme slim-knap-placering som den gamle "Rettigheder"-knap. Forklaringen står under knappen, indtil den er brugt, eller brugeren når Modul 6 ----*/
-
-function skiftFokusHtml(ctx) {
-    if (!ctx?.visSkiftFokus) return "";
-    return `
-        <div class="skift-fokus">
-            <button id="skift-fokus-button" type="button" class="btn btn--slim btn--outline-green"${ctx.visSkiftForklaring ? ` aria-describedby="skift-fokus-forklaring"` : ""}>${skiftEmne.knap}</button>
-            ${ctx.visSkiftForklaring ? `<p id="skift-fokus-forklaring" class="skift-fokus-forklaring">${skiftEmne.forklaring}</p>` : ""}
-        </div>`;
-}
-
-/*---- Fælles ramme (js/components/rumRamme.js): topbjælke, modul- og boble-linje, indholdskort og knaprække med "Tilbage" til venstre og boblens egne knapper til højre. "Gå til et andet emne" og exit-døren ligger uden for rammen som før ----*/
+/*---- Fælles ramme (js/components/rumRamme.js): topbjælke, modul- og boble-linje, indholdskort og knaprække med "Tilbage" til venstre og boblens egne knapper til højre. Exit-døren ligger uden for rammen som før ----*/
 function renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit) {
     const navigation = rumNavigation();
     const indhold = `
@@ -170,15 +158,11 @@ function renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit) {
 
     app.innerHTML = `
         ${rumRammeHtml({ omraade: OMRAADE, rum: RUM, indhold, knapper: ctaHtml, navigation })}
-        ${skiftFokusHtml(ctx)}
         ${renderExitDoor()}`;
 
     bindRumRamme(app, navigation);
     activateFocusTrap(app);
     bindExit(onExit);
-
-    const skiftFokusButton = document.querySelector("#skift-fokus-button");
-    if (skiftFokusButton) skiftFokusButton.addEventListener("click", () => ctx.onSkiftFokus());
 
     if (boble.imageUpload && ctx?.imageHandlers) {
         bindImageUpload(ctx.imageHandlers);
