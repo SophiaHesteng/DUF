@@ -61,13 +61,14 @@ export function rumRammeHtml({ omraade, rum, indhold, knapper = "", navigation =
 export function bindRumRamme(root, navigation) {
     if (!navigation) return;
 
-    const { moduler, aktivModul, bobler, aktivBoble, antalBobler, rum } = navigation;
+    const { moduler, aktivModul, sprungetOver, bobler, aktivBoble, antalBobler, rum } = navigation;
 
     renderNavLinje(root.querySelector(".rum-navigation-moduler"), {
         label: `Modul ${aktivModul + 1} af ${moduler.length} · ${moduler[aktivModul]}`,
         ariaLabel: `Moduler i ${rum}`,
         trin: moduler.map((titel, index) => `Modul ${index + 1}: ${titel}`),
         aktiv: aktivModul,
+        sprungetOver,
         onSelect: navigation.onModul
     });
 

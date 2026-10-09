@@ -19,15 +19,17 @@
  *   sti.setActive(2);
  *
  * Valgfrit (navigationslinjerne): `states` giver hver pin en tilstand -
- * "faerdig", "aktiv" eller "ikke-naaet". En "ikke-naaet"-pin er deaktiveret
- * og kan ikke klikkes. `className` lægges på rækken (fx "pin-sti--fuld").
+ * "faerdig", "aktiv", "ikke-naaet" eller "sprunget-over" (et modul, brugerens
+ * vej gik uden om, fx i Logo). "ikke-naaet"- og "sprunget-over"-pins er
+ * deaktiverede og kan ikke klikkes. `className` lægges på rækken (fx "pin-sti--fuld").
  * ----------------------------------------------------------------------------
  */
 
 const STATE_CLASS = {
     faerdig: "is-faerdig",
     aktiv: "is-active",
-    "ikke-naaet": "is-ikke-naaet"
+    "ikke-naaet": "is-ikke-naaet",
+    "sprunget-over": "is-sprunget-over"
 };
 
 export function renderPinSti(container, { labels, ariaLabel, onSelect, states, className = "" }) {
@@ -38,7 +40,7 @@ export function renderPinSti(container, { labels, ariaLabel, onSelect, states, c
 
                 return `
                 <li class="pin-sti-trin">
-                    <button type="button" class="pin-sti-pin${state ? ` ${STATE_CLASS[state]}` : ""}" data-index="${index}" aria-label="${label}"${state === "aktiv" ? ' aria-current="step"' : ""}${state === "ikke-naaet" ? " disabled" : ""}>
+                    <button type="button" class="pin-sti-pin${state ? ` ${STATE_CLASS[state]}` : ""}" data-index="${index}" aria-label="${label}"${state === "aktiv" ? ' aria-current="step"' : ""}${state === "ikke-naaet" || state === "sprunget-over" ? " disabled" : ""}>
                         <span class="pin-sti-prik" aria-hidden="true"></span>
                     </button>
                 </li>

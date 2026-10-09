@@ -771,6 +771,13 @@ button.value-card {
     height: 10px;
 }
 
+/*---- Sprunget over: et modul, brugerens vej gik uden om (fx i Logo). En lille prik, tydeligt mindre end de andre tilstande; teksten "ikke en del af din vej" står i aria-label ----*/
+.pin-sti-pin.is-sprunget-over .pin-sti-prik {
+    width: 6px;
+    height: 6px;
+    border-width: 1.5px;
+}
+
 /*---- Fuld bredde: pins fordeles over hele linjen og rykker tættere sammen, når der er mange (fx på mobil). Knappen beholder 44px trykflade, også når dens felt bliver smallere ----*/
 
 .pin-sti--fuld {

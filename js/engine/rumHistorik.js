@@ -18,6 +18,9 @@
  * - Kommer brugeren tilbage til en boble, der allerede ligger tidligere i
  *   historikken (fx Farvers "Prøv en anden kombination" fra 7.3 til 7.2),
  *   behandles det som et hop tilbage til den boble.
+ * - Et modul før det aktuelle, som ikke findes i historikken (fx når Logos
+ *   spor springer Modul 3-6 over), markeres "sprunget over" på modul-linjen
+ *   i stedet for "færdig".
  * - genvis() viser den aktuelle skærm igen uden at ændre historikken (bruges
  *   af exit-bekræftelsens "Bliv i rummet").
  *
@@ -76,10 +79,13 @@ export class RumHistorik {
             }
         });
 
+        const besoegte = new Set(this.#trin.map((trin) => trin.modul));
+
         return {
             rum,
             moduler: moduler.map((modul) => modul.titel),
             aktivModul: aktuel.modul - 1,
+            sprungetOver: moduler.map((_, index) => index).filter((index) => index < aktuel.modul - 1 && !besoegte.has(index + 1)),
             bobler: bobler.map((boble) => boble.boble),
             aktivBoble: bobler.findIndex((boble) => boble.boble === aktuel.boble),
             antalBobler: moduler[aktuel.modul - 1]?.antalBobler ?? null,

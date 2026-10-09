@@ -1,5 +1,5 @@
-import { RENDERERS, showWelcome, showExitConfirmation } from "./logoUi.js";
-import { velkomst, BOBLER } from "../data/logo.js";
+import { RENDERERS, showWelcome, showExitConfirmation, setRumNavigation } from "./logoUi.js";
+import { velkomst, moduler, BOBLER } from "../data/logo.js";
 import {
     saveVaekstrumOutput,
     saveImage,
@@ -11,6 +11,7 @@ import {
     clearVaekstrumPosition
 } from "../storage/vaekstrumStorage.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
+import { RumHistorik } from "./rumHistorik.js";
 
 const LOGO_VAEKSTRUM_ID = "logo";
 const LOGO_BUCKET = "logo";
@@ -51,12 +52,14 @@ export class LogoEngine {
 
     svar = {};
     sequenceQueue = null;
-    previousScreen = null;
+    historik = new RumHistorik(); // brugerens rute gennem moduler/bobler - til navigationslinjerne, "Tilbage" og "Bliv i rummet"
     fraVisueltVaekstrum = false;
     _farverPaletteCache;
     _pendingSkurrerGroups = null;
 
     async start() {
+        setRumNavigation(() => this.historik.navigation("Logo", moduler));
+
         const params = new URLSearchParams(window.location.search);
         this.fraVisueltVaekstrum = params.get("fra") === "vaekstrum-visuelt-udtryk";
 
@@ -72,7 +75,6 @@ export class LogoEngine {
 
         /*---- Denne velkomstskærm ER manuskriptets Boble 1.1 (jf. logoUi.js's showWelcome) - flowet fortsætter derfor direkte til 1.2, ikke til en gentagelse af 1.1 ----*/
         const text = this.fraVisueltVaekstrum ? velkomst.fraVisueltVaekstrum : velkomst.standard;
-        this.previousScreen = () => this.start();
 
         showWelcome(text, () => {
             document.body.classList.add("in-flow");
@@ -80,9 +82,16 @@ export class LogoEngine {
         });
     }
 
+    /*---- Historikken (js/engine/rumHistorik.js) gemmer svar og myte-/gruppe-køen, som de var, da boblen blev vist. Et hop tilbage til boblen genskaber dem, så svar fra senere bobler - og fra en gren, brugeren forlader ved at svare anderledes - ikke gemmes. Modulet er tallet foran boble-id'et ("2b.4-form" ligger i Modul 2) ----*/
     async showBoble(id) {
+        const tilstand = { svar: structuredClone(this.svar), sequenceQueue: structuredClone(this.sequenceQueue) };
+        this.historik.besoeg(parseInt(id, 10), id, () => {
+            this.svar = structuredClone(tilstand.svar);
+            this.sequenceQueue = structuredClone(tilstand.sequenceQueue);
+            this.showBoble(id);
+        });
+
         const boble = this.resolveContent(id);
-        this.previousScreen = () => this.showBoble(id);
 
         const ctx = await this.gatherContext(boble);
         const render = RENDERERS[boble.type];
@@ -711,7 +720,7 @@ export class LogoEngine {
 
     exitRoom() {
         showExitConfirmation(
-            () => this.previousScreen(),
+            () => this.historik.genvis(),
             () => {
                 window.location.href = VISUELT_UDTRYK_HUB;
             }

@@ -6,9 +6,11 @@
  * dørkarrusellen (js/components/pinSti.js) i stedet for en kopi.
  *
  * Tilstanden for hver pin følger af `aktiv`: trin før det aktive er færdige,
- * trin efter er ikke nået endnu. Tilstanden vises med størrelse og udfyldning
- * (CSS) og står i hver pins aria-label, så den ikke kun ligger i farven.
- * Færdige pins og den aktive pin kan klikkes; "ikke nået"-pins er deaktiveret.
+ * trin efter er ikke nået endnu. Trin før det aktive, der står i
+ * `sprungetOver` (indeks), er moduler, brugerens vej gik uden om. Tilstanden
+ * vises med størrelse, udfyldning og kant (CSS) og står i hver pins
+ * aria-label, så den ikke kun ligger i farven. Færdige pins og den aktive pin
+ * kan klikkes; "ikke nået"- og "sprunget over"-pins er deaktiveret.
  *
  * Brug:
  *   renderNavLinje(container, {
@@ -17,6 +19,7 @@
  *       trin: ["Modul 1: Hvorfor farver betyder noget", ...],
  *       aktiv: 4,
  *       onSelect: (index) => { ... },
+ *       sprungetOver: [],   // valgfrit
  *       lille: false
  *   });
  * ----------------------------------------------------------------------------
@@ -27,7 +30,8 @@ import { renderPinSti } from "./pinSti.js";
 const STATE_TEXT = {
     faerdig: "færdig",
     aktiv: "her er du nu",
-    "ikke-naaet": "ikke nået endnu"
+    "ikke-naaet": "ikke nået endnu",
+    "sprunget-over": "ikke en del af din vej"
 };
 
 function escapeHtml(text) {
@@ -38,7 +42,7 @@ function escapeHtml(text) {
         .replace(/"/g, "&quot;");
 }
 
-export function renderNavLinje(container, { label, ariaLabel, trin, aktiv, onSelect, lille = false }) {
+export function renderNavLinje(container, { label, ariaLabel, trin, aktiv, onSelect, sprungetOver = [], lille = false }) {
     container.innerHTML = `
         <div class="nav-linje${lille ? " nav-linje--lille" : ""}">
             <p class="nav-linje-label">${escapeHtml(label)}</p>
@@ -47,7 +51,7 @@ export function renderNavLinje(container, { label, ariaLabel, trin, aktiv, onSel
     `;
 
     const states = trin.map((_, index) => {
-        if (index < aktiv) return "faerdig";
+        if (index < aktiv) return sprungetOver.includes(index) ? "sprunget-over" : "faerdig";
         if (index === aktiv) return "aktiv";
         return "ikke-naaet";
     });
@@ -58,7 +62,7 @@ export function renderNavLinje(container, { label, ariaLabel, trin, aktiv, onSel
         states,
         className: `pin-sti--fuld${lille ? " pin-sti--lille" : ""}`,
         onSelect: (index) => {
-            if (index <= aktiv) onSelect(index);
+            if (index <= aktiv && !sprungetOver.includes(index)) onSelect(index);
         }
     });
 }
