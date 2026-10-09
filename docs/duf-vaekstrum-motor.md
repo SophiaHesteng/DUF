@@ -25,7 +25,7 @@ Udseende (2026-10-08): knappen bruger Heidis egne dør-tegninger i stedet for Fo
 
 ## Rum-design: fælles ramme, navigationslinjer og guide-boble
 
-*Bygget 2026-10-09 på branchen `rum-design` (fase 1: de delte dele + Farver). Fase 2 tager dem i brug i Det visuelle udtryk for din praksis, Logo, Billeder og Byggesten.*
+*Bygget 2026-10-09 på branchen `rum-design` (fase 1: de delte dele + Farver). Fase 2 tager dem i brug i de andre rum, ét ad gangen. Billeder fulgte 2026-10-09; Det visuelle udtryk for din praksis, Logo og Byggesten mangler.*
 
 Hver skærm i et vækstrum består af en fælles ramme, mens exit-døren bliver nederst til højre som før:
 
@@ -37,6 +37,7 @@ Hver skærm i et vækstrum består af en fælles ramme, mens exit-døren bliver 
   - Svarene ligger stadig i engine-objektet og slettes ikke ved et hop. Skærme, der viser tidligere svar (palet, roller, refleksion), er derfor udfyldt, når brugeren går frem igen. Svar gemmes stadig først i IndexedDB ved `saveAndFinish()`, så en genindlæsning midt i rummet mister dem som før.
   - `genvis()` bruges af exit-bekræftelsens "Bliv i rummet" i stedet for den tidligere `previousScreen`.
 - **Modullisten** står i rummets data-fil (Farver: `moduler` i `js/data/farver.js`, med `titel` og valgfri `antalBobler`). Antallet af moduler læses derfra. Uden `antalBobler` (fx et modul, der forgrener sig) viser boble-linjen bare "Boble 2".
+- **Billeder** (data-drevet, én `showBoble(index)`): historikken bruger boblernes egne `id` og `modul` fra `js/data/billeder.js`. Modul 3 forgrener sig (3.3 og 3.5 springes over uden egne billeder), så det har intet fast antal bobler. Linjen viser kun den vej, brugeren har taget. Vælger brugeren efter et hop tilbage til 3.1 vejen uden egne billeder, slettes svarene fra 3.3/3.5, så de ikke gemmes. Opslagsværket "Billedrettigheder" vises i rammen uden linjer, og dets "Tilbage" viser boblen igen via `genvis()`. "Rettigheder"-knappen og exit-døren ligger uden for rammen som før. Billeders eksisterende guide-linjer ("Guide: …"-panelet) er ikke flyttet over i guide-boblen, fordi de ikke har et navn.
 - **`js/components/guide.js`**: guide-boble (avatar + navn + citat). Avataren er en pladsholder med navnets forbogstav. Et `avatar`-billede lægges oven på bogstavet, når det findes. Bygget, men endnu ikke brugt i noget rum, fordi manuskripterne ikke har guide-citater med navn endnu.
 - **CSS**: `css/_rum.scss` (ramme, kort, linjer, guide, knaprække, `.btn--solid-omraade`). Pin-tilstandene ligger ved `.pin-sti` i `css/_components.scss`. Nye tokens (`--rum-kort-flade`, `--rum-kant`, `--rum-skygge`, `--rum-daempet-tekst`) står i `css/_colors.scss`. Områdets farve sættes med klassen `rum--<omraade-slug>` som `--omraade-farve` og bruges kun som markør: prikken, guide-navnet, guide-boblens lyse baggrund og kant og primærknappen.
 - **Primærknappen** (`.btn--solid-omraade`) har mørk tekst (`#0F201B`) på områdefarven: 5,3:1 mod `#EB6834`, hvor hvid kun når 3,2:1. Guide-navnet er områdefarven blandet 55/45 med tekstfarven (ca. 6,3:1 mod boblen).

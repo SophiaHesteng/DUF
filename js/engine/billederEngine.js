@@ -2,13 +2,15 @@ import {
     showWelcome,
     showReference,
     showExitConfirmation,
+    setRumNavigation,
     RENDERERS
 } from "./billederUi.js";
 
-import { bobler, velkomst, situationer, soegesteder } from "../data/billeder.js";
+import { bobler, moduler, velkomst, situationer, soegesteder } from "../data/billeder.js";
 import { saveVaekstrumOutput, saveImage, deleteImage, getImagesForVaekstrum, getVaekstrumOutput } from "../storage/vaekstrumStorage.js";
 import { hentUdgangspunkt } from "../storage/udgangspunkt.js";
 import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
+import { RumHistorik } from "./rumHistorik.js";
 
 const BILLEDE_VAEKSTRUM_ID = "billeder";
 
@@ -53,7 +55,7 @@ export class BilledeEngine {
 
     index = 0;
     answers = {};
-    previousScreen = null;
+    historik = new RumHistorik(); // brugerens rute gennem moduler/bobler - til navigationslinjerne, "Tilbage", opslagsværket og "Bliv i rummet"
     udgangspunkt = null;
 
     start() {
@@ -61,7 +63,7 @@ export class BilledeEngine {
         const fromVisueltVaekstrum = params.get("fra") === "vaekstrum-visuelt-udtryk";
         const text = fromVisueltVaekstrum ? velkomst.fraVisueltVaekstrum : velkomst.standard;
 
-        this.previousScreen = () => this.start();
+        setRumNavigation(() => this.historik.navigation("Billeder", moduler));
 
         /*---- null, hvis brugeren ikke har været i VisueltVaekstrum - så vises 3.1's almindelige tekst ----*/
         hentUdgangspunkt().then((udgangspunkt) => { this.udgangspunkt = udgangspunkt; });
@@ -96,9 +98,9 @@ export class BilledeEngine {
     }
 
     async showBoble(index) {
+        this.historik.besoeg(bobler[index].modul, bobler[index].id, () => this.showBoble(index));
         this.index = index;
         const boble = this.tilpasBoble(bobler[index]);
-        this.previousScreen = () => this.showBoble(index);
 
         const onNext = (rawAnswer) => this.advance(boble, rawAnswer);
         const onExit = () => this.exitRoom();
@@ -209,6 +211,13 @@ export class BilledeEngine {
         if (boble.ingenBilleder) {
             /*---- 3.1: rawAnswer = { harEgneBilleder: true/false } ----*/
             this.answers.harEgneBilleder = rawAnswer?.harEgneBilleder !== false;
+
+            /*---- Hopper brugeren tilbage til 3.1 og vælger vejen uden egne billeder, er svarene fra 3.3/3.5 en forladt gren - de gemmes ikke ----*/
+            if (!this.answers.harEgneBilleder) {
+                bobler
+                    .filter((b) => b.kunMedEgneBilleder && b.answerKey)
+                    .forEach((b) => { delete this.answers[b.answerKey]; });
+            }
         }
 
         if (boble.answerKey) {
@@ -280,7 +289,7 @@ export class BilledeEngine {
     }
 
     showReference() {
-        showReference(situationer, () => this.previousScreen());
+        showReference(situationer, () => this.historik.genvis());
     }
 
     async saveAndFinish() {
@@ -297,7 +306,7 @@ export class BilledeEngine {
 
     exitRoom() {
         showExitConfirmation(
-            () => this.previousScreen(),
+            () => this.historik.genvis(),
             () => {
                 window.location.href = VISUELT_UDTRYK_HUB;
             }

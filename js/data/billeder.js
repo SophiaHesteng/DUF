@@ -76,6 +76,19 @@ const ordgrupper = [
     { label: "Stil og stemning", words: ["Elegant", "Eksklusiv", "Professionel", "Mystisk", "Poetisk"] }
 ].map((gruppe) => ({ label: gruppe.label, options: gruppe.words.map((ord) => ({ id: ord.toLowerCase(), text: ord })) }));
 
+/*---- Modulernes titler (fra manuskriptets overskrifter) og antal bobler, til navigationslinjerne (js/components/rumRamme.js). Antallet af moduler læses herfra. Modul 3 forgrener sig (3.3 og 3.5 springes over uden egne billeder), så det har intet fast antal bobler ----*/
+
+export const moduler = [
+    { titel: "Hvorfor billeder betyder noget", antalBobler: 4 },
+    { titel: "Billedrettigheder", antalBobler: 6 },
+    { titel: "Dit udgangspunkt" },
+    { titel: "Find inspiration", antalBobler: 5 },
+    { titel: "Se efter mønstre", antalBobler: 4 },
+    { titel: "Dit visuelle kompas", antalBobler: 5 },
+    { titel: "Tjek rettigheder og kontrast i praksis", antalBobler: 7 },
+    { titel: "Afprøv og dokumentér", antalBobler: 3 }
+];
+
 export const bobler = [
 
     /*---- Modul 1 — Hvorfor billeder betyder noget ----*/
