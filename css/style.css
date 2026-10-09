@@ -22,6 +22,14 @@
   --omraade-ai: #4A3AA7;
 }
 
+/*---- Vækstrummenes fælles ramme (css/_rum.scss): hvidt indholdskort, svag kant og blød skygge i tekstfarvens nuance, dæmpet tekst til topbjælke og navigationslinjer. Kun lyse varianter, som resten af DUF. Dæmpet tekst = 72% tekstfarve, ca. 6,6:1 mod baggrunden ----*/
+:root {
+  --rum-kort-flade: #FFFFFF;
+  --rum-kant: rgba(15, 32, 27, 0.12);
+  --rum-skygge: 0 1px 2px rgba(15, 32, 27, 0.06), 0 10px 24px -12px rgba(15, 32, 27, 0.18);
+  --rum-daempet-tekst: rgba(15, 32, 27, 0.72);
+}
+
 /*---- Velkomstskærmen viser den almindelige header/footer, men selve flowet (spørgsmål/feedback/resultat) er en immersiv oplevelse uden dem - jf. Figma har ingen af flow-skærmene navigationsbjælken, kun rummets egen dør ----*/
 body.in-flow #site-header,
 body.in-flow #site-footer {
@@ -853,8 +861,11 @@ button.value-card {
   outline-offset: -3px;
   border-radius: 999px;
 }
-.pin-sti-pin:hover .pin-sti-prik {
+.pin-sti-pin:hover:not(:disabled) .pin-sti-prik {
   border-color: #0C3A2D;
+}
+.pin-sti-pin:disabled {
+  cursor: default;
 }
 
 .pin-sti-prik {
@@ -873,6 +884,50 @@ button.value-card {
   background-color: #0C3A2D;
   border-color: #0C3A2D;
   box-shadow: 0 0 0 3px #FEF3E8, 0 0 0 5px #0C3A2D;
+}
+
+/*---- Tilstande til navigationslinjerne (js/components/navLinje.js). Tilstanden vises med både størrelse og udfyldning, ikke kun farve: færdig = lille udfyldt prik, aktiv = stor grøn prik med ring (som ovenfor), ikke nået = endnu mindre, hul prik. Dørkarrusellen bruger ingen tilstande og ser ud som før ----*/
+.pin-sti-pin.is-faerdig .pin-sti-prik {
+  width: 12px;
+  height: 12px;
+  background-color: #7B8582;
+}
+
+.pin-sti-pin.is-ikke-naaet .pin-sti-prik {
+  width: 10px;
+  height: 10px;
+}
+
+/*---- Fuld bredde: pins fordeles over hele linjen og rykker tættere sammen, når der er mange (fx på mobil). Knappen beholder 44px trykflade, også når dens felt bliver smallere ----*/
+.pin-sti--fuld {
+  justify-content: flex-start;
+}
+.pin-sti--fuld .pin-sti-trin {
+  flex: 1 1 0;
+  max-width: 88px;
+}
+.pin-sti--fuld .pin-sti-pin {
+  flex: none;
+  width: 44px;
+}
+
+/*---- Lille: boble-linjen, lidt mindre end modul-linjen ----*/
+.pin-sti--lille .pin-sti-prik {
+  width: 10px;
+  height: 10px;
+}
+.pin-sti--lille .pin-sti-pin.is-faerdig .pin-sti-prik {
+  width: 9px;
+  height: 9px;
+}
+.pin-sti--lille .pin-sti-pin.is-ikke-naaet .pin-sti-prik {
+  width: 8px;
+  height: 8px;
+}
+.pin-sti--lille .pin-sti-pin.is-active .pin-sti-prik {
+  width: 12px;
+  height: 12px;
+  box-shadow: 0 0 0 2px #FEF3E8, 0 0 0 4px #0C3A2D;
 }
 
 /*---- Dørkarrusel (vaelg-din-dor.html) ----*/
@@ -2590,6 +2645,230 @@ h3.contrast-level--stor {
 /*---- 7.2: eksemplerne under feltet ----*/
 .byggesten-eksempelforslag {
   margin-top: 16px;
+}
+
+/*---- Vækstrummenes fælles ramme (js/components/rumRamme.js) ----*/
+/*---- Topbjælke, navigationslinjer (js/components/navLinje.js), indholdskort, guide-boble (js/components/guide.js) og knaprække. Layout, afstande og former fra rum-mockuppen (2026-10-09); skrifttyper og farver er sitets egne. Exit-døren styles fortsat i _vaekstrum.scss ----*/
+/*---- Områdets farve sættes én gang pr. område og bruges kun som tynd markør: prikken i topbjælken, guide-navnet, guide-boblens lyse baggrund og kant, og primærknappen. Aldrig som stor flade ----*/
+.rum {
+  --omraade-farve: #0C3A2D;
+  max-width: 640px;
+  margin: 0 auto;
+  padding-top: 28px;
+}
+
+.rum--visuelt-udtryk {
+  --omraade-farve: var(--omraade-visuelt-udtryk);
+}
+
+/*---- Topbjælke: områdemærke ----*/
+.rum-topbjaelke {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 8px;
+  margin: 0 0 18px;
+  font-family: "Manrope", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--rum-daempet-tekst);
+}
+
+.rum-topbjaelke-prik {
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--omraade-farve);
+}
+
+.rum-topbjaelke-omraade {
+  color: #0F201B;
+}
+
+/*---- Navigationslinjer: modul-linjen øverst, boble-linjen under (lidt mindre og mere dæmpet) ----*/
+.rum-navigation {
+  margin-bottom: 18px;
+}
+
+.nav-linje-label {
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--rum-daempet-tekst);
+  margin: 0;
+}
+
+.nav-linje--lille {
+  margin-top: 6px;
+}
+.nav-linje--lille .nav-linje-label {
+  font-size: 11px;
+  font-weight: 500;
+}
+
+/*---- Indholdskort ----*/
+.rum .rum-kort {
+  max-width: none;
+  margin: 0;
+  padding: 34px 30px 30px;
+  background-color: var(--rum-kort-flade);
+  border: 1px solid var(--rum-kant);
+  border-radius: 20px;
+  box-shadow: var(--rum-skygge);
+}
+.rum .rum-kort .section-heading {
+  font-size: clamp(26px, 5vw, 32px);
+}
+.rum .rum-kort .section-body {
+  font-size: 17px;
+  line-height: 1.6;
+  max-width: 62ch;
+}
+
+@media (max-width: 480px) {
+  .rum .rum-kort {
+    padding: 26px 20px 24px;
+  }
+}
+/*---- Guide-boble: avatar (pladsholder med forbogstav, eller billede oven på) + navn + citat. Navnet er områdefarven blandet med tekstfarven, så det holder ca. 6:1 mod boblen - ren #EB6834 når kun ca. 3:1 ----*/
+.guide {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 24px 0;
+}
+
+.guide-avatar {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  overflow: hidden;
+  border-radius: 50%;
+  background-color: #FEF3E8;
+  border: 1.5px solid var(--rum-kant);
+  font-family: "Nova Flat", sans-serif;
+  font-size: 16px;
+  color: var(--rum-daempet-tekst);
+}
+
+.guide-avatar-billede {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.guide-boble {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 18px;
+  background-color: color-mix(in srgb, var(--omraade-farve) 10%, var(--rum-kort-flade));
+  border: 1px solid color-mix(in srgb, var(--omraade-farve) 18%, transparent);
+  border-radius: 4px 16px 16px 16px;
+}
+
+.guide-navn {
+  display: block;
+  margin-bottom: 4px;
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: color-mix(in srgb, var(--omraade-farve) 55%, #0F201B);
+}
+
+.guide-citat {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  font-size: 17px;
+  line-height: 1.45;
+  color: #0F201B;
+}
+.guide-citat p {
+  margin: 0;
+}
+
+/*---- Knaprække: "Tilbage" som diskret tekstknap til venstre, skærmens egne knapper til højre. Lange knaptekster (fx "Gem og fortsæt i Visuelt udtryk for din praksis") må bryde over flere linjer ----*/
+.rum-knapraekke {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 30px;
+}
+.rum-knapraekke .btn {
+  min-height: 44px;
+  white-space: normal;
+  text-align: center;
+}
+
+.rum-knapraekke-handlinger {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.rum-tilbage {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 10px 0 4px;
+  background: none;
+  border: none;
+  border-radius: 999px;
+  font-family: "Outfit", sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  color: var(--rum-daempet-tekst);
+  cursor: pointer;
+}
+.rum-tilbage:hover {
+  color: #0F201B;
+  text-decoration: underline;
+}
+.rum-tilbage:focus-visible {
+  outline: 3px solid #0C3A2D;
+  outline-offset: 2px;
+}
+
+/*---- Mobil: primærknappen øverst i fuld bredde, "Tilbage" under ----*/
+@media (max-width: 480px) {
+  .rum-knapraekke {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+  .rum-knapraekke-handlinger {
+    flex-direction: column;
+    margin-left: 0;
+  }
+  .rum-knapraekke-handlinger .btn {
+    width: 100%;
+  }
+  .rum-tilbage {
+    align-self: flex-start;
+  }
+}
+/*---- Primærknap i områdets farve. Samme form som de andre knapvarianter (jf. "Knapper" i Figma), men mørk tekst: hvid på #EB6834 er kun 3,2:1, tekstfarven #0F201B er 5,3:1 ----*/
+.btn--solid-omraade {
+  background-color: var(--omraade-farve);
+  border-color: var(--omraade-farve);
+  color: #0F201B;
+  box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+}
+.btn--solid-omraade:focus-visible {
+  outline: 3px solid #0C3A2D;
+  outline-offset: 2px;
 }
 
 #site-header {

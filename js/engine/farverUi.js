@@ -2,11 +2,28 @@ import { activateFocusTrap } from "./accessibility.js";
 import { isValidHex, contrastRatio, contrastLevel } from "./contrast.js";
 import { renderExitDoor as renderSharedExitDoor, bindExit } from "../components/exitDoor.js";
 import { renderImageUploadHtml, bindImageUpload } from "../components/imageGallery.js";
+import { rumRammeHtml, bindRumRamme } from "../components/rumRamme.js";
 
 const app = document.querySelector("#app");
 
 function renderExitDoor() {
     return renderSharedExitDoor("Gå ud af Farver");
+}
+
+const OMRAADE = { navn: "Visuelt udtryk for din praksis", slug: "visuelt-udtryk" };
+
+/*---- Sættes af FarverEngine.start(): giver navigationslinjerne og "Tilbage" data fra engine-historikken (js/engine/rumHistorik.js) ----*/
+let rumNavigation = () => null;
+
+function setRumNavigation(provider) {
+    rumNavigation = provider;
+}
+
+/*---- Fælles ramme for rummets skærme (js/components/rumRamme.js): topbjælke, modul- og boble-linje, indholdskort og knaprække med "Tilbage" til venstre og skærmens egne knapper til højre. Exit-døren ligger uden for rammen som før ----*/
+function renderScreen(indhold, knapper = "") {
+    const navigation = rumNavigation();
+    app.innerHTML = rumRammeHtml({ omraade: OMRAADE, rum: "Farver", indhold, knapper, navigation }) + renderExitDoor();
+    bindRumRamme(app, navigation);
 }
 
 function showWelcome(text, onStart) {
@@ -69,8 +86,7 @@ function renderRoleExample({ paragraph, backgroundLabel, textLabel, buttonLabel,
 }
 
 function showTextScreen({ heading, paragraphs = [], callout, examples, roleExample, buttonText = "Næste" }, onNext, onExit) {
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${heading}</h2>
 
             ${examples ? renderExamplesGrid(examples) : ""}
@@ -84,12 +100,9 @@ function showTextScreen({ heading, paragraphs = [], callout, examples, roleExamp
                     <p><strong>Myteknæk:</strong> ${callout}</p>
                 </div>
             ` : ""}
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">${buttonText}</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `, `
+            <button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${buttonText}</button>
+        `);
 
     activateFocusTrap(app);
     document.querySelector("#next-button").addEventListener("click", onNext);
@@ -99,8 +112,7 @@ function showTextScreen({ heading, paragraphs = [], callout, examples, roleExamp
 /*---- Modul 3, Boble 3.2 - forgrening: har brugeren selv et eksempel? ----*/
 
 function showExampleChoice({ heading, question, yesLabel, noLabel }, onHasExample, onNoExample, onExit) {
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body"><p>${question}</p></div>
 
@@ -114,8 +126,7 @@ function showExampleChoice({ heading, question, yesLabel, noLabel }, onHasExampl
                     <img class="choice-card-arrow" src="img/pil.svg" alt="">
                 </button>
             </div>
-        </section>
-        ${renderExitDoor()}`;
+        `);
 
     activateFocusTrap(app);
     document.querySelector("#has-example-button").addEventListener("click", onHasExample);
@@ -126,17 +137,13 @@ function showExampleChoice({ heading, question, yesLabel, noLabel }, onHasExampl
 /*---- Modul 3, Boble 3.2 "Ja"-gren - upload af ÉT billede (genbruger imageGallery.js). "Næste" er deaktiveret, indtil præcis ét billede er gemt; engine sørger for, at et nyt upload erstatter et eventuelt tidligere (se farverEngine.js) ----*/
 
 function showSingleImageUpload({ heading, uploadLabel, uploadHint }, images, onNext, onExit, imageHandlers) {
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${heading}</h2>
 
             ${renderImageUploadHtml({ label: uploadLabel, hint: uploadHint, images })}
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green" ${images.length ? "" : "disabled"}>Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `, `
+            <button id="next-button" type="button" class="btn btn--regular btn--solid-omraade" ${images.length ? "" : "disabled"}>Næste</button>
+        `);
 
     activateFocusTrap(app);
 
@@ -158,8 +165,7 @@ function showSingleImageUpload({ heading, uploadLabel, uploadHint }, images, onN
 /*---- Modul 3, Boble 3.3 - det valgte/uploadede billede + tre rene overvejelsesspørgsmål (ingen interaktion, intet gemt svar - afklaret med Heidi 2026-09-11) ----*/
 
 function showImageReflection({ heading, intro, questions }, imageUrl, imageAlt, onNext, onExit) {
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${heading}</h2>
             ${intro ? `<div class="section-body"><p>${intro}</p></div>` : ""}
 
@@ -168,12 +174,9 @@ function showImageReflection({ heading, intro, questions }, imageUrl, imageAlt, 
             <div class="section-body">
                 <ul>${questions.map((q) => `<li>${q}</li>`).join("")}</ul>
             </div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `, `
+            <button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">Næste</button>
+        `);
 
     activateFocusTrap(app);
     document.querySelector("#next-button").addEventListener("click", onNext);
@@ -189,20 +192,16 @@ function showImageImpressionQuestion({ heading, image, imageAlt, question, optio
         </button>
     `).join("");
 
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${heading}</h2>
 
             <img class="example-image" src="${image}" alt="${imageAlt}">
 
             <p class="section-subheading">${question}</p>
             <div class="choice-list">${optionsHtml}</div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `, `
+            <button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">Næste</button>
+        `);
 
     const optionButtons = document.querySelectorAll("[data-option-id]");
 
@@ -241,8 +240,7 @@ function paletteChipHtml(color, index) {
 }
 
 function showPaletteBuilder({ heading, paragraphs = [], addButtonLabel, oneColorMessage, oneColorAddLabel, oneColorContinueLabel }, palette, callbacks, onNext, onExit) {
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
 
@@ -257,20 +255,16 @@ function showPaletteBuilder({ heading, paragraphs = [], addButtonLabel, oneColor
             <div class="panel boble-respons en-farve-besked" id="one-color-message" tabindex="-1" hidden>
                 <p>${oneColorMessage}</p>
                 <div class="section-cta section-cta--column">
-                    <button id="one-color-add-button" type="button" class="btn btn--regular btn--solid-green">${oneColorAddLabel}</button>
+                    <button id="one-color-add-button" type="button" class="btn btn--regular btn--solid-omraade">${oneColorAddLabel}</button>
                     <button id="one-color-continue-button" type="button" class="btn btn--regular btn--outline-green">${oneColorContinueLabel}</button>
                 </div>
             </div>
-
-            <div class="section-cta" id="next-row">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green" ${palette.length ? "" : "disabled"}>Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `, `
+            <button id="next-button" type="button" class="btn btn--regular btn--solid-omraade" ${palette.length ? "" : "disabled"}>Næste</button>
+        `);
 
     const list = document.querySelector("#palette-list");
     const nextButton = document.querySelector("#next-button");
-    const nextRow = document.querySelector("#next-row");
     const oneColorMessageEl = document.querySelector("#one-color-message");
 
     function refreshNextState() {
@@ -280,7 +274,7 @@ function showPaletteBuilder({ heading, paragraphs = [], addButtonLabel, oneColor
     /*---- Runde 7: beskeden erstatter "Næste", mens den er åben, så der kun er de to valg ----*/
     function setOneColorMessageOpen(open) {
         oneColorMessageEl.hidden = !open;
-        nextRow.hidden = open;
+        nextButton.hidden = open;
     }
 
     function addColorChip() {
@@ -349,8 +343,7 @@ function showColorRoleStep({ heading, paragraphs = [], question, suggestionsIntr
 
     const overviewHtml = palette.map((c) => `<span class="palette-overview-swatch" style="background-color:${c.hex};" title="${c.hex}"></span>`).join("");
 
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
 
@@ -369,12 +362,9 @@ function showColorRoleStep({ heading, paragraphs = [], question, suggestionsIntr
             </div>
 
             <textarea id="role-input" class="text-input" rows="2" placeholder="${placeholder || ""}">${current.role || ""}</textarea>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">${isLast ? "Næste" : nextColorLabel}</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `, `
+            <button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${isLast ? "Næste" : nextColorLabel}</button>
+        `);
 
     /*---- Runde 7: et forslag erstatter feltets tekst, og fokus flyttes til feltet, så hun kan rette eller skrive videre ----*/
     const roleInput = document.querySelector("#role-input");
@@ -436,18 +426,14 @@ function showDosageStep({ heading, paragraphs = [] }, palette, onNext, onExit) {
         </div>
     `;
 
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
 
             <div class="dosage-list" id="dosage-list">${palette.map(rowHtml).join("")}</div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `, `
+            <button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">Næste</button>
+        `);
 
     const list = document.querySelector("#dosage-list");
 
@@ -506,8 +492,7 @@ function showPreviewStep({ heading, paragraphs = [], exampleText, textColorLabel
         </label>
     `;
 
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
 
@@ -515,12 +500,9 @@ function showPreviewStep({ heading, paragraphs = [], exampleText, textColorLabel
 
             <p class="section-subheading">${textColorLabel}</p>
             <div class="text-color-list" id="text-color-list">${optionsHtml()}</div>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `, `
+            <button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">Næste</button>
+        `);
 
     const previewText = document.querySelector("#preview-text");
 
@@ -579,8 +561,7 @@ function showContrastPickerStep(copy, levels, colors, hasOneColor, defaults, onN
     const { heading, paragraphs = [], textColorLabel, bgColorLabel, previewText, oneColorLine } = copy;
     const optionHtml = (selectedId) => colors.map((c) => `<option value="${c.id}" ${c.id === selectedId ? "selected" : ""}>${c.hex}${c.role ? ` — ${c.role}` : ""}</option>`).join("");
 
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
 
@@ -596,12 +577,9 @@ function showContrastPickerStep(copy, levels, colors, hasOneColor, defaults, onN
             <div class="section-body contrast-result" id="contrast-result" aria-live="polite"></div>
 
             ${allCombinationsHtml(colors, levels, copy)}
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `, `
+            <button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">Næste</button>
+        `);
 
     const textSelect = document.querySelector("#contrast-text-select");
     const bgSelect = document.querySelector("#contrast-bg-select");
@@ -659,8 +637,7 @@ function showContrastPickerStep(copy, levels, colors, hasOneColor, defaults, onN
 /*---- Modul 7, Boble 7.3 - tre-niveau feedback (jf. modul7.boble3.feedback) + mulighed for at prøve en anden kombination eller bekræfte den endelige ----*/
 
 function showContrastResultStep({ heading, intro, previewText, feedback, retryLabel, confirmLabel }, levels, combo, onRetry, onConfirm, onExit) {
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body"><p>${intro}</p></div>
 
@@ -671,13 +648,10 @@ function showContrastResultStep({ heading, intro, previewText, feedback, retryLa
                 <p>${feedback[combo.level]}</p>
                 <p style="font-size:14px;opacity:0.8;">Kontrastforhold: ${combo.ratio.toFixed(2)} : 1</p>
             </div>
-
-            <div class="section-cta section-cta--column">
-                <button id="retry-button" type="button" class="btn btn--regular btn--outline-green">${retryLabel}</button>
-                <button id="confirm-button" type="button" class="btn btn--regular btn--solid-green">${confirmLabel}</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `, `
+            <button id="retry-button" type="button" class="btn btn--regular btn--outline-green">${retryLabel}</button>
+            <button id="confirm-button" type="button" class="btn btn--regular btn--solid-omraade">${confirmLabel}</button>
+        `);
 
     activateFocusTrap(app);
     document.querySelector("#retry-button").addEventListener("click", onRetry);
@@ -688,19 +662,15 @@ function showContrastResultStep({ heading, intro, previewText, feedback, retryLa
 /*---- Modul 8, Boble 8.1 (runde 7) - invitationen til at prøve paletten af, med 6.4's forhåndsvisning i lille størrelse nederst og to knapper, begge til 8.2. Valget styrer kun, hvilken version af 8.2 der vises ----*/
 
 function showTryInPracticeStep({ heading, paragraphs = [], exampleText, triedButtonLabel, notTriedButtonLabel }, palette, textHex, onNext, onExit) {
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
 
             ${palettePreviewHtml(palette, textHex, exampleText, { small: true })}
-
-            <div class="section-cta section-cta--column">
-                <button id="tried-button" type="button" class="btn btn--regular btn--solid-green">${triedButtonLabel}</button>
-                <button id="not-tried-button" type="button" class="btn btn--regular btn--outline-green">${notTriedButtonLabel}</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `, `
+            <button id="tried-button" type="button" class="btn btn--regular btn--solid-omraade">${triedButtonLabel}</button>
+            <button id="not-tried-button" type="button" class="btn btn--regular btn--outline-green">${notTriedButtonLabel}</button>
+        `);
 
     activateFocusTrap(app);
     document.querySelector("#tried-button").addEventListener("click", () => onNext(true));
@@ -711,20 +681,16 @@ function showTryInPracticeStep({ heading, paragraphs = [], exampleText, triedBut
 /*---- Modul 8, Boble 8.2 - fri refleksion, tre spørgsmål som inspiration (ikke enkeltvis besvarelse), ét tekstfelt ----*/
 
 function showReflectionStep({ heading, paragraphs = [], questions = [], placeholder }, initialValue, onNext, onExit) {
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${heading}</h2>
             <div class="section-body">${paragraphs.map((p) => `<p>${p}</p>`).join("")}</div>
 
             <div class="section-body"><ul>${questions.map((q) => `<li>${q}</li>`).join("")}</ul></div>
 
             <textarea id="reflection-input" class="text-input" rows="4" placeholder="${placeholder || ""}">${initialValue || ""}</textarea>
-
-            <div class="section-cta">
-                <button id="next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `, `
+            <button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">Næste</button>
+        `);
 
     activateFocusTrap(app);
     document.querySelector("#next-button").addEventListener("click", () => {
@@ -756,8 +722,7 @@ function showPaletteSummary(copy, levels, { palette, textColorId, contrast, refl
         <p class="section-body">${copy.readabilityLabel}: ${contrastLevelHtml(levels, contrast.level)}</p>
     ` : "";
 
-    app.innerHTML = `
-        <section class="section">
+    renderScreen(`
             <h2 class="section-heading">${copy.heading}</h2>
             <div class="section-body"><p>${copy.intro}</p></div>
 
@@ -778,12 +743,9 @@ function showPaletteSummary(copy, levels, { palette, textColorId, contrast, refl
 
             <p class="section-subheading">${copy.takeawayLabel}</p>
             <div class="section-body"><p>${copy.takeaway}</p></div>
-
-            <div class="section-cta">
-                <button id="finish-button" type="button" class="btn btn--regular btn--outline-green">${copy.finishButtonLabel}</button>
-            </div>
-        </section>
-        ${renderExitDoor()}`;
+        `, `
+            <button id="finish-button" type="button" class="btn btn--regular btn--solid-omraade">${copy.finishButtonLabel}</button>
+        `);
 
     activateFocusTrap(app);
 
@@ -798,19 +760,25 @@ function showPaletteSummary(copy, levels, { palette, textColorId, contrast, refl
 }
 
 function showExitConfirmation(onStay, onExit) {
-    app.innerHTML = `
-        <section class="section exit-confirmation" role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-describedby="exit-description">
-            <h2 id="exit-title" class="section-subheading">Vil du forlade Farver?</h2>
+    app.innerHTML = rumRammeHtml({
+        omraade: OMRAADE,
+        rum: "Farver",
+        kortAttributter: 'role="dialog" aria-modal="true" aria-labelledby="exit-title" aria-describedby="exit-description"',
+        indhold: `
+            <div class="exit-confirmation">
+                <h2 id="exit-title" class="section-subheading">Vil du forlade Farver?</h2>
 
-            <div class="section-body">
-                <p id="exit-description">Hvis du går ud nu, bliver dine svar ikke gemt.</p>
-            </div>
+                <div class="section-body">
+                    <p id="exit-description">Hvis du går ud nu, bliver dine svar ikke gemt.</p>
+                </div>
 
-            <div class="section-cta section-cta--column">
-                <button id="stay-button" type="button" class="btn btn--regular btn--solid-green">Bliv i rummet</button>
-                <button id="leave-button" type="button" class="btn btn--regular btn--solid-green">Ja, gå ud</button>
+                <div class="section-cta section-cta--column">
+                    <button id="stay-button" type="button" class="btn btn--regular btn--solid-green">Bliv i rummet</button>
+                    <button id="leave-button" type="button" class="btn btn--regular btn--solid-green">Ja, gå ud</button>
+                </div>
             </div>
-        </section>`;
+        `
+    });
 
     activateFocusTrap(app);
     document.querySelector("#stay-button").addEventListener("click", onStay);
@@ -833,5 +801,6 @@ export {
     showReflectionStep,
     showPaletteSummary,
     showTryInPracticeStep,
-    showExitConfirmation
+    showExitConfirmation,
+    setRumNavigation
 };

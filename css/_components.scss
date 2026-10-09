@@ -731,8 +731,12 @@ button.value-card {
         border-radius: 999px;
     }
 
-    &:hover .pin-sti-prik {
+    &:hover:not(:disabled) .pin-sti-prik {
         border-color: colors.$navCTAColor;
+    }
+
+    &:disabled {
+        cursor: default;
     }
 }
 
@@ -752,6 +756,60 @@ button.value-card {
     background-color: colors.$navCTAColor;
     border-color: colors.$navCTAColor;
     box-shadow: 0 0 0 3px colors.$primaryBgColor, 0 0 0 5px colors.$navCTAColor;
+}
+
+/*---- Tilstande til navigationslinjerne (js/components/navLinje.js). Tilstanden vises med både størrelse og udfyldning, ikke kun farve: færdig = lille udfyldt prik, aktiv = stor grøn prik med ring (som ovenfor), ikke nået = endnu mindre, hul prik. Dørkarrusellen bruger ingen tilstande og ser ud som før ----*/
+
+.pin-sti-pin.is-faerdig .pin-sti-prik {
+    width: 12px;
+    height: 12px;
+    background-color: colors.$navPathColor;
+}
+
+.pin-sti-pin.is-ikke-naaet .pin-sti-prik {
+    width: 10px;
+    height: 10px;
+}
+
+/*---- Fuld bredde: pins fordeles over hele linjen og rykker tættere sammen, når der er mange (fx på mobil). Knappen beholder 44px trykflade, også når dens felt bliver smallere ----*/
+
+.pin-sti--fuld {
+    justify-content: flex-start;
+
+    .pin-sti-trin {
+        flex: 1 1 0;
+        max-width: 88px;
+    }
+
+    .pin-sti-pin {
+        flex: none;
+        width: 44px;
+    }
+}
+
+/*---- Lille: boble-linjen, lidt mindre end modul-linjen ----*/
+
+.pin-sti--lille {
+    .pin-sti-prik {
+        width: 10px;
+        height: 10px;
+    }
+
+    .pin-sti-pin.is-faerdig .pin-sti-prik {
+        width: 9px;
+        height: 9px;
+    }
+
+    .pin-sti-pin.is-ikke-naaet .pin-sti-prik {
+        width: 8px;
+        height: 8px;
+    }
+
+    .pin-sti-pin.is-active .pin-sti-prik {
+        width: 12px;
+        height: 12px;
+        box-shadow: 0 0 0 2px colors.$primaryBgColor, 0 0 0 4px colors.$navCTAColor;
+    }
 }
 
 /*---- Dørkarrusel (vaelg-din-dor.html) ----*/

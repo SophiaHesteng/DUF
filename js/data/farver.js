@@ -7,6 +7,19 @@ export const velkomst = {
     standard: "Velkommen til Farver. Her får du hjælp til at vælge en farvepalet, der understøtter din praksis — uanset om du starter fra bunden eller bare vil kvalitetssikre det, du allerede har."
 };
 
+/*---- Modulernes titler (fra manuskriptets overskrifter) og antal bobler, til navigationslinjerne (js/components/rumRamme.js). Antallet af moduler læses herfra. 6.2 vises én gang pr. farve, men tæller som én boble ----*/
+
+export const moduler = [
+    { titel: "Hvorfor farver betyder noget", antalBobler: 2 },
+    { titel: "Farvers usynlige regler", antalBobler: 1 },
+    { titel: "Dit udgangspunkt", antalBobler: 3 },
+    { titel: "Inspiration og sammenligning", antalBobler: 5 },
+    { titel: "Farvernes roller", antalBobler: 3 },
+    { titel: "Vælg din palet", antalBobler: 4 },
+    { titel: "Tjek kontrast i praksis", antalBobler: 3 },
+    { titel: "Afprøv og dokumentér", antalBobler: 3 }
+];
+
 export const modul1 = {
     boble1: {
         heading: "Hvorfor farver betyder noget",

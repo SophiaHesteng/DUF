@@ -1,0 +1,247 @@
+@use 'colors';
+
+/*---- Vækstrummenes fælles ramme (js/components/rumRamme.js) ----*/
+/*---- Topbjælke, navigationslinjer (js/components/navLinje.js), indholdskort, guide-boble (js/components/guide.js) og knaprække. Layout, afstande og former fra rum-mockuppen (2026-10-09); skrifttyper og farver er sitets egne. Exit-døren styles fortsat i _vaekstrum.scss ----*/
+
+/*---- Områdets farve sættes én gang pr. område og bruges kun som tynd markør: prikken i topbjælken, guide-navnet, guide-boblens lyse baggrund og kant, og primærknappen. Aldrig som stor flade ----*/
+
+.rum {
+    --omraade-farve: #{colors.$navCTAColor};
+    max-width: 640px;
+    margin: 0 auto;
+    padding-top: 28px;
+}
+
+.rum--visuelt-udtryk {
+    --omraade-farve: var(--omraade-visuelt-udtryk);
+}
+
+/*---- Topbjælke: områdemærke ----*/
+
+.rum-topbjaelke {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 4px 8px;
+    margin: 0 0 18px;
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--rum-daempet-tekst);
+}
+
+.rum-topbjaelke-prik {
+    flex: none;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background-color: var(--omraade-farve);
+}
+
+.rum-topbjaelke-omraade {
+    color: colors.$textColor;
+}
+
+/*---- Navigationslinjer: modul-linjen øverst, boble-linjen under (lidt mindre og mere dæmpet) ----*/
+
+.rum-navigation {
+    margin-bottom: 18px;
+}
+
+.nav-linje-label {
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--rum-daempet-tekst);
+    margin: 0;
+}
+
+.nav-linje--lille {
+    margin-top: 6px;
+
+    .nav-linje-label {
+        font-size: 11px;
+        font-weight: 500;
+    }
+}
+
+/*---- Indholdskort ----*/
+
+.rum .rum-kort {
+    max-width: none;
+    margin: 0;
+    padding: 34px 30px 30px;
+    background-color: var(--rum-kort-flade);
+    border: 1px solid var(--rum-kant);
+    border-radius: 20px;
+    box-shadow: var(--rum-skygge);
+
+    .section-heading {
+        font-size: clamp(26px, 5vw, 32px);
+    }
+
+    .section-body {
+        font-size: 17px;
+        line-height: 1.6;
+        max-width: 62ch;
+    }
+}
+
+@media (max-width: 480px) {
+    .rum .rum-kort {
+        padding: 26px 20px 24px;
+    }
+}
+
+/*---- Guide-boble: avatar (pladsholder med forbogstav, eller billede oven på) + navn + citat. Navnet er områdefarven blandet med tekstfarven, så det holder ca. 6:1 mod boblen - ren #EB6834 når kun ca. 3:1 ----*/
+
+.guide {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 24px 0;
+}
+
+.guide-avatar {
+    position: relative;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: colors.$primaryBgColor;
+    border: 1.5px solid var(--rum-kant);
+    font-family: colors.$headingFont, sans-serif;
+    font-size: 16px;
+    color: var(--rum-daempet-tekst);
+}
+
+.guide-avatar-billede {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.guide-boble {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 18px;
+    background-color: color-mix(in srgb, var(--omraade-farve) 10%, var(--rum-kort-flade));
+    border: 1px solid color-mix(in srgb, var(--omraade-farve) 18%, transparent);
+    border-radius: 4px 16px 16px 16px;
+}
+
+.guide-navn {
+    display: block;
+    margin-bottom: 4px;
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: color-mix(in srgb, var(--omraade-farve) 55%, #{colors.$textColor});
+}
+
+.guide-citat {
+    margin: 0;
+    font-family: colors.$regularFont, sans-serif;
+    font-size: 17px;
+    line-height: 1.45;
+    color: colors.$textColor;
+
+    p {
+        margin: 0;
+    }
+}
+
+/*---- Knaprække: "Tilbage" som diskret tekstknap til venstre, skærmens egne knapper til højre. Lange knaptekster (fx "Gem og fortsæt i Visuelt udtryk for din praksis") må bryde over flere linjer ----*/
+
+.rum-knapraekke {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 30px;
+
+    .btn {
+        min-height: 44px;
+        white-space: normal;
+        text-align: center;
+    }
+}
+
+.rum-knapraekke-handlinger {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-left: auto;
+}
+
+.rum-tilbage {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 10px 0 4px;
+    background: none;
+    border: none;
+    border-radius: 999px;
+    font-family: colors.$buttonFont, sans-serif;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    color: var(--rum-daempet-tekst);
+    cursor: pointer;
+
+    &:hover {
+        color: colors.$textColor;
+        text-decoration: underline;
+    }
+
+    &:focus-visible {
+        outline: 3px solid colors.$navCTAColor;
+        outline-offset: 2px;
+    }
+}
+
+/*---- Mobil: primærknappen øverst i fuld bredde, "Tilbage" under ----*/
+
+@media (max-width: 480px) {
+    .rum-knapraekke {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .rum-knapraekke-handlinger {
+        flex-direction: column;
+        margin-left: 0;
+
+        .btn {
+            width: 100%;
+        }
+    }
+
+    .rum-tilbage {
+        align-self: flex-start;
+    }
+}
+
+/*---- Primærknap i områdets farve. Samme form som de andre knapvarianter (jf. "Knapper" i Figma), men mørk tekst: hvid på #EB6834 er kun 3,2:1, tekstfarven #0F201B er 5,3:1 ----*/
+
+.btn--solid-omraade {
+    background-color: var(--omraade-farve);
+    border-color: var(--omraade-farve);
+    color: colors.$textColor;
+    box-shadow: 0 4px 2px rgba(0, 0, 0, 0.25);
+
+    &:focus-visible {
+        outline: 3px solid colors.$navCTAColor;
+        outline-offset: 2px;
+    }
+}
