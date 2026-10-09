@@ -8,9 +8,6 @@ import { getVaekstrumOutput } from "./vaekstrumStorage.js";
 
 export const VISUELT_VAEKSTRUM_ID = "vaekstrum-visuelt-udtryk";
 
-/*---- Rummets ID, før det blev omdøbt fra "Overblik" (2026-10-08). Kun brugt som reserve ved læsning, så browsere, der allerede har været igennem rummet (fx fra brugertest), stadig finder deres svar. Reserven kan fjernes, før siden går offentligt live ----*/
-export const GAMMELT_VISUELT_VAEKSTRUM_ID = "overblik";
-
 export const INGEN_KANALER = "ingen";
 
 /*---- Returnerer { udgangspunkt, kanaler, starterFraBunden }, eller null hvis brugeren ikke har været i rummet (eller har fravalgt browserlagring) - så opfører det læsende rum sig som i dag ----*/
@@ -19,8 +16,6 @@ export async function hentUdgangspunkt() {
     let output;
     try {
         output = await getVaekstrumOutput(VISUELT_VAEKSTRUM_ID);
-        // Reserve for det gamle ID - kan fjernes, før siden går offentligt live
-        if (!output) output = await getVaekstrumOutput(GAMMELT_VISUELT_VAEKSTRUM_ID);
     } catch {
         return null;
     }

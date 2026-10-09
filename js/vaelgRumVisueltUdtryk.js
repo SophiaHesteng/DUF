@@ -9,11 +9,9 @@
  */
 
 import { getSavedVaekstrumIds } from "./storage/vaekstrumStorage.js";
-import { VISUELT_VAEKSTRUM_ID, GAMMELT_VISUELT_VAEKSTRUM_ID } from "./storage/udgangspunkt.js";
 
 export async function initVaelgRumVisueltUdtryk() {
-    // Reserve for det grundlæggende rums gamle ID ("overblik") - kan fjernes, før siden går offentligt live
-    const savedIds = (await getSavedVaekstrumIds()).map((id) => (id === GAMMELT_VISUELT_VAEKSTRUM_ID ? VISUELT_VAEKSTRUM_ID : id));
+    const savedIds = await getSavedVaekstrumIds();
 
     savedIds.forEach((roomId) => {
         const card = document.querySelector(`[data-room-id="${roomId}"]`);
