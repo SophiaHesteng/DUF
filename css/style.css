@@ -2849,14 +2849,14 @@ h3.contrast-level--stor {
   outline-offset: 2px;
 }
 
-/*---- Mobil: primærknappen øverst i fuld bredde, "Tilbage" under ----*/
+/*---- Mobil: knapperne i fuld bredde, stablet med primærknappen øverst (den står sidst i markuppen, til højre på desktop), "Tilbage" nederst ----*/
 @media (max-width: 480px) {
   .rum-knapraekke {
     flex-direction: column-reverse;
     align-items: stretch;
   }
   .rum-knapraekke-handlinger {
-    flex-direction: column;
+    flex-direction: column-reverse;
     margin-left: 0;
   }
   .rum-knapraekke-handlinger .btn {

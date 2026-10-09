@@ -13,6 +13,17 @@ export const velkomst = {
 
 /*---- Modul 1 - Boble 1.2's fem svarmuligheder og Boble 1.3's fem matchede responser står i samme rækkefølge i manuskriptet (1=A, 2=B, osv.) - "responses" er derfor keyet direkte på 1.2's svartekst ----*/
 
+/*---- Modulernes titler (fra manuskriptets overskrifter) og antal bobler, til navigationslinjerne (js/components/rumRamme.js). Antallet af moduler læses herfra. Modul 1 har ingen titel i manuskriptet, så den bruger Boble 1.1's overskrift. Modul 2 (2.4/2.5 springes over ved "Jeg har ikke noget endnu") og Modul 5 (valgfrie bobler) har intet fast antal ----*/
+
+export const moduler = [
+    { titel: "Før vi går i gang", antalBobler: 4 },
+    { titel: "Se på det, du allerede har" },
+    { titel: "Farver, billeder, logo og ikoner/fonte: hvad er hvad?", antalBobler: 1 },
+    { titel: "Når tingene begynder at hænge sammen", antalBobler: 1 },
+    { titel: "Kig ind i rummene" },
+    { titel: "Videre herfra", antalBobler: 1 }
+];
+
 export const modul1 = {
     intro: {
         heading: "Før vi går i gang",

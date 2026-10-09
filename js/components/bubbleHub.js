@@ -7,6 +7,11 @@
  * viser den valgte boblets indhold. Samme princip som js/components/exitDoor.js:
  * markup/logik samlet ét sted, tynde wrappers i visueltVaekstrumUi.js leverer modulets
  * egne tekster.
+ *
+ * Siden rum-designet (2026-10-09) returnerer render-funktionerne { indhold,
+ * knapper }, så rummets fælles ramme (js/components/rumRamme.js) kan sætte
+ * knapperne i knaprækken. "Tilbage til oversigt" er afløst af rammens
+ * "Tilbage", som fører til samme sted.
  * ----------------------------------------------------------------------------
  */
 
@@ -18,17 +23,14 @@ function renderBubbleHub({ heading, intro, bubbles }) {
         </button>
     `).join("");
 
-    return `
-        <section class="section">
+    return {
+        indhold: `
             <h2 class="section-heading">${heading}</h2>
             <p class="section-subheading">${intro}</p>
 
-            <div class="value-list">${cardsHtml}</div>
-
-            <div class="section-cta">
-                <button id="hub-next-button" type="button" class="btn btn--regular btn--solid-green">Næste</button>
-            </div>
-        </section>`;
+            <div class="value-list">${cardsHtml}</div>`,
+        knapper: `<button id="hub-next-button" type="button" class="btn btn--regular btn--solid-omraade">Næste</button>`
+    };
 }
 
 function bindBubbleHub(onSelectBubble, onNext) {
@@ -40,8 +42,8 @@ function bindBubbleHub(onSelectBubble, onNext) {
 }
 
 function renderBubbleDetail({ title, body, workListLabel = "Det arbejder du med", workList, guideLabel = "Guide", guide, takeawayLabel = "Det tager du med dig videre", takeaway }) {
-    return `
-        <section class="section">
+    return {
+        indhold: `
             <h2 class="section-heading">${title}</h2>
 
             <div class="section-body"><p>${body}</p></div>
@@ -63,17 +65,12 @@ function renderBubbleDetail({ title, body, workListLabel = "Det arbejder du med"
                 <div class="panel">
                     <p><strong>${takeawayLabel}:</strong> ${takeaway}</p>
                 </div>
-            ` : ""}
-
-            <div class="section-cta section-cta--column">
-                <button id="bubble-back-button" type="button" class="btn btn--regular btn--outline-green">Tilbage til oversigt</button>
-                <button id="bubble-next-button" type="button" class="btn btn--regular btn--solid-green">Fortsæt</button>
-            </div>
-        </section>`;
+            ` : ""}`,
+        knapper: `<button id="bubble-next-button" type="button" class="btn btn--regular btn--solid-omraade">Fortsæt</button>`
+    };
 }
 
-function bindBubbleDetail(onBack, onNext) {
-    document.querySelector("#bubble-back-button").addEventListener("click", onBack);
+function bindBubbleDetail(onNext) {
     document.querySelector("#bubble-next-button").addEventListener("click", onNext);
 }
 

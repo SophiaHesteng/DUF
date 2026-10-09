@@ -668,8 +668,8 @@ function showTryInPracticeStep({ heading, paragraphs = [], exampleText, triedBut
 
             ${palettePreviewHtml(palette, textHex, exampleText, { small: true })}
         `, `
-            <button id="tried-button" type="button" class="btn btn--regular btn--solid-omraade">${triedButtonLabel}</button>
             <button id="not-tried-button" type="button" class="btn btn--regular btn--outline-green">${notTriedButtonLabel}</button>
+            <button id="tried-button" type="button" class="btn btn--regular btn--solid-omraade">${triedButtonLabel}</button>
         `);
 
     activateFocusTrap(app);

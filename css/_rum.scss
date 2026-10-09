@@ -210,7 +210,7 @@
     }
 }
 
-/*---- Mobil: primærknappen øverst i fuld bredde, "Tilbage" under ----*/
+/*---- Mobil: knapperne i fuld bredde, stablet med primærknappen øverst (den står sidst i markuppen, til højre på desktop), "Tilbage" nederst ----*/
 
 @media (max-width: 480px) {
     .rum-knapraekke {
@@ -219,7 +219,7 @@
     }
 
     .rum-knapraekke-handlinger {
-        flex-direction: column;
+        flex-direction: column-reverse;
         margin-left: 0;
 
         .btn {
