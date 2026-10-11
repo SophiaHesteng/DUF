@@ -79,6 +79,26 @@ See `styles/_tokens.scss` and `styles/forside.scss` (from the Forside prototype)
 
 If a code change alters behavior, flow, or content that a doc in `/docs` describes, update that doc to match as part of the same change, and call out in your summary which doc(s) you updated and why. If it's unclear whether the doc or the code should be treated as the source of truth for a given discrepancy, ask rather than picking one — sometimes the doc is stale, sometimes the code just hasn't caught up to what the doc already specifies.
 
+## Arbejdsgang med Claude: kode skal kunne forstås uden AI
+
+Besluttet af teamet 2026-10-11 og godkendt af Sophia. Sophia har det sidste ord, hvis dette afsnit skal ændres.
+
+Formål: Heidi og Sophia skal altid selv kunne finde ud af, hvor de skal gå ind og rette eller opdatere, så DUF ikke er afhængig af, at Claude eller anden AI koder. Teamet vil lære nye måder at kode på undervejs. Skriv derfor forklaringer på dansk, i almindelige ord, og forklar fagudtryk første gang de bruges.
+
+### Forklaringen ligger i tre lag
+
+1. **Kommentarer i koden** forklarer *hvorfor* noget er lavet sådan, ikke *hvad* linjen gør. Kort og på dansk. Ingen kommentarer, der bare gentager koden.
+2. **Commit-besked og pull request** for hver opgave: hvad blev ændret, hvorfor, og hvor man skal gå ind næste gang, man vil rette noget lignende (filnavne og funktionsnavne). Har Claude brugt en teknik, teamet ikke har set før i projektet, får forklaringen en kort **"Nyt begreb"**-boks: hvad det er, og hvorfor det blev brugt her.
+3. **`SÅDAN-VIRKER-DET.md`** i repoets rod er den levende oversigt over, hvor tingene ligger, og hvordan de hænger sammen. Opdatér den i samme ændring, når en ændring flytter, tilføjer eller fjerner noget, den beskriver. Findes filen ikke endnu, så opret den første gang, den er relevant.
+
+En forklaring, der kun står i en chat, tæller ikke. Den skal ligge i repoet.
+
+### Branches og opgaver
+
+- Alle opgaver, også kodeopgaver, ligger som kort i teamets Trello-board. Repoet har ingen egen to-do-liste.
+- Arbejd aldrig direkte på `main`. Opret en ny branch fra `main` for hvert Trello-kort, navngivet `kort-<nr>-<kort-navn>` (fx `kort-23-navigation`), så kode og kort kan spores til hinanden.
+- Kortet må først flyttes til Review, når ændringen er testet på mobil og desktop, og forklaringen er skrevet i alle tre lag. Heidi godkender i Review, og først derefter merges der til `main`. På sigt overtager Sophia godkendelsen af kode.
+
 ## Known open questions (as of 2026-09-03)
 
 - Header navigation ("map" icon) isn't wired up yet. The Figma file has a "Navigation" component (a site-map graphic) listing all real page names — worth building the header nav from that rather than guessing.
