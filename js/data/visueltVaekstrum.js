@@ -5,7 +5,7 @@ export const velkomst = {
     paragraphs: [
         "Det visuelle er en del af det første indtryk, andre får af din praksis. Farver, billeder, logo og grafiske detaljer er med til at skabe en oplevelse og kan fortælle noget om, hvem du er, og hvad mennesker kan forvente, når de møder din praksis.",
         "Men du behøver ikke allerede have fundet det rigtige. Måske har du nogle ting på plads. Måske er det hele stadig ved at tage form. Måske har du slet ikke tænkt så meget over det endnu. Alle steder er helt fine at starte fra.",
-        "Her får du et overblik over de forskellige dele af dit visuelle udtryk. Undervejs undersøger vi, hvordan de kan spille sammen, og du får mulighed for at tage små stillinger til, hvad der giver mening for dig. Du skal ikke træffe alle beslutninger i dag.",
+        "Her får du et overblik over de forskellige dele af dit visuelle udtryk. Undervejs ser vi på, hvordan de kan spille sammen, og du kan tage små beslutninger om, hvad der giver mening for dig. Du skal ikke træffe alle beslutninger i dag.",
         "Vi begynder bare med at kigge på, hvor du står lige nu. Der er ingen rigtige eller forkerte svar undervejs."
     ],
     buttonText: "Lad os begynde →"
@@ -35,7 +35,7 @@ export const modul1 = {
     },
     question: {
         heading: "Hvor starter du?",
-        intro: "Først vil vi gerne vide, hvor du starter. Vi starter ikke alle sammen det samme sted — nogle har allerede et visuelt udtryk, de har brugt i noget tid, andre har samlet forskellige elementer undervejs uden at have set på, hvordan de fungerer sammen, og nogle er stadig ved at finde ud af, hvilken retning der passer. Du behøver ikke have styr på det hele, før du begynder.",
+        intro: "Vi starter ikke alle det samme sted. Nogle har haft et visuelt udtryk i noget tid. Andre har samlet forskellige ting undervejs uden at have set på, om de passer sammen. Og nogle er stadig ved at finde den retning, der føles rigtig. Du behøver ikke have styr på det hele, før du begynder. Vælg bare det svar, der ligner dig mest lige nu.",
         guide: "Der er ikke noget rigtigt sted at starte fra. Vi skal bare finde ud af, hvor du står lige nu.",
         question: "Hvad passer bedst til dig?",
         options: [
@@ -62,7 +62,7 @@ export const modul1 = {
             guide: "Du behøver ikke kende hele vejen. Det er nok at finde det næste sted at begynde."
         },
         "Jeg føler mig helt på bar bund og ved dårligt, hvor jeg skal starte": {
-            text: "Det er helt okay. Når du bygger eller udvikler en praksis, er der mange ting, der kalder på din opmærksomhed — økonomi, markedsføring, klienter, din faglighed, måske en hjemmeside. Det visuelle står ikke altid øverst på listen. Men det er allerede en del af den måde, mennesker møder din praksis på: farverne på din hjemmeside, de billeder du bruger, dit logo, måden dine opslag ser ud på. Det betyder ikke, at det visuelle er vigtigere end alt det andet — men det behøver ikke stå alene for at være vigtigt. Her begynder vi med at kigge på, hvad det visuelle kan gøre.",
+            text: "Det er helt okay. Når du bygger eller udvikler en praksis, er der mange ting, der kalder på din opmærksomhed — økonomi, markedsføring, klienter, din faglighed, måske en hjemmeside. Det visuelle står ikke altid øverst på listen. Men det er allerede en del af den måde, mennesker møder din praksis på: farverne på din hjemmeside, de billeder du bruger, dit logo, måden dine opslag ser ud på. Det visuelle er ikke vigtigere end alt det andet. Men det arbejder for dig hver dag, også når du ikke tænker over det. Her begynder vi med at kigge på, hvad det visuelle kan gøre.",
             guide: "Du skal ikke finde vejen først. Vi kan godt begynde at gå."
         },
         "Jeg vil helst starte med at få et overblik": {
@@ -77,6 +77,10 @@ export const modul1 = {
         ],
         guideLabel: "Sticker",
         guide: "Du skal ikke beslutte alt. Du skal bare begynde et sted.",
+        /*---- Runde 8: manuskriptets "Overgang" vises under stickeren, så boblen både siger "det er okay, uanset hvor du er" og leder videre til Modul 2 ----*/
+        paragraphsAfter: [
+            "Uanset hvor du står lige nu, er det et fint sted at begynde. Så lad os tage det første skridt sammen og kigge på det, du allerede har, eller det, du gerne vil have."
+        ],
         buttonText: "Videre"
     }
 };
@@ -89,7 +93,7 @@ export const modul2 = {
     intro: {
         heading: "Du har allerede et udgangspunkt",
         paragraphs: [
-            "Du starter ikke nødvendigvis fra nul. Når man hører ordene visuelt udtryk eller visuel identitet, kan det hurtigt lyde som noget, man først har, når man har fået lavet det hele færdigt. Men sådan behøver det ikke være — du har sandsynligvis allerede truffet nogle valg, bevidst eller ej. Det hele er et udgangspunkt. Før du kan tage stilling til, hvad du vil ændre eller bygge videre på, giver det mening at få øje på, hvad der allerede er der.",
+            "Du starter ikke nødvendigvis fra nul. Ord som »visuelt udtryk« og »visuel identitet« kan lyde som noget, man først har, når det hele er lavet færdigt. Men sådan er det sjældent. De fleste har allerede truffet nogle valg, bevidst eller ej: en farve på hjemmesiden, et billede på Facebook, en skrifttype på visitkortet. Alt det er et udgangspunkt. Og før du tager stilling til, hvad du vil ændre eller bygge videre på, giver det mening at få øje på, hvad der allerede er der.",
             "Og har du ikke noget endnu, er det også et helt fint sted at starte. Det finder vi ud af sammen på næste skærm."
         ],
         guide: "Du skal ikke rydde bordet og starte forfra. Vi begynder med at se på det, du allerede har."
@@ -113,7 +117,7 @@ export const modul2 = {
         exclusiveKey: "ingen",
         responses: {
             harKanaler: "Godt. Så har vi noget konkret at kigge på sammen.",
-            ingen: "Det er et rigtig godt sted at starte. Så kan du bygge dit visuelle udtryk op fra begyndelsen, uden at skulle rydde op i noget først. Hvor vi spørger om det, du allerede har, kan du bare tænke på det, du gerne vil have."
+            ingen: "Det er et rigtig godt sted at starte. Så kan du bygge dit visuelle udtryk op fra begyndelsen, uden at skulle rydde op i noget først. Når vi spørger til det, du allerede har, kan du i stedet tænke på det, du gerne vil have."
         },
         /*---- Boble 6.1's linje om kanalerne ----*/
         recapPrefix: "Folk kan møde din praksis her:",
@@ -121,7 +125,7 @@ export const modul2 = {
     },
     hvadBrugerDu: {
         heading: "Hvad bruger du allerede?",
-        intro: "Det visuelle omkring din praksis består ikke kun af én ting — mennesker møder forskellige dele forskellige steder: hjemmeside, sociale medier, materialer, når de booker en tid. Lad os starte med at få øje på, hvad der allerede er i spil.",
+        intro: "Det visuelle omkring din praksis er ikke én ting. Folk møder forskellige dele af det forskellige steder: på din hjemmeside, på de sociale medier, på et visitkort eller når de booker en tid. Lad os starte med at få øje på, hvad du allerede bruger. Vælg alt det, der passer.",
         options: [
             "🎨 Farver",
             "🖼️ Billeder",
@@ -137,7 +141,7 @@ export const modul2 = {
         responses: {
             mange: "Nu kan vi begynde at se på, hvordan de fungerer — både hver for sig og sammen.",
             faa: "Det, du allerede bruger, er nok til, at vi kan tage det næste skridt.",
-            ikkeSikker: "Vi hjælper dig med at få øje på det undervejs.",
+            ikkeSikker: "Det er helt fint. Vi hjælper dig med at få øje på det undervejs.",
             ikonNudge: "Du bruger allerede nogle af de ting, der er med til at give din praksis sit eget visuelle præg. Senere kan vi se nærmere på, hvordan de kan fungere sammen og understøtte resten af dit visuelle udtryk."
         }
     },
@@ -160,7 +164,7 @@ export const modul2 = {
     },
     moenster: {
         heading: "Se efter det, der går igen",
-        intro: "Når du begynder at se på de forskellige ting, du bruger, kan der dukke nogle mønstre op. Begge dele — mønster eller ej — fortæller noget om dit udgangspunkt. Lige nu handler det bare om at få øje på det, der allerede er der.",
+        intro: "Når du kigger på det, du bruger, kan der dukke et mønster op. Måske går den samme farve igen fra hjemmesiden til dine opslag. Måske ligner tingene ikke rigtig hinanden. Begge dele fortæller noget om dit udgangspunkt, og ingen af dem er forkerte. Lige nu handler det bare om at få øje på det, der allerede er der.",
         question: "Hvad genkender du mest?",
         options: [
             "🟢 Noget går igen",
@@ -169,7 +173,7 @@ export const modul2 = {
             "⚪ Jeg har svært ved at se det"
         ],
         responses: {
-            "🟢 Noget går igen": "Noget af det, du bruger, begynder allerede at skabe en retning.",
+            "🟢 Noget går igen": "Det er en god ting at få øje på. Noget af det, du bruger, er allerede begyndt at skabe en retning, og den kan du bygge videre på.",
             "🟡 Noget går igen, men ikke det hele": "Det er helt normalt. Noget kan godt være valgt med en bestemt retning, mens andet er kommet til undervejs. Nu har du fået øje på, at der både er noget at bygge videre på og noget, du kan undersøge nærmere.",
             "🔵 Det er ret blandet": "Det giver dig faktisk et tydeligt udgangspunkt. Nu ved du, at en del af arbejdet kan handle om at finde ud af, hvad du gerne vil samle — og hvad du ikke behøver tage med videre.",
             "⚪ Jeg har svært ved at se det": "Det behøver du ikke kunne endnu — det kan være svært at se mønstre i noget, man selv har kigget på mange gange."
@@ -215,7 +219,7 @@ export const modul2 = {
 /*---- Modul 3 - én skærm med en accordion (runde 7, erstatter "oversigt + valgfrie bobler" 3.2A-D). Overskrift (title) og intro-linje (teaser) er altid synlige, body folder sig ud ved tryk ----*/
 
 export const modul3 = {
-    heading: "Farver, billeder, logo og ikoner/fonte: hvad er hvad?",
+    heading: "Hvad er hvad? De fire dele af dit visuelle udtryk",
     intro: "Dit visuelle udtryk består af fire dele. De hænger sammen, men kan også arbejdes med hver for sig. Her er en hurtig introduktion til hver af dem. Tryk på en af dem for at læse lidt mere.",
     buttonText: "Videre",
     items: [
@@ -223,7 +227,7 @@ export const modul3 = {
             key: "farver",
             title: "🎨 Farver",
             teaser: "Farver er ofte det første, folk lægger mærke til — og det, der binder resten sammen.",
-            body: "Farver sætter en stemning, før nogen har læst et ord, og de hjælper folk med at kende dig igen næste gang, de ser dig. Det kan være farven på din hjemmeside, dit visitkort eller dine opslag. De fleste har brug for nogle få farver, der har hver sin opgave: én, der bærer det meste, én, der fremhæver det vigtige, og én, der gør teksten let at læse. Du behøver ikke kunne det endnu. Det er det, Farver-rummet hjælper dig med."
+            body: "Farver sætter en stemning med det samme, og de hjælper folk med at kende dig igen næste gang, de ser dig. Det kan være farven på din hjemmeside, dit visitkort eller dine opslag. De fleste har brug for nogle få farver, der har hver sin opgave: én, der bærer det meste, én, der fremhæver det vigtige, og én, der gør teksten let at læse. Du behøver ikke kunne det endnu. Det er det, Farver-rummet hjælper dig med."
         },
         {
             key: "billeder",
@@ -251,12 +255,12 @@ export const modul3 = {
 export const modul4 = {
     heading: "Når tingene begynder at hænge sammen",
     paragraphs: [
-        "Du behøver ikke løse det hele på én gang: de fire dele påvirker hinanden, men det betyder ikke, at alt skal afklares, før man kan begynde. Man kan starte ét sted og senere se, hvordan andre dele passer ind i den valgte retning.",
-        "Tag ét valg ad gangen: et valg ét sted gør det ofte lettere, ikke sværere, at tage stilling til resten."
+        "Farver, billeder, logo og de små byggesten påvirker hinanden. Men det betyder ikke, at du skal have styr på dem alle, før du kan begynde. Du kan sagtens starte ét sted og så se bagefter, hvordan resten passer ind.",
+        "Faktisk bliver det ofte lettere, når du tager ét valg ad gangen. Har du fundet dine farver, er det nemmere at se, hvilke billeder der passer til dem. Hvert valg giver dig lidt mere at gå efter."
     ],
     guide: "Du behøver ikke have hele planen klar. Vælg det næste konkrete skridt og arbejd videre derfra.",
     paragraphsAfter: [
-        "Det er sådan, helheden opstår: et visuelt udtryk opstår også ved at træffe valg og bruge dem i praksis, ikke kun ved at planlægge alt på forhånd. Det vigtigste lige nu er at vælge noget konkret at arbejde med, ikke at finde den perfekte løsning."
+        "Sådan opstår helheden. Et visuelt udtryk bliver ikke kun til ved at planlægge alt på forhånd. Det vokser, når du træffer valg og prøver dem af i praksis. Så det vigtigste lige nu er ikke at finde den perfekte løsning. Det er at vælge noget konkret at arbejde med."
     ]
 };
 
@@ -268,7 +272,7 @@ export const modul5 = {
             key: "farver",
             title: "En farveretning, du faktisk kan bruge.",
             teaser: "En bevidst farvepalet, du kan bruge igen og igen — og en forklaring på, hvorfor den fungerer.",
-            body: "I Farver arbejder du med at finde en retning, der passer til dig og din praksis — ikke kun at vælge farver, du kan lide, men at forstå hvordan farverne fungerer sammen og bruges på tværs af praksissen.",
+            body: "I Farver finder du en retning, der passer til dig og din praksis. Det handler ikke kun om at vælge farver, du kan lide, men om at forstå, hvordan de fungerer sammen, og hvordan du bruger dem de steder, folk møder dig.",
             workList: [
                 "hvad farverne skal udtrykke",
                 "hvordan man finder en retning",
@@ -281,7 +285,7 @@ export const modul5 = {
             key: "billeder",
             title: "Billeder, der fortæller den rigtige historie.",
             teaser: "Kriterier for, hvilke billeder der passer til dig — og ro i maven om, at du må bruge dem.",
-            body: "Handler ikke om at finde billeder, alle synes er flotte, men om at finde ud af, hvad der giver mening at vise — og vælge billeder, der understøtter det.",
+            body: "I Billeder handler det ikke om at finde billeder, alle synes er flotte. Det handler om at finde ud af, hvad du gerne vil vise, og så vælge billeder, der fortæller netop det.",
             workList: [
                 "hvad billederne skal fortælle",
                 "hvad der giver mening at vise",
@@ -296,7 +300,7 @@ export const modul5 = {
             key: "logo",
             title: "Hvad skal dit logo egentlig kunne?",
             teaser: "Enten et nyt logo, eller en klar vurdering af det, du allerede har — så du ved, om det gør sit arbejde.",
-            body: "Målet er ikke nødvendigvis et nyt logo, men at vide hvad logoet skal kunne, og hvad der giver mening som næste skridt — uanset om det ender med at blive beholdt, justeret eller udviklet nyt.",
+            body: "I Logo er målet ikke nødvendigvis et nyt logo. Det er at finde ud af, hvad dit logo skal kunne, og hvad der giver mening som næste skridt. Måske beholder du det, du har, måske justerer du det, eller måske laver du et nyt.",
             workList: [
                 "logoets rolle",
                 "hvad mennesker skal kunne genkende",
@@ -309,7 +313,7 @@ export const modul5 = {
             key: "byggesten",
             title: "De små valg, der er med til at sætte retningen.",
             teaser: "De sidste detaljer på plads, så dit udtryk hænger sammen, også i det små.",
-            body: "Ikoner: hjælper mennesker med hurtigt at forstå og finde rundt. Illustrationer: fortæller, forklarer, giver praksis et særligt præg. Skrifttyper: understøtter udtrykket uden at gøre indholdet sværere at læse.",
+            body: "I Byggesten ser du på de små ting, der binder det hele sammen. Ikoner hjælper folk med hurtigt at forstå og finde rundt. Illustrationer kan forklare noget og give din praksis sit eget præg. Og skrifttyper skal passe til dit udtryk uden at gøre teksten sværere at læse.",
             guide: "Du skal ikke vælge noget, bare fordi det ser godt ud alene. Se på, hvordan det fungerer, når det bliver en del af helheden.",
             takeaway: "Et bedre grundlag for fremtidige valg af ikon, skrifttype eller illustration."
         }
@@ -321,7 +325,7 @@ export const modul5 = {
 export const modul6 = {
     recapIntro: "Du har nu set nærmere på, hvor du står i dag. Her er en opsamling af det, du har fortalt os undervejs:",
     guide: "Du har allerede gjort arbejdet med at fortælle os, hvor du står. Nu er det dit valg, hvor du vil kigge videre.",
-    closing: "Et overblik bliver først rigtig brugbart, når du begynder at bruge det."
+    closing: "Et overblik gør først en forskel, når du begynder at bruge det. Så vælg det rum, der trækker mest i dig lige nu."
 };
 
 export const ROOMS = {
