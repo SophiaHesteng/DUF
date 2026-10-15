@@ -673,7 +673,7 @@ export class ByggestenEngine {
             dele.push(`Min tommelfingerregel: ${this.svar.tommelfingerregel.trim()}`);
         }
 
-        /*---- Runde 7: listen "Det skal du bruge" fra 7.1 kommer med til Fælles samling ----*/
+        /*---- Runde 7: listen "Det skal du bruge" fra 7.1 kommer med til Visuel style guide ----*/
         if (detSkalDuBruge.length) {
             dele.push(`${saetTekster.detSkalDuBruge}: ${detSkalDuBruge.map((linje) => `${linje.label}: ${linje.kopi}`).join(" · ")}.`);
         }

@@ -25,7 +25,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 - `logoStatus` (tilfreds / usikker / ingen / underUdvikling) og `spor` (A–D)
 - `logoUpload` (billede af logoet; valgfrit, kan opdateres senere i rummet)
-- `logoUploadLille` (runde 7: den ekstra, lille udgave fra 7.2, fx kun symbolet; valgfri. Gemmes i billed-bucket `logo-lille` og vises på logo-siden i 8.2 og i Fælles samling)
+- `logoUploadLille` (runde 7: den ekstra, lille udgave fra 7.2, fx kun symbolet; valgfri. Gemmes i billed-bucket `logo-lille` og vises på logo-siden i 8.2 og i Visuel style guide)
 - Fra Modul 2B: `listeFungerer[]`, `listeSkurrer[]` (gruppe: form / identitet / oprindelse / ved-ikke), noter, `retningForslag` (behold / justér / nyt / ingen)
 - `logoType` (navn / symbol / begge / ingen)
 - "Min logo-inspiration" (billeder/screenshots) + noter (`hvadFungerer`, `hvadInspirerer`) + `sammenligning` (Modul 3)
@@ -373,13 +373,13 @@ Her samles sporene igen, og testresultaterne bestemmer, hvad brugeren gør bagef
   - *D:* Hvem lavede det, hvad har I aftalt om rettigheder, og hvor ligger filerne?
   - *Alle:* Hvordan spiller det sammen med din palet? Hvor kommer logoet fra, og hvad må du bruge det til?
 - **Interaktion:** Brugeren skriver en kort tekst.
-- **Gemmes:** Ja, `begrundelse`. Det er det, der samles i Fælles samling. Også for spor A, hvor begrundelsen ikke må udelades.
+- **Gemmes:** Ja, `begrundelse`. Det er det, der samles i Visuel style guide. Også for spor A, hvor begrundelsen ikke må udelades.
 
 ### Boble 8.2 — Din logo-side i guiden
 
 - **Hvad brugeren møder:** Her er din side i din visuelle guide. *(Vises: logoet, hvis uploadet, **✅ (godkendt 2026-09-25) og den lille udgave, hvis hun lagde en ind i 7.2,** hendes tekst, resultatet af de tre tjek med ✓ og noter, og evt. åbne punkter, hun valgte at tage med.)* Tilføj den til din guide, når den ser rigtig ud.
 - **Interaktion:** Knappen "Tilføj til min visuelle guide" (den delte gem-funktion).
-- **Gemmes:** Ja, i Fælles samling.
+- **Gemmes:** Ja, i Visuel style guide.
 
 ### Boble 8.3 — Dit logo er en prototype
 

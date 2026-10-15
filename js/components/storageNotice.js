@@ -17,7 +17,7 @@ function render(container) {
 
     const text = optedOut
         ? "Du har fravalgt, at dine valg i DUF gemmes i denne browser. Intet nyt gemmes."
-        : "Dine valg i DUF gemmes automatisk i denne browser, så du kan samle dem i Fælles samling og downloade dem som PDF. Det bliver kun på din egen enhed.";
+        : "Dine valg i DUF gemmes automatisk i denne browser, så du kan samle dem i Visuel style guide og downloade dem som PDF. Det bliver kun på din egen enhed.";
 
     const buttonLabel = optedOut ? "Tillad lagring igen" : "Fravælg lagring";
     const buttonClass = optedOut ? "btn--outline-green" : "btn--outline-orange";
@@ -38,7 +38,7 @@ function render(container) {
 
         await setStorageOptOut(!optedOut);
 
-        /*---- Reload frem for lokal re-render - andre dele af siden (fx Fælles samlings gemte rum/PDF-knap) kan afhænge af det samme lager, og skal opdateres konsistent ----*/
+        /*---- Reload frem for lokal re-render - andre dele af siden (fx Visuel style guides gemte rum/PDF-knap) kan afhænge af det samme lager, og skal opdateres konsistent ----*/
         window.location.reload();
     });
 }

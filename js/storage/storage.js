@@ -35,7 +35,7 @@
  * krav til, hvad der ligger i det.
  *
  * ----------------------------------------------------------------------------
- * OFFENTLIGT KONTRAKT (det, Farver/Logo/Billeder/Byggesten og Fælles samling
+ * OFFENTLIGT KONTRAKT (det, Farver/Logo/Billeder/Byggesten og Visuel style guide
  * forventes at bruge - hold denne liste opdateret, hvis signaturer ændres):
  * ----------------------------------------------------------------------------
  *
@@ -64,12 +64,12 @@
  *
  * getAllSideOutputs(): Promise<object[]>
  *   Henter alle gemte rum-outputs. Tom liste hvis intet er gemt, eller
- *   lagring er fravalgt. Det, Fælles samling skal bruge til at samle op på
+ *   lagring er fravalgt. Det, Visuel style guide skal bruge til at samle op på
  *   tværs af alle fire rum.
  *
  * getSavedSideIds(): Promise<string[]>
  *   Bekvemmelighedsfunktion - kun id'erne på de rum, der har gemt noget.
- *   Nyttig til Fælles samlings "hvad mangler du stadig?"-oversigt.
+ *   Nyttig til Visuel style guides "hvad mangler du stadig?"-oversigt.
  *
  * deleteSideOutput(sideId: string): Promise<void>
  *   Sletter ét rums gemte output, hvis det findes.

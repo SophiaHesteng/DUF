@@ -340,7 +340,7 @@ export const modul8 = {
         guideLabel: "Guide",
         guide: "Du er altid velkommen til at vende tilbage til Farver og justere din palette, hvis dine farver eller deres roller ændrer sig undervejs.",
         takeawayLabel: "Det tager du med dig",
-        takeaway: "Det arbejde, du har lavet her, bliver samlet i Fælles samling. Her kan du finde: den valgte farvepalette med farvekoder, farvernes roller, den valgte dosering af farverne, en eventuel tekstfarve, den valgte kontrastkombination, kontrastforholdet og vurderingen af læsbarheden, og dine egne refleksioner fra afprøvningen. Fælles samling kan bruges til at vende tilbage til det, du har arbejdet med, når det skal bruges i praksis.",
+        takeaway: "Det arbejde, du har lavet her, bliver samlet i Visuel style guide. Her kan du finde: den valgte farvepalette med farvekoder, farvernes roller, den valgte dosering af farverne, en eventuel tekstfarve, den valgte kontrastkombination, kontrastforholdet og vurderingen af læsbarheden, og dine egne refleksioner fra afprøvningen. Visuel style guide kan bruges til at vende tilbage til det, du har arbejdet med, når det skal bruges i praksis.",
         finishButtonLabel: "Gem og fortsæt i Visuelt udtryk for din praksis"
     }
 };

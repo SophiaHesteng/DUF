@@ -1,4 +1,4 @@
-/*---- Indhold til Fælles samling - Visuelt udtryk for din praksis (lukkeskærm, ikke et rum - jf. docs/duf-visuel-style-guide.md). Ingen manuskript findes for denne skærm (dokumentet er en kort specifikation, ikke en fuld context-fil), så teksten herunder er skrevet i DUF's etablerede tone ud fra specifikationens krav, ikke transskriberet fra et eksisterende manuskript. ----*/
+/*---- Indhold til Visuel style guide - Visuelt udtryk for din praksis (lukkeskærm, ikke et rum - jf. docs/duf-visuel-style-guide.md). Ingen manuskript findes for denne skærm (dokumentet er en kort specifikation, ikke en fuld context-fil), så teksten herunder er skrevet i DUF's etablerede tone ud fra specifikationens krav, ikke transskriberet fra et eksisterende manuskript. ----*/
 
 import { ROOMS } from "./visuelt.js";
 

@@ -303,7 +303,7 @@
 - **Eventuel interaktion:** Ingen yderligere interaktion. Brugeren ser en opsummering af egne svar fra Modul 5-6.
 - **Eventuel respons eller feedback:** Opsummeringen fungerer som respons på hele modulets arbejde.
 - **Hvad der leder videre til næste boble:** Knappen "Videre til rettigheder og kontrol" leder videre til Modul 7.
-- **Gemmes/får betydning senere:** Ja. Det visuelle kompas gemmes samlet og bruges senere i Fælles samling og i Modul 8's dokumentation.
+- **Gemmes/får betydning senere:** Ja. Det visuelle kompas gemmes samlet og bruges senere i Visuel style guide og i Modul 8's dokumentation.
 
 ## Modul 7 — Tjek rettigheder og kontrast i praksis
 
@@ -391,7 +391,7 @@
 - **Eventuel interaktion:** Brugeren skriver en kort tekst.
 - **Eventuel respons eller feedback:** Ingen.
 - **Hvad der leder videre til næste boble:** Knappen "Videre" leder til sidste trin.
-- **Gemmes/får betydning senere:** Ja. Teksten gemmes og indgår i Fælles samling, sammen med det visuelle kompas fra Modul 6.
+- **Gemmes/får betydning senere:** Ja. Teksten gemmes og indgår i Visuel style guide, sammen med det visuelle kompas fra Modul 6.
 
 ### Boble 8.3 — Din billedretning er en prototype, ikke en facitliste
 
@@ -408,7 +408,7 @@
 - Modul 3.1 og Modul 4.4 bruger to adskilte gemte billedsamlinger: "Billeder fra min praksis" (egne billeder, allerede besluttet 2026-09-06) og en ny "Min inspiration"-samling (eksterne billeder/screenshots). Skal "Min inspiration" bygges som en ny datastruktur, eller kan den genbruge samme IndexedDB-mekanik som "Billeder fra min praksis"?
 - Modul 7.2 bruger den nye, genbrugelige Tjekliste-komponent (se [[DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)]]) — første sted, den tages i brug. Bekræft komponentens data-model og placering (`js/components/tjekliste.js`), før den bygges ind flere steder.
 - Modul 2 (den indledende rettighedsgennemgang) er stadig den lettere, kondenserede version. Kun Modul 7 er opdateret til at matche den fulde "Billedrettigheder — praktisk oversigt". Skal Modul 2 også uddybes til samme dybde, eller er forskellen mellem en kort "teaser" tidligt og en fuld gennemgang i Modul 7 tilsigtet?
-- "Dit visuelle kompas" (Modul 5-6) er et nyt begreb. Skal det bruges konsekvent fremover (fx også i Fælles samling og i andre uddybende rum), eller er det kun en arbejdstitel for denne del af Billeder?
+- "Dit visuelle kompas" (Modul 5-6) er et nyt begreb. Skal det bruges konsekvent fremover (fx også i Visuel style guide og i andre uddybende rum), eller er det kun en arbejdstitel for denne del af Billeder?
 - **Nyt i runde 7 — billedvisning:** 5.1, 5.3, 7.5 og 8.1 skal nu alle vise brugerens billeder som små billeder, der kan vælges eller forstørres. Byg det som én lille, genbrugelig visning (fx `js/components/billedvaelger.js`) i stedet for fire gange.
 - **Afgjort 2026-09-25 (Heidi) — forhåndsvisningen i 8.1:** Byggestens "Prøv dem sammen" (`js/components/provSammen.js`, se [[DUF Teknisk - Byggesten-forhåndsvisning (Prøv dem sammen)]]) udvides med et valgfrit billede og genbruges i Billeder 8.1. Ingen ny komponent. Erstatter beslutningen fra 2026-09-23 om, at den skulle være selvstændig.
 - **Afgjort 2026-09-25 (Heidi) — hvor billederne kommer fra i 7.5 og 8.1:** Nu: brugerens egne samlinger ("Billeder fra min praksis" og "Min inspiration"). Senere: et lille DUF-arkiv med frie billeder, som alle kan prøve med. Arkivet kræver, at nogen først finder billeder med frie rettigheder (opgave til Marcus), og bygges ikke i denne runde. Byg billedvælgeren, så en ekstra kilde let kan tilføjes.

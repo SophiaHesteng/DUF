@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
- * Fælles samling - Visuelt udtryk for din praksis
+ * Visuel style guide - Visuelt udtryk for din praksis
  * ----------------------------------------------------------------------------
  * Lukkeskærmen for emnet. Bevidst IKKE et rum (intet ID, ingen
  * type, ingen flow-motor) - jf. docs/duf-visuel-style-guide.md's

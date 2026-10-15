@@ -728,5 +728,5 @@ export class LogoEngine {
     }
 }
 
-/*---- eksporteret til evt. senere genbrug (fx Fælles samling) ----*/
+/*---- eksporteret til evt. senere genbrug (fx Visuel style guide) ----*/
 export { LOGO_BUCKET, INSPIRATION_BUCKET, LOGO_LILLE_BUCKET };

@@ -485,7 +485,7 @@ function matchModul4Response(responses, selectedIds) {
     return matched ? matched.text : responses[responses.length - 1].text;
 }
 
-/*---- Modul 8 - genererer den fritekst-dokumentation, saveSideOutput gemmer og Fælles samling viser (jf. js/visuelStyleGuide.js, som kun læser `documentation`-strengen, ikke `data`-objektets struktur). Boble 8.3 er bevidst en ren opsamlingsskærm uden redigerbart felt (jf. manuskriptet), så denne tekst sættes automatisk ud fra palette + tekstfarve + kontrastvalg + refleksion. ----*/
+/*---- Modul 8 - genererer den fritekst-dokumentation, saveSideOutput gemmer og Visuel style guide viser (jf. js/visuelStyleGuide.js, som kun læser `documentation`-strengen, ikke `data`-objektets struktur). Boble 8.3 er bevidst en ren opsamlingsskærm uden redigerbart felt (jf. manuskriptet), så denne tekst sættes automatisk ud fra palette + tekstfarve + kontrastvalg + refleksion. ----*/
 
 function buildDocumentationText(palette, textColorHex, contrast, reflection) {
     const paletteText = palette

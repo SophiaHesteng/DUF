@@ -4,7 +4,7 @@
  * En liste af selvstændige, afkrydsbare punkter - IKKE en formular med
  * rigtige/forkerte svar, og ikke forgrenende. Første brug: Billeder Modul 7.2
  * (9 rettighedspunkter), men bevidst generisk, så den kan genbruges af andre
- * rum senere (fx Byggesten, Logo, Fælles samling - ikke bygget dertil nu).
+ * rum senere (fx Byggesten, Logo, Visuel style guide - ikke bygget dertil nu).
  *
  * Samme mønster som components/exitDoor.js: markup + adfærd samlet ét sted,
  * så et rum blot kalder renderTjekliste() i stedet for at bygge sin egen

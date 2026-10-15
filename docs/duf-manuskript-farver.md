@@ -425,12 +425,12 @@ Hvad lagde du mærke til?"
 
 *Guide: Du er altid velkommen til at vende tilbage til Farver og justere din palette, hvis dine farver eller deres roller ændrer sig undervejs.*
 
-**Det tager du med dig:** Det arbejde, brugeren har lavet her, bliver samlet i Fælles samling. Her kan brugeren finde: den valgte farvepalette med farvekoder, farvernes roller, den valgte dosering af farverne, en eventuel tekstfarve, den valgte kontrastkombination, kontrastforholdet og vurderingen af læsbarheden, og egne refleksioner fra afprøvningen. Fælles samling kan bruges til at vende tilbage til det, brugeren har arbejdet med, når det skal bruges i praksis.
+**Det tager du med dig:** Det arbejde, brugeren har lavet her, bliver samlet i Visuel style guide. Her kan brugeren finde: den valgte farvepalette med farvekoder, farvernes roller, den valgte dosering af farverne, en eventuel tekstfarve, den valgte kontrastkombination, kontrastforholdet og vurderingen af læsbarheden, og egne refleksioner fra afprøvningen. Visuel style guide kan bruges til at vende tilbage til det, brugeren har arbejdet med, når det skal bruges i praksis.
 
 - **Interaktion:** Ingen — ren opsamlingsskærm.
 - **Respons:** Ingen.
 - **Leder videre:** Afslutter vækstrummet Farver.
-- **Gemmes:** Ja — hele det samlede output (palette med roller og dosering, eventuel tekstfarve, valgt kontrastkombination, refleksion) gemmes via `saveSideOutput("farver", ...)`, jf. samme mønster som resten af rummet, og indgår i Fælles samling (jf. `docs/duf-visuel-style-guide.md`).
+- **Gemmes:** Ja — hele det samlede output (palette med roller og dosering, eventuel tekstfarve, valgt kontrastkombination, refleksion) gemmes via `saveSideOutput("farver", ...)`, jf. samme mønster som resten af rummet, og indgår i Visuel style guide (jf. `docs/duf-visuel-style-guide.md`).
 
 ## Spørgsmål til jer, inden I bygger videre
 
@@ -454,6 +454,6 @@ Modul 6, 7 og 8 er nu også bygget (2026-09-11, samme branch): `js/data/farver.j
 **Runde 7 bygget (2026-09-25, branch `farver-runde-7`):** Alle seks ændringer fra [[DUF Prompt - Farver (runde 7)]] er implementeret i `js/data/farver.js`, `js/engine/farverEngine.js`, `js/engine/farverUi.js` og css'en (`css/_components.scss` + `css/style.css`). `contrast.js` er uændret. Et par ting, der ikke står eksplicit ovenfor:
 - **6.1:** "Tilføj en farve" i én-farve-beskeden tilføjer en ny farve og sætter fokus på dens farvevælger. Mens beskeden er åben, er "Næste" skjult, så der kun er de to valg.
 - **7.2:** Med én farve i paletten viser "Se alle dine kombinationer" også par med hvid og sort (ellers ville feltet være tomt).
-- **Fælles samling:** Dokumentationsteksten fra 8.3 har nu også vurderingen med symbol, fx "(kontrastforhold 11.57 : 1, ✓ Let at læse)", så den matcher "Det tager du med dig".
+- **Visuel style guide:** Dokumentationsteksten fra 8.3 har nu også vurderingen med symbol, fx "(kontrastforhold 11.57 : 1, ✓ Let at læse)", så den matcher "Det tager du med dig".
 
 Afprøvet i Chrome og Edge (headless, 1280 px og 390 px) med et script, der kører hele flowet to gange: uden Overblik og med tre farver, og med Overblik "ingen kanaler" og én farve. Alle punkter i promptens testliste bestod, uden JS-fejl.

@@ -28,7 +28,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 - Modul 4 (Fonte): `arbejdsVaerktoej`, `googleFontsDirekte` (bool, afledt af `arbejdsVaerktoej`), `fontOverskrift`, `fontBroedtekst`, `laesbarhedOk`
 - Modul 5 (Andre byggesten): `andenDetalje` (upload/beskrivelse) eller `andenRetning` eller `ikkeBesluttet`
 - Modul 6: `provetSammenResultat` (fungerer / tætPå / virkerIkke), `tilbageTil[]` (hvilke(t) valg der skal justeres)
-- Modul 7: `tommelfingerregel` (fri tekst), `begrundelse` (samlet, til Fælles samling)
+- Modul 7: `tommelfingerregel` (fri tekst), `begrundelse` (samlet, til Visuel style guide)
 - **Læses fra Det visuelle udtryk for din praksis (ny i runde 7):** `hentUdgangspunkt()` → `{ udgangspunkt, kanaler, starterFraBunden }`. Bruges i 1.3 (se nedenfor) og 4.2. Har brugeren ikke været i Det visuelle udtryk for din praksis, opfører rummet sig som før.
 
 ## Knappen "Skift fokus" *(fjernet 2026-10-09)*
@@ -314,7 +314,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 - **Hvad brugeren møder på denne skærm:** Du har nu et lille sæt byggesten, du kan tage med dig videre. Gem dem i din visuelle guide, så du ikke skal starte forfra næste gang. Dette er en prototype, ligesom resten af dit visuelle udtryk. Det må gerne udvikle sig, i takt med at din praksis gør det.
   - 💬 *Guide (avatar: Heidi):* Det vigtigste er ikke, at det er færdigt. Det er, at du ved, hvor du skal kigge, næste gang.
 - **Eventuel interaktion:** Knappen "Tilføj til min visuelle guide".
-- **Gemmes/får betydning senere:** Ja, `begrundelse` (opsummering + tommelfingerregel **+ listen "Det skal du bruge"**, runde 7), til Fælles samling.
+- **Gemmes/får betydning senere:** Ja, `begrundelse` (opsummering + tommelfingerregel **+ listen "Det skal du bruge"**, runde 7), til Visuel style guide.
 - **Hvad der leder videre:** Ud af rummet, tilbage til rum-vælgeren.
 
 ## Ændringer efter gennemgang (2026-09-24)
