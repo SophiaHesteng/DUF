@@ -14,7 +14,7 @@ function showWelcomeScreen(onStart, onExit){
         <section class="section welcome-card">
             <h1 class="section-heading">Velkommen til Prøverummet</h1>
 
-            <p class="section-subheading">Her får du en lille smagsprøve på, hvordan vores vækstrum fungerer.</p>
+            <p class="section-subheading">Her får du en lille smagsprøve på, hvordan DUF fungerer.</p>
 
             <div class="section-body">
                 <p>Der findes ingen rigtige eller forkerte svar.</p>

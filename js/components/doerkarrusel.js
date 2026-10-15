@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------
  * DUF — dørkarrusel på vaelg-din-dor.html
  * ----------------------------------------------------------------------------
- * Ét dørkort pr. vækstområde (js/data/vaekstomraader.js) i en vandret
+ * Ét dørkort pr. emne (js/data/doerkarrusel.js) i en vandret
  * scroll-snap-karrusel med pile, pin-og-sti-navigation (js/components/
  * pinSti.js) og piletaster. Kun dørens fyldfarve skifter pr. område; ramme
  * og håndtag er ens på alle kort.
@@ -12,7 +12,7 @@
  * ----------------------------------------------------------------------------
  */
 
-import { vaekstomraader } from "../data/vaekstomraader.js";
+import { emner } from "../data/doerkarrusel.js";
 import { renderPinSti } from "./pinSti.js";
 
 const DOER_RAMME = "M394.44 197.19C394.44 167.74 387.44 138.77 374.88 112.43C363.83 89.25 348.89 68.95 330.04 51.65C304.92 28.59 274.5 12.25 241.09 4.82998C204.28 -3.35002 166.09 -1.16002 130.73 11.59C118.09 16.15 106.71 21.79 95.35 28.74C44.01 60.18 9.43 113.72 2.05 173.54C0.86 183.17 0.04 192.5 0.04 202.45L0 708.69C0 713.13 3.02 715.91 7.34 715.92L123.87 715.9L123.92 687.78L270.84 687.82L270.96 715.93L387.91 715.89C391.68 715.89 394.55 713.04 394.55 709.23L394.45 197.19H394.44ZM352.51 208.72L338.97 208.76L338.87 223.72L352.37 223.98L352.35 700.76L283.89 700.91L283.84 674.83L110.82 674.81L110.69 701.91H42.32V223.96L56.08 223.83L56.18 208.76L42.34 208.7C42.28 196.42 42.24 184.97 44.03 173.01C51.65 122.12 86.79 77.72 132.87 56C176.87 35.26 227.45 36.69 270.18 59.86C297.17 74.5 319.56 96.85 334.3 123.87C349.57 151.84 353.23 177.34 352.5 208.75L352.51 208.72ZM364.32 701.74L364.3 192.81C364.3 182.63 363.32 173.23 361.54 163.26C355.02 130.62 338.49 101.25 314.84 77.99C283.35 47.01 241.32 28.87 196.94 29.26C151.94 29.66 112.96 46.71 80.74 77.67C69.62 88.35 60.45 99.88 52.63 113.24C38.35 137.22 30.36 164.58 30.35 192.76L30.26 701.82L13.73 701.78L13.82 196.82C13.82 161.58 24.61 127.21 43.5 97.98C50.1 87.24 57.61 78.32 66.24 69.34C79.48 55.55 94.22 44.36 111.05 35.15C166.71 4.68998 235.9 5.84998 290.54 38.81C344.14 71.14 380.56 129.92 380.62 193.4L381.16 701.61L364.31 701.74H364.32Z";
@@ -74,8 +74,8 @@ export function initDoerkarrusel() {
             <button type="button" class="doerkarrusel-pil doerkarrusel-pil--forrige" aria-label="Forrige dør">
                 <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
             </button>
-            <ul class="doerkarrusel-spor" tabindex="0" aria-label="Vækstområder. Brug piletasterne til at skifte dør.">
-                ${vaekstomraader.map(kortHTML).join("")}
+            <ul class="doerkarrusel-spor" tabindex="0" aria-label="Emner. Brug piletasterne til at skifte dør.">
+                ${emner.map(kortHTML).join("")}
             </ul>
             <button type="button" class="doerkarrusel-pil doerkarrusel-pil--naeste" aria-label="Næste dør">
                 <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
@@ -94,7 +94,7 @@ export function initDoerkarrusel() {
 
     const pinSti = renderPinSti(root.querySelector(".doerkarrusel-pins"), {
         ariaLabel: "Hop til en dør",
-        labels: vaekstomraader.map((omraade, index) => `Dør ${index + 1}: ${escapeHtml(omraade.titel)}`),
+        labels: emner.map((omraade, index) => `Dør ${index + 1}: ${escapeHtml(omraade.titel)}`),
         onSelect: (index) => goTo(index)
     });
 
@@ -113,7 +113,7 @@ export function initDoerkarrusel() {
         forrige.setAttribute("aria-disabled", String(index === 0));
         naeste.setAttribute("aria-disabled", String(index === kort.length - 1));
 
-        const omraade = vaekstomraader[index];
+        const omraade = emner[index];
         status.textContent = `Dør ${index + 1} af ${kort.length}: ${omraade.titel}${omraade.href ? "" : " (kommer snart)"}`;
     }
 

@@ -3,7 +3,7 @@
  * ----------------------------------------------------------------------------
  * En række klikbare pins forbundet af en sti, hvor det aktive trin har en
  * grøn ring. Bygget første gang til dørkarrusellen (vaelg-din-dor.html), men
- * lavet som en selvstændig komponent, så navigationslinjerne i vækstrummene
+ * lavet som en selvstændig komponent, så navigationslinjerne i rummene
  * (moduler/bobler, js/components/navLinje.js) kan genbruge den.
  *
  * Stiens streg (2px, #7B8582) og pins' kant er hentet fra "Navigation"-

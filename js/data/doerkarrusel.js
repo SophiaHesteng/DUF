@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
- * DUF — alle vækstområder, som de vises i dørkarrusellen på vaelg-din-dor.html
+ * DUF — alle emner, som de vises i dørkarrusellen på vaelg-din-dor.html
  * ----------------------------------------------------------------------------
  * Én liste, så et nyt område (eller et område, der får sin side) kun kræver,
  * at man udfylder href her. href: null = siden findes ikke endnu; døren vises
@@ -15,12 +15,12 @@
  * ----------------------------------------------------------------------------
  */
 
-export const vaekstomraader = [
+export const emner = [
     {
         slug: "visuelt-udtryk",
         titel: "Visuelt udtryk for din praksis",
         undertekst: "Farver, billeder, logo og de mindre detaljer, der binder det hele sammen.",
-        href: "vaekstomraade-visuelt-udtryk.html",
+        href: "visuelt-udtryk.html",
         tekst: "moerk",
         farveMoerk: "#D95926"
     },
@@ -28,7 +28,7 @@ export const vaekstomraader = [
         slug: "branding",
         titel: "Branding",
         undertekst: "Hvem du er, hvad du står for, og hvordan du viser det frem.",
-        href: "vaekstomraade-branding.html",
+        href: "branding.html",
         tekst: "moerk",
         farveMoerk: "#E66767"
     },
@@ -36,7 +36,7 @@ export const vaekstomraader = [
         slug: "markedsfoering",
         titel: "Markedsføring",
         undertekst: "Bliv fundet af dem, du bedst kan hjælpe.",
-        href: "vaekstomraade-markedsfoering.html",
+        href: "markedsfoering.html",
         tekst: "moerk",
         farveMoerk: "#D55181"
     },
@@ -44,7 +44,7 @@ export const vaekstomraader = [
         slug: "den-gode-praksis",
         titel: "Den gode praksis",
         undertekst: "Det håndværk, der ligger mellem selve behandlingerne.",
-        href: "vaekstomraade-den-gode-praksis.html",
+        href: "den-gode-praksis.html",
         tekst: "lys",
         farveMoerk: "#9C5518"
     },
@@ -52,7 +52,7 @@ export const vaekstomraader = [
         slug: "produkter-ydelser",
         titel: "Produkter & ydelser",
         undertekst: "Byg og skru på det, du reelt tilbyder.",
-        href: "vaekstomraade-produkter-ydelser.html",
+        href: "produktudvikling.html",
         tekst: "lys",
         farveMoerk: "#008300"
     },
@@ -60,7 +60,7 @@ export const vaekstomraader = [
         slug: "hjemmeside",
         titel: "Hjemmeside",
         undertekst: "Din hjemmeside som et sted, folk nemt kan finde vej.",
-        href: "vaekstomraade-hjemmeside.html",
+        href: "hjemmeside.html",
         tekst: "moerk",
         farveMoerk: "#3987E5"
     },
@@ -68,7 +68,7 @@ export const vaekstomraader = [
         slug: "det-gode-indhold",
         titel: "Det gode indhold",
         undertekst: "Skriv og del det, der rent faktisk hjælper nogen.",
-        href: null,
+        href: "det-gode-indhold.html",
         tekst: "moerk",
         farveMoerk: "#C98500"
     },
@@ -76,7 +76,7 @@ export const vaekstomraader = [
         slug: "sociale-medier",
         titel: "Sociale medier",
         undertekst: "Vær til stede, uden at det tager livet af dig.",
-        href: "vaekstomraade-sociale-medier.html",
+        href: "sociale-medier.html",
         tekst: "moerk",
         farveMoerk: "#199E70"
     },
@@ -84,7 +84,7 @@ export const vaekstomraader = [
         slug: "ai",
         titel: "AI i din praksis",
         undertekst: "Brug det som et værktøj, ikke en erstatning for dig.",
-        href: null,
+        href: "ai.html",
         tekst: "lys",
         farveMoerk: "#9085E9"
     }

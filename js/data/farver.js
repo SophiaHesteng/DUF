@@ -1,9 +1,9 @@
-/*---- Indhold til vækstrummet "Farver" (uddybende, hjem: Visuelt udtryk for din praksis) - jf. docs/duf-manuskript-farver.md ----*/
+/*---- Indhold til rummet "Farver" (uddybende, hjem: Visuelt udtryk for din praksis) - jf. docs/duf-manuskript-farver.md ----*/
 
-/*---- Modul 1-5 er bygget om til den fulde Vækstrum -> Modul -> Bobler-struktur (manuskript revideret 2026-09-11). Teksten herunder følger manuskriptets ordlyd direkte, frem for den ældre, flade tekst fra før revisionen - jf. commit-beskeden for denne ombygning. Modul 6, 7 og 8 er nu også bygget om til den fri palet-bygger / palette-drevet kontrasttjek / tre-boble-opsamling, jf. docs/duf-manuskript-farver.md. ----*/
+/*---- Modul 1-5 er bygget om til den fulde Rum -> Modul -> Bobler-struktur (manuskript revideret 2026-09-11). Teksten herunder følger manuskriptets ordlyd direkte, frem for den ældre, flade tekst fra før revisionen - jf. commit-beskeden for denne ombygning. Modul 6, 7 og 8 er nu også bygget om til den fri palet-bygger / palette-drevet kontrasttjek / tre-boble-opsamling, jf. docs/duf-manuskript-farver.md. ----*/
 
 export const velkomst = {
-    fraVisueltVaekstrum: "Du nævnte tidligere, at du er usikker på dine farver — derfor foreslog vi at kigge nærmere på det her.",
+    fraVisueltUdtryk: "Du nævnte tidligere, at du er usikker på dine farver — derfor foreslog vi at kigge nærmere på det her.",
     standard: "Velkommen til Farver. Her får du hjælp til at vælge en farvepalet, der understøtter din praksis — uanset om du starter fra bunden eller bare vil kvalitetssikre det, du allerede har."
 };
 
@@ -59,7 +59,7 @@ export const modul3 = {
             "Når vi kigger på farver, handler det ikke kun om at finde ud af, hvilke farver der er brugt. Vi kigger også på, hvad de gør sammen.",
             "Går nogle af farverne igen? Hvilke lægger du først mærke til? Og hvilket samlet indtryk får du?"
         ],
-        /*---- Runde 7: erstatter første afsnit, når VisueltVaekstrum viser, at brugeren starter fra bunden (hentUdgangspunkt()?.starterFraBunden). Resten af teksten er uændret ----*/
+        /*---- Runde 7: erstatter første afsnit, når velkommen-visuelt-udtryk viser, at brugeren starter fra bunden (hentUdgangspunkt()?.starterFraBunden). Resten af teksten er uændret ----*/
         firstParagraphFraBunden: "Farver møder du mange steder: på hjemmesider, i logoer, på sociale medier, i nyhedsbreve og på materialer. Også selvom du ikke har dine egne endnu, har du sikkert lagt mærke til dem hos andre."
     },
     boble2: {
@@ -288,7 +288,7 @@ export const modul7 = {
     }
 };
 
-/*---- Modul 8 - afprøvning og dokumentation, nu opdelt i tre bobler. Boble 8.3 er en ren opsamlingsskærm (ingen redigerbart tekstfelt) - dokumentationsteksten til `saveVaekstrumOutput` genereres automatisk af motoren ud fra palette + tekstfarve + kontrastvalg + refleksion, jf. farverEngine.js. ----*/
+/*---- Modul 8 - afprøvning og dokumentation, nu opdelt i tre bobler. Boble 8.3 er en ren opsamlingsskærm (ingen redigerbart tekstfelt) - dokumentationsteksten til `saveSideOutput` genereres automatisk af motoren ud fra palette + tekstfarve + kontrastvalg + refleksion, jf. farverEngine.js. ----*/
 
 export const modul8 = {
     boble1: {
@@ -329,16 +329,16 @@ export const modul8 = {
     },
     boble3: {
         heading: "Din valgte farvepalette",
-        intro: "Her kan du se det, du har arbejdet med gennem vækstrummet. Din farvepalette kan gøre det lettere at arbejde med dit visuelle udtryk, fordi du allerede har taget stilling til, hvilke farver du vil bruge, og hvilken rolle de kan spille.",
+        intro: "Her kan du se det, du har arbejdet med i Farver. Din farvepalette kan gøre det lettere at arbejde med dit visuelle udtryk, fordi du allerede har taget stilling til, hvilke farver du vil bruge, og hvilken rolle de kan spille.",
         colorsLabel: "Dine farver",
         textColorLabel: "Din valgte tekstfarve",
         noTextColorText: "Tekstfarve: Sort som udgangspunkt.",
         contrastLabel: "Din valgte kontrastkombination",
         readabilityLabel: "Læsevenlighed",
         reflectionLabel: "Det lagde du mærke til",
-        closing: "Du har nu afsluttet vækstrummet Farver — og fået sat konkrete farver op, givet dem nogle roller og tjekket kontrasterne. Din valgte farvepalette gør det lettere at arbejde med dit visuelle udtryk, fordi du allerede har taget stilling til, hvilken rolle dine farver kan spille. Når du bruger paletten igen og igen, kan det også være med til at skabe genkendelighed i det, andre møder fra dig. Og rollerne behøver ikke være de samme for altid. I takt med at din praksis udvikler sig, vil du opdage, at en farve skal have mere plads, mindre plads eller måske spille en helt anden rolle. Du kan nu afslutte dette vækstrum og begynde at bruge din palette i din praksis.",
+        closing: "Du har nu afsluttet Farver — og fået sat konkrete farver op, givet dem nogle roller og tjekket kontrasterne. Din valgte farvepalette gør det lettere at arbejde med dit visuelle udtryk, fordi du allerede har taget stilling til, hvilken rolle dine farver kan spille. Når du bruger paletten igen og igen, kan det også være med til at skabe genkendelighed i det, andre møder fra dig. Og rollerne behøver ikke være de samme for altid. I takt med at din praksis udvikler sig, vil du opdage, at en farve skal have mere plads, mindre plads eller måske spille en helt anden rolle. Du kan nu afslutte Farver og begynde at bruge din palette i din praksis.",
         guideLabel: "Guide",
-        guide: "Du er altid velkommen til at vende tilbage til vækstrummet og justere din palette, hvis dine farver eller deres roller ændrer sig undervejs.",
+        guide: "Du er altid velkommen til at vende tilbage til Farver og justere din palette, hvis dine farver eller deres roller ændrer sig undervejs.",
         takeawayLabel: "Det tager du med dig",
         takeaway: "Det arbejde, du har lavet her, bliver samlet i Fælles samling. Her kan du finde: den valgte farvepalette med farvekoder, farvernes roller, den valgte dosering af farverne, en eventuel tekstfarve, den valgte kontrastkombination, kontrastforholdet og vurderingen af læsbarheden, og dine egne refleksioner fra afprøvningen. Fælles samling kan bruges til at vende tilbage til det, du har arbejdet med, når det skal bruges i praksis.",
         finishButtonLabel: "Gem og fortsæt i Visuelt udtryk for din praksis"

@@ -2,7 +2,7 @@ import { activateFocusTrap } from "./accessibility.js";
 import { initAccordion } from "../components/accordion.js";
 import { renderExitDoor as renderSharedExitDoor, bindExit } from "../components/exitDoor.js";
 import { renderBubbleHub, bindBubbleHub, renderBubbleDetail, bindBubbleDetail } from "../components/bubbleHub.js";
-import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
+import { VISUELT_UDTRYK_HUB } from "./exit.js";
 import { rumRammeHtml, bindRumRamme } from "../components/rumRamme.js";
 
 const app = document.querySelector("#app");
@@ -15,7 +15,7 @@ function renderExitDoor() {
 
 const OMRAADE = { navn: "Visuelt udtryk for din praksis", slug: "visuelt-udtryk" };
 
-/*---- Sættes af VisueltVaekstrumEngine.start(): giver navigationslinjerne og "Tilbage" data fra engine-historikken (js/engine/rumHistorik.js) ----*/
+/*---- Sættes af VisueltEngine.start(): giver navigationslinjerne og "Tilbage" data fra engine-historikken (js/engine/rumHistorik.js) ----*/
 let rumNavigation = () => null;
 
 function setRumNavigation(provider) {
@@ -196,14 +196,14 @@ function showMultiChoiceQuestion({ heading, intro, options }, onSelectionConfirm
 function showAccordionStep({ heading, intro, items, buttonText = "Videre" }, onNext, onExit) {
     const itemsHtml = items.map((item, index) => `
         <div class="accordion-item" data-open="false">
-            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="visuelt-vaekstrum-panel-${index}">
+            <button type="button" class="accordion-trigger" aria-expanded="false" aria-controls="visuelt-panel-${index}">
                 <span class="accordion-trigger-text">
                     <span class="accordion-trigger-title">${item.title}</span>
                     <span class="accordion-trigger-teaser">${item.teaser}</span>
                 </span>
                 <img class="accordion-icon" src="img/accordion-closed.svg" alt="">
             </button>
-            <div class="accordion-panel" id="visuelt-vaekstrum-panel-${index}" hidden>
+            <div class="accordion-panel" id="visuelt-panel-${index}" hidden>
                 <p>${item.body}</p>
             </div>
         </div>

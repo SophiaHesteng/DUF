@@ -1,19 +1,19 @@
 import { RENDERERS, showWelcome, showExitConfirmation, setRumNavigation } from "./byggestenUi.js";
 import { velkomst, moduler, BOBLER, EMNER, OVERGANGE, saetTekster } from "../data/byggesten.js";
 import {
-    saveVaekstrumOutput,
+    saveSideOutput,
     saveImage,
     deleteImage,
-    getImagesForVaekstrum,
-    getVaekstrumOutput
-} from "../storage/vaekstrumStorage.js";
+    getImagesForSide,
+    getSideOutput
+} from "../storage/storage.js";
 import { hentUdgangspunkt } from "../storage/udgangspunkt.js";
 import { KURATEREDE_PAR } from "../components/fontvaelger.js";
 import { IKON_STILE } from "../components/materialIkoner.js";
-import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
+import { VISUELT_UDTRYK_HUB } from "./exit.js";
 import { RumHistorik } from "./rumHistorik.js";
 
-const BYGGESTEN_VAEKSTRUM_ID = "byggesten";
+const BYGGESTEN_ID = "byggesten";
 const DETALJE_BUCKET = "byggesten-detalje";
 
 /*---- Et emne fra Modul 2 = et "job": start-boble + de bobler, der afslutter emnet (fx alle tre 5.2-varianter). Når en slut-boble forlades, er emnet gennemført, og køen afgør næste skridt ----*/
@@ -42,7 +42,7 @@ const RET_JOBS = {
 const OVERGANGS_BOBLER = ["3.5", "4.6", "5.2a", "5.2b", "5.2c"];
 
 /*----------------------------------------------------------------------------
- * Selvstændig motor for det uddybende vækstrum "Ikoner, fonte & andre
+ * Selvstændig motor for det uddybende rum "Ikoner, fonte & andre
  * grafiske byggesten" (Visuelt udtryk for din praksis) - jf. docs/duf-manuskript-byggesten.md.
  *
  * Data-drevet efter samme mønster som Logo (BOBLER keyet på id, `next` pr.
@@ -68,7 +68,7 @@ const OVERGANGS_BOBLER = ["3.5", "4.6", "5.2a", "5.2b", "5.2c"];
  * boblen blev vist. Svarene bevares, så felterne er udfyldt som ved et
  * genbesøg.
  *
- * Runde 7: læser brugerens udgangspunkt fra VisueltVaekstrum (hentUdgangspunkt) til
+ * Runde 7: læser brugerens udgangspunkt fra velkommen-visuelt-udtryk (hentUdgangspunkt) til
  * 1.3 (forvalgt "Fra bunden") og 4.2 (kanalerne øverst).
  * ----------------------------------------------------------------------------
  */
@@ -80,7 +80,7 @@ export class ByggestenEngine {
     koe = null; // { jobs: [...], efter: bobleId }
     aktivtJob = null;
     historik = new RumHistorik({ afkortVedGenbesoeg: false }); // brugerens rute gennem moduler/bobler - til navigationslinjerne, "Tilbage" og "Bliv i rummet"
-    visueltVaekstrum = null; // hentUdgangspunkt() - null, hvis brugeren ikke har været i VisueltVaekstrum
+    visueltUdgangspunkt = null; // hentUdgangspunkt() - null, hvis brugeren ikke har været i velkommen-visuelt-udtryk
     _paletCache;
 
     harArbejdetMedFarverEllerLogo() {
@@ -90,7 +90,7 @@ export class ByggestenEngine {
     async start() {
         const kontekst = this.harArbejdetMedFarverEllerLogo() ? velkomst.kontekstuel : velkomst.standard;
         setRumNavigation(() => this.historik.navigation("Ikoner, fonte & andre grafiske byggesten", moduler));
-        this.visueltVaekstrum = await hentUdgangspunkt();
+        this.visueltUdgangspunkt = await hentUdgangspunkt();
 
         showWelcome([kontekst, velkomst.faelles], velkomst.knap, () => {
             document.body.classList.add("in-flow");
@@ -187,7 +187,7 @@ export class ByggestenEngine {
         return boble;
     }
 
-    /*---- 4.2 (runde 7): variant ved "Fra bunden", egne svar for "På sociale medier" og "Det ved jeg ikke endnu", og VisueltVaekstrums kanaler øverst med en note ----*/
+    /*---- 4.2 (runde 7): variant ved "Fra bunden", egne svar for "På sociale medier" og "Det ved jeg ikke endnu", og velkommen-visuelt-udtryks kanaler øverst med en note ----*/
 
     tilpas42(boble, base) {
         const respons = (o) => (o.googleFontsDirekte
@@ -207,7 +207,7 @@ export class ByggestenEngine {
             }
         });
 
-        const kanaler = this.visueltVaekstrum?.kanaler || [];
+        const kanaler = this.visueltUdgangspunkt?.kanaler || [];
         const matcher = (option) => (option.kanaler || []).filter((k) => kanaler.includes(k));
         const oeverst = boble.options.filter((o) => matcher(o).length);
 
@@ -246,11 +246,11 @@ export class ByggestenEngine {
 
         if (boble.imageUpload) {
             const bucket = boble.imageUpload.bucket;
-            ctx.images = await getImagesForVaekstrum(bucket);
+            ctx.images = await getImagesForSide(bucket);
             ctx.imageHandlers = {
                 upload: (file) => saveImage(bucket, file),
                 remove: (imageId) => deleteImage(imageId),
-                refresh: () => getImagesForVaekstrum(bucket)
+                refresh: () => getImagesForSide(bucket)
             };
         }
 
@@ -306,8 +306,8 @@ export class ByggestenEngine {
             case "multiChoice":
                 return { valgte: Array.isArray(value) ? value.map((v) => v.id || v) : [] };
             case "choice":
-                /*---- 1.3 (runde 7): "Fra bunden" er valgt på forhånd, hvis VisueltVaekstrum viser, at brugeren starter fra bunden. Hun kan frit vælge om ----*/
-                if (boble.id === "1.3" && !value && this.visueltVaekstrum?.starterFraBunden) return { optionId: "fra-bunden" };
+                /*---- 1.3 (runde 7): "Fra bunden" er valgt på forhånd, hvis velkommen-visuelt-udtryk viser, at brugeren starter fra bunden. Hun kan frit vælge om ----*/
+                if (boble.id === "1.3" && !value && this.visueltUdgangspunkt?.starterFraBunden) return { optionId: "fra-bunden" };
                 return {};
             default:
                 return {};
@@ -606,7 +606,7 @@ export class ByggestenEngine {
         const [gemtPalet, gemtLogo, detaljeBilleder] = await Promise.all([
             this.hentGemtPalet("farver"),
             this.hentGemtLogo("logo"),
-            getImagesForVaekstrum(DETALJE_BUCKET)
+            getImagesForSide(DETALJE_BUCKET)
         ]);
 
         return {
@@ -619,12 +619,12 @@ export class ByggestenEngine {
         };
     }
 
-    /*---- Gemt output fra Farver og Logo (kun læst, aldrig skrevet). Palet: getVaekstrumOutput("farver").data.palette. Logo: den første fil i Logos billed-bucket, samme som Logo selv viser ----*/
+    /*---- Gemt output fra Farver og Logo (kun læst, aldrig skrevet). Palet: getSideOutput("farver").data.palette. Logo: den første fil i Logos billed-bucket, samme som Logo selv viser ----*/
 
-    async hentGemtPalet(vaekstrumId) {
+    async hentGemtPalet(sideId) {
         if (this._paletCache !== undefined) return this._paletCache;
 
-        const output = await getVaekstrumOutput(vaekstrumId);
+        const output = await getSideOutput(sideId);
         const palette = output?.data?.palette;
 
         /*---- Farver gemmer tekstfarven som `textColor` og den afprøvede kombination (Modul 7) som `contrast: { textHex, bgHex }` ----*/
@@ -642,7 +642,7 @@ export class ByggestenEngine {
     }
 
     async hentGemtLogo(bucket) {
-        const images = await getImagesForVaekstrum(bucket);
+        const images = await getImagesForSide(bucket);
         return images?.length ? { blob: images[0].blob, navn: images[0].name } : null;
     }
 
@@ -715,7 +715,7 @@ export class ByggestenEngine {
             begrundelse
         };
 
-        await saveVaekstrumOutput(BYGGESTEN_VAEKSTRUM_ID, data, begrundelse);
+        await saveSideOutput(BYGGESTEN_ID, data, begrundelse);
     }
 
     exitRoom() {

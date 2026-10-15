@@ -1,7 +1,7 @@
 @use 'colors';
 
-/*---- Vækstrummenes fælles ramme (js/components/rumRamme.js) ----*/
-/*---- Topbjælke, navigationslinjer (js/components/navLinje.js), indholdskort, guide-boble (js/components/guide.js) og knaprække. Layout, afstande og former fra rum-mockuppen (2026-10-09); skrifttyper og farver er sitets egne. Exit-døren styles fortsat i _vaekstrum.scss ----*/
+/*---- Rummenes fælles ramme (js/components/rumRamme.js) ----*/
+/*---- Topbjælke, navigationslinjer (js/components/navLinje.js), indholdskort, guide-boble (js/components/guide.js) og knaprække. Layout, afstande og former fra rum-mockuppen (2026-10-09); skrifttyper og farver er sitets egne. Exit-døren styles fortsat i _flow.scss ----*/
 
 /*---- Områdets farve sættes én gang pr. område og bruges kun som tynd markør: prikken i topbjælken, guide-navnet, guide-boblens lyse baggrund og kant, og primærknappen. Aldrig som stor flade ----*/
 

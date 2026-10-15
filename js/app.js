@@ -2,12 +2,12 @@ console.log("Hello from Script"); // Kobling er good to go!
 
 
 import { FlowEngine } from "./engine/flowEngine.js";
-import { VisueltVaekstrumEngine } from "./engine/visueltVaekstrumEngine.js";
+import { VisueltEngine } from "./engine/visueltEngine.js";
 import { FarverEngine } from "./engine/farverEngine.js";
 import { LogoEngine } from "./engine/logoEngine.js";
 import { BilledeEngine } from "./engine/billederEngine.js";
 import { ByggestenEngine } from "./engine/byggestenEngine.js";
-import { initFaellesSamling } from "./faellesSamling.js";
+import { initVisuelStyleGuide } from "./visuelStyleGuide.js";
 import { initVaelgRumVisueltUdtryk } from "./vaelgRumVisueltUdtryk.js";
 import { initDoerkarrusel } from "./components/doerkarrusel.js";
 
@@ -31,45 +31,21 @@ if (document.body.dataset.flow) {
     engine.start();
 }
 
-if (document.body.dataset.vaekstrum === "vaekstrum-visuelt-udtryk") {
-    const engine = new VisueltVaekstrumEngine();
+/*---- Én liste over sider med egen opstart. Hver side fortæller i <body data-side="..."> hvem den er, og alle sider startes på samme måde herfra. Tidligere havde rummene og de øvrige sider hver sin attribut og hver sin startkode; nu er der ingen forskel. Ny side med egen motor: tilføj én linje her og data-side på siden. ----*/
 
-    engine.start();
+const sideStart = {
+    "velkommen-visuelt-udtryk": () => new VisueltEngine().start(),
+    farver: () => new FarverEngine().start(),
+    logo: () => new LogoEngine().start(),
+    billeder: () => new BilledeEngine().start(),
+    byggesten: () => new ByggestenEngine().start(),
+    "visuel-style-guide": initVisuelStyleGuide,
+    "vaelg-rum-visuelt-udtryk": initVaelgRumVisueltUdtryk,
+    "vaelg-din-dor": initDoerkarrusel
+};
+
+const startSide = sideStart[document.body.dataset.side];
+
+if (startSide) {
+    startSide();
 }
-
-if (document.body.dataset.vaekstrum === "farver") {
-    const engine = new FarverEngine();
-
-    engine.start();
-}
-
-if (document.body.dataset.vaekstrum === "logo") {
-    const engine = new LogoEngine();
-
-    engine.start();
-}
-
-if (document.body.dataset.vaekstrum === "billeder") {
-    const engine = new BilledeEngine();
-
-    engine.start();
-}
-
-if (document.body.dataset.vaekstrum === "byggesten") {
-    const engine = new ByggestenEngine();
-
-    engine.start();
-}
-
-if (document.body.dataset.page === "faelles-samling") {
-    initFaellesSamling();
-}
-
-if (document.body.dataset.page === "vaelg-rum-visuelt-udtryk") {
-    initVaelgRumVisueltUdtryk();
-}
-
-if (document.body.dataset.page === "vaelg-din-dor") {
-    initDoerkarrusel();
-}
-

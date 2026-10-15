@@ -1,4 +1,4 @@
-/*---- Indhold til vækstrummet "Det visuelle udtryk for din praksis" (grundlæggende, hjem: Visuelt udtryk for din praksis) - jf. docs/duf-manuskript-visuelt-udtryk.md ----*/
+/*---- Indhold til rummet "Det visuelle udtryk for din praksis" (grundlæggende, hjem: Visuelt udtryk for din praksis) - jf. docs/duf-manuskript-visuelt-udtryk.md ----*/
 
 export const velkomst = {
     heading: "Velkommen til dit visuelle udtryk",
@@ -193,7 +193,7 @@ export const modul2 = {
         responses: {
             "🌱 Jeg kan godt lide den retning, jeg allerede er i": "Det er et godt udgangspunkt. Du behøver ikke ændre noget, bare fordi du arbejder med dit visuelle udtryk. Noget af det næste arbejde kan handle om at forstå, hvad det er, der allerede fungerer, så du lettere kan bygge videre på det og bruge det mere bevidst.",
             "🧩 Noget føles rigtigt — noget andet gør ikke": "Det giver dig allerede noget vigtigt at arbejde med. Du behøver ikke starte forfra, bare fordi noget ikke helt passer. Når vi arbejder videre, kan du blive klogere på, hvad du gerne vil beholde, og hvad der trænger til en ny beslutning.",
-            "🔍 Jeg er blevet opmærksom på, at jeg mangler at tage stilling til noget": "Det er faktisk præcis den slags, et vækstrum kan hjælpe med. Du behøver ikke beslutte det hele nu. Det vigtigste er, at du har fået øje på nogle områder, du gerne vil undersøge nærmere.",
+            "🔍 Jeg er blevet opmærksom på, at jeg mangler at tage stilling til noget": "Det er faktisk præcis den slags, DUF kan hjælpe med. Du behøver ikke beslutte det hele nu. Det vigtigste er, at du har fået øje på nogle områder, du gerne vil undersøge nærmere.",
             "🌪️ Det hele føles lidt blandet lige nu": "Så er du ikke alene. Når forskellige ting er opstået på forskellige tidspunkter, kan det være svært at se dem som en samlet helhed. Du behøver ikke løse det hele på én gang. Vi kan tage de forskellige områder ét ad gangen og begynde at finde ud af, hvad der giver mening for dig og din praksis.",
             "🧭 Jeg føler mig helt på bar bund og ved dårligt, hvor jeg skal starte": "Det kan føles overvældende, når der er mange ting at tage stilling til, og man ikke rigtig ved, hvor man skal begynde. Det behøver du heldigvis ikke finde ud af alene. Du skal ikke tage alle beslutninger på én gang. Vi hjælper dig med at dele det op og tage ét område ad gangen, så du kan begynde at finde en retning, der giver mening for dig og din praksis."
         }
@@ -332,21 +332,21 @@ export const ROOMS = {
     farver: {
         id: "farver",
         name: "Farver",
-        link: "vaekstrum-farver.html?fra=vaekstrum-visuelt-udtryk"
+        link: "farver.html?fra=velkommen-visuelt-udtryk"
     },
     logo: {
         id: "logo",
         name: "Logo",
-        link: "vaekstrum-logo.html?fra=vaekstrum-visuelt-udtryk"
+        link: "logo.html?fra=velkommen-visuelt-udtryk"
     },
     billeder: {
         id: "billeder",
         name: "Billeder",
-        link: "vaekstrum-billeder.html?fra=vaekstrum-visuelt-udtryk"
+        link: "billeder.html?fra=velkommen-visuelt-udtryk"
     },
     byggesten: {
         id: "byggesten",
         name: "Ikoner, fonte og andre byggesten",
-        link: "vaekstrum-byggesten.html"
+        link: "byggesten.html"
     }
 };

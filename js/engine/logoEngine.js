@@ -1,19 +1,19 @@
 import { RENDERERS, showWelcome, showExitConfirmation, setRumNavigation } from "./logoUi.js";
 import { velkomst, moduler, BOBLER } from "../data/logo.js";
 import {
-    saveVaekstrumOutput,
+    saveSideOutput,
     saveImage,
     deleteImage,
-    getImagesForVaekstrum,
-    getVaekstrumOutput,
-    saveVaekstrumPosition,
-    getVaekstrumPosition,
-    clearVaekstrumPosition
-} from "../storage/vaekstrumStorage.js";
-import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
+    getImagesForSide,
+    getSideOutput,
+    saveSidePosition,
+    getSidePosition,
+    clearSidePosition
+} from "../storage/storage.js";
+import { VISUELT_UDTRYK_HUB } from "./exit.js";
 import { RumHistorik } from "./rumHistorik.js";
 
-const LOGO_VAEKSTRUM_ID = "logo";
+const LOGO_ID = "logo";
 const LOGO_BUCKET = "logo";
 const INSPIRATION_BUCKET = "logo-inspiration";
 /*---- Manuskriptets `logoUploadLille` (7.2, runde 7): den ekstra, lille udgave af logoet, fx kun symbolet ----*/
@@ -31,7 +31,7 @@ const ARBEJDSLISTE_FRA_SKURRER = {
 };
 
 /*----------------------------------------------------------------------------
- * Selvstændig motor for det uddybende vækstrum "Logo" (Visuelt udtryk for din praksis).
+ * Selvstændig motor for det uddybende rum "Logo" (Visuelt udtryk for din praksis).
  *
  * Data-drevet som Billeder (js/data/logo.js's `BOBLER`), men - i modsætning
  * til Billeder - udvidet til reel forgrening: BOBLER er et objekt keyet på
@@ -53,7 +53,7 @@ export class LogoEngine {
     svar = {};
     sequenceQueue = null;
     historik = new RumHistorik(); // brugerens rute gennem moduler/bobler - til navigationslinjerne, "Tilbage" og "Bliv i rummet"
-    fraVisueltVaekstrum = false;
+    fraVisueltUdtryk = false;
     _farverPaletteCache;
     _pendingSkurrerGroups = null;
 
@@ -61,20 +61,20 @@ export class LogoEngine {
         setRumNavigation(() => this.historik.navigation("Logo", moduler));
 
         const params = new URLSearchParams(window.location.search);
-        this.fraVisueltVaekstrum = params.get("fra") === "vaekstrum-visuelt-udtryk";
+        this.fraVisueltUdtryk = params.get("fra") === "velkommen-visuelt-udtryk";
 
-        const savedPosition = await getVaekstrumPosition(LOGO_VAEKSTRUM_ID);
+        const savedPosition = await getSidePosition(LOGO_ID);
 
         if (savedPosition?.position?.bobleId) {
             this.svar = { ...savedPosition.position.svar, venter: false };
-            await clearVaekstrumPosition(LOGO_VAEKSTRUM_ID);
+            await clearSidePosition(LOGO_ID);
             document.body.classList.add("in-flow");
             this.showBoble(savedPosition.position.bobleId);
             return;
         }
 
         /*---- Denne velkomstskærm ER manuskriptets Boble 1.1 (jf. logoUi.js's showWelcome) - flowet fortsætter derfor direkte til 1.2, ikke til en gentagelse af 1.1 ----*/
-        const text = this.fraVisueltVaekstrum ? velkomst.fraVisueltVaekstrum : velkomst.standard;
+        const text = this.fraVisueltUdtryk ? velkomst.fraVisueltUdtryk : velkomst.standard;
 
         showWelcome(text, () => {
             document.body.classList.add("in-flow");
@@ -186,25 +186,25 @@ export class LogoEngine {
 
         if (boble.imageUpload) {
             const bucket = boble.imageUpload.bucket;
-            ctx.images = await getImagesForVaekstrum(bucket);
+            ctx.images = await getImagesForSide(bucket);
             ctx.imageHandlers = {
                 upload: (file) => saveImage(bucket, file),
                 remove: (imageId) => deleteImage(imageId),
-                refresh: () => getImagesForVaekstrum(bucket)
+                refresh: () => getImagesForSide(bucket)
             };
         }
 
         if ((boble.logoPreview || boble.paletteBeside || boble.id === "3.3b") && !ctx.images) {
-            ctx.images = await getImagesForVaekstrum(LOGO_BUCKET);
+            ctx.images = await getImagesForSide(LOGO_BUCKET);
         }
 
         if (boble.responseUpload) {
             const bucket = boble.responseUpload.bucket;
-            ctx.responseImages = await getImagesForVaekstrum(bucket);
+            ctx.responseImages = await getImagesForSide(bucket);
             ctx.responseImageHandlers = {
                 upload: (file) => saveImage(bucket, file),
                 remove: (imageId) => deleteImage(imageId),
-                refresh: () => getImagesForVaekstrum(bucket)
+                refresh: () => getImagesForSide(bucket)
             };
         }
 
@@ -257,8 +257,8 @@ export class LogoEngine {
                 break;
 
             case "8.2": {
-                const images = await getImagesForVaekstrum(LOGO_BUCKET);
-                const smallImages = await getImagesForVaekstrum(LOGO_LILLE_BUCKET);
+                const images = await getImagesForSide(LOGO_BUCKET);
+                const smallImages = await getImagesForSide(LOGO_LILLE_BUCKET);
                 const results = this.svar.testResultater || {};
                 const checkLine = (label, ok) => `<li>${ok ? "✓" : "…"} ${label}</li>`;
                 /*---- Den lille udgave fra 7.2 (runde 7) står ved siden af hovedlogoet, hvis hun lagde en ind ----*/
@@ -513,7 +513,7 @@ export class LogoEngine {
 
     async getFarverPalette() {
         if (this._farverPaletteCache !== undefined) return this._farverPaletteCache;
-        const farverOutput = await getVaekstrumOutput("farver");
+        const farverOutput = await getSideOutput("farver");
         this._farverPaletteCache = farverOutput?.data?.palette?.length ? farverOutput.data.palette : null;
         return this._farverPaletteCache;
     }
@@ -680,7 +680,7 @@ export class LogoEngine {
             if (boble.onLeave === "saveDPosition") {
                 await this.saveDPosition();
             } else {
-                await clearVaekstrumPosition(LOGO_VAEKSTRUM_ID);
+                await clearSidePosition(LOGO_ID);
             }
             window.location.href = VISUELT_UDTRYK_HUB;
             return;
@@ -709,13 +709,13 @@ export class LogoEngine {
 
     async saveOutput() {
         const documentation = this.svar.begrundelse?.begrundelse || "";
-        await saveVaekstrumOutput(LOGO_VAEKSTRUM_ID, this.svar, documentation);
-        await clearVaekstrumPosition(LOGO_VAEKSTRUM_ID);
+        await saveSideOutput(LOGO_ID, this.svar, documentation);
+        await clearSidePosition(LOGO_ID);
     }
 
     async saveDPosition() {
         this.svar.venter = true;
-        await saveVaekstrumPosition(LOGO_VAEKSTRUM_ID, { bobleId: "7.1", svar: this.svar });
+        await saveSidePosition(LOGO_ID, { bobleId: "7.1", svar: this.svar });
     }
 
     exitRoom() {

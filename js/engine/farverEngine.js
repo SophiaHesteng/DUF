@@ -19,15 +19,15 @@ import {
 } from "./farverUi.js";
 
 import { velkomst, moduler, modul1, modul2, modul3, modul4, modul5, modul6, modul7, modul8 } from "../data/farver.js";
-import { saveVaekstrumOutput, saveImage, deleteImage, getImagesForVaekstrum } from "../storage/vaekstrumStorage.js";
+import { saveSideOutput, saveImage, deleteImage, getImagesForSide } from "../storage/storage.js";
 import { hentUdgangspunkt } from "../storage/udgangspunkt.js";
-import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
+import { VISUELT_UDTRYK_HUB } from "./exit.js";
 import { contrastRatio, contrastLevel } from "./contrast.js";
 import { RumHistorik } from "./rumHistorik.js";
 
-const FARVER_VAEKSTRUM_ID = "farver";
+const FARVER_ID = "farver";
 
-/*---- Selvstændig motor for det uddybende vækstrum "Farver" (Visuelt udtryk for din praksis). Adskilt fra Prøverummets FlowEngine.js og fra VisueltVaekstrums visueltVaekstrumEngine.js: Farver har øvelsesskærme med flere fritekstfelter, farvevalg og et indbygget kontrasttjek - en anden form end begge de andre. ----*/
+/*---- Selvstændig motor for det uddybende rum "Farver" (Visuelt udtryk for din praksis). Adskilt fra Prøverummets FlowEngine.js og fra velkommen-visuelt-udtryks visueltEngine.js: Farver har øvelsesskærme med flere fritekstfelter, farvevalg og et indbygget kontrasttjek - en anden form end begge de andre. ----*/
 
 export class FarverEngine {
 
@@ -39,13 +39,13 @@ export class FarverEngine {
     reflection = ""; // fri tekst fra Boble 8.2
     modul3ImageSource = null; // "upload" | "duf" - sat i Boble 3.2, bruges i Boble 3.3
     triedInPractice = true; // runde 7: valget i Boble 8.1 - styrer kun, hvilken version af 8.2 der vises (gemmes ikke)
-    udgangspunkt = null; // runde 7: fra VisueltVaekstrum via hentUdgangspunkt() - null, hvis brugeren ikke har været der
+    udgangspunkt = null; // runde 7: fra velkommen-visuelt-udtryk via hentUdgangspunkt() - null, hvis brugeren ikke har været der
     historik = new RumHistorik(); // brugerens rute gennem moduler/bobler - til navigationslinjerne, "Tilbage" og "Bliv i rummet"
 
     start() {
         const params = new URLSearchParams(window.location.search);
-        const fromVisueltVaekstrum = params.get("fra") === "vaekstrum-visuelt-udtryk";
-        const text = fromVisueltVaekstrum ? velkomst.fraVisueltVaekstrum : velkomst.standard;
+        const fromVisueltUdtryk = params.get("fra") === "velkommen-visuelt-udtryk";
+        const text = fromVisueltUdtryk ? velkomst.fraVisueltUdtryk : velkomst.standard;
 
         setRumNavigation(() => this.historik.navigation("Farver", moduler));
 
@@ -123,7 +123,7 @@ export class FarverEngine {
     async showModul3Upload() {
         this.historik.besoeg(3, "3.2", () => this.showModul3Upload());
 
-        const images = await getImagesForVaekstrum(FARVER_VAEKSTRUM_ID);
+        const images = await getImagesForSide(FARVER_ID);
 
         showSingleImageUpload(
             modul3.boble2,
@@ -133,12 +133,12 @@ export class FarverEngine {
             {
                 upload: async (file) => {
                     /*---- Boble 3.2 handler om ÉT billede, ikke en voksende galleri-liste - et nyt upload erstatter derfor et eventuelt tidligere ----*/
-                    const existing = await getImagesForVaekstrum(FARVER_VAEKSTRUM_ID);
+                    const existing = await getImagesForSide(FARVER_ID);
                     await Promise.all(existing.map((image) => deleteImage(image.id)));
-                    return saveImage(FARVER_VAEKSTRUM_ID, file);
+                    return saveImage(FARVER_ID, file);
                 },
                 remove: (imageId) => deleteImage(imageId),
-                refresh: () => getImagesForVaekstrum(FARVER_VAEKSTRUM_ID)
+                refresh: () => getImagesForSide(FARVER_ID)
             }
         );
     }
@@ -150,7 +150,7 @@ export class FarverEngine {
         let imageAlt = modul3.boble2.dufImageAlt;
 
         if (this.modul3ImageSource === "upload") {
-            const images = await getImagesForVaekstrum(FARVER_VAEKSTRUM_ID);
+            const images = await getImagesForSide(FARVER_ID);
             const uploaded = images[images.length - 1];
 
             if (uploaded) {
@@ -461,7 +461,7 @@ export class FarverEngine {
 
         const documentation = buildDocumentationText(this.palette, textColorHex, this.contrast, this.reflection);
 
-        await saveVaekstrumOutput("farver", data, documentation);
+        await saveSideOutput("farver", data, documentation);
 
         window.location.href = VISUELT_UDTRYK_HUB;
     }
@@ -485,7 +485,7 @@ function matchModul4Response(responses, selectedIds) {
     return matched ? matched.text : responses[responses.length - 1].text;
 }
 
-/*---- Modul 8 - genererer den fritekst-dokumentation, saveVaekstrumOutput gemmer og Fælles samling viser (jf. js/faellesSamling.js, som kun læser `documentation`-strengen, ikke `data`-objektets struktur). Boble 8.3 er bevidst en ren opsamlingsskærm uden redigerbart felt (jf. manuskriptet), så denne tekst sættes automatisk ud fra palette + tekstfarve + kontrastvalg + refleksion. ----*/
+/*---- Modul 8 - genererer den fritekst-dokumentation, saveSideOutput gemmer og Fælles samling viser (jf. js/visuelStyleGuide.js, som kun læser `documentation`-strengen, ikke `data`-objektets struktur). Boble 8.3 er bevidst en ren opsamlingsskærm uden redigerbart felt (jf. manuskriptet), så denne tekst sættes automatisk ud fra palette + tekstfarve + kontrastvalg + refleksion. ----*/
 
 function buildDocumentationText(palette, textColorHex, contrast, reflection) {
     const paletteText = palette

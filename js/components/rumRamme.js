@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
- * DUF — delt ramme om en vækstrum-skærm
+ * DUF — delt ramme om en rum-skærm
  * ----------------------------------------------------------------------------
  * Topbjælke (områdemærke), de to navigationslinjer, indholdskortet og
  * knaprækken ("Tilbage" til venstre, rummets egne knapper til højre).

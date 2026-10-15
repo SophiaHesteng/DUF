@@ -1,6 +1,6 @@
-/*---- Indhold til Fælles samling - Visuelt udtryk for din praksis (lukkeskærm, ikke et vækstrum - jf. docs/duf-faelles-samling-visuel-stil.md). Ingen manuskript findes for denne skærm (dokumentet er en kort specifikation, ikke en fuld Vækstrum Context), så teksten herunder er skrevet i DUF's etablerede tone ud fra specifikationens krav, ikke transskriberet fra et eksisterende manuskript. ----*/
+/*---- Indhold til Fælles samling - Visuelt udtryk for din praksis (lukkeskærm, ikke et rum - jf. docs/duf-visuel-style-guide.md). Ingen manuskript findes for denne skærm (dokumentet er en kort specifikation, ikke en fuld context-fil), så teksten herunder er skrevet i DUF's etablerede tone ud fra specifikationens krav, ikke transskriberet fra et eksisterende manuskript. ----*/
 
-import { ROOMS } from "./visueltVaekstrum.js";
+import { ROOMS } from "./visuelt.js";
 
 /*---- Rækkefølgen, rummene vises i overalt på siden ----*/
 export const ROOM_ORDER = ["farver", "logo", "billeder", "byggesten"];
@@ -12,7 +12,7 @@ export const EXTRA_IMAGE_BUCKETS = {
     logo: ["logo-lille"]
 };
 
-/*---- Genbruger VisueltVaekstrums egne, allerede godkendte teaser-tekster (Modul 5) for "hvad rummet kan give dig" - ikke ny, opfundet copy ----*/
+/*---- Genbruger velkommen-visuelt-udtryks egne, allerede godkendte teaser-tekster (Modul 5) for "hvad rummet kan give dig" - ikke ny, opfundet copy ----*/
 export const TEASERS = {
     farver: "En bevidst farvepalet, du kan bruge igen og igen — og en forklaring på, hvorfor den fungerer.",
     logo: "Enten et nyt logo, eller en klar vurdering af det, du allerede har — så du ved, om det gør sit arbejde.",

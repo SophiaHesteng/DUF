@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
- * DUF — delt navigationslinje (modul-linjen og boble-linjen i vækstrummene)
+ * DUF — delt navigationslinje (modul-linjen og boble-linjen i rummene)
  * ----------------------------------------------------------------------------
  * Én komponent, brugt to gange pr. skærm: modul-linjen øverst og boble-linjen
  * under den (lidt mindre, `lille: true`). Bygger videre på pin-og-sti fra

@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
- * DUF — delt historik for et vækstrums vej gennem moduler og bobler
+ * DUF — delt historik for et rums vej gennem moduler og bobler
  * ----------------------------------------------------------------------------
  * Grundlaget for navigationslinjerne og "Tilbage"-knappen. Hver skærm-metode
  * i en engine kalder som det første:

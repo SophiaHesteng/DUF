@@ -101,7 +101,7 @@ Går nogle af farverne igen? Hvilke lægger du først mærke til? Og hvilket sam
 "Har du allerede nogle eksempler, du har lagt mærke til eller lader dig inspirere af?"
 
 - **Interaktion:** Brugeren får to valgmuligheder:
-  - **Ja, det har jeg** → brugeren kan uploade sit eget billede (genbruger den eksisterende billedupload-mekanik fra nuværende Modul 3: klientsidet, billedet forlader aldrig brugerens egen enhed, gemmes i IndexedDB via `saveImage`/`getImagesForVaekstrum`).
+  - **Ja, det har jeg** → brugeren kan uploade sit eget billede (genbruger den eksisterende billedupload-mekanik fra nuværende Modul 3: klientsidet, billedet forlader aldrig brugerens egen enhed, gemmes i IndexedDB via `saveImage`/`getImagesForSide`).
   - **Nej, ikke endnu** → DUF viser et eget eksempel: `eksempel-3.2.png` (lagt i `img/` 2026-09-11).
 - **Respons:** Ingen særskilt respons. Brugerens valg afgør, hvilket billede der tages med videre til næste boble.
 - **Leder videre:** Det valgte billede — brugerens eget upload eller `eksempel-3.2.png` — tages med videre til Boble 3.3, hvor brugeren undersøger billedet nærmere.
@@ -367,7 +367,7 @@ Det kan være en god idé at undersøge flere kombinationer. En farve, der funge
 
 ## Modul 8 — Afprøv og dokumentér
 
-*Status: Bygget 2026-09-11, sammen med Modul 6/7. Uddyber det tidligere Modul 8, nu opdelt i tre bobler. Boble 8.2's ændring (2026-09-08): refleksionen er ændret fra en generel skriftlig begrundelse af farvevalgene til en refleksion over, hvad brugeren konkret opdager, når paletten bruges i praksis — tre spørgsmål som inspiration (ikke enkeltvis besvarelse), ét frit tekstfelt. Boble 8.3 er en ren opsamlingsskærm uden redigerbart felt — dokumentationsteksten til `saveVaekstrumOutput` genereres automatisk af motoren ud fra palette, tekstfarve, kontrastvalg og refleksion.*
+*Status: Bygget 2026-09-11, sammen med Modul 6/7. Uddyber det tidligere Modul 8, nu opdelt i tre bobler. Boble 8.2's ændring (2026-09-08): refleksionen er ændret fra en generel skriftlig begrundelse af farvevalgene til en refleksion over, hvad brugeren konkret opdager, når paletten bruges i praksis — tre spørgsmål som inspiration (ikke enkeltvis besvarelse), ét frit tekstfelt. Boble 8.3 er en ren opsamlingsskærm uden redigerbart felt — dokumentationsteksten til `saveSideOutput` genereres automatisk af motoren ud fra palette, tekstfarve, kontrastvalg og refleksion.*
 
 ### Boble 8.1 — Prøv din palette af
 
@@ -411,7 +411,7 @@ Hvad lagde du mærke til?"
 
 **Hvad brugeren møder:**
 
-"Din valgte farvepalette. Her kan du se det, du har arbejdet med gennem vækstrummet. Din farvepalette kan gøre det lettere at arbejde med dit visuelle udtryk, fordi du allerede har taget stilling til, hvilke farver du vil bruge, og hvilken rolle de kan spille."
+"Din valgte farvepalette. Her kan du se det, du har arbejdet med i Farver. Din farvepalette kan gøre det lettere at arbejde med dit visuelle udtryk, fordi du allerede har taget stilling til, hvilke farver du vil bruge, og hvilken rolle de kan spille."
 
 **Dine farver** — for hver farve vises: 🎨 [Farveprøve], Farvekode: #[XXXXXX], Rolle: [brugerens beskrivelse af farvens rolle], Dosering: [XX] %. Antallet af farver følger brugerens faktiske palette og er ikke begrænset til et bestemt antal.
 
@@ -421,16 +421,16 @@ Hvad lagde du mærke til?"
 
 **Det lagde du mærke til** — brugerens egen refleksion fra Boble 8.2 vises her.
 
-**Afsluttende tekst:** "Du har nu afsluttet vækstrummet Farver — og fået sat konkrete farver op, givet dem nogle roller og tjekket kontrasterne. Din valgte farvepalette gør det lettere at arbejde med dit visuelle udtryk, fordi du allerede har taget stilling til, hvilken rolle dine farver kan spille. Når du bruger paletten igen og igen, kan det også være med til at skabe genkendelighed i det, andre møder fra dig. Og rollerne behøver ikke være de samme for altid. I takt med at din praksis udvikler sig, vil du opdage, at en farve skal have mere plads, mindre plads eller måske spille en helt anden rolle. Du kan nu afslutte dette vækstrum og begynde at bruge din palette i din praksis."
+**Afsluttende tekst:** "Du har nu afsluttet Farver — og fået sat konkrete farver op, givet dem nogle roller og tjekket kontrasterne. Din valgte farvepalette gør det lettere at arbejde med dit visuelle udtryk, fordi du allerede har taget stilling til, hvilken rolle dine farver kan spille. Når du bruger paletten igen og igen, kan det også være med til at skabe genkendelighed i det, andre møder fra dig. Og rollerne behøver ikke være de samme for altid. I takt med at din praksis udvikler sig, vil du opdage, at en farve skal have mere plads, mindre plads eller måske spille en helt anden rolle. Du kan nu afslutte Farver og begynde at bruge din palette i din praksis."
 
-*Guide: Du er altid velkommen til at vende tilbage til vækstrummet og justere din palette, hvis dine farver eller deres roller ændrer sig undervejs.*
+*Guide: Du er altid velkommen til at vende tilbage til Farver og justere din palette, hvis dine farver eller deres roller ændrer sig undervejs.*
 
 **Det tager du med dig:** Det arbejde, brugeren har lavet her, bliver samlet i Fælles samling. Her kan brugeren finde: den valgte farvepalette med farvekoder, farvernes roller, den valgte dosering af farverne, en eventuel tekstfarve, den valgte kontrastkombination, kontrastforholdet og vurderingen af læsbarheden, og egne refleksioner fra afprøvningen. Fælles samling kan bruges til at vende tilbage til det, brugeren har arbejdet med, når det skal bruges i praksis.
 
 - **Interaktion:** Ingen — ren opsamlingsskærm.
 - **Respons:** Ingen.
 - **Leder videre:** Afslutter vækstrummet Farver.
-- **Gemmes:** Ja — hele det samlede output (palette med roller og dosering, eventuel tekstfarve, valgt kontrastkombination, refleksion) gemmes via `saveVaekstrumOutput("farver", ...)`, jf. samme mønster som resten af rummet, og indgår i Fælles samling (jf. `docs/duf-faelles-samling-visuel-stil.md`).
+- **Gemmes:** Ja — hele det samlede output (palette med roller og dosering, eventuel tekstfarve, valgt kontrastkombination, refleksion) gemmes via `saveSideOutput("farver", ...)`, jf. samme mønster som resten af rummet, og indgår i Fælles samling (jf. `docs/duf-visuel-style-guide.md`).
 
 ## Spørgsmål til jer, inden I bygger videre
 
@@ -447,7 +447,7 @@ Hvad lagde du mærke til?"
 
 Modul 1-5 er bygget (branch `farver-update-content`, commit `717565bf...`) og er 2026-09-11 rettet til efter Heidis gennemgang: Modul 4 er lavet om til envalg, Boble 1.2's tre billeder er tilføjet, og `eksempel-3.2.png` er lagt korrekt navngivet i `img/`. `js/data/farver.js`, `js/engine/farverUi.js` og css'en (`css/_components.scss` + `css/style.css`) er opdateret til dette.
 
-Modul 6, 7 og 8 er nu også bygget (2026-09-11, samme branch): `js/data/farver.js` og `js/engine/farverUi.js` er udvidet med indhold og skærme til den frie palet-bygger (Modul 6), det palette-drevne kontrasttjek (Modul 7) og den tre-boble-opdelte afprøvning/opsamling (Modul 8). `js/engine/farverEngine.js` styrer det fulde flow og gemmer den samlede palette, tekstfarve, kontrastvalg og refleksion via `saveVaekstrumOutput`. `js/engine/contrast.js` har fået en ny `contrastLevel()`-funktion til Modul 7's tre feedback-niveauer. CSS til palet-bygger, dosering, forhåndsvisning og kontrastprøve er tilføjet i `css/_components.scss` + `css/style.css`.
+Modul 6, 7 og 8 er nu også bygget (2026-09-11, samme branch): `js/data/farver.js` og `js/engine/farverUi.js` er udvidet med indhold og skærme til den frie palet-bygger (Modul 6), det palette-drevne kontrasttjek (Modul 7) og den tre-boble-opdelte afprøvning/opsamling (Modul 8). `js/engine/farverEngine.js` styrer det fulde flow og gemmer den samlede palette, tekstfarve, kontrastvalg og refleksion via `saveSideOutput`. `js/engine/contrast.js` har fået en ny `contrastLevel()`-funktion til Modul 7's tre feedback-niveauer. CSS til palet-bygger, dosering, forhåndsvisning og kontrastprøve er tilføjet i `css/_components.scss` + `css/style.css`.
 
 **Ikke afprøvet endnu:** Flowet er testet på kode-niveau (kontrastberegning, tre-niveau-tærskler og procent-omfordelingsalgoritmen er verificeret isoleret, herunder stress-testet med tilfældige ændringer), men ikke afprøvet i en rigtig browser. Bør gennemgås i browseren (Live Server e.l.) før merge — især: tilføj/fjern/rediger farver i Modul 6's palet-bygger, tjek at doseringen altid summer til 100 % ved gentagne justeringer af sliderne, og gennemfør et helt kontrast-flow inklusive "Prøv en anden kombination".
 

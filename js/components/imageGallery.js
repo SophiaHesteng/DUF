@@ -2,14 +2,14 @@
  * DUF — delt billedgalleri + upload-UI
  * ----------------------------------------------------------------------------
  * Bruges af de tre rum, hvis manuskript har besluttet billedupload til en
- * øvelse (klientsidet, IndexedDB, jf. js/storage/vaekstrumStorage.js):
+ * øvelse (klientsidet, IndexedDB, jf. js/storage/storage.js):
  * Farver Modul 3, Logo Modul 6, Billeder Modul 3. Samme markup/adfærd var på
  * vej til at blive skrevet tre gange - trukket ud hertil i stedet, samme
  * begrundelse som components/exitDoor.js (kopieret i seks filer, før den
  * fandtes).
  *
  * Denne fil kender intet til lagring (saveImage/deleteImage/
- * getImagesForVaekstrum) - det ejer det enkelte rums *Engine.js stadig selv,
+ * getImagesForSide) - det ejer det enkelte rums *Engine.js stadig selv,
  * og sender blot ind som `upload`/`remove`/`refresh`-funktioner.
  *
  * Understøtter også at indsætte et billede fra udklipsholderen (Ctrl+V), fx et

@@ -1,25 +1,25 @@
 /*----------------------------------------------------------------------------
  * Fælles samling - Visuelt udtryk for din praksis
  * ----------------------------------------------------------------------------
- * Lukkeskærmen for vækstområdet. Bevidst IKKE et vækstrum (intet ID, ingen
- * type, ingen flow-motor) - jf. docs/duf-faelles-samling-visuel-stil.md's
+ * Lukkeskærmen for emnet. Bevidst IKKE et rum (intet ID, ingen
+ * type, ingen flow-motor) - jf. docs/duf-visuel-style-guide.md's
  * egen begrundelse for hvorfor. Læser udelukkende fra det delte lager
- * (js/storage/vaekstrumStorage.js) - skriver aldrig til det selv, og rører
- * ikke ved nogen af de fire vækstrums egne filer.
+ * (js/storage/storage.js) - skriver aldrig til det selv, og rører
+ * ikke ved nogen af de fire rums egne filer.
  * ----------------------------------------------------------------------------
  */
 
 import {
     isStorageOptedOut,
-    getAllVaekstrumOutputs,
-    getImagesForVaekstrum
-} from "./storage/vaekstrumStorage.js";
+    getAllSideOutputs,
+    getImagesForSide
+} from "./storage/storage.js";
 
-import { ROOM_ORDER, ROOMS, TEASERS, EXTRA_IMAGE_BUCKETS, copy } from "./data/faellesSamling.js";
+import { ROOM_ORDER, ROOMS, TEASERS, EXTRA_IMAGE_BUCKETS, copy } from "./data/visuel-style-guide.js";
 
-async function getRoomImages(vaekstrumId) {
-    const buckets = [vaekstrumId, ...(EXTRA_IMAGE_BUCKETS[vaekstrumId] || [])];
-    const perBucket = await Promise.all(buckets.map((bucket) => getImagesForVaekstrum(bucket)));
+async function getRoomImages(sideId) {
+    const buckets = [sideId, ...(EXTRA_IMAGE_BUCKETS[sideId] || [])];
+    const perBucket = await Promise.all(buckets.map((bucket) => getImagesForSide(bucket)));
     return perBucket.flat();
 }
 
@@ -38,8 +38,8 @@ function statusListHtml(savedIds) {
 }
 
 async function roomPanelHtml(output) {
-    const room = ROOMS[output.vaekstrumId];
-    const images = await getRoomImages(output.vaekstrumId);
+    const room = ROOMS[output.sideId];
+    const images = await getRoomImages(output.sideId);
 
     const imagesHtml = images.length
         ? `<div class="section-cta section-cta--row">${images.map((img) => `<img src="${URL.createObjectURL(img.blob)}" alt="" style="max-width:120px;border-radius:10px;">`).join("")}</div>`
@@ -170,11 +170,11 @@ async function buildPdf(outputs, coherenceNotes) {
     y += 30;
 
     for (const output of outputs) {
-        const room = ROOMS[output.vaekstrumId];
+        const room = ROOMS[output.sideId];
         addHeading(room.name);
         addParagraph(output.documentation || "(ingen dokumentationstekst endnu)");
 
-        const images = await getRoomImages(output.vaekstrumId);
+        const images = await getRoomImages(output.sideId);
         for (const image of images) {
             await addImageBlob(image.blob);
         }
@@ -194,7 +194,7 @@ async function buildPdf(outputs, coherenceNotes) {
     doc.save("din-visuelle-guide.pdf");
 }
 
-export async function initFaellesSamling() {
+export async function initVisuelStyleGuide() {
     document.querySelector("#intro-text").textContent = copy.intro;
     document.querySelector("#now-intro-text").textContent = copy.nowIntro;
     document.querySelector("#coherence-notes-label").textContent = copy.coherenceNotesLabel;
@@ -208,8 +208,8 @@ export async function initFaellesSamling() {
         document.querySelector("#storage-notice-text").textContent = copy.optedOutNotice;
     }
 
-    const outputs = optedOut ? [] : await getAllVaekstrumOutputs();
-    const outputsById = new Map(outputs.map((output) => [output.vaekstrumId, output]));
+    const outputs = optedOut ? [] : await getAllSideOutputs();
+    const outputsById = new Map(outputs.map((output) => [output.sideId, output]));
     const savedIds = ROOM_ORDER.filter((id) => outputsById.has(id));
     const notSavedIds = ROOM_ORDER.filter((id) => !outputsById.has(id));
 

@@ -7,34 +7,34 @@ import {
 } from "./billederUi.js";
 
 import { bobler, moduler, velkomst, situationer, soegesteder } from "../data/billeder.js";
-import { saveVaekstrumOutput, saveImage, deleteImage, getImagesForVaekstrum, getVaekstrumOutput } from "../storage/vaekstrumStorage.js";
+import { saveSideOutput, saveImage, deleteImage, getImagesForSide, getSideOutput } from "../storage/storage.js";
 import { hentUdgangspunkt } from "../storage/udgangspunkt.js";
-import { VISUELT_UDTRYK_HUB } from "./vaekstomraadeExit.js";
+import { VISUELT_UDTRYK_HUB } from "./exit.js";
 import { RumHistorik } from "./rumHistorik.js";
 
-const BILLEDE_VAEKSTRUM_ID = "billeder";
+const BILLEDER_ID = "billeder";
 
 /*---- "Min inspiration" (Modul 4) genbruger den samme billedlagring som "Billeder fra min praksis" (Modul 3), under en anden nøgle - så de to samlinger ikke blandes sammen i IndexedDB (afklaret med Heidi 2026-09-19). ----*/
 const INSPIRATION_BUCKET_ID = "billeder-inspiration";
 
 const BUCKET_IDS = {
-    praksis: BILLEDE_VAEKSTRUM_ID,
+    praksis: BILLEDER_ID,
     inspiration: INSPIRATION_BUCKET_ID
 };
 
 /*---- Kilder til billedvælgeren (js/components/billedvaelger.js), runde 7. Et DUF-arkiv med frie billeder er besluttet, men ikke bygget - det tilføjes som en kilde mere her, med sin egen `hent` ----*/
 const BILLEDKILDER = {
-    praksis: { titel: "Billeder fra min praksis", hent: () => getImagesForVaekstrum(BUCKET_IDS.praksis) },
-    inspiration: { titel: "Min inspiration", hent: () => getImagesForVaekstrum(BUCKET_IDS.inspiration) }
+    praksis: { titel: "Billeder fra min praksis", hent: () => getImagesForSide(BUCKET_IDS.praksis) },
+    inspiration: { titel: "Min inspiration", hent: () => getImagesForSide(BUCKET_IDS.inspiration) }
 };
 
 /*---- Byggesten og Logo læses kun (til 8.1's forhåndsvisning), aldrig skrevet. Samme nøgler, som Byggesten selv bruger ----*/
-const BYGGESTEN_VAEKSTRUM_ID = "byggesten";
+const BYGGESTEN_ID = "byggesten";
 const LOGO_BUCKET_ID = "logo";
 
 /*----------------------------------------------------------------------------
- * Selvstændig motor for det uddybende vækstrum "Billeder" (Visuelt udtryk for din praksis).
- * Adskilt fra Prøverummets FlowEngine.js og fra VisueltVaekstrums/Farvers/Logos
+ * Selvstændig motor for det uddybende rum "Billeder" (Visuelt udtryk for din praksis).
+ * Adskilt fra Prøverummets FlowEngine.js og fra velkommen-visuelt-udtryks/Farvers/Logos
  * motorer - Billeder har et fast opslagsværk tilgængeligt gennem hele rummet
  * (rettighedsoversigten), som ingen af de andre rum har brug for.
  *
@@ -46,7 +46,7 @@ const LOGO_BUCKET_ID = "logo";
  * Runde 7 (2026-09-25): én forgrening - brugerens valg i 3.1 gemmes som
  * `answers.harEgneBilleder`. Er det false, springes bobler med
  * `kunMedEgneBilleder` over (3.3, 3.5), og bobler med `udenEgneBilleder`
- * (3.4, 6.1) vises i deres variant. 3.1 har desuden en variant, når VisueltVaekstrum
+ * (3.4, 6.1) vises i deres variant. 3.1 har desuden en variant, når velkommen-visuelt-udtryk
  * viser, at brugeren starter fra bunden (hentUdgangspunkt()).
  * ----------------------------------------------------------------------------
  */
@@ -60,12 +60,12 @@ export class BilledeEngine {
 
     start() {
         const params = new URLSearchParams(window.location.search);
-        const fromVisueltVaekstrum = params.get("fra") === "vaekstrum-visuelt-udtryk";
-        const text = fromVisueltVaekstrum ? velkomst.fraVisueltVaekstrum : velkomst.standard;
+        const fromVisueltUdtryk = params.get("fra") === "velkommen-visuelt-udtryk";
+        const text = fromVisueltUdtryk ? velkomst.fraVisueltUdtryk : velkomst.standard;
 
         setRumNavigation(() => this.historik.navigation("Billeder", moduler));
 
-        /*---- null, hvis brugeren ikke har været i VisueltVaekstrum - så vises 3.1's almindelige tekst ----*/
+        /*---- null, hvis brugeren ikke har været i velkommen-visuelt-udtryk - så vises 3.1's almindelige tekst ----*/
         hentUdgangspunkt().then((udgangspunkt) => { this.udgangspunkt = udgangspunkt; });
 
         showWelcome(text, () => {
@@ -74,7 +74,7 @@ export class BilledeEngine {
         });
     }
 
-    /*---- Den version af boblen, brugeren skal se: variant-tekst afhængigt af harEgneBilleder / VisueltVaekstrum. Selve data-objektet ændres ikke ----*/
+    /*---- Den version af boblen, brugeren skal se: variant-tekst afhængigt af harEgneBilleder / velkommen-visuelt-udtryk. Selve data-objektet ændres ikke ----*/
     tilpasBoble(boble) {
         if (boble.udenEgneBilleder && this.answers.harEgneBilleder === false) {
             return { ...boble, ...boble.udenEgneBilleder };
@@ -111,7 +111,7 @@ export class BilledeEngine {
         switch (boble.type) {
             case "text": {
                 const images = boble.showImagesBucket
-                    ? await getImagesForVaekstrum(BUCKET_IDS[boble.showImagesBucket])
+                    ? await getImagesForSide(BUCKET_IDS[boble.showImagesBucket])
                     : null;
                 render(boble, images, onNext, onExit, onReference);
                 break;
@@ -123,11 +123,11 @@ export class BilledeEngine {
             }
             case "imageUpload": {
                 const bucketId = BUCKET_IDS[boble.bucket];
-                const images = await getImagesForVaekstrum(bucketId);
+                const images = await getImagesForSide(bucketId);
                 render(boble, images, onNext, onExit, onReference, {
                     upload: (file) => saveImage(bucketId, file),
                     remove: (imageId) => deleteImage(imageId),
-                    refresh: () => getImagesForVaekstrum(bucketId)
+                    refresh: () => getImagesForSide(bucketId)
                 }, this.soegeKontekst(boble));
                 break;
             }
@@ -140,14 +140,14 @@ export class BilledeEngine {
                 break;
             }
             case "paletteCompare": {
-                const farverOutput = await getVaekstrumOutput("farver");
+                const farverOutput = await getSideOutput("farver");
                 render(boble, farverOutput, onNext, onExit, onReference);
                 break;
             }
             case "kontrasttest": {
                 const [billedkilder, farverOutput] = await Promise.all([
                     this.hentBilledkilder(boble.billedkilder),
-                    getVaekstrumOutput("farver")
+                    getSideOutput("farver")
                 ]);
                 /*---- Samme læsning af paletten som 6.4 (farverOutput.data.palette). Uden palet: hvid og sort ----*/
                 const palette = farverOutput?.data?.palette;
@@ -180,9 +180,9 @@ export class BilledeEngine {
     /*---- 8.1: det, "Prøv dem sammen" (js/components/provSammen.js) skal bruge fra de andre rum - kun læst. Palet og logo læses som i byggestenEngine.js' hentGemtPalet/hentGemtLogo. Fonte og ikon kun, hvis Byggesten har arbejdet med dem (fokusvalg). Mangler det hele, viser kortet DUF's standardfarver og -fonte ----*/
     async hentProvSammenData() {
         const [farverOutput, byggestenOutput, logoBilleder] = await Promise.all([
-            getVaekstrumOutput("farver"),
-            getVaekstrumOutput(BYGGESTEN_VAEKSTRUM_ID),
-            getImagesForVaekstrum(LOGO_BUCKET_ID)
+            getSideOutput("farver"),
+            getSideOutput(BYGGESTEN_ID),
+            getImagesForSide(LOGO_BUCKET_ID)
         ]);
 
         const palette = farverOutput?.data?.palette;
@@ -299,7 +299,7 @@ export class BilledeEngine {
             kompas: this.buildCompassSummaryItems()
         };
 
-        await saveVaekstrumOutput(BILLEDE_VAEKSTRUM_ID, data, documentation);
+        await saveSideOutput(BILLEDER_ID, data, documentation);
 
         window.location.href = VISUELT_UDTRYK_HUB;
     }

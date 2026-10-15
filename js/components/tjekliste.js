@@ -4,7 +4,7 @@
  * En liste af selvstændige, afkrydsbare punkter - IKKE en formular med
  * rigtige/forkerte svar, og ikke forgrenende. Første brug: Billeder Modul 7.2
  * (9 rettighedspunkter), men bevidst generisk, så den kan genbruges af andre
- * vækstrum senere (fx Byggesten, Logo, Fælles samling - ikke bygget dertil nu).
+ * rum senere (fx Byggesten, Logo, Fælles samling - ikke bygget dertil nu).
  *
  * Samme mønster som components/exitDoor.js: markup + adfærd samlet ét sted,
  * så et rum blot kalder renderTjekliste() i stedet for at bygge sin egen
@@ -13,7 +13,7 @@
  * Gemt tilstand er hvilke punkt-id'er der er afkrydset, pr. gemNoegle - så
  * flere tjeklister ikke kolliderer i lagringen. Klientsidet (localStorage),
  * ingen server, samme princip som resten af Billeder. Respekterer brugerens
- * generelle browserlagrings-fravalg (js/storage/vaekstrumStorage.js), så et
+ * generelle browserlagrings-fravalg (js/storage/storage.js), så et
  * fravalg også gælder tjeklister.
  *
  * Viser altid en synlig overskrift (`titel`, standard "Tjekliste"), så det er
@@ -32,7 +32,7 @@
  * ----------------------------------------------------------------------------
  */
 
-import { isStorageOptedOut } from "../storage/vaekstrumStorage.js";
+import { isStorageOptedOut } from "../storage/storage.js";
 
 function storageKey(gemNoegle) {
     return `duf-tjekliste-${gemNoegle}`;

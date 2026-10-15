@@ -14,7 +14,7 @@ $headingFont: 'Nova Flat';
 $regularFont: 'Manrope';
 $buttonFont: 'Outfit';
 
-/*---- Vækstrums variabel farver ----*/
+/*---- Rummenes variable farver ----*/
 
 $someColor: #5AD8CC;
 $visualColor: #FFE0C2;
@@ -28,8 +28,8 @@ $productDevelopmentColor: #66D575;
 $navPathColor: #7B8582;
 $navPlaceBorderColor: rgba(12, 58, 45, 0.3);
 
-/*---- Vækstområdernes dørfarver (dørkarrusellen på vaelg-din-dor.html) ----*/
-/*---- Farveblind- og kontrasttjekket palet (2026-10-08). CSS custom properties, fordi hvert dørkort vælger sin farve i JS (--doer-farve: var(--omraade-<slug>)). Kun lyse varianter: DUF har ingen mørk tilstand endnu - de mørke varianter ligger i js/data/vaekstomraader.js (farveMoerk). Tekstfarven direkte på døren styres af feltet "tekst" samme sted. ----*/
+/*---- Emnernes dørfarver (dørkarrusellen på vaelg-din-dor.html) ----*/
+/*---- Farveblind- og kontrasttjekket palet (2026-10-08). CSS custom properties, fordi hvert dørkort vælger sin farve i JS (--doer-farve: var(--omraade-<slug>)). Kun lyse varianter: DUF har ingen mørk tilstand endnu - de mørke varianter ligger i js/data/doerkarrusel.js (farveMoerk). Tekstfarven direkte på døren styres af feltet "tekst" samme sted. ----*/
 /*---- De ældre farver ovenfor ($someColor m.fl.) bruges stadig af bibliotekets hylder og er ikke erstattet af disse ----*/
 
 :root {
@@ -44,7 +44,7 @@ $navPlaceBorderColor: rgba(12, 58, 45, 0.3);
     --omraade-ai: #4A3AA7;
 }
 
-/*---- Vækstrummenes fælles ramme (css/_rum.scss): hvidt indholdskort, svag kant og blød skygge i tekstfarvens nuance, dæmpet tekst til topbjælke og navigationslinjer. Kun lyse varianter, som resten af DUF. Dæmpet tekst = 72% tekstfarve, ca. 6,6:1 mod baggrunden ----*/
+/*---- Rummenes fælles ramme (css/_rum.scss): hvidt indholdskort, svag kant og blød skygge i tekstfarvens nuance, dæmpet tekst til topbjælke og navigationslinjer. Kun lyse varianter, som resten af DUF. Dæmpet tekst = 72% tekstfarve, ca. 6,6:1 mod baggrunden ----*/
 
 :root {
     --rum-kort-flade: #FFFFFF;

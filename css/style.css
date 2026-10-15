@@ -5,10 +5,10 @@
 /*---- Bruges også til dropshadow & outline ----*/
 /*---- Bruges til kort/knap-outline ----*/
 /*---- Bruges til kort-dropshadow ----*/
-/*---- Vækstrums variabel farver ----*/
+/*---- Rummenes variable farver ----*/
 /*---- Navigationssti (pin-og-sti), jf. "Navigation"-sektionen i Figma ----*/
-/*---- Vækstområdernes dørfarver (dørkarrusellen på vaelg-din-dor.html) ----*/
-/*---- Farveblind- og kontrasttjekket palet (2026-10-08). CSS custom properties, fordi hvert dørkort vælger sin farve i JS (--doer-farve: var(--omraade-<slug>)). Kun lyse varianter: DUF har ingen mørk tilstand endnu - de mørke varianter ligger i js/data/vaekstomraader.js (farveMoerk). Tekstfarven direkte på døren styres af feltet "tekst" samme sted. ----*/
+/*---- Emnernes dørfarver (dørkarrusellen på vaelg-din-dor.html) ----*/
+/*---- Farveblind- og kontrasttjekket palet (2026-10-08). CSS custom properties, fordi hvert dørkort vælger sin farve i JS (--doer-farve: var(--omraade-<slug>)). Kun lyse varianter: DUF har ingen mørk tilstand endnu - de mørke varianter ligger i js/data/doerkarrusel.js (farveMoerk). Tekstfarven direkte på døren styres af feltet "tekst" samme sted. ----*/
 /*---- De ældre farver ovenfor ($someColor m.fl.) bruges stadig af bibliotekets hylder og er ikke erstattet af disse ----*/
 :root {
   --omraade-visuelt-udtryk: #EB6834;
@@ -22,7 +22,7 @@
   --omraade-ai: #4A3AA7;
 }
 
-/*---- Vækstrummenes fælles ramme (css/_rum.scss): hvidt indholdskort, svag kant og blød skygge i tekstfarvens nuance, dæmpet tekst til topbjælke og navigationslinjer. Kun lyse varianter, som resten af DUF. Dæmpet tekst = 72% tekstfarve, ca. 6,6:1 mod baggrunden ----*/
+/*---- Rummenes fælles ramme (css/_rum.scss): hvidt indholdskort, svag kant og blød skygge i tekstfarvens nuance, dæmpet tekst til topbjælke og navigationslinjer. Kun lyse varianter, som resten af DUF. Dæmpet tekst = 72% tekstfarve, ca. 6,6:1 mod baggrunden ----*/
 :root {
   --rum-kort-flade: #FFFFFF;
   --rum-kant: rgba(15, 32, 27, 0.12);
@@ -241,7 +241,7 @@ body.in-flow #app {
 }
 
 /*---- Tekstfelt ----*/
-/*---- Valgfri fritekst/refleksion i vækstrum, fx VisueltVaekstrum ----*/
+/*---- Valgfri fritekst/refleksion i rum, fx velkommen-visuelt-udtryk ----*/
 .text-input {
   width: 100%;
   background-color: #FEF3E8;
@@ -494,7 +494,7 @@ body.in-flow #app {
   opacity: 0.7;
 }
 
-/*---- Accordion-knap med både overskrift og en altid synlig intro-linje (VisueltVaekstrum Modul 3, runde 7) ----*/
+/*---- Accordion-knap med både overskrift og en altid synlig intro-linje (velkommen-visuelt-udtryk Modul 3, runde 7) ----*/
 .accordion-trigger-text {
   display: flex;
   flex-direction: column;
@@ -710,7 +710,7 @@ body.in-flow #app {
   border-radius: 20px;
 }
 
-/*---- Klikbart værdikort (fx VisueltVaekstrums Modul 3/5-oversigt, jf. js/components/bubbleHub.js) - samme visuelle stil som det statiske værdikort ovenfor, men som en rigtig <button> for tastatur-/skærmlæserunderstøttelse ----*/
+/*---- Klikbart værdikort (fx velkommen-visuelt-udtryks Modul 3/5-oversigt, jf. js/components/bubbleHub.js) - samme visuelle stil som det statiske værdikort ovenfor, men som en rigtig <button> for tastatur-/skærmlæserunderstøttelse ----*/
 button.value-card {
   display: block;
   width: 100%;
@@ -791,7 +791,7 @@ button.value-card {
 }
 
 /*---- Pin-og-sti-navigation (js/components/pinSti.js) ----*/
-/*---- Delt komponent: bruges af dørkarrusellen og er tænkt til de kommende navigationslinjer i vækstrummene. Stiens streg (2px, $navPathColor) er fra "Navigation"-sektionen i Figma. Pins' kant bruger $navPathColor i stedet for Figmas rgba(12,58,45,.3), så de har mindst 3:1 kontrast. Aktiv ring = $navCTAColor (Pin.svg's #16D02F har kun 1,9:1) ----*/
+/*---- Delt komponent: bruges af dørkarrusellen og er tænkt til de kommende navigationslinjer i rummene. Stiens streg (2px, $navPathColor) er fra "Navigation"-sektionen i Figma. Pins' kant bruger $navPathColor i stedet for Figmas rgba(12,58,45,.3), så de har mindst 3:1 kontrast. Aktiv ring = $navCTAColor (Pin.svg's #16D02F har kun 1,9:1) ----*/
 .pin-sti {
   display: flex;
   justify-content: center;
@@ -917,7 +917,7 @@ button.value-card {
 }
 
 /*---- Dørkarrusel (vaelg-din-dor.html) ----*/
-/*---- Ét kort pr. vækstområde (js/data/vaekstomraader.js). Dørens form er ens på alle kort, kun fyldet (--doer-farve) skifter. Byggeri: js/components/doerkarrusel.js ----*/
+/*---- Ét kort pr. emne (js/data/doerkarrusel.js). Dørens form er ens på alle kort, kun fyldet (--doer-farve) skifter. Byggeri: js/components/doerkarrusel.js ----*/
 .doerkarrusel-intro {
   padding-bottom: 0;
 }
@@ -1176,7 +1176,7 @@ a.doer-kort-indhold:focus-visible {
 }
 
 /*---- Eksempelbillede ----*/
-/*---- Fuldbredt billede i et vækstrum-flow, fx Farver Boble 3.3 og Modul 4's fire eksempler ----*/
+/*---- Fuldbredt billede i et rum-flow, fx Farver Boble 3.3 og Modul 4's fire eksempler ----*/
 .example-image {
   display: block;
   width: 100%;
@@ -1504,7 +1504,7 @@ a.doer-kort-indhold:focus-visible {
 }
 
 /*---- Se også-skilt (js/components/seOgsaa.js) ----*/
-/*---- Rent informativt - ikke klikbart, ikke fokuserbart, ingen hover-effekt (besluttet af Heidi 2026-09-21). Ikon og målnavn bærer betydningen, ikke farven alene (WCAG 2 AA) - venstrekantens farve er kun en ekstra, ikke-nødvendig markering af målets vækstområde. Fuld bredde på mobil, jf. word-wrap på teksten. ----*/
+/*---- Rent informativt - ikke klikbart, ikke fokuserbart, ingen hover-effekt (besluttet af Heidi 2026-09-21). Ikon og målnavn bærer betydningen, ikke farven alene (WCAG 2 AA) - venstrekantens farve er kun en ekstra, ikke-nødvendig markering af målets emne. Fuld bredde på mobil, jf. word-wrap på teksten. ----*/
 .se-ogsaa-skilt {
   display: flex;
   align-items: flex-start;
@@ -2156,7 +2156,7 @@ body.har-lightbox {
     border-bottom: 1px solid rgba(15, 32, 27, 0.6);
   }
   /*---- Billeder har lange knaptekster (fx 8.1's "Jeg har ingen steder at prøve det af på endnu") - på mobil må de bryde over flere linjer i stedet for at give vandret scroll ----*/
-  body[data-vaekstrum=billeder] .section-cta .btn,
+  body[data-side=billeder] .section-cta .btn,
   .soegelinje-knapper .btn {
     white-space: normal;
     text-align: center;
@@ -2236,12 +2236,12 @@ body.har-lightbox {
 
 /*---- Farver runde 7 (efter brugertest 1) ----*/
 /*---- Lille udgave af 6.4's forhåndsvisning, nederst i 8.1 ----*/
-body[data-vaekstrum=farver] .palette-preview--lille {
+body[data-side=farver] .palette-preview--lille {
   height: 70px;
   max-width: 320px;
   margin: 24px auto;
 }
-body[data-vaekstrum=farver] .palette-preview--lille .palette-preview-text {
+body[data-side=farver] .palette-preview--lille .palette-preview-text {
   font-size: 28px;
 }
 
@@ -2257,7 +2257,7 @@ body[data-vaekstrum=farver] .palette-preview--lille .palette-preview-text {
 
 /*---- Lange knaptekster (6.1, 8.1) må bryde over flere linjer på mobil ----*/
 @media (max-width: 480px) {
-  body[data-vaekstrum=farver] .section-cta .btn {
+  body[data-side=farver] .section-cta .btn {
     white-space: normal;
     text-align: center;
   }
@@ -2643,8 +2643,8 @@ h3.contrast-level--stor {
   margin-top: 16px;
 }
 
-/*---- Vækstrummenes fælles ramme (js/components/rumRamme.js) ----*/
-/*---- Topbjælke, navigationslinjer (js/components/navLinje.js), indholdskort, guide-boble (js/components/guide.js) og knaprække. Layout, afstande og former fra rum-mockuppen (2026-10-09); skrifttyper og farver er sitets egne. Exit-døren styles fortsat i _vaekstrum.scss ----*/
+/*---- Rummenes fælles ramme (js/components/rumRamme.js) ----*/
+/*---- Topbjælke, navigationslinjer (js/components/navLinje.js), indholdskort, guide-boble (js/components/guide.js) og knaprække. Layout, afstande og former fra rum-mockuppen (2026-10-09); skrifttyper og farver er sitets egne. Exit-døren styles fortsat i _flow.scss ----*/
 /*---- Områdets farve sættes én gang pr. område og bruges kun som tynd markør: prikken i topbjælken, guide-navnet, guide-boblens lyse baggrund og kant, og primærknappen. Aldrig som stor flade ----*/
 .rum {
   --omraade-farve: #0C3A2D;

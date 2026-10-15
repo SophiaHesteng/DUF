@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------
- * DUF — delt "gå ud"-dør, brugt i alle vækstrum
+ * DUF — delt "gå ud"-dør, brugt i alle rum
  * ----------------------------------------------------------------------------
- * Før denne fil fandtes, havde hver vækstrum-Ui (visueltVaekstrumUi, farverUi,
+ * Før denne fil fandtes, havde hver rum-Ui (visueltUi, farverUi,
  * logoUi, billederUi, byggestenUi, plus Prøverummets ui.js) sin egen kopi af
  * renderExitDoor() med identisk markup. Denne fil samler selve knappen ét
  * sted, så et fremtidigt designskift (ikon, styling, adfærd) kun skal laves

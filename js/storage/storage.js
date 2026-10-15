@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
- * DUF — delt lager til vækstrummenes output og uploadede billeder
+ * DUF — delt lager til rummenes output og uploadede billeder
  * ----------------------------------------------------------------------------
  *
  * Klientsidet, altid. Intet i denne fil sender noget til en server - der findes
@@ -10,8 +10,8 @@
  * localStorage kan kun gemme strenge, har en praktisk grænse på et par MB, og
  * kan ikke rumme billeder uden en tung/upålidelig base64-omvej. IndexedDB kan
  * gemme rå Blob'er direkte, har en langt større kvote, og er den rigtige
- * teknologi til "en vækstrums fulde output + eventuelle billeder" - jf.
- * docs/duf-faelles-samling-visuel-stil.md.
+ * teknologi til "ét rums fulde output + eventuelle billeder" - jf.
+ * docs/duf-visuel-style-guide.md.
  *
  * HVORFOR FRAVALGET ALLIGEVEL LIGGER I LOCALSTORAGE
  * Fravalget er ét lille boolean-flag, ikke indhold - og skal kunne læses
@@ -22,15 +22,15 @@
  * DESIGNPRINCIP - BROWSERLAGRING ER ET TILVALG, ALDRIG ET KRAV
  * DUF beslutter aldrig noget på brugerens vegne. Er fravalget aktivt, gør
  * save-funktionerne herunder ingenting (de fejler stille med en tydelig
- * `reason`, aldrig en kastet exception) - et vækstrum kan derfor altid kalde
+ * `reason`, aldrig en kastet exception) - et rum kan derfor altid kalde
  * dem uden selv at tjekke fravalget først. At slå fravalget TIL rydder også
  * alt, hvad der allerede er gemt (jf. "aldrig straffe" - et fravalg skal
  * betyde, at ens ting rent faktisk er væk, ikke at de bare ikke opdateres
  * længere).
  *
  * DATAFORM - GENERISK, IKKE BUNDET TIL ÉT VÆKSTRUMS FELTER
- * `saveVaekstrumOutput` tager en fri `data`-objekt og en `documentation`-streng.
- * Hvert vækstrum definerer selv formen på sit eget `data`-objekt (fx Farvers
+ * `saveSideOutput` tager en fri `data`-objekt og en `documentation`-streng.
+ * Hvert rum definerer selv formen på sit eget `data`-objekt (fx Farvers
  * palet-array, Logos retningsvalg) - denne fil ved intet om, og stiller ingen
  * krav til, hvad der ligger i det.
  *
@@ -50,60 +50,60 @@
  *   der har brug for at vente på at ryddet er færdig (`await setStorageOptOut(true)`).
  *   Kald der ikke har brug for det, kan ignorere returværdien.
  *
- * saveVaekstrumOutput(vaekstrumId: string, data: object, documentation: string):
+ * saveSideOutput(sideId: string, data: object, documentation: string):
  *     Promise<{ ok: boolean, reason?: string }>
- *   Gemmer (eller overskriver) ét vækstrums output. Kaldes typisk fra et
- *   vækstrums afsluttende dokumentationsmodul. `data` skal være JSON-
+ *   Gemmer (eller overskriver) ét rums output. Kaldes typisk fra et
+ *   rums afsluttende dokumentationsmodul. `data` skal være JSON-
  *   serialiserbar (almindelige objekter/arrays/strenge/tal/booleans - ingen
  *   File/Blob her, brug saveImage til det). `reason` sat ved fejl, fx
  *   "opted-out" eller "invalid-input".
  *
- * getVaekstrumOutput(vaekstrumId: string): Promise<object|null>
- *   Henter ét vækstrums gemte output ({ vaekstrumId, data, documentation,
+ * getSideOutput(sideId: string): Promise<object|null>
+ *   Henter ét rums gemte output ({ sideId, data, documentation,
  *   savedAt }), eller null hvis intet er gemt (eller lagring er fravalgt).
  *
- * getAllVaekstrumOutputs(): Promise<object[]>
- *   Henter alle gemte vækstrum-outputs. Tom liste hvis intet er gemt, eller
+ * getAllSideOutputs(): Promise<object[]>
+ *   Henter alle gemte rum-outputs. Tom liste hvis intet er gemt, eller
  *   lagring er fravalgt. Det, Fælles samling skal bruge til at samle op på
- *   tværs af alle fire vækstrum.
+ *   tværs af alle fire rum.
  *
- * getSavedVaekstrumIds(): Promise<string[]>
- *   Bekvemmelighedsfunktion - kun id'erne på de vækstrum, der har gemt noget.
+ * getSavedSideIds(): Promise<string[]>
+ *   Bekvemmelighedsfunktion - kun id'erne på de rum, der har gemt noget.
  *   Nyttig til Fælles samlings "hvad mangler du stadig?"-oversigt.
  *
- * deleteVaekstrumOutput(vaekstrumId: string): Promise<void>
- *   Sletter ét vækstrums gemte output, hvis det findes.
+ * deleteSideOutput(sideId: string): Promise<void>
+ *   Sletter ét rums gemte output, hvis det findes.
  *
- * saveImage(vaekstrumId: string, file: File): Promise<{ ok: boolean, imageId?: number, reason?: string }>
+ * saveImage(sideId: string, file: File): Promise<{ ok: boolean, imageId?: number, reason?: string }>
  *   Gemmer en brugerudvalgt fil (fra <input type="file">) som et billede
- *   knyttet til et vækstrum. Filen forlader aldrig browseren. Afviser filer,
+ *   knyttet til et rum. Filen forlader aldrig browseren. Afviser filer,
  *   der ikke er billeder (`reason: "not-an-image"`), eller er urimeligt store
  *   (`reason: "file-too-large"`, grænse: se MAX_IMAGE_SIZE_BYTES).
  *
- * getImage(imageId: number): Promise<{ id, vaekstrumId, name, type, blob, uploadedAt }|null>
+ * getImage(imageId: number): Promise<{ id, sideId, name, type, blob, uploadedAt }|null>
  *   Henter ét gemt billede inklusive selve Blob'en (brug
  *   `URL.createObjectURL(blob)` for at vise det i en <img>).
  *
- * getImagesForVaekstrum(vaekstrumId: string): Promise<array>
- *   Alle gemte billeder for ét vækstrum (uden Blob-indhold forudindlæst i
+ * getImagesForSide(sideId: string): Promise<array>
+ *   Alle gemte billeder for ét rum (uden Blob-indhold forudindlæst i
  *   listen udover det, IndexedDB naturligt returnerer - se getImage for detaljer).
  *
  * deleteImage(imageId: number): Promise<void>
  *   Sletter ét gemt billede, hvis det findes.
  *
- * saveVaekstrumPosition(vaekstrumId: string, position: object): Promise<{ ok: boolean, reason?: string }>
+ * saveSidePosition(sideId: string, position: object): Promise<{ ok: boolean, reason?: string }>
  *   Gemmer et rums "hvor var jeg" (fri form - fx { bobleId, svar }), så rummet kan
  *   genoptages ved næste besøg i stedet for at starte forfra. Generisk - ethvert
  *   rum kan bruge den, men det er op til det enkelte rum selv at afgøre HVORNÅR
  *   den skal kaldes (Logo kalder den kun ét sted, jf. docs/duf-manuskript-logo.md
- *   spor D). Adskilt fra saveVaekstrumOutput - en position er ikke et færdigt
+ *   spor D). Adskilt fra saveSideOutput - en position er ikke et færdigt
  *   output, og de to skal ikke blandes sammen.
  *
- * getVaekstrumPosition(vaekstrumId: string): Promise<object|null>
- *   Henter et rums gemte position ({ vaekstrumId, position, savedAt }), eller
+ * getSidePosition(sideId: string): Promise<object|null>
+ *   Henter et rums gemte position ({ sideId, position, savedAt }), eller
  *   null hvis intet er gemt (eller lagring er fravalgt).
  *
- * clearVaekstrumPosition(vaekstrumId: string): Promise<void>
+ * clearSidePosition(sideId: string): Promise<void>
  *   Sletter et rums gemte position, hvis den findes. Bør kaldes, når rummet
  *   afsluttes normalt, så en gammel position ikke dukker op ved et senere besøg.
  *
@@ -115,7 +115,7 @@
  * ----------------------------------------------------------------------------
  */
 
-const DB_NAME = "duf-vaekstrum-storage";
+const DB_NAME = "duf-storage";
 const DB_VERSION = 2;
 const OUTPUT_STORE = "output";
 const IMAGES_STORE = "images";
@@ -123,10 +123,19 @@ const POSITION_STORE = "position";
 const OPT_OUT_KEY = "duf-storage-opt-out";
 const MAX_IMAGE_SIZE_BYTES = 15 * 1024 * 1024; // 15 MB - rundhåndet grænse, ikke en hård teknisk begrænsning
 
+/*---- Databasen hed tidligere "duf-vaekstrum-storage" og brugte feltet "vaekstrumId". Den blev omdøbt til DB_NAME 2026-10-15 (Trello #36), og det gamle indhold flyttes bevidst ikke med (Heidis beslutning). Den gamle database slettes, så brugerens gamle svar og billeder ikke ligger tilbage i browseren uden at kunne ses eller ryddes. Kan fjernes, når det er sandsynligt, at alle brugere har besøgt siden siden omdøbningen. GAMMELT_DB_NAME må ALDRIG være det samme som DB_NAME - så slettes brugerens svar ved hver sideindlæsning. ----*/
+const GAMMELT_DB_NAME = "duf-vaekstrum-storage";
+
 let dbPromise = null;
 
 function openDatabase() {
     if (dbPromise) return dbPromise;
+
+    try {
+        indexedDB.deleteDatabase(GAMMELT_DB_NAME);
+    } catch {
+        /* intet at gøre - findes den ikke, er der intet at rydde */
+    }
 
     dbPromise = new Promise((resolve, reject) => {
         const request = indexedDB.open(DB_NAME, DB_VERSION);
@@ -135,16 +144,16 @@ function openDatabase() {
             const db = request.result;
 
             if (!db.objectStoreNames.contains(OUTPUT_STORE)) {
-                db.createObjectStore(OUTPUT_STORE, { keyPath: "vaekstrumId" });
+                db.createObjectStore(OUTPUT_STORE, { keyPath: "sideId" });
             }
 
             if (!db.objectStoreNames.contains(IMAGES_STORE)) {
                 const imagesStore = db.createObjectStore(IMAGES_STORE, { keyPath: "id", autoIncrement: true });
-                imagesStore.createIndex("vaekstrumId", "vaekstrumId", { unique: false });
+                imagesStore.createIndex("sideId", "sideId", { unique: false });
             }
 
             if (!db.objectStoreNames.contains(POSITION_STORE)) {
-                db.createObjectStore(POSITION_STORE, { keyPath: "vaekstrumId" });
+                db.createObjectStore(POSITION_STORE, { keyPath: "sideId" });
             }
         };
 
@@ -176,19 +185,19 @@ function setStorageOptOut(optOut) {
     }
 }
 
-/*---- Vækstrum-output ----*/
+/*---- Rum-output ----*/
 
-async function saveVaekstrumOutput(vaekstrumId, data, documentation) {
+async function saveSideOutput(sideId, data, documentation) {
     if (isStorageOptedOut()) {
         return { ok: false, reason: "opted-out" };
     }
 
-    if (typeof vaekstrumId !== "string" || vaekstrumId.trim() === "") {
+    if (typeof sideId !== "string" || sideId.trim() === "") {
         return { ok: false, reason: "invalid-input" };
     }
 
     const record = {
-        vaekstrumId,
+        sideId,
         data: data ?? {},
         documentation: documentation ?? "",
         savedAt: new Date().toISOString()
@@ -203,17 +212,17 @@ async function saveVaekstrumOutput(vaekstrumId, data, documentation) {
     return { ok: true };
 }
 
-async function getVaekstrumOutput(vaekstrumId) {
+async function getSideOutput(sideId) {
     if (isStorageOptedOut()) return null;
 
     const db = await openDatabase();
     const tx = db.transaction(OUTPUT_STORE, "readonly");
-    const result = await promisifyRequest(tx.objectStore(OUTPUT_STORE).get(vaekstrumId));
+    const result = await promisifyRequest(tx.objectStore(OUTPUT_STORE).get(sideId));
 
     return result ?? null;
 }
 
-async function getAllVaekstrumOutputs() {
+async function getAllSideOutputs() {
     if (isStorageOptedOut()) return [];
 
     const db = await openDatabase();
@@ -223,27 +232,27 @@ async function getAllVaekstrumOutputs() {
     return result ?? [];
 }
 
-async function getSavedVaekstrumIds() {
-    const outputs = await getAllVaekstrumOutputs();
-    return outputs.map((output) => output.vaekstrumId);
+async function getSavedSideIds() {
+    const outputs = await getAllSideOutputs();
+    return outputs.map((output) => output.sideId);
 }
 
-async function deleteVaekstrumOutput(vaekstrumId) {
+async function deleteSideOutput(sideId) {
     const db = await openDatabase();
     const tx = db.transaction(OUTPUT_STORE, "readwrite");
-    tx.objectStore(OUTPUT_STORE).delete(vaekstrumId);
+    tx.objectStore(OUTPUT_STORE).delete(sideId);
 
     await promisifyTransaction(tx);
 }
 
 /*---- Billedupload ----*/
 
-async function saveImage(vaekstrumId, file) {
+async function saveImage(sideId, file) {
     if (isStorageOptedOut()) {
         return { ok: false, reason: "opted-out" };
     }
 
-    if (typeof vaekstrumId !== "string" || vaekstrumId.trim() === "") {
+    if (typeof sideId !== "string" || sideId.trim() === "") {
         return { ok: false, reason: "invalid-input" };
     }
 
@@ -260,7 +269,7 @@ async function saveImage(vaekstrumId, file) {
     }
 
     const record = {
-        vaekstrumId,
+        sideId,
         name: file.name ?? "billede",
         type: file.type,
         blob: file,
@@ -287,13 +296,13 @@ async function getImage(imageId) {
     return result ?? null;
 }
 
-async function getImagesForVaekstrum(vaekstrumId) {
+async function getImagesForSide(sideId) {
     if (isStorageOptedOut()) return [];
 
     const db = await openDatabase();
     const tx = db.transaction(IMAGES_STORE, "readonly");
-    const index = tx.objectStore(IMAGES_STORE).index("vaekstrumId");
-    const result = await promisifyRequest(index.getAll(vaekstrumId));
+    const index = tx.objectStore(IMAGES_STORE).index("sideId");
+    const result = await promisifyRequest(index.getAll(sideId));
 
     return result ?? [];
 }
@@ -306,19 +315,19 @@ async function deleteImage(imageId) {
     await promisifyTransaction(tx);
 }
 
-/*---- Rum-position ("hvor var jeg", til genoptagelse - jf. saveVaekstrumPosition ovenfor) ----*/
+/*---- Rum-position ("hvor var jeg", til genoptagelse - jf. saveSidePosition ovenfor) ----*/
 
-async function saveVaekstrumPosition(vaekstrumId, position) {
+async function saveSidePosition(sideId, position) {
     if (isStorageOptedOut()) {
         return { ok: false, reason: "opted-out" };
     }
 
-    if (typeof vaekstrumId !== "string" || vaekstrumId.trim() === "") {
+    if (typeof sideId !== "string" || sideId.trim() === "") {
         return { ok: false, reason: "invalid-input" };
     }
 
     const record = {
-        vaekstrumId,
+        sideId,
         position: position ?? {},
         savedAt: new Date().toISOString()
     };
@@ -332,20 +341,20 @@ async function saveVaekstrumPosition(vaekstrumId, position) {
     return { ok: true };
 }
 
-async function getVaekstrumPosition(vaekstrumId) {
+async function getSidePosition(sideId) {
     if (isStorageOptedOut()) return null;
 
     const db = await openDatabase();
     const tx = db.transaction(POSITION_STORE, "readonly");
-    const result = await promisifyRequest(tx.objectStore(POSITION_STORE).get(vaekstrumId));
+    const result = await promisifyRequest(tx.objectStore(POSITION_STORE).get(sideId));
 
     return result ?? null;
 }
 
-async function clearVaekstrumPosition(vaekstrumId) {
+async function clearSidePosition(sideId) {
     const db = await openDatabase();
     const tx = db.transaction(POSITION_STORE, "readwrite");
-    tx.objectStore(POSITION_STORE).delete(vaekstrumId);
+    tx.objectStore(POSITION_STORE).delete(sideId);
 
     await promisifyTransaction(tx);
 }
@@ -374,17 +383,17 @@ function promisifyTransaction(tx) {
 export {
     isStorageOptedOut,
     setStorageOptOut,
-    saveVaekstrumOutput,
-    getVaekstrumOutput,
-    getAllVaekstrumOutputs,
-    getSavedVaekstrumIds,
-    deleteVaekstrumOutput,
+    saveSideOutput,
+    getSideOutput,
+    getAllSideOutputs,
+    getSavedSideIds,
+    deleteSideOutput,
     saveImage,
     getImage,
-    getImagesForVaekstrum,
+    getImagesForSide,
     deleteImage,
-    saveVaekstrumPosition,
-    getVaekstrumPosition,
-    clearVaekstrumPosition,
+    saveSidePosition,
+    getSidePosition,
+    clearSidePosition,
     clearAllStorage
 };

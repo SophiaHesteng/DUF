@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
- * DUF — delt Se også-skilt (henvisning til et andet vækstrum)
+ * DUF — delt Se også-skilt (henvisning til et andet rum)
  * ----------------------------------------------------------------------------
  * Rent informativt, ikke klikbart. Besluttet af Heidi (2026-09-21): bygges uden
  * klikbarhed, uden fokus og uden hover-effekt for nu. `href` findes som et
