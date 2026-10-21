@@ -3027,6 +3027,10 @@ body {
   background-color: #FEF3E8;
 }
 
+p {
+  font-family: "Manrope", sans-serif;
+}
+
 main {
   margin: 0 20px;
 }
