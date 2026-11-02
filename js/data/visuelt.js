@@ -324,7 +324,7 @@ export const modul5 = {
 
 export const modul6 = {
     recapIntro: "Du har nu gjort dig nogle overvejelser om din visuelle stil og det, du gerne vil arbejde videre med. Her er en opsamling af det, du har fortalt os undervejs:",
-    guide: "Du har allerede gjort dig nogle vigtige overvejelser om, hvor du står. Nu kan du vælge, hvilket område du vil arbejde videre med.",
+    guide: "Godt gået! Du har lagt et fundament. Nu handler det bare om at beslutte, hvilken dør du har lyst til at åbne først.",
     closing: "Din visuelle styleguide begynder med de valg, du træffer undervejs. Vælg det rum, der trækker mest i dig lige nu, og tag det næste skridt."
 };
 

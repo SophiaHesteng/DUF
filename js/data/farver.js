@@ -43,7 +43,7 @@ export const modul1 = {
 };
 
 export const modul2 = {
-    heading: "Farvers usynlige regler",
+    heading: "Farver skal også fungere i praksis",
     paragraphs: [
         "En farvekombination kan se virkelig flot ud — og stadig være svær at læse.",
         "Det gælder især, når tekst og baggrund ligger for tæt på hinanden i lyshed. Det kan gøre en hjemmeside, et opslag eller et dokument svært at bruge.",
@@ -55,7 +55,7 @@ export const modul3 = {
     boble1: {
         heading: "Dit udgangspunkt",
         paragraphs: [
-            "Farver er allerede en del af din praksis mange steder. Du møder dem på din hjemmeside, i dit logo, på sociale medier, i et nyhedsbrev eller på noget af det materiale, du deler med andre.",
+            "Farver er allerede en del af det, du møder i din praksis. Du møder dem på din hjemmeside, i dit logo, på sociale medier, i et nyhedsbrev eller på noget af det materiale, du deler med andre.",
             "Når vi kigger på farver, handler det ikke kun om at finde ud af, hvilke farver der er brugt. Vi kigger også på, hvad de gør sammen.",
             "Går nogle af farverne igen? Hvilke lægger du først mærke til? Og hvilket samlet indtryk får du?"
         ],
@@ -144,7 +144,7 @@ export const modul4 = {
             image: "img/larmende-nyhedsbrev.png",
             imageAlt: "Fiktivt nyhedsbrev fra en behandler, der viser hvordan farvevalg, kontrast og brugen af emojis kan påvirke det samlede indtryk",
             responses: [
-                { match: ["ikkeSpiller"], text: "Her er der nogle ting i farvevalget, der kan gøre udtrykket mere forstyrrende. Nogle af farverne ligger tæt på hinanden i kontrast, og det kan gøre det sværere at afkode, hvad du skal kigge på. Samtidig trækker emojis opmærksomhed forskellige steder i indholdet. Det betyder ikke, at hver enkelt farve eller emoji er et problem i sig selv. Men sammen kan de gøre det samlede udtryk mere uroligt." },
+                { match: ["ikkeSpiller"], text: "Her er der nogle ting i farvevalget, der kan gøre udtrykket mere forstyrrende. Kontrasten mellem nogle af farverne er for lav, og det kan gøre det sværere at afkode, hvad du skal kigge på. Samtidig trækker emojis opmærksomhed forskellige steder i indholdet. Det betyder ikke, at hver enkelt farve eller emoji er et problem i sig selv. Men sammen kan de gøre det samlede udtryk mere uroligt." },
                 { match: ["varmt", "roligt"], text: "Du kan godt opleve varme eller ro i dele af udtrykket. Nogle af farverne og elementerne fungerer fint hver for sig. Men når kontrasten mellem farverne ikke altid er tydelig nok, kan det blive sværere for øjet at finde rundt i indholdet. Også små elementer som emojis kan ændre det samlede indtryk — alt efter hvor og hvor meget de bruges." },
                 { match: ["energisk"], text: "Der er bestemt energi i det her udtryk. Farverne og emojis skaber liv og trækker opmærksomhed forskellige steder hen. Men når flere elementer samtidig kæmper om opmærksomheden, og kontrasten mellem farverne varierer, kan energien også begynde at føles forstyrrende." },
                 { match: ["ikkeSikker"], text: "Det er helt okay ikke at være sikker. Prøv at kigge på, hvad der først fanger dit øje. Er det let at finde rundt i indholdet — eller bliver din opmærksomhed trukket flere forskellige steder hen? I det her eksempel spiller både farvernes kontrast og brugen af små elementer som emojis en rolle for det samlede udtryk. Det er nogle af de ting, der kan være værd at lægge mærke til, når du arbejder med dine egne farver." }
@@ -170,7 +170,7 @@ export const modul5 = {
         ],
         /*---- Runde 7 (efter brugertest 1, T3): hvorfor roller - vises efter teksten ovenfor, ved siden af en lille HTML/CSS-skitse med tre etiketter ----*/
         roleExample: {
-            paragraph: "Hvorfor taler vi om roller og ikke bare om farver? Fordi den samme farve kan gøre noget helt forskelligt, alt efter hvor du bruger den. Tænk på en hjemmeside: Én farve er baggrunden, som fylder det meste. Én er teksten, som skal være let at læse. Og én bruges kun på knappen 'Book en tid', så den springer i øjnene. Det er tre forskellige opgaver, eller roller. Derfor skal du som regel bruge mindst to farver, som er tydeligt forskellige: én lys og én mørk, så din tekst kan ses.",
+            paragraph: "Hvorfor taler vi om roller og ikke bare om farver? Fordi den samme farve kan gøre noget helt forskelligt, alt efter hvor du bruger den. Tænk på en hjemmeside: Én farve er baggrunden, som fylder det meste. Én er teksten, som skal være let at læse. Og én bruges kun på knappen 'Book en tid', så den springer i øjnene. Det er tre forskellige opgaver, eller roller. Derfor er det vigtigt, at du har farver, der kan skabe tilstrækkelig kontrast. Typisk har du brug for en lys og en mørk farve, så tekst og baggrund kan adskilles tydeligt",
             backgroundLabel: "Baggrund",
             textLabel: "Tekst",
             buttonLabel: "Knap",
@@ -206,7 +206,7 @@ export const modul6 = {
     boble2: {
         heading: "Hvilken rolle skal dine farver spille?",
         paragraphs: [
-            "I det forrige modul talte vi om, at farver ikke behøver at gøre det samme. Nu kan du prøve at tænke over, hvilken rolle dine egne farver skal spille i dit udtryk.",
+            "I det forrige modul talte vi om, at farver ikke behøver at gøre det samme. Nu skal du prøve at omsætte det til din egen palette.",
             "Nogle farver får måske lov til at sætte tonen og fylde mere. Andre skal understøtte. Og nogle skal måske kun bruges sparsomt, når du gerne vil have noget til at skille sig ud.",
             "Du behøver ikke passe dine farver ind i faste kategorier. Det handler bare om at tænke over, hvad du gerne vil have dem til at gøre."
         ],
@@ -279,8 +279,8 @@ export const modul7 = {
         previewText: "Sådan ser din tekst ud på denne baggrund.",
         /*---- Tre niveauer, afløser den tidligere binære pass/fail. Grænserne genbruger WCAG AA-tærsklerne fra contrast.js (evaluateContrast): "high" = lever op til AA for almindelig tekst (≥4.5:1), "medium" = lever kun op til AA for stor tekst (≥3:1), "low" = lever ikke op til nogen af dem. ----*/
         feedback: {
-            high: "Her er der en tydelig forskel mellem farverne. Det gør det lettere for teksten at træde frem fra baggrunden og være rar at læse. Det giver dig gode muligheder, hvis du gerne vil bruge kombinationen til eksempelvis brødtekst, overskrifter eller anden vigtig information.",
-            medium: "Her er forskellen mellem farverne mindre. Teksten kan stadig fungere, men hvor let den er at læse, kan blandt andet afhænge af tekstens størrelse og hvor meget tekst der er. Prøv eventuelt at se, hvordan kombinationen fungerer med både kort og længere tekst. Måske passer den bedre til nogle typer indhold end andre.",
+            high: "Her er der en tydelig forskel mellem farverne. Det gør det kontrastmæssigt lettere for teksten at træde frem fra baggrunden og være rar at læse. Det giver dig gode muligheder, hvis du gerne vil bruge kombinationen til eksempelvis brødtekst, overskrifter eller anden vigtig information.",
+            medium: "Her er forskellen mellem farverne mindre. Kombinationen kan opfylde kontrastkravet for stor tekst, men ikke for almindelig brødtekst. Derfor er det vigtigt at tænke over, hvor du bruger den. Prøv eksempelvis kombinationen på en stor overskrift og på almindelig tekst.",
             low: "Her ligger farverne så tæt på hinanden, at teksten kan være sværere at få øje på. Det kan gøre den mindre behagelig at læse. Det betyder ikke, at der er noget galt med dine farver. Måske fungerer de bare bedre sammen i flader, former eller detaljer, hvor læsbarhed ikke spiller den samme rolle."
         },
         retryLabel: "Prøv en anden kombination",
