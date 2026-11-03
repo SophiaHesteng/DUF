@@ -10,11 +10,11 @@
 
 **Skærmtekst (vises kun, hvis brugeren kommer fra Det visuelle udtryk for din praksis med et farve-relateret svar):**
 
-"Du nævnte tidligere, at du er usikker på dine farver — derfor foreslog vi at kigge nærmere på det her."
+"Du nævnte tidligere, at du er usikker på dine farver - derfor foreslog vi at kigge nærmere på det her."
 
 **Standardvelkomst (hvis brugeren er kommet direkte til Farver):**
 
-"Velkommen til Farver. Her får du hjælp til at vælge en farvepalet, der understøtter din praksis — uanset om du starter fra bunden eller bare vil kvalitetssikre det, du allerede har."
+"Velkommen til Farver. Her får du hjælp til at vælge en farvepalet, der understøtter din praksis - uanset om du starter fra bunden eller bare vil kvalitetssikre det, du allerede har."
 
 - **Gemmes:** Nej. (Uændret fra nuværende manuskript.)
 
@@ -24,11 +24,11 @@
 
 **Hvad brugeren møder:**
 
-"Farver er noget af det første, vi lægger mærke til. De er med til at forme det indtryk, vi får — længe før vi har læst et eneste ord.
+"Farver er noget af det første, vi lægger mærke til. De er med til at forme det indtryk, vi får - længe før vi har læst et eneste ord.
 
 Farver kan signalere ro, energi, tillid, varme eller noget helt andet. Derfor er de ikke bare noget, der skal være pænt.
 
-Der findes ikke én rigtig farve til din praksis. Men farver fortæller noget — og det er værd at vide, hvad dine fortæller."
+Der findes ikke én rigtig farve til din praksis. Men farver fortæller noget - og det er værd at vide, hvad dine fortæller."
 
 - **Interaktion:** Ingen.
 - **Respons:** Ingen.
@@ -55,13 +55,13 @@ Tre konkrete visuelle eksempler på forskellige farveudtryk:
 - **Leder videre:** Modulet afsluttes, og brugeren føres videre til næste modul.
 - **Gemmes:** Nej.
 
-## Modul 2 — Farvers usynlige regler
+## Modul 2 — Farver skal også fungere i praksis
 
 ### Boble 2.1 — Når farver også skal fungere
 
 **Hvad brugeren møder:**
 
-"En farvekombination kan se virkelig flot ud — og stadig være svær at læse.
+"En farvekombination kan se virkelig flot ud - og stadig være svær at læse.
 
 Det gælder især, når tekst og baggrund ligger for tæt på hinanden i lyshed. Det kan gøre en hjemmeside, et opslag eller et dokument svært at bruge.
 
@@ -81,7 +81,7 @@ Det handler om kontrast. Og det er en af de ting, du skal have styr på, hvis di
 
 **Hvad brugeren møder:**
 
-"Farver er allerede en del af din praksis mange steder. Du møder dem på din hjemmeside, i dit logo, på sociale medier, i et nyhedsbrev eller på noget af det materiale, du deler med andre.
+"Farver er allerede en del af det, du møder i din praksis. Du møder dem på din hjemmeside, i dit logo, på sociale medier, i et nyhedsbrev eller på noget af det materiale, du deler med andre.
 
 Når vi kigger på farver, handler det ikke kun om at finde ud af, hvilke farver der er brugt. Vi kigger også på, hvad de gør sammen.
 
@@ -129,7 +129,7 @@ Går nogle af farverne igen? Hvilke lægger du først mærke til? Og hvilket sam
 
 "Du er sikkert allerede stødt på steder, hvor du har lagt mærke til farverne. Måske fordi det samlede udtryk føltes rart og gennemtænkt. Eller fordi der var noget, der skurrede, uden at du helt kunne sætte fingeren på hvorfor.
 
-Prøv at tænke over, om du selv har set eksempler, hvor brugen af farver har fanget din opmærksomhed — på godt og ondt.
+Prøv at tænke over, om du selv har set eksempler, hvor brugen af farver har fanget din opmærksomhed - på godt og ondt.
 
 Nu skal vi kigge på nogle forskellige eksempler sammen."
 
@@ -146,7 +146,7 @@ Nu skal vi kigge på nogle forskellige eksempler sammen."
 - **Respons (matchet pr. valg):**
   - **Varmt og/eller roligt:** "Farverne her arbejder sammen om et roligt og imødekommende udtryk. Der er plads mellem farverne, og ingen af dem kæmper særligt meget om opmærksomheden. Det kan være med til at skabe både varme og ro i det samlede udtryk."
   - **Energisk:** "Det giver god mening, hvis du også oplever energi i udtrykket. Farver kan godt skabe energi uden at gøre et udtryk uroligt. Her er de samtidig brugt på en måde, der holder det samlede udtryk roligt og imødekommende."
-  - **Noget føles som om, det ikke helt spiller:** "Det kan du godt opleve — og det er ikke nødvendigvis forkert. Hvad der føles støjende eller uroligt, kan være forskelligt fra person til person. I det her eksempel er farverne dog sat sammen med et roligt og varmt udtryk for øje, hvor de enkelte farver skal understøtte hinanden frem for at konkurrere."
+  - **Noget føles som om, det ikke helt spiller:** "Det kan du godt opleve - og det er ikke nødvendigvis forkert. Hvad der føles støjende eller uroligt, kan være forskelligt fra person til person. I det her eksempel er farverne dog sat sammen med et roligt og varmt udtryk for øje, hvor de enkelte farver skal understøtte hinanden frem for at konkurrere."
   - **Jeg er ikke sikker:** "Det er helt okay ikke at være sikker. Nogle gange er det lettere at mærke et samlet udtryk, end det er at sætte ord på, hvorfor det føles sådan. Her er farverne brugt med fokus på et roligt og imødekommende udtryk, hvor de arbejder sammen og får plads til hinanden."
 - **Leder videre:** Når brugeren har modtaget feedback på deres valg, går de videre til næste eksempel.
 - **Gemmes:** Nej.
@@ -159,7 +159,7 @@ Nu skal vi kigge på nogle forskellige eksempler sammen."
 - **Respons (matchet pr. valg):**
   - **Varmt og/eller roligt:** "Her er farverne fordelt på en måde, der giver øjet lidt ro. Nogle farver får lov til at fylde mere, mens andre bruges som mindre detaljer. Det skaber et samlet udtryk, hvor farverne understøtter hinanden uden at kræve opmærksomhed på samme tid."
   - **Energisk:** "Det giver god mening, hvis du også oplever energi i udtrykket. En hjemmeside kan godt have farver, der skaber liv og opmærksomhed, uden at det tager den rolige fornemmelse. Her er der stadig en tydelig balance i, hvordan farverne er fordelt på siden."
-  - **Noget føles som om, det ikke helt spiller:** "Det kan godt være den fornemmelse, du får — og den er helt legitim. Vi oplever ikke alle farver og sammensætninger på samme måde. Her er farverne brugt med en tydelig fordeling, hvor nogle får lov at være i baggrunden, mens andre bruges til at fremhæve bestemte elementer. Det er med til at skabe det rolige udtryk, hjemmesiden er bygget op omkring."
+  - **Noget føles som om, det ikke helt spiller:** "Det kan godt være den fornemmelse, du får - og den er helt legitim. Vi oplever ikke alle farver og sammensætninger på samme måde. Her er farverne brugt med en tydelig fordeling, hvor nogle får lov at være i baggrunden, mens andre bruges til at fremhæve bestemte elementer. Det er med til at skabe det rolige udtryk, hjemmesiden er bygget op omkring."
   - **Jeg er ikke sikker:** "Det er helt okay ikke at være sikker. På en hjemmeside arbejder farverne sammen med mange andre ting, og det kan være svært at skille dem helt ad. I det her eksempel er farverne fordelt med fokus på at skabe et roligt og sammenhængende udtryk, hvor ikke alting forsøger at få din opmærksomhed på én gang."
 - **Leder videre:** Når brugeren har modtaget feedback på deres valg, går de videre til næste eksempel.
 - **Gemmes:** Nej.
@@ -170,9 +170,9 @@ Nu skal vi kigge på nogle forskellige eksempler sammen."
 
 - **Interaktion:** Samme fem valgmuligheder som Boble 4.2 — brugeren vælger ét af dem.
 - **Respons (matchet pr. valg):**
-  - **Energisk:** "Her er der mere bevægelse og energi i farverne. Farverne får lov til at spille en tydeligere rolle, og de forskellige elementer skaber liv i udtrykket. Det betyder ikke nødvendigvis, at det bliver uroligt — energien kan også være med til at gøre et udtryk levende og dynamisk."
+  - **Energisk:** "Her er der mere bevægelse og energi i farverne. Farverne får lov til at spille en tydeligere rolle, og de forskellige elementer skaber liv i udtrykket. Det betyder ikke nødvendigvis, at det bliver uroligt - energien kan også være med til at gøre et udtryk levende og dynamisk."
   - **Varmt og/eller roligt:** "Du kan godt opleve varme eller ro i dele af udtrykket. Farver behøver ikke kun skabe ét indtryk. Her er der samtidig arbejdet med flere elementer og farver, som tilsammen giver logoet mere bevægelse og energi."
-  - **Noget føles som om, det ikke helt spiller:** "Det kan du godt opleve — og det er ikke nødvendigvis forkert. Når der er flere farver og elementer i spil, kan vi opleve dem forskelligt. I det her eksempel er farverne og formerne brugt til at skabe et levende og dynamisk udtryk, hvor der gerne må ske lidt mere."
+  - **Noget føles som om, det ikke helt spiller:** "Det kan du godt opleve - og det er ikke nødvendigvis forkert. Når der er flere farver og elementer i spil, kan vi opleve dem forskelligt. I det her eksempel er farverne og formerne brugt til at skabe et levende og dynamisk udtryk, hvor der gerne må ske lidt mere."
   - **Jeg er ikke sikker:** "Det er helt okay ikke at være sikker. Nogle udtryk er nemme at mærke, men sværere at sætte ord på. Her er der arbejdet med flere farver og elementer, som tilsammen skaber mere liv og bevægelse i logoet."
 - **Leder videre:** Når brugeren har modtaget feedback på deres valg, går de videre til næste eksempel.
 - **Gemmes:** Nej.
@@ -183,10 +183,10 @@ Nu skal vi kigge på nogle forskellige eksempler sammen."
 
 - **Interaktion:** Samme fem valgmuligheder som Boble 4.2 — brugeren vælger ét af dem.
 - **Respons (matchet pr. valg):**
-  - **Noget føles som om, det ikke helt spiller:** "Her er der nogle ting i farvevalget, der kan gøre udtrykket mere forstyrrende. Nogle af farverne ligger tæt på hinanden i kontrast, og det kan gøre det sværere at afkode, hvad du skal kigge på. Samtidig trækker emojis opmærksomhed forskellige steder i indholdet. Det betyder ikke, at hver enkelt farve eller emoji er et problem i sig selv. Men sammen kan de gøre det samlede udtryk mere uroligt."
-  - **Varmt og/eller roligt:** "Du kan godt opleve varme eller ro i dele af udtrykket. Nogle af farverne og elementerne fungerer fint hver for sig. Men når kontrasten mellem farverne ikke altid er tydelig nok, kan det blive sværere for øjet at finde rundt i indholdet. Også små elementer som emojis kan ændre det samlede indtryk — alt efter hvor og hvor meget de bruges."
+  - **Noget føles som om, det ikke helt spiller:** "Her er der nogle ting i farvevalget, der kan gøre udtrykket mere forstyrrende. Kontrasten mellem nogle af farverne er for lav, og det kan gøre det sværere at afkode, hvad du skal kigge på. Samtidig trækker emojis opmærksomhed forskellige steder i indholdet. Det betyder ikke, at hver enkelt farve eller emoji er et problem i sig selv. Men sammen kan de gøre det samlede udtryk mere uroligt."
+  - **Varmt og/eller roligt:** "Du kan godt opleve varme eller ro i dele af udtrykket. Nogle af farverne og elementerne fungerer fint hver for sig. Men når kontrasten mellem farverne ikke altid er tydelig nok, kan det blive sværere for øjet at finde rundt i indholdet. Også små elementer som emojis kan ændre det samlede indtryk - alt efter hvor og hvor meget de bruges."
   - **Energisk:** "Der er bestemt energi i det her udtryk. Farverne og emojis skaber liv og trækker opmærksomhed forskellige steder hen. Men når flere elementer samtidig kæmper om opmærksomheden, og kontrasten mellem farverne varierer, kan energien også begynde at føles forstyrrende."
-  - **Jeg er ikke sikker:** "Det er helt okay ikke at være sikker. Prøv at kigge på, hvad der først fanger dit øje. Er det let at finde rundt i indholdet — eller bliver din opmærksomhed trukket flere forskellige steder hen? I det her eksempel spiller både farvernes kontrast og brugen af små elementer som emojis en rolle for det samlede udtryk. Det er nogle af de ting, der kan være værd at lægge mærke til, når du arbejder med dine egne farver."
+  - **Jeg er ikke sikker:** "Det er helt okay ikke at være sikker. Prøv at kigge på, hvad der først fanger dit øje. Er det let at finde rundt i indholdet - eller bliver din opmærksomhed trukket flere forskellige steder hen? I det her eksempel spiller både farvernes kontrast og brugen af små elementer som emojis en rolle for det samlede udtryk. Det er nogle af de ting, der kan være værd at lægge mærke til, når du arbejder med dine egne farver."
 - **Leder videre:** Når brugeren har modtaget feedback på deres valg, går de videre til næste del af modulet (Modul 5).
 - **Gemmes:** Nej.
 
@@ -202,7 +202,7 @@ Nu skal vi kigge på nogle forskellige eksempler sammen."
 
 Nogle udtryk fungerer fint med ganske få farver. Andre har brug for flere. Det afgørende er ikke, om din farvepalette består af tre, fem eller otte farver.
 
-Det afgørende er, hvordan farverne arbejder sammen — og hvilken plads de får i dit samlede udtryk."
+Det afgørende er, hvordan farverne arbejder sammen - og hvilken plads de får i dit samlede udtryk."
 
 - **Interaktion:** Ingen.
 - **Respons:** Ingen.
@@ -213,13 +213,13 @@ Det afgørende er, hvordan farverne arbejder sammen — og hvilken plads de får
 
 **Hvad brugeren møder:**
 
-"Farver behøver ikke alle sammen at gøre det samme. Nogle farver får lov til at fylde meget og være med til at sætte tonen for dit samlede udtryk. Andre ligger mere i baggrunden og understøtter helheden. Og nogle farver bruger du måske kun i små doser — netop fordi de skal fange opmærksomheden, når det er meningen.
+"Farver behøver ikke alle sammen at gøre det samme. Nogle farver får lov til at fylde meget og være med til at sætte tonen for dit samlede udtryk. Andre ligger mere i baggrunden og understøtter helheden. Og nogle farver bruger du måske kun i små doser - netop fordi de skal fange opmærksomheden, når det er meningen.
 
 Når du begynder at tænke over, hvilken rolle dine farver spiller, bliver det også lettere at se, om de arbejder sammen på en måde, der giver mening."
 
 **✅ Nyt afsnit (runde 7, godkendt af Heidi 2026-09-25) — hvorfor roller, med et eksempel:**
 
-"Hvorfor taler vi om roller og ikke bare om farver? Fordi den samme farve kan gøre noget helt forskelligt, alt efter hvor du bruger den. Tænk på en hjemmeside: Én farve er baggrunden, som fylder det meste. Én er teksten, som skal være let at læse. Og én bruges kun på knappen 'Book en tid', så den springer i øjnene. Det er tre forskellige opgaver, eller roller. Derfor skal du som regel bruge mindst to farver, som er tydeligt forskellige: én lys og én mørk, så din tekst kan ses."
+"Hvorfor taler vi om roller og ikke bare om farver? Fordi den samme farve kan gøre noget helt forskelligt, alt efter hvor du bruger den. Tænk på en hjemmeside: Én farve er baggrunden, som fylder det meste. Én er teksten, som skal være let at læse. Og én bruges kun på knappen 'Book en tid', så den springer i øjnene. Det er tre forskellige opgaver, eller roller. Derfor er det vigtigt, at du har farver, der kan skabe tilstrækkelig kontrast. Typisk har du brug for en lys og en mørk farve, så tekst og baggrund kan adskilles tydeligt."
 
 - **Visuelt (✅ nyt, godkendt af Heidi 2026-09-25):** Et lille, enkelt eksempel ved siden af teksten: en skitse af en hjemmeside eller et opslag i tre farver, hvor hver farve har en lille etiket med sin rolle ("Baggrund", "Tekst", "Knap"). Kan tegnes i HTML/CSS med DUF's egne farver.
 - **Interaktion:** Ingen.
@@ -250,7 +250,7 @@ Når du fordeler dine farver bevidst, bliver det lettere at skabe et udtryk, hvo
 
 **Hvad brugeren møder:**
 
-"Nu skal vi samle dine farver. Start med de farver, du allerede bruger — eller de farver, du gerne vil arbejde med. Du behøver ikke vælge et bestemt antal. Tilføj de farver, der giver mening for dit udtryk."
+"Nu skal vi samle dine farver. Start med de farver, du allerede bruger - eller de farver, du gerne vil arbejde med. Du behøver ikke vælge et bestemt antal. Tilføj de farver, der giver mening for dit udtryk."
 
 **✅ Ny linje under (runde 7, godkendt af Heidi 2026-09-25):** "Vælg gerne mindst to farver, en lys og en mørk. Så kan vi senere tjekke, om din tekst er let at læse."
 
@@ -266,7 +266,7 @@ Herefter møder brugeren farvevælgeren og kan begynde at bygge sin palette.
 
 **Hvad brugeren møder:**
 
-"I det forrige modul talte vi om, at farver ikke behøver at gøre det samme. Nu kan du prøve at tænke over, hvilken rolle dine egne farver skal spille i dit udtryk.
+"I det forrige modul talte vi om, at farver ikke behøver at gøre det samme. Nu skal du prøve at omsætte det til din egen palette.
 
 Nogle farver får måske lov til at sætte tonen og fylde mere. Andre skal understøtte. Og nogle skal måske kun bruges sparsomt, når du gerne vil have noget til at skille sig ud.
 
@@ -314,7 +314,7 @@ Du skal ikke ramme en bestemt fordeling. Det handler om at eksperimentere og få
 
 **Hvad brugeren møder:**
 
-"Farver kan godt se flotte ud sammen — uden nødvendigvis at fungere godt til det samme. Når du bruger to farver sammen, kan forskellen mellem dem have betydning for, hvordan de opleves.
+"Farver kan godt se flotte ud sammen - uden nødvendigvis at fungere godt til det samme. Når du bruger to farver sammen, kan forskellen mellem dem have betydning for, hvordan de opleves.
 
 Det bliver særligt vigtigt, når du lægger tekst oven på en farvet baggrund. Hvis farverne ligger meget tæt på hinanden, kan teksten være sværere at få øje på og læse.
 
@@ -356,8 +356,8 @@ Det kan være en god idé at undersøge flere kombinationer. En farve, der funge
 "Når du har valgt en kombination af farver, kan du her se, hvad kontrasten mellem dem kan betyde for læsbarheden. Det handler ikke om, hvorvidt dine farver er rigtige eller forkerte. Det handler om at få en fornemmelse af, hvordan de fungerer sammen i den situation, du gerne vil bruge dem i."
 
 - **Visuelt:** Brugeren ser den valgte kombination med eksempeltekst samt kontrastresultatet. Feedbacken ændrer sig afhængigt af kontrasten mellem den valgte tekstfarve og baggrundsfarve, i tre niveauer (afløser nuværende binære pass/fail). **✅ Nyt i runde 7 (godkendt af Heidi 2026-09-25):** Hvert niveau vises med sit symbol og sin korte tekst som overskrift over feedbacken (samme som i 7.2).
-  - **✓ Let at læse — hvis teksten træder tydeligt frem:** "Her er der en tydelig forskel mellem farverne. Det gør det lettere for teksten at træde frem fra baggrunden og være rar at læse. Det giver dig gode muligheder, hvis du gerne vil bruge kombinationen til eksempelvis brødtekst, overskrifter eller anden vigtig information."
-  - **~ Kan fungere — hvis farverne ligger lidt tættere på hinanden:** "Her er forskellen mellem farverne mindre. Teksten kan stadig fungere, men hvor let den er at læse, kan blandt andet afhænge af tekstens størrelse og hvor meget tekst der er. Prøv eventuelt at se, hvordan kombinationen fungerer med både kort og længere tekst. Måske passer den bedre til nogle typer indhold end andre."
+  - **✓ Let at læse — hvis teksten træder tydeligt frem:** "Her er der en tydelig forskel mellem farverne. Det gør det kontrastmæssigt lettere for teksten at træde frem fra baggrunden og være rar at læse. Det giver dig gode muligheder, hvis du gerne vil bruge kombinationen til eksempelvis brødtekst, overskrifter eller anden vigtig information."
+  - **~ Kan fungere — hvis farverne ligger lidt tættere på hinanden:** "Her er forskellen mellem farverne mindre. Kombinationen kan opfylde kontrastkravet for stor tekst, men ikke for almindelig brødtekst. Derfor er det vigtigt at tænke over, hvor du bruger den. Prøv eksempelvis kombinationen på en stor overskrift og på almindelig tekst."
   - **– Svær at læse — hvis teksten kan have svært ved at træde frem:** "Her ligger farverne så tæt på hinanden, at teksten kan være sværere at få øje på. Det kan gøre den mindre behagelig at læse. Det betyder ikke, at der er noget galt med dine farver. Måske fungerer de bare bedre sammen i flader, former eller detaljer, hvor læsbarhed ikke spiller den samme rolle."
   - Kontrastforholdet vises fortsat som sekundær, teknisk information (fx "Kontrastforhold: 11.57 : 1"). Der kan desuden være et frivilligt link ("Nysgerrig på, hvad kontrastforhold og WCAG betyder? Læs mere →") til et kommende DUF-blogindlæg om WCAG, kontrast og webtilgængelighed.
 - **Interaktion:** Brugeren kan gå tilbage og prøve en anden kombination af farver. Når brugeren ændrer tekstfarve eller baggrundsfarve, opdateres eksempelvisning, kontrastforhold og feedback samtidig. Når brugeren har fundet en kombination, de gerne vil arbejde videre med, kan de vælge den som deres endelige kombination.
@@ -375,7 +375,7 @@ Det kan være en god idé at undersøge flere kombinationer. En farve, der funge
 
 "Nu er det tid til at prøve din palette af i praksis. Indtil nu har du set dine farver samlet og undersøgt, hvordan de fungerer sammen. Men farver kan godt opleves anderledes, når de bliver en del af noget rigtigt.
 
-Prøv at bruge din palette ét sted i dit visuelle udtryk. Det kan være et opslag til sociale medier, en side på din hjemmeside, et nyhedsbrev, et dokument — eller noget helt andet.
+Prøv at bruge din palette ét sted i dit visuelle udtryk. Det kan være et opslag til sociale medier, en side på din hjemmeside, et nyhedsbrev, et dokument - eller noget helt andet.
 
 Du behøver ikke lave det perfekt. Formålet er bare at se, hvad der sker, når dine farver kommer i brug.
 
@@ -421,7 +421,7 @@ Hvad lagde du mærke til?"
 
 **Det lagde du mærke til** — brugerens egen refleksion fra Boble 8.2 vises her.
 
-**Afsluttende tekst:** "Du har nu afsluttet Farver — og fået sat konkrete farver op, givet dem nogle roller og tjekket kontrasterne. Din valgte farvepalette gør det lettere at arbejde med dit visuelle udtryk, fordi du allerede har taget stilling til, hvilken rolle dine farver kan spille. Når du bruger paletten igen og igen, kan det også være med til at skabe genkendelighed i det, andre møder fra dig. Og rollerne behøver ikke være de samme for altid. I takt med at din praksis udvikler sig, vil du opdage, at en farve skal have mere plads, mindre plads eller måske spille en helt anden rolle. Du kan nu afslutte Farver og begynde at bruge din palette i din praksis."
+**Afsluttende tekst:** "Du har nu afsluttet Farver - og fået sat konkrete farver op, givet dem nogle roller og tjekket kontrasterne. Din valgte farvepalette gør det lettere at arbejde med dit visuelle udtryk, fordi du allerede har taget stilling til, hvilken rolle dine farver kan spille. Når du bruger paletten igen og igen, kan det også være med til at skabe genkendelighed i det, andre møder fra dig. Og rollerne behøver ikke være de samme for altid. I takt med at din praksis udvikler sig, vil du opdage, at en farve skal have mere plads, mindre plads eller måske spille en helt anden rolle. Du kan nu afslutte Farver og begynde at bruge din palette i din praksis."
 
 *Guide: Du er altid velkommen til at vende tilbage til Farver og justere din palette, hvis dine farver eller deres roller ændrer sig undervejs.*
 

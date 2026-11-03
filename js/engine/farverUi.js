@@ -483,7 +483,7 @@ function showPreviewStep({ heading, paragraphs = [], exampleText, textColorLabel
             <label class="text-color-option">
                 <input type="radio" name="text-color-choice" value="${c.id}" ${c.id === textColorId ? "checked" : ""}>
                 <span class="dosage-swatch" style="background-color:${c.hex};"></span>
-                <span>${c.hex}${c.role ? ` — ${c.role}` : ""}</span>
+                <span>${c.hex}${c.role ? ` - ${c.role}` : ""}</span>
             </label>
         `).join("")}
         <label class="text-color-option">
@@ -559,7 +559,7 @@ function allCombinationsHtml(colors, levels, { allCombinationsLabel, combination
 
 function showContrastPickerStep(copy, levels, colors, hasOneColor, defaults, onNext, onExit) {
     const { heading, paragraphs = [], textColorLabel, bgColorLabel, previewText, oneColorLine } = copy;
-    const optionHtml = (selectedId) => colors.map((c) => `<option value="${c.id}" ${c.id === selectedId ? "selected" : ""}>${c.hex}${c.role ? ` — ${c.role}` : ""}</option>`).join("");
+    const optionHtml = (selectedId) => colors.map((c) => `<option value="${c.id}" ${c.id === selectedId ? "selected" : ""}>${c.hex}${c.role ? ` - ${c.role}` : ""}</option>`).join("");
 
     renderScreen(`
             <h2 class="section-heading">${heading}</h2>
@@ -705,7 +705,7 @@ function showPaletteSummary(copy, levels, { palette, textColorId, contrast, refl
     const colorsHtml = palette.map((c) => `
         <div class="color-field">
             <span class="color-field-swatch" style="background-color:${c.hex}; display:inline-block; cursor:default;"></span>
-            <span>${c.hex}${c.role ? ` — ${c.role}` : ""} (${c.percent}%)</span>
+            <span>${c.hex}${c.role ? ` - ${c.role}` : ""} (${c.percent}%)</span>
         </div>
     `).join("");
 

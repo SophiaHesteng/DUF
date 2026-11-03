@@ -136,7 +136,7 @@ export function renderFontvaelger(container, { formaal = "overskrift", gemtPalet
             const ok = await indlaesGoogleFont(font);
             /*---- Kun hvis brugeren ikke har valgt noget andet i mellemtiden ----*/
             if (!ok && font === aktuel) {
-                besked.textContent = "Vi kan ikke vise den skrifttype her lige nu. Det er helt fint — navnet er gemt alligevel.";
+                besked.textContent = "Vi kan ikke vise den skrifttype her lige nu. Det er helt fint - navnet er gemt alligevel.";
             }
         }
     };
@@ -150,7 +150,7 @@ export function renderFontvaelger(container, { formaal = "overskrift", gemtPalet
     if (kuraterede.length) {
         Promise.all(kuraterede.map(indlaesGoogleFont)).then((resultater) => {
             if (resultater.some((ok) => !ok)) {
-                besked.textContent = "Nogle af skrifttyperne kunne ikke hentes lige nu — måske er der ingen internetforbindelse. Du kan skrive navnet på din font i feltet herunder i stedet.";
+                besked.textContent = "Nogle af skrifttyperne kunne ikke hentes lige nu - måske er der ingen internetforbindelse. Du kan skrive navnet på din font i feltet herunder i stedet.";
             }
         });
     }

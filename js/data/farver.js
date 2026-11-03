@@ -3,8 +3,8 @@
 /*---- Modul 1-5 er bygget om til den fulde Rum -> Modul -> Bobler-struktur (manuskript revideret 2026-09-11). Teksten herunder følger manuskriptets ordlyd direkte, frem for den ældre, flade tekst fra før revisionen - jf. commit-beskeden for denne ombygning. Modul 6, 7 og 8 er nu også bygget om til den fri palet-bygger / palette-drevet kontrasttjek / tre-boble-opsamling, jf. docs/duf-manuskript-farver.md. ----*/
 
 export const velkomst = {
-    fraVisueltUdtryk: "Du nævnte tidligere, at du er usikker på dine farver — derfor foreslog vi at kigge nærmere på det her.",
-    standard: "Velkommen til Farver. Her får du hjælp til at vælge en farvepalet, der understøtter din praksis — uanset om du starter fra bunden eller bare vil kvalitetssikre det, du allerede har."
+    fraVisueltUdtryk: "Du nævnte tidligere, at du er usikker på dine farver - derfor foreslog vi at kigge nærmere på det her.",
+    standard: "Velkommen til Farver. Her får du hjælp til at vælge en farvepalet, der understøtter din praksis - uanset om du starter fra bunden eller bare vil kvalitetssikre det, du allerede har."
 };
 
 /*---- Modulernes titler (fra manuskriptets overskrifter) og antal bobler, til navigationslinjerne (js/components/rumRamme.js). Antallet af moduler læses herfra. 6.2 vises én gang pr. farve, men tæller som én boble ----*/
@@ -24,9 +24,9 @@ export const modul1 = {
     boble1: {
         heading: "Hvorfor farver betyder noget",
         paragraphs: [
-            "Farver er noget af det første, vi lægger mærke til. De er med til at forme det indtryk, vi får — længe før vi har læst et eneste ord.",
+            "Farver er noget af det første, vi lægger mærke til. De er med til at forme det indtryk, vi får - længe før vi har læst et eneste ord.",
             "Farver kan signalere ro, energi, tillid, varme eller noget helt andet. Derfor er de ikke bare noget, der skal være pænt.",
-            "Der findes ikke én rigtig farve til din praksis. Men farver fortæller noget — og det er værd at vide, hvad dine fortæller."
+            "Der findes ikke én rigtig farve til din praksis. Men farver fortæller noget - og det er værd at vide, hvad dine fortæller."
         ]
     },
     boble2: {
@@ -45,7 +45,7 @@ export const modul1 = {
 export const modul2 = {
     heading: "Farver skal også fungere i praksis",
     paragraphs: [
-        "En farvekombination kan se virkelig flot ud — og stadig være svær at læse.",
+        "En farvekombination kan se virkelig flot ud - og stadig være svær at læse.",
         "Det gælder især, når tekst og baggrund ligger for tæt på hinanden i lyshed. Det kan gøre en hjemmeside, et opslag eller et dokument svært at bruge.",
         "Det handler om kontrast. Og det er en af de ting, du skal have styr på, hvis dine farver skal fungere i praksis."
     ]
@@ -68,7 +68,7 @@ export const modul3 = {
         yesLabel: "Ja, det har jeg",
         noLabel: "Nej, ikke endnu",
         uploadLabel: "Upload dit eksempel",
-        uploadHint: "Billedet forlader aldrig din egen enhed — det gemmes kun i denne browser, medmindre du har fravalgt browserlagring.",
+        uploadHint: "Billedet forlader aldrig din egen enhed - det gemmes kun i denne browser, medmindre du har fravalgt browserlagring.",
         dufImage: "img/eksempel-3.2.png",
         dufImageAlt: "DUFs eget eksempel på et farveudtryk"
     },
@@ -88,7 +88,7 @@ export const modul4 = {
         heading: "Inspiration og sammenligning",
         paragraphs: [
             "Du er sikkert allerede stødt på steder, hvor du har lagt mærke til farverne. Måske fordi det samlede udtryk føltes rart og gennemtænkt. Eller fordi der var noget, der skurrede, uden at du helt kunne sætte fingeren på hvorfor.",
-            "Prøv at tænke over, om du selv har set eksempler, hvor brugen af farver har fanget din opmærksomhed — på godt og ondt.",
+            "Prøv at tænke over, om du selv har set eksempler, hvor brugen af farver har fanget din opmærksomhed - på godt og ondt.",
             "Nu skal vi kigge på nogle forskellige eksempler sammen."
         ]
     },
@@ -110,7 +110,7 @@ export const modul4 = {
             responses: [
                 { match: ["varmt", "roligt"], text: "Farverne her arbejder sammen om et roligt og imødekommende udtryk. Der er plads mellem farverne, og ingen af dem kæmper særligt meget om opmærksomheden. Det kan være med til at skabe både varme og ro i det samlede udtryk." },
                 { match: ["energisk"], text: "Det giver god mening, hvis du også oplever energi i udtrykket. Farver kan godt skabe energi uden at gøre et udtryk uroligt. Her er de samtidig brugt på en måde, der holder det samlede udtryk roligt og imødekommende." },
-                { match: ["ikkeSpiller"], text: "Det kan du godt opleve — og det er ikke nødvendigvis forkert. Hvad der føles støjende eller uroligt, kan være forskelligt fra person til person. I det her eksempel er farverne dog sat sammen med et roligt og varmt udtryk for øje, hvor de enkelte farver skal understøtte hinanden frem for at konkurrere." },
+                { match: ["ikkeSpiller"], text: "Det kan du godt opleve - og det er ikke nødvendigvis forkert. Hvad der føles støjende eller uroligt, kan være forskelligt fra person til person. I det her eksempel er farverne dog sat sammen med et roligt og varmt udtryk for øje, hvor de enkelte farver skal understøtte hinanden frem for at konkurrere." },
                 { match: ["ikkeSikker"], text: "Det er helt okay ikke at være sikker. Nogle gange er det lettere at mærke et samlet udtryk, end det er at sætte ord på, hvorfor det føles sådan. Her er farverne brugt med fokus på et roligt og imødekommende udtryk, hvor de arbejder sammen og får plads til hinanden." }
             ]
         },
@@ -122,7 +122,7 @@ export const modul4 = {
             responses: [
                 { match: ["varmt", "roligt"], text: "Her er farverne fordelt på en måde, der giver øjet lidt ro. Nogle farver får lov til at fylde mere, mens andre bruges som mindre detaljer. Det skaber et samlet udtryk, hvor farverne understøtter hinanden uden at kræve opmærksomhed på samme tid." },
                 { match: ["energisk"], text: "Det giver god mening, hvis du også oplever energi i udtrykket. En hjemmeside kan godt have farver, der skaber liv og opmærksomhed, uden at det tager den rolige fornemmelse. Her er der stadig en tydelig balance i, hvordan farverne er fordelt på siden." },
-                { match: ["ikkeSpiller"], text: "Det kan godt være den fornemmelse, du får — og den er helt legitim. Vi oplever ikke alle farver og sammensætninger på samme måde. Her er farverne brugt med en tydelig fordeling, hvor nogle får lov at være i baggrunden, mens andre bruges til at fremhæve bestemte elementer. Det er med til at skabe det rolige udtryk, hjemmesiden er bygget op omkring." },
+                { match: ["ikkeSpiller"], text: "Det kan godt være den fornemmelse, du får - og den er helt legitim. Vi oplever ikke alle farver og sammensætninger på samme måde. Her er farverne brugt med en tydelig fordeling, hvor nogle får lov at være i baggrunden, mens andre bruges til at fremhæve bestemte elementer. Det er med til at skabe det rolige udtryk, hjemmesiden er bygget op omkring." },
                 { match: ["ikkeSikker"], text: "Det er helt okay ikke at være sikker. På en hjemmeside arbejder farverne sammen med mange andre ting, og det kan være svært at skille dem helt ad. I det her eksempel er farverne fordelt med fokus på at skabe et roligt og sammenhængende udtryk, hvor ikke alting forsøger at få din opmærksomhed på én gang." }
             ]
         },
@@ -132,9 +132,9 @@ export const modul4 = {
             image: "img/energisk-logo.png",
             imageAlt: "Fiktivt logo fra en behandler med et energisk og dynamisk farveudtryk",
             responses: [
-                { match: ["energisk"], text: "Her er der mere bevægelse og energi i farverne. Farverne får lov til at spille en tydeligere rolle, og de forskellige elementer skaber liv i udtrykket. Det betyder ikke nødvendigvis, at det bliver uroligt — energien kan også være med til at gøre et udtryk levende og dynamisk." },
+                { match: ["energisk"], text: "Her er der mere bevægelse og energi i farverne. Farverne får lov til at spille en tydeligere rolle, og de forskellige elementer skaber liv i udtrykket. Det betyder ikke nødvendigvis, at det bliver uroligt - energien kan også være med til at gøre et udtryk levende og dynamisk." },
                 { match: ["varmt", "roligt"], text: "Du kan godt opleve varme eller ro i dele af udtrykket. Farver behøver ikke kun skabe ét indtryk. Her er der samtidig arbejdet med flere elementer og farver, som tilsammen giver logoet mere bevægelse og energi." },
-                { match: ["ikkeSpiller"], text: "Det kan du godt opleve — og det er ikke nødvendigvis forkert. Når der er flere farver og elementer i spil, kan vi opleve dem forskelligt. I det her eksempel er farverne og formerne brugt til at skabe et levende og dynamisk udtryk, hvor der gerne må ske lidt mere." },
+                { match: ["ikkeSpiller"], text: "Det kan du godt opleve - og det er ikke nødvendigvis forkert. Når der er flere farver og elementer i spil, kan vi opleve dem forskelligt. I det her eksempel er farverne og formerne brugt til at skabe et levende og dynamisk udtryk, hvor der gerne må ske lidt mere." },
                 { match: ["ikkeSikker"], text: "Det er helt okay ikke at være sikker. Nogle udtryk er nemme at mærke, men sværere at sætte ord på. Her er der arbejdet med flere farver og elementer, som tilsammen skaber mere liv og bevægelse i logoet." }
             ]
         },
@@ -145,9 +145,9 @@ export const modul4 = {
             imageAlt: "Fiktivt nyhedsbrev fra en behandler, der viser hvordan farvevalg, kontrast og brugen af emojis kan påvirke det samlede indtryk",
             responses: [
                 { match: ["ikkeSpiller"], text: "Her er der nogle ting i farvevalget, der kan gøre udtrykket mere forstyrrende. Kontrasten mellem nogle af farverne er for lav, og det kan gøre det sværere at afkode, hvad du skal kigge på. Samtidig trækker emojis opmærksomhed forskellige steder i indholdet. Det betyder ikke, at hver enkelt farve eller emoji er et problem i sig selv. Men sammen kan de gøre det samlede udtryk mere uroligt." },
-                { match: ["varmt", "roligt"], text: "Du kan godt opleve varme eller ro i dele af udtrykket. Nogle af farverne og elementerne fungerer fint hver for sig. Men når kontrasten mellem farverne ikke altid er tydelig nok, kan det blive sværere for øjet at finde rundt i indholdet. Også små elementer som emojis kan ændre det samlede indtryk — alt efter hvor og hvor meget de bruges." },
+                { match: ["varmt", "roligt"], text: "Du kan godt opleve varme eller ro i dele af udtrykket. Nogle af farverne og elementerne fungerer fint hver for sig. Men når kontrasten mellem farverne ikke altid er tydelig nok, kan det blive sværere for øjet at finde rundt i indholdet. Også små elementer som emojis kan ændre det samlede indtryk - alt efter hvor og hvor meget de bruges." },
                 { match: ["energisk"], text: "Der er bestemt energi i det her udtryk. Farverne og emojis skaber liv og trækker opmærksomhed forskellige steder hen. Men når flere elementer samtidig kæmper om opmærksomheden, og kontrasten mellem farverne varierer, kan energien også begynde at føles forstyrrende." },
-                { match: ["ikkeSikker"], text: "Det er helt okay ikke at være sikker. Prøv at kigge på, hvad der først fanger dit øje. Er det let at finde rundt i indholdet — eller bliver din opmærksomhed trukket flere forskellige steder hen? I det her eksempel spiller både farvernes kontrast og brugen af små elementer som emojis en rolle for det samlede udtryk. Det er nogle af de ting, der kan være værd at lægge mærke til, når du arbejder med dine egne farver." }
+                { match: ["ikkeSikker"], text: "Det er helt okay ikke at være sikker. Prøv at kigge på, hvad der først fanger dit øje. Er det let at finde rundt i indholdet - eller bliver din opmærksomhed trukket flere forskellige steder hen? I det her eksempel spiller både farvernes kontrast og brugen af små elementer som emojis en rolle for det samlede udtryk. Det er nogle af de ting, der kan være værd at lægge mærke til, når du arbejder med dine egne farver." }
             ]
         }
     ]
@@ -159,18 +159,18 @@ export const modul5 = {
         paragraphs: [
             "Hvor mange farver skal man egentlig have? Det korte svar er: der findes ikke ét rigtigt antal.",
             "Nogle udtryk fungerer fint med ganske få farver. Andre har brug for flere. Det afgørende er ikke, om din farvepalette består af tre, fem eller otte farver.",
-            "Det afgørende er, hvordan farverne arbejder sammen — og hvilken plads de får i dit samlede udtryk."
+            "Det afgørende er, hvordan farverne arbejder sammen - og hvilken plads de får i dit samlede udtryk."
         ]
     },
     boble2: {
         heading: "Farver har forskellige roller",
         paragraphs: [
-            "Farver behøver ikke alle sammen at gøre det samme. Nogle farver får lov til at fylde meget og være med til at sætte tonen for dit samlede udtryk. Andre ligger mere i baggrunden og understøtter helheden. Og nogle farver bruger du måske kun i små doser — netop fordi de skal fange opmærksomheden, når det er meningen.",
+            "Farver behøver ikke alle sammen at gøre det samme. Nogle farver får lov til at fylde meget og være med til at sætte tonen for dit samlede udtryk. Andre ligger mere i baggrunden og understøtter helheden. Og nogle farver bruger du måske kun i små doser - netop fordi de skal fange opmærksomheden, når det er meningen.",
             "Når du begynder at tænke over, hvilken rolle dine farver spiller, bliver det også lettere at se, om de arbejder sammen på en måde, der giver mening."
         ],
         /*---- Runde 7 (efter brugertest 1, T3): hvorfor roller - vises efter teksten ovenfor, ved siden af en lille HTML/CSS-skitse med tre etiketter ----*/
         roleExample: {
-            paragraph: "Hvorfor taler vi om roller og ikke bare om farver? Fordi den samme farve kan gøre noget helt forskelligt, alt efter hvor du bruger den. Tænk på en hjemmeside: Én farve er baggrunden, som fylder det meste. Én er teksten, som skal være let at læse. Og én bruges kun på knappen 'Book en tid', så den springer i øjnene. Det er tre forskellige opgaver, eller roller. Derfor er det vigtigt, at du har farver, der kan skabe tilstrækkelig kontrast. Typisk har du brug for en lys og en mørk farve, så tekst og baggrund kan adskilles tydeligt",
+            paragraph: "Hvorfor taler vi om roller og ikke bare om farver? Fordi den samme farve kan gøre noget helt forskelligt, alt efter hvor du bruger den. Tænk på en hjemmeside: Én farve er baggrunden, som fylder det meste. Én er teksten, som skal være let at læse. Og én bruges kun på knappen 'Book en tid', så den springer i øjnene. Det er tre forskellige opgaver, eller roller. Derfor er det vigtigt, at du har farver, der kan skabe tilstrækkelig kontrast. Typisk har du brug for en lys og en mørk farve, så tekst og baggrund kan adskilles tydeligt.",
             backgroundLabel: "Baggrund",
             textLabel: "Tekst",
             buttonLabel: "Knap",
@@ -193,7 +193,7 @@ export const modul6 = {
     boble1: {
         heading: "Vælg dine farver",
         paragraphs: [
-            "Nu skal vi samle dine farver. Start med de farver, du allerede bruger — eller de farver, du gerne vil arbejde med. Du behøver ikke vælge et bestemt antal. Tilføj de farver, der giver mening for dit udtryk.",
+            "Nu skal vi samle dine farver. Start med de farver, du allerede bruger - eller de farver, du gerne vil arbejde med. Du behøver ikke vælge et bestemt antal. Tilføj de farver, der giver mening for dit udtryk.",
             "Vælg gerne mindst to farver, en lys og en mørk. Så kan vi senere tjekke, om din tekst er let at læse."
         ],
         addButtonLabel: "➕ Tilføj en farve",
@@ -231,7 +231,7 @@ export const modul6 = {
         ],
         exampleText: "Aa",
         textColorLabel: "Brug som tekstfarve",
-        noTextColorLabel: "Ingen — brug sort som udgangspunkt"
+        noTextColorLabel: "Ingen - brug sort som udgangspunkt"
     }
 };
 
@@ -247,7 +247,7 @@ export const modul7 = {
     boble1: {
         heading: "Når farver mødes",
         paragraphs: [
-            "Farver kan godt se flotte ud sammen — uden nødvendigvis at fungere godt til det samme. Når du bruger to farver sammen, kan forskellen mellem dem have betydning for, hvordan de opleves.",
+            "Farver kan godt se flotte ud sammen - uden nødvendigvis at fungere godt til det samme. Når du bruger to farver sammen, kan forskellen mellem dem have betydning for, hvordan de opleves.",
             "Det bliver særligt vigtigt, når du lægger tekst oven på en farvet baggrund. Hvis farverne ligger meget tæt på hinanden, kan teksten være sværere at få øje på og læse.",
             "Det betyder ikke, at farverne er forkerte. Måske fungerer de bare bedre sammen på en anden måde.",
             "Nu skal du prøve at se, hvordan dine egne farver fungerer sammen."
@@ -257,7 +257,7 @@ export const modul7 = {
         heading: "Prøv dine farver sammen",
         paragraphs: [
             "Nu kan du begynde at prøve dine farver sammen. Vælg to farver fra din palette, og se hvordan de fungerer, når den ene bruges som tekst og den anden som baggrund.",
-            "Du kan starte med den tekstfarve, du eventuelt valgte i forrige modul — men du kan også prøve andre kombinationer.",
+            "Du kan starte med den tekstfarve, du eventuelt valgte i forrige modul - men du kan også prøve andre kombinationer.",
             "Det kan være en god idé at undersøge flere kombinationer. En farve, der fungerer godt som tekst på én baggrund, kan fungere helt anderledes på en anden."
         ],
         textColorLabel: "Tekstfarve",
@@ -295,7 +295,7 @@ export const modul8 = {
         heading: "Prøv din palette af",
         paragraphs: [
             "Nu er det tid til at prøve din palette af i praksis. Indtil nu har du set dine farver samlet og undersøgt, hvordan de fungerer sammen. Men farver kan godt opleves anderledes, når de bliver en del af noget rigtigt.",
-            "Prøv at bruge din palette ét sted i dit visuelle udtryk. Det kan være et opslag til sociale medier, en side på din hjemmeside, et nyhedsbrev, et dokument — eller noget helt andet.",
+            "Prøv at bruge din palette ét sted i dit visuelle udtryk. Det kan være et opslag til sociale medier, en side på din hjemmeside, et nyhedsbrev, et dokument - eller noget helt andet.",
             "Du behøver ikke lave det perfekt. Formålet er bare at se, hvad der sker, når dine farver kommer i brug.",
             "Når du har prøvet dem af, kan du komme tilbage og se på, hvad du har opdaget.",
             "Har du ingen steder at prøve den af endnu, kan du i stedet kigge på forhåndsvisningen af dine farver en gang til og mærke efter."
@@ -336,7 +336,7 @@ export const modul8 = {
         contrastLabel: "Din valgte kontrastkombination",
         readabilityLabel: "Læsevenlighed",
         reflectionLabel: "Det lagde du mærke til",
-        closing: "Du har nu afsluttet Farver — og fået sat konkrete farver op, givet dem nogle roller og tjekket kontrasterne. Din valgte farvepalette gør det lettere at arbejde med dit visuelle udtryk, fordi du allerede har taget stilling til, hvilken rolle dine farver kan spille. Når du bruger paletten igen og igen, kan det også være med til at skabe genkendelighed i det, andre møder fra dig. Og rollerne behøver ikke være de samme for altid. I takt med at din praksis udvikler sig, vil du opdage, at en farve skal have mere plads, mindre plads eller måske spille en helt anden rolle. Du kan nu afslutte Farver og begynde at bruge din palette i din praksis.",
+        closing: "Du har nu afsluttet Farver - og fået sat konkrete farver op, givet dem nogle roller og tjekket kontrasterne. Din valgte farvepalette gør det lettere at arbejde med dit visuelle udtryk, fordi du allerede har taget stilling til, hvilken rolle dine farver kan spille. Når du bruger paletten igen og igen, kan det også være med til at skabe genkendelighed i det, andre møder fra dig. Og rollerne behøver ikke være de samme for altid. I takt med at din praksis udvikler sig, vil du opdage, at en farve skal have mere plads, mindre plads eller måske spille en helt anden rolle. Du kan nu afslutte Farver og begynde at bruge din palette i din praksis.",
         guideLabel: "Guide",
         guide: "Du er altid velkommen til at vende tilbage til Farver og justere din palette, hvis dine farver eller deres roller ændrer sig undervejs.",
         takeawayLabel: "Det tager du med dig",

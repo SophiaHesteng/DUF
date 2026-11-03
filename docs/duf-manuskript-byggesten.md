@@ -48,7 +48,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 - **Hvad brugeren møder på denne skærm:**
   - *Har allerede arbejdet med Farver og/eller Logo i dette besøg:* Du har allerede arbejdet med de store dele af dit visuelle udtryk. Nu kigger vi på det, der går igen mellem dem.
   - *Kommer direkte til rummet:* Velkommen til Ikoner, fonte & andre grafiske byggesten.
-  - *Fælles fortsættelse:* Skrifttyper. Ikoner. Streger. Knapper. Små grafiske detaljer. Du behøver ikke beslutte det hele i dag. Vi finder de byggesten, der gør det lettere for dig at skabe noget, der føles som dig — hver gang.
+  - *Fælles fortsættelse:* Skrifttyper. Ikoner. Streger. Knapper. Små grafiske detaljer. Du behøver ikke beslutte det hele i dag. Vi finder de byggesten, der gør det lettere for dig at skabe noget, der føles som dig - hver gang.
 - **Hvad der leder videre:** **✅ (Heidis formulering, 2026-09-25):** Knappen "Hvilke elementer består byggesten af?" *(før: "Lad os se, hvor du starter")*.
 
 ### Boble 1.2 — Hvilke elementer består byggesten af? *(✅ ny boble i runde 7, godkendt af Heidi 2026-09-25)*
@@ -77,8 +77,8 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 ### Boble 1.4 — Find tre steder, hvor dit udtryk allerede dukker op *(tidligere 1.3; vises ikke ved "Fra bunden")*
 
-- **Hvad brugeren møder på denne skærm:** Åbn din hjemmeside, et opslag, eller et dokument, du sender til klienter. Kig ikke efter det perfekte — find bare tre steder, hvor du allerede bruger tekst, ikoner eller andre grafiske detaljer.
-- **Eventuel interaktion:** Tre valgfrie felter (beskrivelse eller skærmbillede/upload). Har hun intet: "Helt fint — så starter vi fra et rent bord."
+- **Hvad brugeren møder på denne skærm:** Åbn din hjemmeside, et opslag, eller et dokument, du sender til klienter. Kig ikke efter det perfekte - find bare tre steder, hvor du allerede bruger tekst, ikoner eller andre grafiske detaljer.
+- **Eventuel interaktion:** Tre valgfrie felter (beskrivelse eller skærmbillede/upload). Har hun intet: "Helt fint - så starter vi fra et rent bord."
 - **Gemmes/får betydning senere:** Ja, `eksempler[]` — vises igen i Modul 6 og 7.
 
 ### Boble 1.5 — Hvad lægger du mærke til? *(tidligere 1.4; vises ikke ved "Fra bunden")*
@@ -94,8 +94,8 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 ### Boble 2.1 — Vælg dit fokus
 
 - **Hvad brugeren møder på denne skærm:** Du behøver ikke gøre det hele på én gang. Hvad vil du gerne have styr på først?
-- **Eventuel interaktion:** Multivalg (mindst ét): "Ikoner — jeg vil gerne have, at mine ikoner hænger sammen" / "Fonte — jeg vil gerne have styr på mine skrifttyper" / "De små detaljer — jeg har nogle grafiske elementer, men ved ikke, om de hænger sammen" / "Det hele — jeg vil gerne have et enkelt, samlet system" (markerer automatisk de tre andre).
-  - **✅ Variant af valgmulighederne ved "Fra bunden" (runde 7, godkendt af Heidi 2026-09-25):** "Ikoner — jeg vil gerne finde nogle ikoner, der passer til mig" / "Fonte — jeg vil gerne finde mine skrifttyper" / "De små detaljer — jeg vil gerne have en lille detalje, der går igen" / "Det hele — jeg vil gerne have et enkelt, samlet system".
+- **Eventuel interaktion:** Multivalg (mindst ét): "Ikoner - jeg vil gerne have, at mine ikoner hænger sammen" / "Fonte - jeg vil gerne have styr på mine skrifttyper" / "De små detaljer - jeg har nogle grafiske elementer, men ved ikke, om de hænger sammen" / "Det hele - jeg vil gerne have et enkelt, samlet system" (markerer automatisk de tre andre).
+  - **✅ Variant af valgmulighederne ved "Fra bunden" (runde 7, godkendt af Heidi 2026-09-25):** "Ikoner - jeg vil gerne finde nogle ikoner, der passer til mig" / "Fonte - jeg vil gerne finde mine skrifttyper" / "De små detaljer - jeg vil gerne have en lille detalje, der går igen" / "Det hele - jeg vil gerne have et enkelt, samlet system".
 - **Gemmes/får betydning senere:** Ja, `fokusvalg[]`. Kun de valgte af Modul 3-5 vises. Rækkefølge ved flere valg: Ikoner → Fonte → Andre byggesten.
 - **Note til design/udvikling:** Dette valg er ikke låst — brugeren kan altid komme tilbage til denne boble (via modul-linjen) og tilføje flere emner (jf. [[DUF Teknisk - Navigationslinjer (modul og boble)]]). **Eksplicit regel:** `fokusvalg[]` styrer kun, hvilke moduler der *vises* — ikke hvilke data der findes. Fjerner brugeren fx "Fonte" fra sit fokus, efter hun har svaret i Modul 4, slettes de svar ikke; de bliver liggende og vises igen, hvis hun senere tilføjer "Fonte" til sit fokus igen.
 
@@ -138,29 +138,29 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 ### Boble 3.3b — Når du låner fra andre *(kun ved dette valg)*
 
-- **Hvad brugeren møder på denne skærm:** Du ved det nok godt et sted i baghovedet: et ikon, du tager fra en anden hjemmeside eller en app, er ikke automatisk dit at bruge — heller ikke selvom det er let at kopiere, eller du ændrer farven bagefter. En kildeangivelse erstatter ikke en tilladelse. Det er ikke forbudt at være i tvivl om det, men vi vil gerne anbefale, at du i stedet vælger en af de tre veje herunder — de er markant mere sikre at bygge videre på.
+- **Hvad brugeren møder på denne skærm:** Du ved det nok godt et sted i baghovedet: et ikon, du tager fra en anden hjemmeside eller en app, er ikke automatisk dit at bruge - heller ikke selvom det er let at kopiere, eller du ændrer farven bagefter. En kildeangivelse erstatter ikke en tilladelse. Det er ikke forbudt at være i tvivl om det, men vi vil gerne anbefale, at du i stedet vælger en af de tre veje herunder - de er markant mere sikre at bygge videre på.
 - **Hvad der leder videre:** Tilbage til 3.3, uden dette valg.
 
 ### Boble 3.4 — Tre veje *(reel forgrening)*
 
 **3.4-Fri, gratis ikonbibliotek**
 - **✅ Indledning ved "Jeg har ingen ikoner endnu" (runde 7, godkendt 2026-09-25):** "Så har du et godt sted at starte. Et gratis ikonbibliotek giver dig mange ikoner i samme stil, så de passer sammen fra begyndelsen."
-- **Hvad brugeren møder:** Det, vi selv anbefaler, er Material Symbols & Icons fra Google Fonts (fonts.google.com/icons). De er gratis, må bruges kommercielt, og du behøver ikke kreditere Google — men må gerne, hvis du har lyst. *(Kilde: Apache License 2.0, tjekket hos Google 2026-09-22 — tjek igen lige før bygning.)*
+- **Hvad brugeren møder:** Det, vi selv anbefaler, er Material Symbols & Icons fra Google Fonts (fonts.google.com/icons). De er gratis, må bruges kommercielt, og du behøver ikke kreditere Google - men må gerne, hvis du har lyst. *(Kilde: Apache License 2.0, tjekket hos Google 2026-09-22 — tjek igen lige før bygning.)*
 
   Vælger du i stedet et andet gratis bibliotek, eller bruger du et ikon fra en virksomhed eller platform som Facebook eller MobilePay, gælder der andre regler, du bør kende. **Læs mere i Biblioteket:** *"Ikoner og rettigheder: det vigtigste, du skal vide"* (artikel endnu ikke skrevet).
 - **Eventuel interaktion:** Knappen "Åbn Material Symbols" (nyt vindue).
 
 **3.4-Tegn, tegner selv**
 - **Hvad brugeren møder:** Vi skal ikke lære dig at tegne. Men uanset hvordan du gør det, er der fire ting, der gør et ikon, du selv tegner, til et godt ikon:
-  - **Genkendelighed** — det skal kunne genkendes med et hurtigt blik, uden at nogen skal tænke sig om.
-  - **Konsistens** — samme stregtykkelse, samme hjørner, samme størrelsesforhold, på tværs af hele dit sæt.
-  - **Simplicitet** — fjern det, der ikke er nødvendigt for at forstå det. Færre streger er som regel bedre end flere.
-  - **Kontekst** — det skal give mening dér, hvor det bruges, sammen med tekst, ikke stå alene og skulle gættes.
+  - **Genkendelighed** - det skal kunne genkendes med et hurtigt blik, uden at nogen skal tænke sig om.
+  - **Konsistens** - samme stregtykkelse, samme hjørner, samme størrelsesforhold, på tværs af hele dit sæt.
+  - **Simplicitet** - fjern det, der ikke er nødvendigt for at forstå det. Færre streger er som regel bedre end flere.
+  - **Kontekst** - det skal give mening dér, hvor det bruges, sammen med tekst, ikke stå alene og skulle gættes.
 
-  Et ikon, du selv tegner, er som udgangspunkt dit eget. Men meget enkle, almindelige symboler (en pil, en lup) er sjældent originale nok til at være beskyttet i sig selv — det er ikke et problem for den daglige brug, men gem gerne dine skitser undervejs. De er god dokumentation, hvis ikonet senere skal blive en fast del af din identitet.
+  Et ikon, du selv tegner, er som udgangspunkt dit eget. Men meget enkle, almindelige symboler (en pil, en lup) er sjældent originale nok til at være beskyttet i sig selv - det er ikke et problem for den daglige brug, men gem gerne dine skitser undervejs. De er god dokumentation, hvis ikonet senere skal blive en fast del af din identitet.
 
 **3.4-Betal, betaler sig til dem**
-- **Hvad brugeren møder:** Betaler du for dine ikoner — en pakke fra et betalt bibliotek, eller ved at få nogen til at lave dem til dig — er det stadig licensen eller aftalen, der afgør, hvad du må. Ikke prisen. Fire ting er værd at tjekke:
+- **Hvad brugeren møder:** Betaler du for dine ikoner - en pakke fra et betalt bibliotek, eller ved at få nogen til at lave dem til dig - er det stadig licensen eller aftalen, der afgør, hvad du må. Ikke prisen. Fire ting er værd at tjekke:
   - Får du ejerskab, eller kun en brugsret?
   - Må ikonerne bruges kommercielt, uden tidsbegrænsning?
   - Må du ændre dem, og få dem i de formater, du får brug for?
@@ -182,7 +182,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 ### Boble 4.1 — Din tekst har også en stemme
 
-- **Hvad brugeren møder på denne skærm:** Du behøver ikke finde den perfekte skrifttype. Du skal finde en, der fungerer for dig — og som du kan bruge igen og igen.
+- **Hvad brugeren møder på denne skærm:** Du behøver ikke finde den perfekte skrifttype. Du skal finde en, der fungerer for dig - og som du kan bruge igen og igen.
   - **✅ Nyt i runde 7 (godkendt af Heidi 2026-09-25):** "En skrifttype gør to ting på én gang. Den giver din tekst en stemning: rolig, varm, klar eller legende. Og den afgør, hvor let din tekst er at læse, både på en skærm og på papir. Derfor bruger mange to skrifttyper: én til overskrifter, som gerne må have personlighed, og én til den almindelige tekst, som først og fremmest skal være let at læse."
 - **Visuelt (✅ nyt i runde 7, godkendt af Heidi 2026-09-25):** Tre små eksempler på den samme overskrift, "Velkommen til min praksis", sat i tre forskellige typer skrifttyper fra fontvælgerens liste, med en kort etiket under hver:
   - *Med fødder (serif):* "Klassisk og rolig. Minder om bøger."
@@ -198,8 +198,8 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 - **Eventuel interaktion:** Vælg ét: "På min egen hjemmeside" (→ `googleFontsDirekte: true`) / "I Canva" (→ `googleFontsDirekte: false`) / "I Word eller Google Docs" (→ `googleFontsDirekte: false`) / **✅ Ny i runde 7:** "På sociale medier" (→ `googleFontsDirekte: false`) / "Et andet sted" (→ ét kort, uformelt opfølgende spørgsmål om, hvorvidt hun selv kan vælge skrifttyper der; svaret sætter `googleFontsDirekte`, uden at det bliver en synlig teknisk beslutning for hende) / **✅ Ny i runde 7 (kun ved "Fra bunden"):** "Det ved jeg ikke endnu" (→ `googleFontsDirekte: true`).
   - **✅ Kobling til Det visuelle udtryk for din praksis (runde 7, godkendt 2026-09-25):** Har brugeren i Det visuelle udtryk for din praksis fortalt, hvilke kanaler hun har, står de tilsvarende valgmuligheder øverst (hjemmeside → "På min egen hjemmeside"; Facebook, Instagram, LinkedIn eller andre sociale medier → "På sociale medier"), med en lille note: "Du nævnte tidligere, at du har …". Hun kan stadig vælge frit.
 - **Eventuel respons eller feedback:**
-  - *`googleFontsDirekte: true`:* Godt — så kan du sandsynligvis bruge den skrifttype, du vælger her, direkte.
-  - *`googleFontsDirekte: false`:* I [Canva / Word / det værktøj, hun nævnte] vælger du blandt et fast sæt skrifttyper. Brug vælgeren her som inspiration — find noget, du kan lide, og kig derefter efter noget, der ligner, i dit eget værktøj.
+  - *`googleFontsDirekte: true`:* Godt - så kan du sandsynligvis bruge den skrifttype, du vælger her, direkte.
+  - *`googleFontsDirekte: false`:* I [Canva / Word / det værktøj, hun nævnte] vælger du blandt et fast sæt skrifttyper. Brug vælgeren her som inspiration - find noget, du kan lide, og kig derefter efter noget, der ligner, i dit eget værktøj.
   - **✅ Ny i runde 7 — "På sociale medier" (godkendt 2026-09-25):** "På Facebook, Instagram og LinkedIn bestemmer platformen selv skrifttypen i dine opslag. Dine egne skrifttyper kommer kun med, når du laver billeder med tekst på, fx i Canva. Brug vælgeren her til at finde en stil, du kan genbruge på dine billeder."
   - **✅ Ny i runde 7 — "Det ved jeg ikke endnu" (godkendt 2026-09-25):** "Det er helt fint. Så vælger du bare det, du kan lide. Når du ved, hvor du skal bruge dem, kan du altid se, om du kan bruge dem direkte, eller om du skal finde noget, der ligner."
 - **Gemmes/får betydning senere:** Ja, `arbejdsVaerktoej`, `googleFontsDirekte`.
@@ -207,13 +207,13 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 ### Boble 4.3 — Vælg din overskriftsfont
 
-- **Hvad brugeren møder på denne skærm:** Bladr blandt fire stemninger — Rolig og varm, Klar og professionel, Levende og personlig, eller Enkel og alsidig — og se skrifttyperne direkte i et eksempel. Vælg én, du vil bruge til overskrifter. *(Har hun en gemt palet fra Farver, vises eksemplet i hendes egne farver.)*
+- **Hvad brugeren møder på denne skærm:** Bladr blandt fire stemninger - Rolig og varm, Klar og professionel, Levende og personlig, eller Enkel og alsidig - og se skrifttyperne direkte i et eksempel. Vælg én, du vil bruge til overskrifter. *(Har hun en gemt palet fra Farver, vises eksemplet i hendes egne farver.)*
 - **Eventuel interaktion:** Skrifttype-vælgeren (se teknisk spec). Kan hun ikke finde eller genkende sin font her, kan hun skrive navnet direkte i stedet. *(Siden fejlrettelserne i runde 7 kan de udvalgte skrifttyper vælges direkte med ét klik.)*
 - **Gemmes/får betydning senere:** Ja, `fontOverskrift`.
 
 ### Boble 4.4 — Vælg din brødtekstfont
 
-- **Hvad brugeren møder på denne skærm:** Nu til den tekst, folk faktisk skal læse. Her vejer læsbarhed tungere end at være flot. Vælg én, der er let at læse i almindelig størrelse — eksemplet viser den sammen med din overskriftsfont.
+- **Hvad brugeren møder på denne skærm:** Nu til den tekst, folk faktisk skal læse. Her vejer læsbarhed tungere end at være flot. Vælg én, der er let at læse i almindelig størrelse - eksemplet viser den sammen med din overskriftsfont.
 - **Eventuel interaktion:** Skrifttype-vælgeren igen, samme fallback til fritekst.
 - **Gemmes/får betydning senere:** Ja, `fontBroedtekst`.
 
@@ -238,7 +238,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 ### Boble 5.1 — Har du en detalje, der går igen?
 
-- **Hvad brugeren møder på denne skærm:** Ud over ikoner og fonte er der ofte andre små, tilbagevendende elementer — en streg, en ramme, en bestemt måde at lave knapper på. Det behøver ikke være en masse. Én lille detalje, der går igen, kan være nok.
+- **Hvad brugeren møder på denne skærm:** Ud over ikoner og fonte er der ofte andre små, tilbagevendende elementer - en streg, en ramme, en bestemt måde at lave knapper på. Det behøver ikke være en masse. Én lille detalje, der går igen, kan være nok.
 - **Eventuel interaktion:** Vælg ét: "Jeg har allerede en detalje, der går igen" (→ 5.2a) / "Jeg har ikke én endnu" (→ 5.2b) / "Jeg ved ikke, om jeg har brug for én" (→ 5.2c).
 
 ### Boble 5.2 — *(tre varianter afhængigt af 5.1)*
@@ -249,7 +249,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 - **Gemmes:** `andenDetalje`.
 
 **5.2b — Vælg blandt nogle retninger**
-- **Hvad brugeren møder:** Her er nogle steder at starte: "En tynd streg til at dele indhold op" / "En bestemt rammeform om billeder eller citater" / "En fast stil på knapper, fx runde hjørner eller en let skygge" / "Et gentaget mønster eller en tekstur" / "Ingen af dem — jeg finder selv på noget".
+- **Hvad brugeren møder:** Her er nogle steder at starte: "En tynd streg til at dele indhold op" / "En bestemt rammeform om billeder eller citater" / "En fast stil på knapper, fx runde hjørner eller en let skygge" / "Et gentaget mønster eller en tekstur" / "Ingen af dem - jeg finder selv på noget".
 - **Visuelt (✅ nyt i runde 7, godkendt af Heidi 2026-09-25):** Hver retning vises med et lille eksempel i HTML/CSS (en streg under en overskrift, et citat i en ramme, en knap med runde hjørner, et lille mønster), af samme grund som ikon-stilene i 3.1.
 - **Eventuel interaktion:** Vælg ét.
 - **Gemmes:** `andenRetning`.
@@ -268,7 +268,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 - **Hvad brugeren møder på denne skærm:** Overskriften afhænger af, hvor mange emner hun har valgt i `fokusvalg`: har hun valgt mere end ét, hedder boblen "Lad os se, om de kan arbejde sammen"; har hun kun valgt ét, hedder den "Lad os se dit valg i praksis", da der endnu ikke er noget at sammenholde det med. Selve indholdet er ens: et lille, samlet eksempel, bygget af det, hun rent faktisk har valgt — en overskrift i den valgte overskriftsfont, en kort brødtekst i den valgte brødtekstfont, og — hvis Ikoner blev valgt — et ikon i den valgte følelse ved siden af en kort linje tekst. Har hun valgt en detalje i Andre byggesten, indgår den også. Kun de elementer, hun faktisk har arbejdet med, vises.
   - *Har hun en gemt palet fra Farver og/eller et logo:* de vises ved siden af eksemplet, så hun kan se, om det hænger sammen med resten af hendes visuelle udtryk.
-  - *Har hun hverken palet eller logo endnu:* Du har ikke en palet eller et logo endnu. Det er helt fint — brug dette som dit foreløbige udgangspunkt.
+  - *Har hun hverken palet eller logo endnu:* Du har ikke en palet eller et logo endnu. Det er helt fint - brug dette som dit foreløbige udgangspunkt.
     - **Se også:** Farver. *Vil du lave en fast palet, kan du gøre det der, når du har lyst.*
   - 💬 *Guide (avatar: Heidi):* Det er her, det hele mødes. Du skal ikke gætte dig til, om det passer sammen. Du skal se det.
 

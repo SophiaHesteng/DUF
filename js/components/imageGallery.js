@@ -50,8 +50,8 @@ export function renderImageUploadHtml({ label, hint, images, multiple = false })
 
 const UPLOAD_ERROR_TEXT = {
     "opted-out": "Du har fravalgt browserlagring, så billedet kan ikke gemmes. Du kan slå det til igen, hvis du fortryder.",
-    "not-an-image": "Den fil er ikke et billede — prøv en anden fil.",
-    "file-too-large": "Billedet er for stort til at blive gemt — prøv et mindre billede."
+    "not-an-image": "Den fil er ikke et billede - prøv en anden fil.",
+    "file-too-large": "Billedet er for stort til at blive gemt - prøv et mindre billede."
 };
 
 /*---- Statusbesked efter en upload. Én fil: samme tekst som altid. Flere filer: navnet

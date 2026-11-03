@@ -489,7 +489,7 @@ function matchModul4Response(responses, selectedIds) {
 
 function buildDocumentationText(palette, textColorHex, contrast, reflection) {
     const paletteText = palette
-        .map((c) => `${c.hex}${c.role ? ` (${c.role})` : ""} — ${c.percent}%`)
+        .map((c) => `${c.hex}${c.role ? ` (${c.role})` : ""} - ${c.percent}%`)
         .join(", ");
 
     const textColorText = textColorHex ? `Tekstfarve: ${textColorHex}.` : "Tekstfarve: sort som udgangspunkt.";

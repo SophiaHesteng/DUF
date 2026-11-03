@@ -496,7 +496,7 @@ export class ByggestenEngine {
     andenTekst() {
         if (this.svar.andenDetalje) return this.svar.andenDetalje.beskrivelse || "En detalje, du har vist os";
         if (this.svar.andenRetning) return this.svar.andenRetning.text;
-        if (this.svar.ikkeBesluttet) return "Ikke besluttet endnu — det må gerne vise sig med tiden";
+        if (this.svar.ikkeBesluttet) return "Ikke besluttet endnu - det må gerne vise sig med tiden";
         return "";
     }
 

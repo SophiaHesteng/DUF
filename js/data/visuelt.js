@@ -50,7 +50,7 @@ export const modul1 = {
     responses: {
         "Jeg har allerede et visuelt udtryk, men vil gerne forstå det bedre": {
             text: "Når du ser nærmere på dit visuelle udtryk, kan du få øje på, hvad du gerne vil holde fast i, og hvad du gerne vil ændre. Det handler om at forstå, hvad der fungerer for dig og din praksis, og hvor der er noget, du vil arbejde videre med.",
-            guide: "Lad os se nærmere på det, du allerede bruger"
+            guide: "Lad os se nærmere på det, du allerede bruger."
         },
         "Jeg har allerede valgt nogle ting, men er ikke sikker på, om de hænger sammen": {
             text: "Du kan sagtens have valgt farver, billeder og andre elementer, uden at have undersøgt, hvordan de fungerer sammen. Her ser vi både på de enkelte dele og på det samlede udtryk, de skaber.",
@@ -61,10 +61,11 @@ export const modul1 = {
             guide: "Du behøver ikke vælge det hele nu. Vi begynder med at finde ud af, hvad du gerne vil skabe."
         },
         "Jeg føler mig helt på bar bund og ved dårligt, hvor jeg skal starte": {
-            text: "Det visuelle er allerede en del af den måde, mennesker møder din praksis på — gennem farver, billeder, logo og de materialer, du bruger. Når du begynder at arbejde bevidst med det, får du mulighed for at forme det indtryk, du gerne vil give. Vi starter med at undersøge, hvad det visuelle kan bidrage med i din praksis.",
+            text: "Det visuelle er allerede en del af den måde, mennesker møder din praksis på - gennem farver, billeder, logo og de materialer, du bruger. Når du begynder at arbejde bevidst med det, får du mulighed for at forme det indtryk, du gerne vil give. Vi starter med at undersøge, hvad det visuelle kan bidrage med i din praksis.",
             guide: "Vi tager det fra begyndelsen og finder et sted at starte."
         },
-        "Jeg vil helst starte med at få et overblik": {
+        /*---- Nøglen skal stå præcis som svarteksten i options ovenfor. Ændres svaret dér, skal det også ændres her, ellers vises ingen respons ----*/
+        "Jeg vil gerne danne mig et overblik først": {
             text: "Når du ser på de forskellige dele af dit visuelle udtryk, bliver det lettere at forstå, hvordan de hænger sammen. Vi begynder med at undersøge dit udgangspunkt, så du får et grundlag for at arbejde videre med de områder, der er relevante for dig.",
             guide: "Lad os begynde med at se på dit udgangspunkt."
         }
@@ -79,7 +80,7 @@ export const modul1 = {
         guide: "Lad os finde ud af, hvad du har at arbejde med.",
         /*---- Runde 8: manuskriptets "Overgang" vises under stickeren, så boblen både siger "det er okay, uanset hvor du er" og leder videre til Modul 2 ----*/
         paragraphsAfter: [
-            "Det kan føles som mange beslutninger at skulle tage stilling til, når du arbejder med din visuelle stil. Derfor er DUF bygget op i vækstrum, hvor du kan fordybe dig i ét område ad gangen. På den måde kan du bevare overblikket, se hvordan de enkelte valg hænger sammen og træffe dine beslutninger undervejs."
+            "Det kan føles som mange beslutninger at skulle tage stilling til, når du arbejder med din visuelle stil. I DUF tror vi på, at mange små skridt gør en stor forskel. Derfor tager vi ét område ad gangen, så du kan fordybe dig i det. På den måde kan du bevare overblikket, se, hvordan de enkelte valg hænger sammen, og træffe dine beslutninger undervejs."
         ],
         buttonText: "Videre"
     }
@@ -139,7 +140,7 @@ export const modul2 = {
         ikonAgtigeValg: ["🔣 Ikoner", "✏️ Illustrationer", "🔤 Skrifttyper"],
         ikkeSikkerValg: "🤷 Jeg er ikke sikker endnu",
         responses: {
-            mange: "Nu kan vi begynde at se på, hvordan de fungerer — både hver for sig og sammen.",
+            mange: "Nu kan vi begynde at se på, hvordan de fungerer - både hver for sig og sammen.",
             faa: "Det, du allerede bruger, er nok til, at vi kan tage det næste skridt.",
             ikkeSikker: "Det er helt fint. Vi hjælper dig med at få øje på det undervejs.",
             ikonNudge: "Du bruger allerede nogle af de ting, der er med til at give din praksis sit eget visuelle præg. Senere kan vi se nærmere på, hvordan de kan fungere sammen og understøtte resten af dit visuelle udtryk."
@@ -163,7 +164,7 @@ export const modul2 = {
         }
     },
     moenster: {
-        heading: "Kan du se om der er en sammenhæng?",
+        heading: "Kan du se, om der er en sammenhæng?",
         intro: "Når du ser på de farver, billeder, logoer og andre elementer, du bruger, kan du måske få øje på noget, der går igen. Måske passer nogle af tingene godt sammen, mens andre skiller sig ud. Lige nu handler det bare om at se på det, du allerede har, og lægge mærke til, hvordan det hænger sammen.",
         question: "Hvad genkender du mest?",
         options: [
@@ -175,24 +176,24 @@ export const modul2 = {
         responses: {
             "🟢 Noget går igen": "Det er en god ting at få øje på. Noget af det, du bruger, er allerede begyndt at skabe en retning, og den kan du bygge videre på.",
             "🟡 Noget går igen, men ikke det hele": "Det er helt normalt. Noget kan godt være valgt med en bestemt retning, mens andet er kommet til undervejs. Nu har du fået øje på, at der både er noget at bygge videre på og noget, du kan undersøge nærmere.",
-            "🔵 Det er ret blandet": "Det giver dig faktisk et tydeligt udgangspunkt. Nu ved du, at en del af arbejdet kan handle om at finde ud af, hvad du gerne vil samle — og hvad du ikke behøver tage med videre.",
-            "⚪ Jeg har svært ved at se det": "Det behøver du ikke kunne endnu — det kan være svært at se mønstre i noget, man selv har kigget på mange gange."
+            "🔵 Det er ret blandet": "Det giver dig faktisk et tydeligt udgangspunkt. Nu ved du, at en del af arbejdet kan handle om at finde ud af, hvad du gerne vil samle - og hvad du ikke behøver tage med videre.",
+            "⚪ Jeg har svært ved at se det": "Det behøver du ikke kunne endnu - det kan være svært at se mønstre i noget, man selv har kigget på mange gange."
         }
     },
     folelse: {
         heading: "Hvordan har du det med det, du ser?",
-        intro: "Du behøver ikke kunne vurdere dit visuelle udtryk fagligt, og det handler ikke om at finde fejl. Nu har du set nærmere på det, du allerede bruger, og på hvordan de forskellige dele hænger sammen. Hvordan oplever du det, du ser",
+        intro: "Du behøver ikke kunne vurdere dit visuelle udtryk fagligt, og det handler ikke om at finde fejl. Nu har du set nærmere på det, du allerede bruger, og på hvordan de forskellige dele hænger sammen. Hvordan oplever du det, du ser?",
         question: "Hvad passer bedst på din oplevelse lige nu?",
         options: [
             "🌱 Jeg kan godt lide den retning, jeg allerede er i",
-            "🧩 Noget føles rigtigt — noget andet gør ikke",
+            "🧩 Noget føles rigtigt - noget andet gør ikke",
             "🔍 Jeg er blevet opmærksom på, at jeg mangler at tage stilling til noget",
             "🌪️ Jeg har svært ved at se den røde tråd",
             "🧭 Jeg føler mig helt på bar bund og ved dårligt, hvor jeg skal starte"
         ],
         responses: {
             "🌱 Jeg kan godt lide den retning, jeg allerede er i": "Det er et godt udgangspunkt. Du behøver ikke ændre noget, bare fordi du arbejder med dit visuelle udtryk. Noget af det næste arbejde kan handle om at forstå, hvad det er, der allerede fungerer, så du lettere kan bygge videre på det og bruge det mere bevidst.",
-            "🧩 Noget føles rigtigt — noget andet gør ikke": "Det giver dig allerede noget vigtigt at arbejde med. Du behøver ikke starte forfra, bare fordi noget ikke helt passer. Når vi arbejder videre, kan du blive klogere på, hvad du gerne vil beholde, og hvad der trænger til en ny beslutning.",
+            "🧩 Noget føles rigtigt - noget andet gør ikke": "Det giver dig allerede noget vigtigt at arbejde med. Du behøver ikke starte forfra, bare fordi noget ikke helt passer. Når vi arbejder videre, kan du blive klogere på, hvad du gerne vil beholde, og hvad der trænger til en ny beslutning.",
             "🔍 Jeg er blevet opmærksom på, at jeg mangler at tage stilling til noget": "Det er faktisk præcis den slags, DUF kan hjælpe med. Du behøver ikke beslutte det hele nu. Det vigtigste er, at du har fået øje på nogle områder, du gerne vil undersøge nærmere.",
             "🌪️ Jeg har svært ved at se den røde tråd": "Når forskellige elementer er kommet til på forskellige tidspunkter, kan det være svært at se, hvordan de hænger sammen. Det giver os et godt sted at begynde. Vi kan undersøge de enkelte dele og finde ud af, hvad der passer til dig og din praksis.",
             "🧭 Jeg føler mig helt på bar bund og ved dårligt, hvor jeg skal starte": "Det kan være svært at vide, hvor du skal begynde, når du endnu ikke har fundet en retning. Derfor tager vi det ét område ad gangen. Du får hjælp til at undersøge mulighederne og træffe beslutninger, der passer til dig og din praksis."
@@ -219,14 +220,14 @@ export const modul2 = {
 /*---- Modul 3 - én skærm med en accordion (runde 7, erstatter "oversigt + valgfrie bobler" 3.2A-D). Overskrift (title) og intro-linje (teaser) er altid synlige, body folder sig ud ved tryk ----*/
 
 export const modul3 = {
-    heading: "Hvad består din visuelle stil af",
+    heading: "Hvad består din visuelle stil af?",
     intro: "Din visuelle stil består af flere elementer, der spiller sammen. Vi har delt dem op i fire områder, så du kan lære dem at kende og arbejde med ét ad gangen. Grænserne er ikke skarpe - farverne i et billede har for eksempel også betydning for din farveretning. Her får du en kort introduktion til hvert område. Tryk på et af dem for at læse mere.",
     buttonText: "Videre",
     items: [
         {
             key: "farver",
             title: "🎨 Farver",
-            teaser: "Farver er ofte det første, folk lægger mærke til — og det, der binder resten sammen.",
+            teaser: "Farver er ofte det første, folk lægger mærke til - og det, der binder resten sammen.",
             body: "Dine farver giver et indtryk med det samme, og de hjælper folk med at kende dig igen næste gang, de ser dig. Det kan være farverne på din hjemmeside, dit visitkort eller dine opslag. De fleste har brug for nogle få farver, der har hver sin opgave: én, der bærer det meste, én, der fremhæver det vigtige, og én, der gør teksten let at læse. Du behøver ikke kunne det endnu. Det er det, Farver-rummet hjælper dig med."
         },
         {
@@ -260,7 +261,7 @@ export const modul4 = {
     ],
     guide: "Du behøver ikke have hele planen klar. Vælg det næste konkrete skridt og arbejd videre derfra.",
     paragraphsAfter: [
-        "Det vigtigste er ikke, at du beslutter det hele på én gang. Det er, at du bliver klogere på dine valg undervejs og får skabt et visuelt udtryk, der hænger sammen og giver mening for din praksis. "
+        "Det vigtigste er ikke, at du beslutter det hele på én gang. Det er, at du bliver klogere på dine valg undervejs og får skabt et visuelt udtryk, der hænger sammen og giver mening for din praksis."
     ]
 };
 
@@ -284,7 +285,7 @@ export const modul5 = {
         {
             key: "billeder",
             title: "Billeder, der fortæller den rigtige historie.",
-            teaser: "Kriterier for, hvilke billeder der passer til dig — og ro i maven om, at du må bruge dem.",
+            teaser: "Kriterier for, hvilke billeder der passer til dig - og ro i maven om, at du må bruge dem.",
             body: "I Billeder handler det ikke om at finde billeder, alle synes er flotte. Det handler om at finde ud af, hvad du gerne vil vise, og så vælge billeder, der fortæller netop det.",
             workList: [
                 "hvad billederne skal fortælle",
@@ -299,7 +300,7 @@ export const modul5 = {
         {
             key: "logo",
             title: "Hvad skal dit logo egentlig kunne?",
-            teaser: "Enten et nyt logo, eller en klar vurdering af det, du allerede har — så du ved, om det gør sit arbejde.",
+            teaser: "Enten et nyt logo, eller en klar vurdering af det, du allerede har - så du ved, om det gør sit arbejde.",
             body: "I Logo er målet ikke nødvendigvis et nyt logo. Det er at finde ud af, hvad dit logo skal kunne, og hvad der giver mening som næste skridt. Måske beholder du det, du har, måske justerer du det, eller måske laver du et nyt.",
             workList: [
                 "logoets rolle",

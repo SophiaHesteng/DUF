@@ -14,24 +14,24 @@ export const EXTRA_IMAGE_BUCKETS = {
 
 /*---- Genbruger velkommen-visuelt-udtryks egne, allerede godkendte teaser-tekster (Modul 5) for "hvad rummet kan give dig" - ikke ny, opfundet copy ----*/
 export const TEASERS = {
-    farver: "En bevidst farvepalet, du kan bruge igen og igen — og en forklaring på, hvorfor den fungerer.",
-    logo: "Enten et nyt logo, eller en klar vurdering af det, du allerede har — så du ved, om det gør sit arbejde.",
-    billeder: "Kriterier for, hvilke billeder der passer til dig — og ro i maven om, at du må bruge dem.",
+    farver: "En bevidst farvepalet, du kan bruge igen og igen - og en forklaring på, hvorfor den fungerer.",
+    logo: "Enten et nyt logo, eller en klar vurdering af det, du allerede har - så du ved, om det gør sit arbejde.",
+    billeder: "Kriterier for, hvilke billeder der passer til dig - og ro i maven om, at du må bruge dem.",
     byggesten: "De sidste detaljer på plads, så dit udtryk hænger sammen, også i det små."
 };
 
 export const copy = {
-    intro: "Her samler vi det, du har arbejdet med i Visuelt udtryk for din praksis — uanset hvor mange af de fire rum du er nået omkring. Resultatet er en prototype, ikke et facit.",
+    intro: "Her samler vi det, du har arbejdet med i Visuelt udtryk for din praksis - uanset hvor mange af de fire rum du er nået omkring. Resultatet er en prototype, ikke et facit.",
 
-    optedOutNotice: "Du har valgt, at dine ting ikke skal gemmes i browseren. Det er en gyldig præference — men det betyder også, at der ikke er noget at samle op her automatisk. Du kan stadig bruge dine egne noter undervejs til at samle din visuelle guide.",
+    optedOutNotice: "Du har valgt, at dine ting ikke skal gemmes i browseren. Det er en gyldig præference - men det betyder også, at der ikke er noget at samle op her automatisk. Du kan stadig bruge dine egne noter undervejs til at samle din visuelle guide.",
 
     nowHeading: "Her er det, du har nu",
     nowIntro: "Sådan ser din visuelle guide ud lige nu.",
 
     coherenceHeading: "Spiller det hele sammen?",
-    coherenceMulti: "Tag et kig på tværs af det, du har valgt: passer farverne og logoet sammen? Understøtter billederne og ikonstilen den samme fornemmelse? Det er ikke noget, vi kan afgøre for dig — men værd at mærke efter, mens du har det hele foran dig.",
-    coherenceSingle: "Du er kun nået omkring ét rum indtil videre — sammenhængen på tværs bliver mere relevant at kigge på, når du har valgt mere.",
-    coherenceNotesLabel: "Skriv gerne dine tanker her (kommer kun med i den PDF, du eventuelt downloader — gemmes ikke automatisk andre steder).",
+    coherenceMulti: "Tag et kig på tværs af det, du har valgt: passer farverne og logoet sammen? Understøtter billederne og ikonstilen den samme fornemmelse? Det er ikke noget, vi kan afgøre for dig - men værd at mærke efter, mens du har det hele foran dig.",
+    coherenceSingle: "Du er kun nået omkring ét rum indtil videre - sammenhængen på tværs bliver mere relevant at kigge på, når du har valgt mere.",
+    coherenceNotesLabel: "Skriv gerne dine tanker her (kommer kun med i den PDF, du eventuelt downloader - gemmes ikke automatisk andre steder).",
 
     developHeading: "Her er det, du fortsat kan udvikle",
     developAllDone: "Du har nu arbejdet med alle fire rum. De venter, hvis du på et tidspunkt vil justere noget.",

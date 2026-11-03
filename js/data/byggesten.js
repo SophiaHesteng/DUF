@@ -27,7 +27,7 @@
 export const velkomst = {
     kontekstuel: "Du har allerede arbejdet med de store dele af dit visuelle udtryk. Nu kigger vi på det, der går igen mellem dem.",
     standard: "Velkommen til Ikoner, fonte & andre grafiske byggesten.",
-    faelles: "Skrifttyper. Ikoner. Streger. Knapper. Små grafiske detaljer. Du behøver ikke beslutte det hele i dag. Vi finder de byggesten, der gør det lettere for dig at skabe noget, der føles som dig — hver gang.",
+    faelles: "Skrifttyper. Ikoner. Streger. Knapper. Små grafiske detaljer. Du behøver ikke beslutte det hele i dag. Vi finder de byggesten, der gør det lettere for dig at skabe noget, der føles som dig - hver gang.",
     knap: "Hvilke elementer består byggesten af?"
 };
 
@@ -137,10 +137,10 @@ export const BOBLER = {
         id: "1.4", modul: 1, type: "eksempler",
         heading: "Find tre steder, hvor dit udtryk allerede dukker op",
         paragraphs: [
-            "Åbn din hjemmeside, et opslag, eller et dokument, du sender til klienter. Kig ikke efter det perfekte — find bare tre steder, hvor du allerede bruger tekst, ikoner eller andre grafiske detaljer."
+            "Åbn din hjemmeside, et opslag, eller et dokument, du sender til klienter. Kig ikke efter det perfekte - find bare tre steder, hvor du allerede bruger tekst, ikoner eller andre grafiske detaljer."
         ],
         antalFelter: 3,
-        tomTekst: "Helt fint — så starter vi fra et rent bord.",
+        tomTekst: "Helt fint - så starter vi fra et rent bord.",
         imageUpload: { bucket: "byggesten-eksempler", label: "Skærmbilleder (valgfrit)", hint: "Billederne bliver på din egen enhed." },
         answerKey: "eksempler",
         next: "1.5"
@@ -171,17 +171,17 @@ export const BOBLER = {
         heading: "Vælg dit fokus",
         paragraphs: ["Du behøver ikke gøre det hele på én gang. Hvad vil du gerne have styr på først?"],
         options: [
-            { id: "ikoner", text: "Ikoner — jeg vil gerne have, at mine ikoner hænger sammen" },
-            { id: "fonte", text: "Fonte — jeg vil gerne have styr på mine skrifttyper" },
-            { id: "andreByggesten", text: "De små detaljer — jeg har nogle grafiske elementer, men ved ikke, om de hænger sammen" },
-            { id: "det-hele", text: "Det hele — jeg vil gerne have et enkelt, samlet system", vaelgerAlle: true }
+            { id: "ikoner", text: "Ikoner - jeg vil gerne have, at mine ikoner hænger sammen" },
+            { id: "fonte", text: "Fonte - jeg vil gerne have styr på mine skrifttyper" },
+            { id: "andreByggesten", text: "De små detaljer - jeg har nogle grafiske elementer, men ved ikke, om de hænger sammen" },
+            { id: "det-hele", text: "Det hele - jeg vil gerne have et enkelt, samlet system", vaelgerAlle: true }
         ],
         /*---- Runde 7: valgmulighedernes tekst ved "Fra bunden" i 1.3. Værdierne (id) er de samme ----*/
         optionTekstFraBunden: {
-            ikoner: "Ikoner — jeg vil gerne finde nogle ikoner, der passer til mig",
-            fonte: "Fonte — jeg vil gerne finde mine skrifttyper",
-            andreByggesten: "De små detaljer — jeg vil gerne have en lille detalje, der går igen",
-            "det-hele": "Det hele — jeg vil gerne have et enkelt, samlet system"
+            ikoner: "Ikoner - jeg vil gerne finde nogle ikoner, der passer til mig",
+            fonte: "Fonte - jeg vil gerne finde mine skrifttyper",
+            andreByggesten: "De små detaljer - jeg vil gerne have en lille detalje, der går igen",
+            "det-hele": "Det hele - jeg vil gerne have et enkelt, samlet system"
         },
         answerKey: "fokusvalg",
         next: null /* byggestenEngine.js: kører de valgte (endnu ikke gennemførte) emner i fast rækkefølge, derefter 6.1 */
@@ -239,7 +239,7 @@ export const BOBLER = {
         id: "3.3b", modul: 3, type: "text",
         heading: "Når du låner fra andre",
         paragraphs: [
-            "Du ved det nok godt et sted i baghovedet: et ikon, du tager fra en anden hjemmeside eller en app, er ikke automatisk dit at bruge — heller ikke selvom det er let at kopiere, eller du ændrer farven bagefter. En kildeangivelse erstatter ikke en tilladelse. Det er ikke forbudt at være i tvivl om det, men vi vil gerne anbefale, at du i stedet vælger en af de tre veje herunder — de er markant mere sikre at bygge videre på."
+            "Du ved det nok godt et sted i baghovedet: et ikon, du tager fra en anden hjemmeside eller en app, er ikke automatisk dit at bruge - heller ikke selvom det er let at kopiere, eller du ændrer farven bagefter. En kildeangivelse erstatter ikke en tilladelse. Det er ikke forbudt at være i tvivl om det, men vi vil gerne anbefale, at du i stedet vælger en af de tre veje herunder - de er markant mere sikre at bygge videre på."
         ],
         nextButtonText: "Tilbage til valgene",
         next: "3.3"
@@ -251,7 +251,7 @@ export const BOBLER = {
         indledningIngenEndnu: "Så har du et godt sted at starte. Et gratis ikonbibliotek giver dig mange ikoner i samme stil, så de passer sammen fra begyndelsen.",
         /*---- Licenstekst tjekket mod Google (Apache License 2.0) 2026-09-22 - tjek igen, hvis der går længe før udgivelse ----*/
         paragraphs: [
-            "Det, vi selv anbefaler, er Material Symbols & Icons fra Google Fonts (fonts.google.com/icons). De er gratis, må bruges kommercielt, og du behøver ikke kreditere Google — men må gerne, hvis du har lyst.",
+            "Det, vi selv anbefaler, er Material Symbols & Icons fra Google Fonts (fonts.google.com/icons). De er gratis, må bruges kommercielt, og du behøver ikke kreditere Google - men må gerne, hvis du har lyst.",
             `Vælger du i stedet et andet gratis bibliotek, eller bruger du et ikon fra en virksomhed eller platform som Facebook eller MobilePay, gælder der andre regler, du bør kende. <strong>Læs mere i Biblioteket:</strong> ${ikonrettighederLink}.`
         ],
         externalLink: { url: "https://fonts.google.com/icons", label: "Åbn Material Symbols" },
@@ -265,12 +265,12 @@ export const BOBLER = {
             "Vi skal ikke lære dig at tegne. Men uanset hvordan du gør det, er der fire ting, der gør et ikon, du selv tegner, til et godt ikon:"
         ],
         list: [
-            "<strong>Genkendelighed</strong> — det skal kunne genkendes med et hurtigt blik, uden at nogen skal tænke sig om.",
-            "<strong>Konsistens</strong> — samme stregtykkelse, samme hjørner, samme størrelsesforhold, på tværs af hele dit sæt.",
-            "<strong>Simplicitet</strong> — fjern det, der ikke er nødvendigt for at forstå det. Færre streger er som regel bedre end flere.",
-            "<strong>Kontekst</strong> — det skal give mening dér, hvor det bruges, sammen med tekst, ikke stå alene og skulle gættes."
+            "<strong>Genkendelighed</strong> - det skal kunne genkendes med et hurtigt blik, uden at nogen skal tænke sig om.",
+            "<strong>Konsistens</strong> - samme stregtykkelse, samme hjørner, samme størrelsesforhold, på tværs af hele dit sæt.",
+            "<strong>Simplicitet</strong> - fjern det, der ikke er nødvendigt for at forstå det. Færre streger er som regel bedre end flere.",
+            "<strong>Kontekst</strong> - det skal give mening dér, hvor det bruges, sammen med tekst, ikke stå alene og skulle gættes."
         ],
-        afterList: "Et ikon, du selv tegner, er som udgangspunkt dit eget. Men meget enkle, almindelige symboler (en pil, en lup) er sjældent originale nok til at være beskyttet i sig selv — det er ikke et problem for den daglige brug, men gem gerne dine skitser undervejs. De er god dokumentation, hvis ikonet senere skal blive en fast del af din identitet.",
+        afterList: "Et ikon, du selv tegner, er som udgangspunkt dit eget. Men meget enkle, almindelige symboler (en pil, en lup) er sjældent originale nok til at være beskyttet i sig selv - det er ikke et problem for den daglige brug, men gem gerne dine skitser undervejs. De er god dokumentation, hvis ikonet senere skal blive en fast del af din identitet.",
         nextButtonText: "Videre",
         next: "3.5"
     },
@@ -278,7 +278,7 @@ export const BOBLER = {
         id: "3.4-betal", modul: 3, type: "text",
         heading: "Du betaler for dem",
         paragraphs: [
-            "Betaler du for dine ikoner — en pakke fra et betalt bibliotek, eller ved at få nogen til at lave dem til dig — er det stadig licensen eller aftalen, der afgør, hvad du må. Ikke prisen. Fire ting er værd at tjekke:"
+            "Betaler du for dine ikoner - en pakke fra et betalt bibliotek, eller ved at få nogen til at lave dem til dig - er det stadig licensen eller aftalen, der afgør, hvad du må. Ikke prisen. Fire ting er værd at tjekke:"
         ],
         list: [
             "Får du ejerskab, eller kun en brugsret?",
@@ -307,7 +307,7 @@ export const BOBLER = {
         id: "4.1", modul: 4, type: "text",
         heading: "Din tekst har også en stemme",
         paragraphs: [
-            "Du behøver ikke finde den perfekte skrifttype. Du skal finde en, der fungerer for dig — og som du kan bruge igen og igen.",
+            "Du behøver ikke finde den perfekte skrifttype. Du skal finde en, der fungerer for dig - og som du kan bruge igen og igen.",
             "En skrifttype gør to ting på én gang. Den giver din tekst en stemning: rolig, varm, klar eller legende. Og den afgør, hvor let din tekst er at læse, både på en skærm og på papir. Derfor bruger mange to skrifttyper: én til overskrifter, som gerne må have personlighed, og én til den almindelige tekst, som først og fremmest skal være let at læse."
         ],
         /*---- Runde 7: samme overskrift i tre typer skrifttyper fra fontvælgerens liste + én linje brødtekst i en let læselig skrifttype ----*/
@@ -367,8 +367,8 @@ export const BOBLER = {
             linkedin: "LinkedIn",
             andreSociale: "andre sociale medier"
         },
-        responsDirekte: "Godt — så kan du sandsynligvis bruge den skrifttype, du vælger her, direkte.",
-        responsIkkeDirekte: "I {vaerktoej} vælger du blandt et fast sæt skrifttyper. Brug vælgeren her som inspiration — find noget, du kan lide, og kig derefter efter noget, der ligner, i dit eget værktøj.",
+        responsDirekte: "Godt - så kan du sandsynligvis bruge den skrifttype, du vælger her, direkte.",
+        responsIkkeDirekte: "I {vaerktoej} vælger du blandt et fast sæt skrifttyper. Brug vælgeren her som inspiration - find noget, du kan lide, og kig derefter efter noget, der ligner, i dit eget værktøj.",
         answerKey: "arbejdsVaerktoej",
         next: "4.3"
     },
@@ -376,7 +376,7 @@ export const BOBLER = {
         id: "4.3", modul: 4, type: "fontvaelger",
         heading: "Vælg din overskriftsfont",
         paragraphs: [
-            "Bladr blandt fire stemninger — Rolig og varm, Klar og professionel, Levende og personlig, eller Enkel og alsidig — og se skrifttyperne direkte i et eksempel. Vælg én, du vil bruge til overskrifter."
+            "Bladr blandt fire stemninger - Rolig og varm, Klar og professionel, Levende og personlig, eller Enkel og alsidig - og se skrifttyperne direkte i et eksempel. Vælg én, du vil bruge til overskrifter."
         ],
         formaal: "overskrift",
         answerKey: "fontOverskrift",
@@ -386,7 +386,7 @@ export const BOBLER = {
         id: "4.4", modul: 4, type: "fontvaelger",
         heading: "Vælg din brødtekstfont",
         paragraphs: [
-            "Nu til den tekst, folk faktisk skal læse. Her vejer læsbarhed tungere end at være flot. Vælg én, der er let at læse i almindelig størrelse — eksemplet viser den sammen med din overskriftsfont."
+            "Nu til den tekst, folk faktisk skal læse. Her vejer læsbarhed tungere end at være flot. Vælg én, der er let at læse i almindelig størrelse - eksemplet viser den sammen med din overskriftsfont."
         ],
         formaal: "broedtekst",
         answerKey: "fontBroedtekst",
@@ -433,7 +433,7 @@ export const BOBLER = {
         id: "5.1", modul: 5, type: "choice",
         heading: "Har du en detalje, der går igen?",
         paragraphs: [
-            "Ud over ikoner og fonte er der ofte andre små, tilbagevendende elementer — en streg, en ramme, en bestemt måde at lave knapper på. Det behøver ikke være en masse. Én lille detalje, der går igen, kan være nok."
+            "Ud over ikoner og fonte er der ofte andre små, tilbagevendende elementer - en streg, en ramme, en bestemt måde at lave knapper på. Det behøver ikke være en masse. Én lille detalje, der går igen, kan være nok."
         ],
         options: [
             { id: "har", text: "Jeg har allerede en detalje, der går igen", next: "5.2a" },
@@ -463,7 +463,7 @@ export const BOBLER = {
             { id: "ramme", text: "En bestemt rammeform om billeder eller citater", detaljeEksempel: "ramme" },
             { id: "knapper", text: "En fast stil på knapper, fx runde hjørner eller en let skygge", detaljeEksempel: "knapper" },
             { id: "moenster", text: "Et gentaget mønster eller en tekstur", detaljeEksempel: "moenster" },
-            { id: "egen", text: "Ingen af dem — jeg finder selv på noget" }
+            { id: "egen", text: "Ingen af dem - jeg finder selv på noget" }
         ],
         answerKey: "andenRetning",
         nextButtonText: "Videre",
@@ -484,7 +484,7 @@ export const BOBLER = {
         heading: "Lad os se, om de kan arbejde sammen", /* mere end ét emne i fokusvalg */
         headingEtEmne: "Lad os se dit valg i praksis", /* præcis ét emne - valgt i byggestenEngine.js */
         paragraphs: [],
-        ingenPaletEllerLogo: "Du har ikke en palet eller et logo endnu. Det er helt fint — brug dette som dit foreløbige udgangspunkt.",
+        ingenPaletEllerLogo: "Du har ikke en palet eller et logo endnu. Det er helt fint - brug dette som dit foreløbige udgangspunkt.",
         seOgsaaUdenPaletOgLogo: { maal: "farver", tekst: "Vil du lave en fast palet, kan du gøre det der, når du har lyst." },
         guideAvatar: "Heidi",
         guideLine: "Det er her, det hele mødes. Du skal ikke gætte dig til, om det passer sammen. Du skal se det.",
