@@ -95,7 +95,7 @@ function showReference(situationer, onBack) {
         omraade: OMRAADE,
         rum: "Billeder",
         indhold: `
-            <h2 class="section-heading">Billedrettigheder — praktisk oversigt</h2>
+            <h2 class="section-heading">Billedrettigheder - praktisk oversigt</h2>
             <div class="choice-list">${situationsAccordionHtml(situationer)}</div>
         `,
         knapper: `<button id="back-button" type="button" class="btn btn--regular btn--outline-green">Tilbage</button>`
@@ -116,7 +116,7 @@ function showExitConfirmation(onStay, onExit) {
                 <h2 id="exit-title" class="section-subheading">Vil du forlade Billeder?</h2>
 
                 <div class="section-body">
-                    <p id="exit-description">Hvis du går ud nu, bliver dine svar ikke gemt.</p>
+                    <p id="exit-description">Hvis du går ud nu, bliver dine svar ikke gemt. De billeder, du har tilføjet, ligger stadig på din enhed.</p>
                 </div>
 
                 <div class="section-cta section-cta--column">
@@ -496,15 +496,16 @@ function showMultiChoiceBoble(boble, onNext, onExit, onReference, { billedkilder
 
 /*---- type: "textNote" - ét eller flere fritekstfelter. Modul 9.2 forudfyldes med en tekst bygget af engine ud fra det visuelle kompas (prefillText) ----*/
 
-function showTextNoteBoble(boble, prefillText, onNext, onExit, onReference) {
+/*---- 2026-11-03: `gemteSvar` er brugerens tidligere svar på boblen (fra motoren). Findes de, vises de i stedet for udkastet, og hjælpeteksten om udkastet vises ikke ----*/
+function showTextNoteBoble(boble, prefillText, onNext, onExit, onReference, gemteSvar = null) {
     /*---- 9.2 (2026-11-03): `prefillHjaelp` står over feltet, men kun når motoren faktisk har skrevet et udkast ----*/
-    const hjaelpHtml = prefillText && boble.prefillHjaelp
+    const hjaelpHtml = !gemteSvar && prefillText && boble.prefillHjaelp
         ? `<p class="section-body">${boble.prefillHjaelp}</p>`
         : "";
 
     const fieldsHtml = hjaelpHtml + boble.fields.map((field) => `
         ${field.label ? `<p class="section-subheading">${field.label}</p>` : ""}
-        <textarea id="field-${field.id}" class="text-input" rows="${field.rows || 3}" placeholder="${field.placeholder || ""}">${prefillText && boble.prefillFrom ? prefillText : ""}</textarea>
+        <textarea id="field-${field.id}" class="text-input" rows="${field.rows || 3}" placeholder="${field.placeholder || ""}">${escapeHtml(gemteSvar ? gemteSvar[field.id] : (prefillText && boble.prefillFrom ? prefillText : ""))}</textarea>
     `).join("");
 
     renderScreen({
@@ -569,7 +570,7 @@ function bindSoegelinje({ soegesteder }) {
 
 function showSoegestederBoble(boble, soegeKontekst, onNext, onExit, onReference) {
     const stederHtml = boble.steder
-        ? `<ul class="section-body soegesteder-liste">${boble.steder.map((sted) => `<li><strong>${sted.navn}</strong> — ${sted.tekst}</li>`).join("")}</ul>`
+        ? `<ul class="section-body soegesteder-liste">${boble.steder.map((sted) => `<li><strong>${sted.navn}</strong> - ${sted.tekst}</li>`).join("")}</ul>`
         : "";
 
     renderScreen({
@@ -836,7 +837,7 @@ function showKontrasttestBoble(boble, { billedkilder, tekstfarver }, onNext, onE
                 <div class="kontrast-farver" role="group" aria-label="Tekstfarve">${farverHtml}</div>
                 <button id="kontrast-boks" type="button" class="btn btn--slim btn--outline-green" aria-pressed="false">Boks bag teksten</button>
             </div>
-            <div class="choice-list">${optionsHtml}</div>
+            <div class="choice-list" id="kontrast-svar" hidden>${optionsHtml}</div>
             <div class="panel boble-respons" id="choice-reveal" hidden><p>${boble.revealText}</p></div>
         `,
         ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade" disabled>${boble.nextButtonText}</button>`
@@ -862,6 +863,8 @@ function showKontrasttestBoble(boble, { billedkilder, tekstfarver }, onNext, onE
         onVaelg: (valgt) => {
             billede.src = valgt.src;
             test.hidden = false;
+            /*---- Svarmulighederne vises først nu, så man ikke kan svare "Ja, jeg kan læse teksten" uden at have set et billede (2026-11-03) ----*/
+            document.querySelector("#kontrast-svar").hidden = false;
         }
     });
 

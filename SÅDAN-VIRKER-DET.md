@@ -42,14 +42,17 @@ Billeders bobler står i én liste i `js/data/billeder.js` og vises i den række
 
 - Modul 3: `kunMedEgneBilleder` (springes over uden egne billeder) og `udenEgneBilleder` (variant-tekst).
 - Modul 7: `kunVej: ["selv", "begge"]` (vises kun for de veje, der står i listen; vejen vælges i 7.1) og `prVej` (fx en anden knaptekst for én vej).
+- 7.11: `paragraphsUdenBilleder` (variant-tekst, når samlingen i `showImagesBucket` er tom, fx når brugeren har taget udvejen i 7.10). Galleriet skjules så.
+
+Går brugeren tilbage til en boble med fritekstfelter (`textNote`, fx 6.3 og 9.2), viser motoren hendes gemte svar i felterne (`gemteSvar` i `showBoble()` i `js/engine/billederEngine.js`, brugt af `showTextNoteBoble()` i `js/engine/billederUi.js`).
 
 Søgeordene i 7.8 oversættes via listen `oversaettelser` øverst i `js/data/billeder.js`, og hver søgning får et motivord fra listen `motivord` lige under. Ret ordene dér, men læs kommentaren over listen først: ord som "intimate" eller "sensual" giver seksuelle resultater i billedbankerne og må ikke bruges.
 
-Stilene i 6.2 er koblet til ordene fra 5.4 i listen `stilOrdMatch`, også i `js/data/billeder.js`. Den bestemmer, hvilken stil der får noten "Ligger tæt på de ord, du valgte" (kun når præcis én stil har flest af brugerens ord). Notens udseende er klassen `.choice-card-note` i `css/_components.scss`.
+Stilene i 6.2 er koblet til ordene fra 5.4 i listen `stilOrdMatch`, også i `js/data/billeder.js`. Den bestemmer, hvilken stil der får noten "Ligger tæt på de ord, du valgte" (kun når præcis én stil har flest af brugerens ord). Notens udseende er klassen `.choice-card-note` i `css/_components.scss`. Selve udregningen ligger i `stileTaetPaaOrd()` i `js/engine/billederEngine.js`.
 
 Formularen i 8.6, der bliver til en mail til DUF, styres af feltet `billedtjek` ved 8.6 i `js/data/billeder.js` (mailadresse, emne og alle tekster). Den bygges i `billedtjekHtml()` og `bindBilledtjek()` i `js/engine/billederUi.js`. Svarene gemmes ikke.
 
-Udkastet i 9.2 ("Skriv det ned, så du kan finde det igen") bygges af `buildDokumentationsUdkast()` i `js/engine/billederEngine.js`. Sætningsstykkerne står i `udkast` ved 9.2 i `js/data/billeder.js`. Ret ordlyden dér. Selve udregningen ligger i `stileTaetPaaOrd()` i `js/engine/billederEngine.js`.
+Udkastet i 9.2 ("Skriv det ned, så du kan finde det igen") bygges af `buildDokumentationsUdkast()` i `js/engine/billederEngine.js`. Sætningsstykkerne står i `udkast` ved 9.2 i `js/data/billeder.js`. Ret ordlyden dér.
 
 ## Live
 

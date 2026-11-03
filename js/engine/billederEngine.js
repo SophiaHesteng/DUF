@@ -136,6 +136,11 @@ export class BilledeEngine {
                 const images = boble.showImagesBucket
                     ? await getImagesForSide(BUCKET_IDS[boble.showImagesBucket])
                     : null;
+                /*---- 7.11: er samlingen tom (brugeren tog udvejen i 7.10), passer den almindelige tekst ikke. Så vises `paragraphsUdenBilleder`, og galleriet skjules (images = null) ----*/
+                if (images && !images.length && boble.paragraphsUdenBilleder) {
+                    render({ ...boble, paragraphs: boble.paragraphsUdenBilleder }, null, onNext, onExit, onReference);
+                    break;
+                }
                 render(boble, images, onNext, onExit, onReference);
                 break;
             }
@@ -143,7 +148,9 @@ export class BilledeEngine {
                 const prefillText = boble.prefillFrom === "dokumentationsUdkast" ? this.buildDokumentationsUdkast(boble.udkast)
                     : boble.prefillFrom === "compassSummary" ? this.buildCompassText()
                     : "";
-                render(boble, prefillText, onNext, onExit, onReference);
+                /*---- Går brugeren tilbage til en boble, hun allerede har svaret på, vises hendes eget svar igen. Ellers ville "Videre" gemme tomme felter oven i det, hun skrev, og i 9.2 ville et nyt udkast erstatte hendes rettelser ----*/
+                const gemteSvar = boble.answerKey ? this.answers[boble.answerKey] || null : null;
+                render(boble, prefillText, onNext, onExit, onReference, gemteSvar);
                 break;
             }
             case "imageUpload": {
