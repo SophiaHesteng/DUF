@@ -178,10 +178,15 @@ function showTextBoble(boble, images, onNext, onExit, onReference) {
         ? `<div class="image-gallery-view">${imageGalleryHtml(images)}</div>`
         : "";
 
+    /*---- 8.6 (2026-11-03): med `billedtjek` får boblen en formular, hvor mailen er hovedhandlingen. "Videre" bliver derfor den sekundære knap (outline) ----*/
+    const nextKlasse = boble.billedtjek ? "btn--outline-green" : "btn--solid-omraade";
+
     renderScreen({
-        bodyHtml: `${headerHtml(boble)}${galleryHtml}`,
-        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText}</button>`
+        bodyHtml: `${headerHtml(boble)}${galleryHtml}${boble.billedtjek ? billedtjekHtml(boble.billedtjek) : ""}`,
+        ctaHtml: `<button id="next-button" type="button" class="btn btn--regular ${nextKlasse}">${boble.nextButtonText}</button>`
     }, onExit, onReference);
+
+    if (boble.billedtjek) bindBilledtjek(boble.billedtjek);
 
     const nextButton = document.querySelector("#next-button");
     nextButton.addEventListener("click", async () => {
@@ -190,6 +195,88 @@ function showTextBoble(boble, images, onNext, onExit, onReference) {
             nextButton.textContent = "Gemmer...";
         }
         await onNext();
+    });
+}
+
+/*---- Billedtjek (8.6, 2026-11-03): en lille formular, der bliver til en mail til DUF. Svarene gemmes ikke nogen steder - de ligger kun i felterne, indtil brugeren forlader boblen. Alle tekster og mailadressen står i `billedtjek` i js/data/billeder.js ----*/
+
+function billedtjekHtml(tjek) {
+    const valgHtml = (felt, gruppe) => `
+        <p class="color-field-label" id="billedtjek-${gruppe}-label">${felt.label}</p>
+        <div class="keyword-list" role="group" aria-labelledby="billedtjek-${gruppe}-label">
+            ${felt.valg.map((valg) => `<button type="button" class="keyword-chip ord-chip" aria-pressed="false" data-billedtjek-${gruppe}="${valg.id}">${valg.text}</button>`).join("")}
+        </div>
+    `;
+    const tekstHtml = (felt, id, rows) => `
+        <label class="color-field-label" for="billedtjek-${id}">${felt.label}</label>
+        ${rows
+            ? `<textarea id="billedtjek-${id}" class="text-input" rows="${rows}" placeholder="${felt.placeholder || ""}"></textarea>`
+            : `<input id="billedtjek-${id}" type="url" class="text-input" placeholder="${felt.placeholder || ""}">`}
+    `;
+
+    return `
+        <div class="billedtjek">
+            ${valgHtml(tjek.kilde, "kilde")}
+            ${tekstHtml(tjek.link, "link")}
+            ${tekstHtml(tjek.brug, "brug", 2)}
+            ${valgHtml(tjek.personer, "personer")}
+            <div class="panel boble-respons" id="billedtjek-personer-respons" role="status" hidden><p>${tjek.personer.jaTekst}</p></div>
+            ${tekstHtml(tjek.tvivl, "tvivl", 3)}
+            <button id="billedtjek-mail" type="button" class="btn btn--regular btn--solid-omraade">${tjek.mailKnap}</button>
+            <p class="section-body">${tjek.kopierTekst} <strong id="billedtjek-adresse">${tjek.mail}</strong></p>
+            <button id="billedtjek-kopier" type="button" class="btn btn--slim btn--outline-green">${tjek.kopierKnap}</button>
+            <p class="section-body" id="billedtjek-kopier-status" role="status"></p>
+        </div>
+    `;
+}
+
+function bindBilledtjek(tjek) {
+    const valgt = { kilde: null, personer: null };
+
+    /*---- Valgknapperne virker som radioknapper: ét valg pr. gruppe, et nyt klik skifter valget ----*/
+    ["kilde", "personer"].forEach((gruppe) => {
+        const knapper = [...document.querySelectorAll(`[data-billedtjek-${gruppe}]`)];
+        knapper.forEach((knap) => knap.addEventListener("click", () => {
+            knapper.forEach((anden) => anden.setAttribute("aria-pressed", String(anden === knap)));
+            valgt[gruppe] = knap.getAttribute(`data-billedtjek-${gruppe}`);
+            if (gruppe === "personer") {
+                document.querySelector("#billedtjek-personer-respons").hidden = valgt.personer !== "ja";
+            }
+        }));
+    });
+
+    const tekst = (id) => document.querySelector(`#billedtjek-${id}`).value.trim();
+    const valgTekst = (felt, id) => felt.valg.find((valg) => valg.id === id)?.text || "";
+
+    /*---- Mailen bygges først ved klik, så den altid har de nyeste svar. Tomme felter springes over. encodeURIComponent gør mellemrum, linjeskift og fx & i brugerens tekst sikre i et link ----*/
+    document.querySelector("#billedtjek-mail").addEventListener("click", () => {
+        const linjer = [
+            [tjek.kilde.mailLabel, valgTekst(tjek.kilde, valgt.kilde)],
+            [tjek.link.mailLabel, tekst("link")],
+            [tjek.brug.mailLabel, tekst("brug")],
+            [tjek.personer.mailLabel, valgTekst(tjek.personer, valgt.personer)]
+        ].filter(([, svar]) => svar).map(([label, svar]) => `${label}: ${svar}`);
+
+        const tvivl = tekst("tvivl");
+        const krop = [
+            tjek.mailIndledning,
+            linjer.join("\n"),
+            tvivl ? `${tjek.tvivl.mailLabel}:\n${tvivl}` : "",
+            tjek.mailAfslutning
+        ].filter(Boolean).join("\n\n");
+
+        window.location.href = `mailto:${tjek.mail}?subject=${encodeURIComponent(tjek.emne)}&body=${encodeURIComponent(krop)}`;
+    });
+
+    /*---- Til brugere, hvor mailto: ikke åbner et mailprogram. Udklipsholderen kan være utilgængelig, så adressen står også synligt ----*/
+    document.querySelector("#billedtjek-kopier").addEventListener("click", async () => {
+        const status = document.querySelector("#billedtjek-kopier-status");
+        try {
+            await navigator.clipboard.writeText(tjek.mail);
+            status.textContent = tjek.kopieret;
+        } catch {
+            status.textContent = tjek.kopierFejl;
+        }
     });
 }
 
@@ -410,7 +497,12 @@ function showMultiChoiceBoble(boble, onNext, onExit, onReference, { billedkilder
 /*---- type: "textNote" - ét eller flere fritekstfelter. Modul 9.2 forudfyldes med en tekst bygget af engine ud fra det visuelle kompas (prefillText) ----*/
 
 function showTextNoteBoble(boble, prefillText, onNext, onExit, onReference) {
-    const fieldsHtml = boble.fields.map((field) => `
+    /*---- 9.2 (2026-11-03): `prefillHjaelp` står over feltet, men kun når motoren faktisk har skrevet et udkast ----*/
+    const hjaelpHtml = prefillText && boble.prefillHjaelp
+        ? `<p class="section-body">${boble.prefillHjaelp}</p>`
+        : "";
+
+    const fieldsHtml = hjaelpHtml + boble.fields.map((field) => `
         ${field.label ? `<p class="section-subheading">${field.label}</p>` : ""}
         <textarea id="field-${field.id}" class="text-input" rows="${field.rows || 3}" placeholder="${field.placeholder || ""}">${prefillText && boble.prefillFrom ? prefillText : ""}</textarea>
     `).join("");

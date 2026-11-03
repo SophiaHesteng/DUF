@@ -800,8 +800,45 @@ export const bobler = [
         id: "8.6", modul: 8, type: "text",
         heading: "Er du stadig i tvivl?",
         paragraphs: [
-            "Nogle situationer er værd at få set efter af en fagperson, fremfor at gætte: hvis nogen protesterer mod din brug af et billede, hvis du modtager et krav eller en klage, hvis du er usikker på, om en licens dækker din brug, hvis billedet viser en klient eller kan afsløre helbredsoplysninger, hvis det skal indgå i en større annoncekampagne, eller hvis du vil bruge et AI-genereret billede, der ligner en virkelig person eller begivenhed. At vælge et andet billede er ofte både enklere og billigere end at løbe en unødvendig risiko. Denne gennemgang er DUF's praktiske vejledning — den erstatter ikke juridisk rådgivning. Er du i tvivl i en konkret situation, særligt med penge, en klage eller en klient involveret, så søg professionel rådgivning."
+            "Tjeklisten hjælper dig langt, men nogle gange er et billede bare svært at vurdere selv. Så send det til os. Fortæl, hvor billedet kommer fra, hvad du vil bruge det til, og send gerne et link til licensen, hvis der er en. Så kigger vi på det og vender tilbage med vores vurdering af, hvad du skal være opmærksom på.",
+            "Er der en klient eller en anden genkendelig person på billedet, så send ikke selve billedet. Beskriv i stedet situationen med ord. Så passer vi også på dem.",
+            "Nogle situationer kræver en jurist eller en advokat: hvis du har fået et krav eller en klage, eller hvis der er penge på spil. Her kan vi hjælpe dig med at forstå, hvad det handler om, men ikke tage stilling til sagen. Og husk: Er du i tvivl, er det ofte både enklere og billigere at vælge et andet billede."
         ],
+        /*---- `billedtjek` (2026-11-03): formularen, der bliver til en mail til DUF (billederUi.js, billedtjekHtml/bindBilledtjek). Svarene gemmes ikke. Ret mailadresse og tekster her. `mailLabel` er det, der står foran svaret i selve mailen ----*/
+        billedtjek: {
+            mail: "foto@din-uf.dk",
+            emne: "Billedtjek fra DUF",
+            kilde: {
+                label: "Hvor kommer billedet fra?",
+                mailLabel: "Kilde",
+                valg: [
+                    { id: "egne", text: "Egne billeder" },
+                    { id: "billedbank", text: "Billedbank" },
+                    { id: "nettet", text: "Fundet på nettet" },
+                    { id: "ai", text: "AI" },
+                    { id: "andet", text: "Andet" }
+                ]
+            },
+            link: { label: "Link til billedet (valgfrit)", mailLabel: "Link", placeholder: "https://" },
+            brug: { label: "Hvor vil du bruge billedet?", mailLabel: "Brug", placeholder: "Fx på min forside eller i et opslag på Instagram" },
+            personer: {
+                label: "Er der genkendelige personer på billedet?",
+                mailLabel: "Genkendelige personer",
+                valg: [
+                    { id: "ja", text: "Ja" },
+                    { id: "nej", text: "Nej" }
+                ],
+                jaTekst: "Send ikke selve billedet. Beskriv i stedet situationen med ord, så passer vi også på personen på billedet."
+            },
+            tvivl: { label: "Hvad er du i tvivl om?", mailLabel: "Det er jeg i tvivl om", placeholder: "Skriv med dine egne ord" },
+            mailKnap: "Send et billede til os",
+            mailIndledning: "Hej DUF\n\nJeg vil gerne have hjælp til at tjekke et billede.",
+            mailAfslutning: "Venlig hilsen",
+            kopierTekst: "Åbner der ikke en mail? Så kan du skrive til",
+            kopierKnap: "Kopiér",
+            kopieret: "Mailadressen er kopieret.",
+            kopierFejl: "Den kunne ikke kopieres. Markér adressen, og kopiér den selv."
+        },
         nextButtonText: "Jeg har styr på mine billeder"
     },
     {
@@ -834,8 +871,25 @@ export const bobler = [
         paragraphs: [
             "Skriv 2-3 sætninger om din billedretning: hvilken stil og hvilke motiver du går efter, hvilke ord du vil have billederne til at give videre — og hvordan du har sikret dig rettighederne til dem. Det er det, der bliver til den del af din visuelle guide, du kan slå op i senere."
         ],
-        fields: [{ id: "dokumentation", placeholder: "Skriv 2-3 sætninger om din billedretning ...", rows: 4 }],
-        prefillFrom: "compassSummary",
+        fields: [{ id: "dokumentation", placeholder: "Skriv 2-3 sætninger om din billedretning ...", rows: 6 }],
+        /*---- 2026-11-03: feltet forudfyldes med et udkast i hele sætninger (billederEngine.js, buildDokumentationsUdkast). {tekst} erstattes af brugerens svar. "Alene"-udgaverne bruges, når stykket står først i sætningen. `prefillHjaelp` vises over feltet, kun når der er et udkast ----*/
+        prefillFrom: "dokumentationsUdkast",
+        prefillHjaelp: "Vi har skrevet et udkast ud fra dine svar. Ret det til, så det lyder som dig.",
+        udkast: {
+            ord: "Mine billeder skal føles {tekst}",
+            stil: "og min stil er {tekst}",
+            stilAlene: "Min stil er {tekst}",
+            viser: "Jeg viser {tekst}",
+            undgaar: "og undgår {tekst}",
+            undgaarAlene: "Jeg undgår {tekst}",
+            vej: {
+                selv: "Jeg tager selv mine billeder",
+                find: "Jeg finder mine billeder i billedbanker",
+                begge: "Jeg tager selv en del af mine billeder og finder resten i billedbanker"
+            },
+            afslutning: "og jeg tjekker altid rettighederne med tjeklisten, før jeg bruger et billede",
+            afslutningAlene: "Jeg tjekker altid rettighederne med tjeklisten, før jeg bruger et billede"
+        },
         saveAsDocumentation: true,
         answerKey: "modul8_dokumentation",
         nextButtonText: "Videre"

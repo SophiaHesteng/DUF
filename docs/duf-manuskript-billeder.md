@@ -505,11 +505,22 @@ Begge veje mødes i 7.10, hvor brugeren samler 3-5 billeder i en ny samling, **M
 
 ### Boble 8.6 — Er du stadig i tvivl?
 
-- **Hvad brugeren møder på denne skærm:** Nogle situationer er værd at få set efter af en fagperson, fremfor at gætte: hvis nogen protesterer mod din brug af et billede, hvis du modtager et krav eller en klage, hvis du er usikker på, om en licens dækker din brug, hvis billedet viser en klient eller kan afsløre helbredsoplysninger, hvis det skal indgå i en større annoncekampagne, eller hvis du vil bruge et AI-genereret billede, der ligner en virkelig person eller begivenhed. At vælge et andet billede er ofte både enklere og billigere end at løbe en unødvendig risiko. Denne gennemgang er DUF's praktiske vejledning — den erstatter ikke juridisk rådgivning. Er du i tvivl i en konkret situation, særligt med penge, en klage eller en klient involveret, så søg professionel rådgivning.
-- **Eventuel interaktion:** Ingen. *(Parkeret fra brugertest 1: et link til, hvor man finder en fagperson. Kræver først en liste over relevante steder, se P2 i sorteringsdokumentet.)*
-- **Eventuel respons eller feedback:** Ingen.
-- **Hvad der leder videre til næste boble:** Knappen "Jeg har styr på mine billeder" leder videre til Modul 9.
-- **Gemmes/får betydning senere:** Nej.
+- **Hvad brugeren møder på denne skærm:** *(ny tekst 2026-11-03)* Tjeklisten hjælper dig langt, men nogle gange er et billede bare svært at vurdere selv. Så send det til os. Fortæl, hvor billedet kommer fra, hvad du vil bruge det til, og send gerne et link til licensen, hvis der er en. Så kigger vi på det og vender tilbage med vores vurdering af, hvad du skal være opmærksom på.
+
+  Er der en klient eller en anden genkendelig person på billedet, så send ikke selve billedet. Beskriv i stedet situationen med ord. Så passer vi også på dem.
+
+  Nogle situationer kræver en jurist eller en advokat: hvis du har fået et krav eller en klage, eller hvis der er penge på spil. Her kan vi hjælpe dig med at forstå, hvad det handler om, men ikke tage stilling til sagen. Og husk: Er du i tvivl, er det ofte både enklere og billigere at vælge et andet billede.
+- **Eventuel interaktion:** En lille formular, "billedtjek", der bliver til en mail til DUF (tilføjet 2026-11-03):
+  - **Hvor kommer billedet fra?** Ét valg: Egne billeder / Billedbank / Fundet på nettet / AI / Andet.
+  - **Link til billedet (valgfrit):** tekstfelt.
+  - **Hvor vil du bruge billedet?** fritekst.
+  - **Er der genkendelige personer på billedet?** Ja / Nej.
+  - **Hvad er du i tvivl om?** fritekst.
+
+  Den primære knap **"Send et billede til os"** åbner brugerens mailprogram med en mail til foto@din-uf.dk, emnet "Billedtjek fra DUF" og svarene sat op i mailens tekst (tomme felter springes over). Under knappen står mailadressen synligt med en **"Kopiér"**-knap, til brugere hvor der ikke åbner en mail. Alle tekster og mailadressen står i `billedtjek` ved 8.6 i `js/data/billeder.js`. *(Det tidligere parkerede link til en fagperson fra brugertest 1 er stadig parkeret.)*
+- **Eventuel respons eller feedback:** Svarer brugeren "Ja" til genkendelige personer, vises: "Send ikke selve billedet. Beskriv i stedet situationen med ord, så passer vi også på personen på billedet." Ved "Kopiér" står der "Mailadressen er kopieret." eller, hvis det ikke lykkes, "Den kunne ikke kopieres. Markér adressen, og kopiér den selv."
+- **Hvad der leder videre til næste boble:** Den sekundære knap "Jeg har styr på mine billeder" leder videre til 8.7.
+- **Gemmes/får betydning senere:** Nej. Svarene i formularen gemmes ikke, heller ikke i browseren.
 
 ### Boble 8.7 — Du har nu tjekket det, der betyder mest
 
@@ -535,7 +546,14 @@ Begge veje mødes i 7.10, hvor brugeren samler 3-5 billeder i en ny samling, **M
 ### Boble 9.2 — Skriv det ned, så du kan finde det igen
 
 - **Hvad brugeren møder på denne skærm:** Skriv 2-3 sætninger om din billedretning: hvilken stil og hvilke motiver du går efter, hvilke ord du vil have billederne til at give videre — og hvordan du har sikret dig rettighederne til dem. Det er det, der bliver til den del af din visuelle guide, du kan slå op i senere.
-- **Eventuel interaktion:** Brugeren skriver en kort tekst.
+- **Eventuel interaktion:** Brugeren skriver en kort tekst. Feltet er forudfyldt med et udkast i hele sætninger, bygget af brugerens svar (opdateret 2026-11-03). Over feltet står: "Vi har skrevet et udkast ud fra dine svar. Ret det til, så det lyder som dig." Udkastet har kun de dele med, brugeren har svaret på:
+  - **Ord (5.4):** "Mine billeder skal føles [ord1, ord2 og ord3]". Ordene skrives med små bogstaver. Brugerens egne ord fra tekstfeltet kommer også med.
+  - **Stil (6.2):** "og min stil er [stil med små bogstaver]", eller "Min stil er ...", hvis der ikke er valgt ord. Ved "Jeg vil formulere min egen stil" bruges brugerens egen tekst, som den er skrevet.
+  - **Motiver (6.3):** "Jeg viser [hører til] og undgår [hører ikke til]". Er kun det ene udfyldt, står det alene ("Jeg undgår ...").
+  - **Vej (7.1):** "Jeg tager selv mine billeder" (selv), "Jeg finder mine billeder i billedbanker" (find) eller "Jeg tager selv en del af mine billeder og finder resten i billedbanker" (begge).
+  - **Afslutning, altid:** "og jeg tjekker altid rettighederne med tjeklisten, før jeg bruger et billede." Uden en vej står den som sin egen sætning.
+
+  Sammenhæng med farver (6.4) kommer ikke med. Har brugeren ikke svaret på noget af ovenstående, er feltet tomt, og hjælpeteksten vises ikke. Eksempel med alle svar: "Mine billeder skal føles rolig, varm og ægte, og min stil er varmt og nært. Jeg viser mit rum og mine hænder og undgår stockfotos med smilende modeller. Jeg tager selv en del af mine billeder og finder resten i billedbanker, og jeg tjekker altid rettighederne med tjeklisten, før jeg bruger et billede." Sætningsstykkerne står i `udkast` ved 9.2 i `js/data/billeder.js`.
 - **Eventuel respons eller feedback:** Ingen.
 - **Hvad der leder videre til næste boble:** Knappen "Videre" leder til sidste trin.
 - **Gemmes/får betydning senere:** Ja. Teksten gemmes og indgår i Visuel style guide, sammen med det visuelle kompas fra Modul 6.

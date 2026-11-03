@@ -45,7 +45,11 @@ Billeders bobler står i én liste i `js/data/billeder.js` og vises i den række
 
 Søgeordene i 7.8 oversættes via listen `oversaettelser` øverst i `js/data/billeder.js`. Ret ordene dér.
 
-Stilene i 6.2 er koblet til ordene fra 5.4 i listen `stilOrdMatch`, også i `js/data/billeder.js`. Den bestemmer, hvilken stil der får noten "Ligger tæt på de ord, du valgte" (kun når præcis én stil har flest af brugerens ord). Notens udseende er klassen `.choice-card-note` i `css/_components.scss`. Selve udregningen ligger i `stileTaetPaaOrd()` i `js/engine/billederEngine.js`.
+Stilene i 6.2 er koblet til ordene fra 5.4 i listen `stilOrdMatch`, også i `js/data/billeder.js`. Den bestemmer, hvilken stil der får noten "Ligger tæt på de ord, du valgte" (kun når præcis én stil har flest af brugerens ord). Notens udseende er klassen `.choice-card-note` i `css/_components.scss`.
+
+Formularen i 8.6, der bliver til en mail til DUF, styres af feltet `billedtjek` ved 8.6 i `js/data/billeder.js` (mailadresse, emne og alle tekster). Den bygges i `billedtjekHtml()` og `bindBilledtjek()` i `js/engine/billederUi.js`. Svarene gemmes ikke.
+
+Udkastet i 9.2 ("Skriv det ned, så du kan finde det igen") bygges af `buildDokumentationsUdkast()` i `js/engine/billederEngine.js`. Sætningsstykkerne står i `udkast` ved 9.2 i `js/data/billeder.js`. Ret ordlyden dér. Selve udregningen ligger i `stileTaetPaaOrd()` i `js/engine/billederEngine.js`.
 
 ## Live
 

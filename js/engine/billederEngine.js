@@ -140,7 +140,9 @@ export class BilledeEngine {
                 break;
             }
             case "textNote": {
-                const prefillText = boble.prefillFrom === "compassSummary" ? this.buildCompassText() : "";
+                const prefillText = boble.prefillFrom === "dokumentationsUdkast" ? this.buildDokumentationsUdkast(boble.udkast)
+                    : boble.prefillFrom === "compassSummary" ? this.buildCompassText()
+                    : "";
                 render(boble, prefillText, onNext, onExit, onReference);
                 break;
             }
@@ -353,6 +355,46 @@ export class BilledeEngine {
         if (!items.length) return "";
 
         return items.map((item) => `${item.label}: ${item.value}.`).join(" ");
+    }
+
+    /*---- 9.2 (2026-11-03): et udkast i hele sætninger til brugerens dokumentation, i stedet for buildCompassText()'s "Stil: ...". Kun de dele, brugeren har svaret på, kommer med. Sammenhæng med farver er bevidst ikke med. Sætningsstykkerne står i `udkast` ved 9.2 i js/data/billeder.js - "Alene"-udgaverne bruges, når et stykke står først i sætningen (fx "Min stil er ..." uden ord foran). Ingen svar = tom tekst, så feltet er tomt ----*/
+    buildDokumentationsUdkast(udkast) {
+        const indsaet = (skabelon, tekst) => skabelon.replace("{tekst}", tekst);
+        const udenPunktum = (tekst) => (tekst || "").trim().replace(/[.\s]+$/, "");
+        /*---- "rolig, varm og ægte" ----*/
+        const opremsning = (liste) => liste.length > 1 ? `${liste.slice(0, -1).join(", ")} og ${liste.at(-1)}` : liste[0];
+        /*---- To dele bliver til én sætning med punktum. Mangler den første, står den anden alene ----*/
+        const saetning = (foerste, anden, andenAlene, skilletegn) => {
+            if (foerste && anden) return `${foerste}${skilletegn}${anden}`;
+            return foerste || andenAlene || "";
+        };
+
+        const ordSvar = this.answers.modul5_ord;
+        const ord = [...(ordSvar?.selected || []).map((o) => o.text), udenPunktum(ordSvar?.note)]
+            .filter(Boolean)
+            .map((o) => o.toLowerCase());
+
+        const stilSvar = this.answers.modul6_stil;
+        const stil = stilSvar?.id === "andet"
+            ? udenPunktum(stilSvar.text)
+            : (stilSvar?.text || "").toLowerCase();
+
+        const motiver = this.answers.modul6_motiver || {};
+        const viser = udenPunktum(motiver.horer_til);
+        const undgaar = udenPunktum(motiver.horer_ikke_til);
+
+        const vej = udkast.vej[this.answers.modul7_vej?.id] || "";
+
+        const saetninger = [
+            saetning(ord.length ? indsaet(udkast.ord, opremsning(ord)) : "", stil && indsaet(udkast.stil, stil), stil && indsaet(udkast.stilAlene, stil), ", "),
+            saetning(viser && indsaet(udkast.viser, viser), undgaar && indsaet(udkast.undgaar, undgaar), undgaar && indsaet(udkast.undgaarAlene, undgaar), " "),
+            saetning(vej, udkast.afslutning, udkast.afslutningAlene, ", ")
+        ];
+
+        /*---- Afslutningen om rettigheder kommer altid med - men kun hvis der er noget andet at afslutte ----*/
+        if (!ord.length && !stil && !viser && !undgaar && !vej) return "";
+
+        return saetninger.filter(Boolean).map((s) => `${udenPunktum(s)}.`).join(" ");
     }
 
     showReference() {

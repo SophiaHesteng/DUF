@@ -2127,6 +2127,23 @@ body.har-lightbox {
     }
 }
 
+/*---- Billedtjek, formularen der bliver til en mail (Billeder 8.6). Felterne genbruger .text-input, .keyword-chip og .color-field-label - her er kun luften mellem dem og teksten ovenover ----*/
+.billedtjek {
+    margin-top: 32px;
+
+    .text-input {
+        margin: 4px 0 20px;
+    }
+
+    #billedtjek-mail {
+        margin: 8px 0 24px;
+    }
+
+    #billedtjek-kopier {
+        margin-bottom: 8px;
+    }
+}
+
 /*---- To knapper under hinanden inde i en boble's knaprække (Billeder 8.1) ----*/
 .section-cta > .section-cta--column {
     display: flex;
