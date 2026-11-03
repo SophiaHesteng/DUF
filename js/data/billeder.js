@@ -86,36 +86,41 @@ const stilOrdMatch = {
     stemningsfuldt_poetisk: ["mystisk", "poetisk", "sanselig", "elegant", "eksklusiv"]
 };
 
-/*---- Oversættelser til søgeordene i Boble 7.8 (2026-11-03). Billedbankerne virker bedst på engelsk, så brugerens ord fra 5.4 og stil fra 6.2 slås op her. Nøglen er svarets id (ordet med små bogstaver fra `ordgrupper`, eller stilens id fra 6.2), værdien er det engelske søgeord. Ret gerne i ordene her. Et ord, der ikke står på listen (fx brugerens egne ord eller "Jeg vil formulere min egen stil" i 6.2), kommer ikke med som søgeord ----*/
+/*---- Oversættelser til søgeordene i Boble 7.8 (2026-11-03). Billedbankerne virker bedst på engelsk, så brugerens ord fra 5.4 og stil fra 6.2 slås op her. Nøglen er svarets id (ordet med små bogstaver fra `ordgrupper`, eller stilens id fra 6.2), værdien er det engelske søgeord. Et ord, der ikke står på listen (fx brugerens egne ord eller "Jeg vil formulere min egen stil" i 6.2), kommer ikke med som søgeord.
+ *
+ * VIGTIGT, før du retter i ordene: de er valgt med omhu. Billedbankerne læser ord som "intimate", "sensual", "passion", "romantic", "seductive", "boudoir" eller "sexy" romantisk eller seksuelt - "Varm" + "Nærværende" gav fx "warm intimate", og det gav seksuelle resultater på Unsplash. Brug derfor ord, der beskriver rum, lys, materialer og stemning, ikke kroppe eller forhold mellem mennesker. Er du i tvivl om et nyt ord, så søg selv på det på Unsplash og Pexels, før det kommer på listen ----*/
 
 export const oversaettelser = {
     /*---- Stilene i 6.2 ----*/
-    varmt_naert: "warm intimate",
+    varmt_naert: "warm cozy",
     roligt_minimalistisk: "calm minimal",
     naturligt_jordnaert: "natural earthy",
     lyst_luftigt: "bright airy",
     levende_farverigt: "vibrant colorful",
-    stemningsfuldt_poetisk: "moody poetic",
+    stemningsfuldt_poetisk: "dreamy still life",
 
     /*---- De 30 ord i 5.4 ----*/
     rolig: "calm",
-    tryg: "safe",
+    tryg: "comforting",
     blød: "soft",
     let: "airy",
     enkel: "simple",
-    harmonisk: "harmonious",
+    harmonisk: "balanced",
     varm: "warm",
     nærværende: "mindful",
     personlig: "personal",
-    åben: "open",
+    åben: "inviting",
     imødekommende: "welcoming",
     ægte: "authentic",
+    elegant: "elegant",
+    eksklusiv: "refined",
+    professionel: "professional",
     naturlig: "natural",
     jordnær: "earthy",
     organisk: "organic",
-    sanselig: "sensory",
+    sanselig: "textured",
     frisk: "fresh",
-    rå: "raw",
+    rå: "rustic",
     legende: "playful",
     kreativ: "creative",
     energisk: "energetic",
@@ -123,12 +128,12 @@ export const oversaettelser = {
     modig: "bold",
     farverig: "colorful",
     inspirerende: "inspiring",
-    elegant: "elegant",
-    eksklusiv: "luxury",
-    professionel: "professional",
     mystisk: "mystical",
-    poetisk: "poetic"
+    poetisk: "dreamy"
 };
+
+/*---- Motivord til søgningerne i 7.8 (2026-11-03). Hver søgning får ét af dem bag stemnings- eller stilordene, fx "warm cozy treatment room", så resultaterne handler om en praksis og ikke kun om en stemning. De fordeles på skift, så søgeordene ikke alle får samme motiv (billederEngine.js, soegeordFraKompas). Samme omhu som ovenfor gælder her ----*/
+export const motivord = ["treatment room", "wellness", "hands", "natural light", "plants", "tea", "therapy space"];
 
 /*---- Modulernes titler (fra manuskriptets overskrifter) og antal bobler, til navigationslinjerne (js/components/rumRamme.js). Antallet af moduler læses herfra. Modul 3 og Modul 7 forgrener sig (i Modul 3 springes 3.3 og 3.5 over uden egne billeder, i Modul 7 afhænger boblerne af valget i 7.1), så de har intet fast antal bobler ----*/
 
@@ -350,9 +355,10 @@ export const bobler = [
         paragraphs: [
             "Det kan være svært at finde inspiration, hvis du bare søger på \"gode billeder\". Derfor får du her nogle søgeord, du kan tage udgangspunkt i. Du behøver ikke bruge dem alle — vælg dem, der føles interessante, og se, hvor de fører dig hen."
         ],
+        /*---- Søgeordene er valgt med omhu (gennemgået 2026-11-03): hver søgning beskriver rum, lys, materialer eller en professionel sammenhæng, så billedbankerne ikke viser romantiske eller seksuelle billeder. Tilføj aldrig ord som "intimate", "sensual", "passion", "romantic", "seductive", "boudoir" eller "sexy", og vær varsom med ord om kroppe og hud. Se også kommentaren over `oversaettelser` øverst i filen ----*/
         groups: [
             { label: "🌿 Stemning og følelse", words: ["calm wellness photography", "warm natural atmosphere", "quiet cozy space", "soft natural light"] },
-            { label: "👤 Mennesker og portrætter", words: ["natural professional portrait", "authentic portrait photography", "candid portrait natural light", "relaxed professional woman"] },
+            { label: "👤 Mennesker og portrætter", words: ["natural professional portrait", "authentic portrait photography", "candid portrait natural light", "calm practitioner portrait"] },
             { label: "🏡 Rum og omgivelser", words: ["cozy therapy room", "warm natural interior", "small creative studio", "calm treatment room"] },
             { label: "🎨 Farver, lys og visuel stil", words: ["warm neutral photography", "earthy color photography", "muted pastel photography", "bold colorful photography"] }
         ],
@@ -800,8 +806,7 @@ export const bobler = [
         id: "8.6", modul: 8, type: "text",
         heading: "Er du stadig i tvivl?",
         paragraphs: [
-            "Tjeklisten hjælper dig langt, men nogle gange er et billede bare svært at vurdere selv. Så send det til os. Fortæl, hvor billedet kommer fra, hvad du vil bruge det til, og send gerne et link til licensen, hvis der er en. Så kigger vi på det og vender tilbage med vores vurdering af, hvad du skal være opmærksom på.",
-            "Er der en klient eller en anden genkendelig person på billedet, så send ikke selve billedet. Beskriv i stedet situationen med ord. Så passer vi også på dem.",
+            "Tjeklisten hjælper dig langt, men nogle gange er et billede bare svært at vurdere selv. Så send det til os. Fortæl, hvor billedet kommer fra, hvad du vil bruge det til, og send gerne et link til licensen, hvis der er en. Så kigger vi på det og vender tilbage med vores vurdering af, hvad du skal være opmærksom på. Vi svarer normalt inden for et par hverdage.",
             "Nogle situationer kræver en jurist eller en advokat: hvis du har fået et krav eller en klage, eller hvis der er penge på spil. Her kan vi hjælpe dig med at forstå, hvad det handler om, men ikke tage stilling til sagen. Og husk: Er du i tvivl, er det ofte både enklere og billigere at vælge et andet billede."
         ],
         /*---- `billedtjek` (2026-11-03): formularen, der bliver til en mail til DUF (billederUi.js, billedtjekHtml/bindBilledtjek). Svarene gemmes ikke. Ret mailadresse og tekster her. `mailLabel` er det, der står foran svaret i selve mailen ----*/

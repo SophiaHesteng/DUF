@@ -6,7 +6,7 @@ import {
     RENDERERS
 } from "./billederUi.js";
 
-import { bobler, moduler, velkomst, situationer, soegesteder, oversaettelser } from "../data/billeder.js";
+import { bobler, moduler, velkomst, situationer, soegesteder, oversaettelser, motivord } from "../data/billeder.js";
 import { saveSideOutput, saveImage, deleteImage, getImagesForSide, getSideOutput } from "../storage/storage.js";
 import { hentUdgangspunkt } from "../storage/udgangspunkt.js";
 import { VISUELT_UDTRYK_HUB } from "./exit.js";
@@ -219,15 +219,26 @@ export class BilledeEngine {
         return { soegeord, soegesteder: steder };
     }
 
-    /*---- 7.8: stilen fra 6.2 først, så ordene fra 5.4, oversat via `oversaettelser` i js/data/billeder.js. Uden ord fra 5.4 bruges søgeordene fra 4.2 i stedet. Det, der ikke står i oversættelseslisten, springes over ----*/
+    /*---- 7.8: søgningerne bygges af stilen fra 6.2 og ordene fra 5.4, oversat via `oversaettelser` i js/data/billeder.js. Hver søgning har højst to stemnings- eller stilord plus ét motivord fra `motivord`, fx "warm cozy treatment room":
+     * - stilen (allerede to ord) står alene med sit motiv,
+     * - ordene fra 5.4 sættes sammen to og to. Et ord, der allerede står i stilen (fx "warm" i "warm cozy"), springes over.
+     * Motivordene fordeles på skift, så søgningerne ikke alle får det samme.
+     * Uden ord fra 5.4 kommer søgeordene fra 4.2 bagefter, som de er - de er allerede hele søgninger. Det, der ikke står i oversættelseslisten, springes over ----*/
     soegeordFraKompas() {
         const stil = oversaettelser[this.answers.modul6_stil?.id];
-        const ord = (this.answers.modul5_ord?.selected || [])
+        const stilOrd = (stil || "").split(" ");
+        const ord = [...new Set((this.answers.modul5_ord?.selected || [])
             .map((valg) => oversaettelser[valg.id])
-            .filter(Boolean);
+            .filter((o) => o && !stilOrd.includes(o)))];
 
-        const resten = ord.length ? ord : (this.answers.valgteSoegeord || []);
-        return [...new Set([stil, ...resten].filter(Boolean))];
+        const par = [];
+        for (let i = 0; i < ord.length; i += 2) par.push(ord.slice(i, i + 2).join(" "));
+
+        const stemninger = [stil, ...par].filter(Boolean);
+        const soegninger = stemninger.map((stemning, i) => `${stemning} ${motivord[i % motivord.length]}`);
+
+        const fraModul4 = ord.length ? [] : (this.answers.valgteSoegeord || []);
+        return [...new Set([...soegninger, ...fraModul4])];
     }
 
     /*---- 6.2: den stil, der deler flest ord med brugerens valg i 5.4 (`stilOrdMatch` i js/data/billeder.js), får noten. Kun når præcis én stil har flest: står to eller flere lige, peger ordene ikke tydeligt ét sted hen, og så vises der ingen note. Det samme gælder, hvis brugeren ingen ord har valgt, eller ingen af dem passer. Egne ord fra 5.4 tælles ikke med. Returnerer en liste (tom eller med ét id), fordi billederUi.js slår op med includes() ----*/

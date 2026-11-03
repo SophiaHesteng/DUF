@@ -175,7 +175,7 @@
 
 - **Hvad brugeren møder på denne skærm:** Det kan være svært at finde inspiration, hvis du bare søger på "gode billeder". Derfor får du her nogle søgeord, du kan tage udgangspunkt i. Du behøver ikke bruge dem alle — vælg dem, der føles interessante, og se, hvor de fører dig hen.
   - 🌿 Stemning og følelse: calm wellness photography · warm natural atmosphere · quiet cozy space · soft natural light
-  - 👤 Mennesker og portrætter: natural professional portrait · authentic portrait photography · candid portrait natural light · relaxed professional woman
+  - 👤 Mennesker og portrætter: natural professional portrait · authentic portrait photography · candid portrait natural light · calm practitioner portrait
   - 🏡 Rum og omgivelser: cozy therapy room · warm natural interior · small creative studio · calm treatment room
   - 🎨 Farver, lys og visuel stil: warm neutral photography · earthy color photography · muted pastel photography · bold colorful photography
 
@@ -416,7 +416,7 @@ Begge veje mødes i 7.10, hvor brugeren samler 3-5 billeder i en ny samling, **M
 - **Hvad brugeren møder på denne skærm:** Billedbankerne virker bedst på engelsk, så søgeordene herunder er på engelsk. De er sat sammen ud fra de ord, du valgte om, hvordan du vil opleves, og den stil, du valgte i dit kompas. Prøv at kombinere en stemning med et motiv, fx "calm" sammen med "treatment room" eller "warm" sammen med "hands". Jo mere præcist du søger, jo mindre skal du rode i billeder, der ikke passer. Finder du ikke noget, så prøv et synonym. "Calm" kan også være "peaceful", "quiet" eller "serene".
 
   Du vil hurtigt opdage, at ikke alle billeder i søgningen er gratis, selvom siderne er kendt for gratis billeder. Der er betalingsbilleder blandet ind imellem, fx markeret som Unsplash+ eller som billeder fra andre billedbanker. Det er helt normalt, og du skal ikke lade dig slå ud af det. Spring dem bare over, eller filtrér søgningen, så du kun ser de gratis billeder. Vil en af siderne ikke åbne, så prøv igen lidt senere, eller brug den anden i mellemtiden. *(tilføjet 2026-11-03)*
-- **Eventuel interaktion:** Søgelinjen fra 4.3, men kun med "Søg på Unsplash" og "Søg på Pexels". Søgeordene er brugerens stil fra 6.2 og ord fra 5.4, oversat til engelsk via den faste liste `oversaettelser` i `js/data/billeder.js` (fx "Rolig" → "calm", "Varmt og nært" → "warm intimate", "Lyst og luftigt" → "bright airy"). Har brugeren ikke valgt ord i 5.4, bruges søgeordene fra 4.2. Egne ord og en selvformuleret stil ("Jeg vil formulere min egen stil") kan ikke oversættes og kommer ikke med.
+- **Eventuel interaktion:** Søgelinjen fra 4.3, men kun med "Søg på Unsplash" og "Søg på Pexels". Søgeordene bygges af brugerens stil fra 6.2 og ord fra 5.4, oversat til engelsk via den faste liste `oversaettelser` i `js/data/billeder.js` (fx "Rolig" → "calm", "Varmt og nært" → "warm cozy", "Sanselig" → "textured"). Hver søgning har højst to stemnings- eller stilord plus ét motivord fra den faste liste `motivord` (treatment room, wellness, hands, natural light, plants, tea, therapy space), fx "warm cozy treatment room". Stilen står alene med sit motiv, og ordene fra 5.4 sættes sammen to og to. Motivordene fordeles på skift, så søgningerne ikke alle får det samme. Har brugeren ikke valgt ord i 5.4, kommer søgeordene fra 4.2 bagefter, som de er. Egne ord og en selvformuleret stil ("Jeg vil formulere min egen stil") kan ikke oversættes og kommer ikke med. *(Rettet 2026-11-03: "Varm" + "Nærværende" gav før "warm intimate", som gav seksuelle resultater på Unsplash. Ordlisten er skiftet ud, så ingen ord kan læses romantisk, fx "intimate", "sensual", "passion" eller "romantic". Søgeordene i 4.2 er gennemgået med samme omhu.)*
 - **Hvad der leder videre til næste boble:** Knappen "Hvordan vælger jeg mellem alle billederne?" leder videre.
 - **Gemmes/får betydning senere:** Nej.
 
@@ -505,9 +505,7 @@ Begge veje mødes i 7.10, hvor brugeren samler 3-5 billeder i en ny samling, **M
 
 ### Boble 8.6 — Er du stadig i tvivl?
 
-- **Hvad brugeren møder på denne skærm:** *(ny tekst 2026-11-03)* Tjeklisten hjælper dig langt, men nogle gange er et billede bare svært at vurdere selv. Så send det til os. Fortæl, hvor billedet kommer fra, hvad du vil bruge det til, og send gerne et link til licensen, hvis der er en. Så kigger vi på det og vender tilbage med vores vurdering af, hvad du skal være opmærksom på.
-
-  Er der en klient eller en anden genkendelig person på billedet, så send ikke selve billedet. Beskriv i stedet situationen med ord. Så passer vi også på dem.
+- **Hvad brugeren møder på denne skærm:** *(ny tekst 2026-11-03)* Tjeklisten hjælper dig langt, men nogle gange er et billede bare svært at vurdere selv. Så send det til os. Fortæl, hvor billedet kommer fra, hvad du vil bruge det til, og send gerne et link til licensen, hvis der er en. Så kigger vi på det og vender tilbage med vores vurdering af, hvad du skal være opmærksom på. Vi svarer normalt inden for et par hverdage.
 
   Nogle situationer kræver en jurist eller en advokat: hvis du har fået et krav eller en klage, eller hvis der er penge på spil. Her kan vi hjælpe dig med at forstå, hvad det handler om, men ikke tage stilling til sagen. Og husk: Er du i tvivl, er det ofte både enklere og billigere at vælge et andet billede.
 - **Eventuel interaktion:** En lille formular, "billedtjek", der bliver til en mail til DUF (tilføjet 2026-11-03):

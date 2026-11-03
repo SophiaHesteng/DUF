@@ -43,7 +43,7 @@ Billeders bobler står i én liste i `js/data/billeder.js` og vises i den række
 - Modul 3: `kunMedEgneBilleder` (springes over uden egne billeder) og `udenEgneBilleder` (variant-tekst).
 - Modul 7: `kunVej: ["selv", "begge"]` (vises kun for de veje, der står i listen; vejen vælges i 7.1) og `prVej` (fx en anden knaptekst for én vej).
 
-Søgeordene i 7.8 oversættes via listen `oversaettelser` øverst i `js/data/billeder.js`. Ret ordene dér.
+Søgeordene i 7.8 oversættes via listen `oversaettelser` øverst i `js/data/billeder.js`, og hver søgning får et motivord fra listen `motivord` lige under. Ret ordene dér, men læs kommentaren over listen først: ord som "intimate" eller "sensual" giver seksuelle resultater i billedbankerne og må ikke bruges.
 
 Stilene i 6.2 er koblet til ordene fra 5.4 i listen `stilOrdMatch`, også i `js/data/billeder.js`. Den bestemmer, hvilken stil der får noten "Ligger tæt på de ord, du valgte" (kun når præcis én stil har flest af brugerens ord). Notens udseende er klassen `.choice-card-note` i `css/_components.scss`.
 
