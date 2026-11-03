@@ -18,10 +18,10 @@
  *       gemtPalet: { farver: [{ hex, role }], tekstfarve, kombination: { tekst, baggrund } } | null,
  *                  // kun `kombination` (Farvers afprøvede par) farver eksemplet - ellers standardfarverne
  *       gemtLogo: { blob, navn } | null,
- *       billede: { src, alt } | null        // valgfrit, vises øverst i kortet (Billeder 8.1, runde 7)
+ *       billede: { src, alt } | null        // valgfrit, vises øverst i kortet (Billeder 9.1, runde 7)
  *   });
  *
- * Genbruges fra 2026-09-25 i Billeder 8.1 ("Sådan kunne det se ud"), med et
+ * Genbruges fra 2026-09-25 i Billeder 9.1 ("Sådan kunne det se ud"), med et
  * billede øverst - Heidis beslutning efter brugertest 1, som erstatter
  * "selvstændig komponent"-beslutningen nedenfor for netop den brug. Uden
  * `billede` er kortet præcis som i Byggesten.
@@ -123,7 +123,7 @@ function sideHtml(gemtPalet, gemtLogo) {
     return `<aside class="prov-sammen-side">${palet}${logo}</aside>`;
 }
 
-/*---- Valgfrit billede øverst i kortet (Billeder 8.1, runde 7, jf. docs/duf-teknisk-prov-sammen.md). Uden `billede` er markup'en uændret, så Byggesten Modul 6 ser ud som før ----*/
+/*---- Valgfrit billede øverst i kortet (Billeder 9.1, runde 7, jf. docs/duf-teknisk-prov-sammen.md). Uden `billede` er markup'en uændret, så Byggesten Modul 6 ser ud som før ----*/
 function billedeHtml(billede) {
     if (!billede?.src) return "";
     return `<img class="prov-sammen-billede" src="${billede.src}" alt="${escapeHtml(billede.alt || "")}">`;

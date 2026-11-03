@@ -15,6 +15,11 @@
  * Understøtter også at indsætte et billede fra udklipsholderen (Ctrl+V), fx et
  * skærmklip taget med Windows + Shift + S - tilføjet til Logos Modul 3.2, men
  * gælder samme sted som fil-upload i alle tre rum. Se bindPaste() nedenfor.
+ *
+ * 2026-11-03: valgfri `multiple` i renderImageUploadHtml(), så der kan vælges
+ * flere filer på én gang (kun Billeder bruger den). bindImageUpload() gemmer
+ * derfor alle valgte filer, ikke kun den første. Indsæt fra udklipsholderen er
+ * stadig ét billede ad gangen.
  * ----------------------------------------------------------------------------
  */
 
@@ -29,11 +34,15 @@ export function imageGalleryHtml(images, { removable = false } = {}) {
     `).join("");
 }
 
-export function renderImageUploadHtml({ label, hint, images }) {
+/*---- `multiple` (valgfri, standard false): lader brugeren vælge flere billeder på én gang
+ * i filvælgeren. Slået til i Billeders upload-bobler (3.1, 4.4, 7.10), hvor der skal
+ * samles mange billeder. Farver og Logo sender den ikke med og har ét billede ad gangen
+ * som før. ----*/
+export function renderImageUploadHtml({ label, hint, images, multiple = false }) {
     return `
         <p class="section-subheading">${label}</p>
         <p class="section-body" style="font-size:14px;opacity:0.8;">${hint}</p>
-        <input id="image-upload-input" type="file" accept="image/*" class="text-input">
+        <input id="image-upload-input" type="file" accept="image/*" class="text-input"${multiple ? " multiple" : ""}>
         <p id="image-upload-status" class="section-body" style="font-size:14px;"></p>
         <div id="image-gallery">${imageGalleryHtml(images, { removable: true })}</div>
     `;
@@ -44,6 +53,23 @@ const UPLOAD_ERROR_TEXT = {
     "not-an-image": "Den fil er ikke et billede — prøv en anden fil.",
     "file-too-large": "Billedet er for stort til at blive gemt — prøv et mindre billede."
 };
+
+/*---- Statusbesked efter en upload. Én fil: samme tekst som altid. Flere filer: navnet
+ * på hver fil, der fejlede, og hvorfor. Har brugeren fravalgt browserlagring, fejler
+ * alle af samme grund, så den forklaring står én gang i stedet for en liste. ----*/
+function fejlTekst(fejlede, antal) {
+    if (!fejlede.length) return "";
+
+    if (antal === 1 || fejlede.every((f) => f.reason === "opted-out")) {
+        return UPLOAD_ERROR_TEXT[fejlede[0].reason] || "Billedet kunne ikke gemmes.";
+    }
+
+    const liste = fejlede
+        .map(({ file, reason }) => `${file.name}: ${UPLOAD_ERROR_TEXT[reason] || "Billedet kunne ikke gemmes."}`)
+        .join(" ");
+    const gemt = antal - fejlede.length;
+    return `${gemt} af ${antal} billeder blev gemt. Disse kunne ikke gemmes: ${liste}`;
+}
 
 /*---- Ét paste-listener ad gangen, på #app frem for det enkelte skærmbillede - #app's
  * indhold skiftes helt ud (innerHTML) ved hver ny boble, men selve #app-elementet
@@ -103,25 +129,36 @@ export function bindImageUpload({ upload, remove, refresh }) {
     const status = document.querySelector("#image-upload-status");
     if (!input || !upload) return;
 
+    /*---- Gemmer alle valgte filer én ad gangen (ikke samtidig), så status kan sige
+     * "Gemmer billede 2 af 5 ...", og så én fil, der fejler, ikke stopper resten.
+     * Galleriet tegnes først om, når alle er forsøgt gemt - ét kald til refresh() i
+     * stedet for ét pr. fil, så minimum-knappen (fx "mindst 5" i Billeder 4.4) også
+     * låses op, når flere billeder kommer ind på én gang. Med én fil (altid tilfældet i
+     * Farver og Logo, der ikke har `multiple`) er teksterne de samme som før. ----*/
     input.addEventListener("change", async () => {
-        const file = input.files[0];
-        if (!file) return;
+        const files = [...input.files];
+        if (!files.length) return;
 
         input.disabled = true;
-        status.textContent = "Gemmer billede...";
 
-        const result = await upload(file);
+        const fejlede = [];
+        for (const [index, file] of files.entries()) {
+            status.textContent = files.length === 1
+                ? "Gemmer billede..."
+                : `Gemmer billede ${index + 1} af ${files.length} ...`;
+
+            const result = await upload(file);
+            if (!result.ok) fejlede.push({ file, reason: result.reason });
+        }
 
         input.disabled = false;
         input.value = "";
 
-        if (!result.ok) {
-            status.textContent = UPLOAD_ERROR_TEXT[result.reason] || "Billedet kunne ikke gemmes.";
-            return;
+        if (fejlede.length < files.length) {
+            gallery.innerHTML = imageGalleryHtml(await refresh(), { removable: true });
         }
 
-        status.textContent = "";
-        gallery.innerHTML = imageGalleryHtml(await refresh(), { removable: true });
+        status.textContent = fejlTekst(fejlede, files.length);
     });
 
     gallery.addEventListener("click", async (event) => {

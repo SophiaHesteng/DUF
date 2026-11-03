@@ -1,5 +1,5 @@
 /*----------------------------------------------------------------------------
- * DUF — billedvælger/-visning (Billeder runde 7: Boble 5.1, 5.3, 7.5 og 8.1)
+ * DUF — billedvælger/-visning (Billeder runde 7: Boble 5.1, 5.3, 8.5 og 9.1 - hed 7.5 og 8.1 før 2026-11-03)
  * ----------------------------------------------------------------------------
  * Viser brugerens billeder som små billeder, grupperet efter kilde. To måder:
  *

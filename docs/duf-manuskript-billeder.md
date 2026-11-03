@@ -4,6 +4,8 @@
 
 *⚠️ **Runde 7 (2026-09-25, efter brugertest 1):** se [[DUF Brugertest 1 - Visuelt vækstområde (sortering)]]. Ændringer: brugeren uden egne billeder kan nu komme igennem Modul 3 (3.1, 3.3–3.5); Modul 4 forklarer stockfotos og får rigtige links, hvor de valgte søgeord følger med (4.3, 4.4); billederne vises igen i Modul 5 og kan forstørres (5.1, 5.3); ordlisten i 5.4 inddeles i grupper og viser valgene med det samme; kontrasttesten i 7.5 kan laves direkte i rummet; og 8.1 får en forhåndsvisning af brugerens valg og plads til den, der ikke har noget at prøve på endnu. Alle nye tekster er godkendt af Heidi 2026-09-25. Klar til implementering, se [[DUF Prompt - Billeder (runde 7)]].*
 
+*⚠️ **2026-11-03: nyt Modul 7 "Find eller skab dine billeder"** (kilde: [docs/duf-manuskript-billeder-modul7.md](duf-manuskript-billeder-modul7.md)). Det tidligere Modul 7 og 8 er nu Modul 8 og 9, og alle boble-numre efter 6.5 er rykket tilsvarende, også i noterne nedenfor. Gemmenøglerne `billeder-modul7-rettigheder`, `modul7_kontrast` og `modul8_dokumentation` har bevidst beholdt deres gamle navne, så brugere, der allerede er i gang, ikke mister deres svar.*
+
 **Sådan læses dette dokument:** hvert modul er delt i bobler — den mindste byggeklods, svarende til én skærm. Hver boble har feltet "Hvad brugeren møder på denne skærm", og udfylder kun de øvrige felter (interaktion, respons, hvad der leder videre, om noget gemmes), når det er relevant for netop den boble. En 💬-linje er en Guide-bemærkning (se [[DUF Opgaveoversigt - Visuelt udtryk]] om Guide-componentet) — avataren (Heidi/Marcus/Sophia) er endnu ikke tildelt for de nye guide-linjer i dette dokument.
 
 ## Modul 1 — Hvorfor billeder betyder noget
@@ -192,7 +194,7 @@
   - **Google Billeder** — godt, hvis du vil se bredt og finde andre virksomheder, profiler eller universer, du bliver inspireret af.
   - **Stockfotos (Unsplash og Pexels)** — Stockfotos er billeder, som fotografer lægger ud i en billedbank, så andre kan bruge dem på bestemte vilkår. Nogle er gratis, andre koster penge. De er gode, hvis du vil se forskellige måder at fotografere mennesker, rum, detaljer og stemninger på.
 
-  Husk: Lige nu leder vi efter inspiration, ikke efter billeder, du nødvendigvis må bruge. Hvad du må bruge, kigger vi på i Modul 7.
+  Husk: Lige nu leder vi efter inspiration, ikke efter billeder, du nødvendigvis må bruge. Hvad du må bruge, kigger vi på i Modul 8.
 - **Eventuel interaktion:** Brugerens valgte søgeord står øverst. Hvis hun har valgt flere, vælger hun, hvilket hun vil søge på (ét ad gangen). Knapper: "Søg på Pinterest", "Søg på Google Billeder", "Søg på Unsplash", "Søg på Pexels". Hver knap åbner stedets søgeside i et nyt vindue med søgeordet udfyldt. Det fremgår tydeligt, at de åbner i et nyt vindue. Har hun ikke valgt et søgeord, åbner knapperne stedets forside.
 - **Eventuel respons eller feedback:** Ingen rigtig/forkert-feedback.
 - **Hvad der leder videre til næste boble:** Knappen "Jeg er klar til at gemme det, jeg har fundet" leder videre.
@@ -274,8 +276,20 @@
 
 ### Boble 6.2 — Hvilken stil passer til dig?
 
-- **Hvad brugeren møder på denne skærm:** Ud fra dine ord og mønstre — hvilken stil passer bedst til din praksis? Varmt og nært. Roligt og minimalistisk. Eller noget helt tredje, som ikke rigtig passer i de to kasser. Der er ikke én rigtig stil. Det vigtige er, at du kan svare på, hvorfor den, du vælger, passer til dig.
-- **Eventuel interaktion:** Brugeren vælger mellem: "Varmt og nært" / "Roligt og minimalistisk" / "Noget tredje — jeg beskriver det selv" (med tekstfelt).
+- **Hvad brugeren møder på denne skærm:** Ud fra dine ord og mønstre — hvilken stil passer bedst til din praksis? Der er ikke én rigtig stil. Det vigtige er, at du kan svare på, hvorfor den, du vælger, passer til dig.
+
+  Under teksten står seks stile, hver med en kort beskrivelse under navnet, og til sidst muligheden for at formulere sin egen (opdateret 2026-11-03):
+  - **Varmt og nært** — Bløde farver, nærvær og mennesker tæt på. Billeder, der føles som et kram.
+  - **Roligt og minimalistisk** — Meget luft, få elementer og dæmpede farver. Billeder, der giver ro i øjnene.
+  - **Naturligt og jordnært** — Dagslys, naturmaterialer, planter og jordfarver. Billeder, der føles ægte og uopstillede.
+  - **Lyst og luftigt** — Masser af lys, hvide og lyse toner og en let, frisk stemning. Billeder, der føles åbne.
+  - **Levende og farverigt** — Klare farver, bevægelse og glæde. Billeder med energi og personlighed.
+  - **Stemningsfuldt og poetisk** — Dybe skygger, varmt lys og detaljer. Billeder, der vækker en følelse eller lidt mystik.
+  - **Jeg vil formulere min egen stil** (åbner et tekstfelt: "Beskriv din stil med dine egne ord")
+
+  Ved den stil, der ligger tættest på brugerens ord fra 5.4, står en lille note: *"Ligger tæt på de ord, du valgte"* (se reglen nedenfor).
+- **Eventuel interaktion:** Brugeren vælger én af de syv muligheder. Ved "Jeg vil formulere min egen stil" skriver brugeren stilen i tekstfeltet.
+- **Note ud fra ordene i 5.4:** Hver stil er koblet til en række ord fra 5.4 (`stilOrdMatch` i `js/data/billeder.js`; et ord kan høre til flere stile, og "Professionel" hører ikke til nogen). Noten vises kun, når **præcis én** stil deler flest ord med brugerens valg. Står to eller flere stile lige, peger ordene ikke tydeligt ét sted hen, og så vises der ingen note. Der vises heller ingen note, hvis brugeren ikke har valgt ord i 5.4, eller hvis ingen af ordene passer til en stil. Egne ord fra tekstfeltet i 5.4 tælles ikke med.
 - **Eventuel respons eller feedback:** Ingen rigtig/forkert-feedback. Valget vises sammen med de ord, brugeren tidligere har valgt i Modul 5.4.
 - **Hvad der leder videre til næste boble:** Knappen "Videre" leder til næste trin.
 - **Gemmes/får betydning senere:** Valget gemmes som en del af den endelige billedretning.
@@ -302,22 +316,153 @@
   - 💬 *Guide:* Dit kompas peger ikke på ét rigtigt billede. Det peger på en retning, du kan bruge igen og igen.
 - **Eventuel interaktion:** Ingen yderligere interaktion. Brugeren ser en opsummering af egne svar fra Modul 5-6.
 - **Eventuel respons eller feedback:** Opsummeringen fungerer som respons på hele modulets arbejde.
-- **Hvad der leder videre til næste boble:** Knappen "Videre til rettigheder og kontrol" leder videre til Modul 7.
-- **Gemmes/får betydning senere:** Ja. Det visuelle kompas gemmes samlet og bruges senere i Visuel style guide og i Modul 8's dokumentation.
+- **Hvad der leder videre til næste boble:** Knappen "Find eller skab dine billeder" leder videre til Modul 7.
+- **Gemmes/får betydning senere:** Ja. Det visuelle kompas gemmes samlet og bruges senere i Visuel style guide og i Modul 9's dokumentation.
 
-## Modul 7 — Tjek rettigheder og kontrast i praksis
+## Modul 7 — Find eller skab dine billeder
+
+*Nyt 2026-11-03, kilde: [docs/duf-manuskript-billeder-modul7.md](duf-manuskript-billeder-modul7.md). Det tidligere Modul 7 og 8 er nu Modul 8 og 9. Modulet starter med ét valg (7.1), der gemmes som `modul7_vej` og bestemmer vejen. I koden står vejen på hver boble som `kunVej`, og varianter pr. vej som `prVej` (se `js/data/billeder.js`). Modulet har derfor intet fast antal bobler, ligesom Modul 3.*
+
+| Boble | Jeg vil selv tage billeder (`selv`) | Jeg vil finde billeder (`find`) | Lidt af begge dele (`begge`) |
+|---|---|---|---|
+| 7.1 Hvordan vil du skaffe dine billeder? | ✓ | ✓ | ✓ |
+| 7.2–7.5 Gren A: mobil, lys, komposition, billedliste | ✓ | Springes over | ✓ |
+| 7.6 Når en anden holder kameraet | ✓ (knap: "Jeg er klar til at samle mine billeder") | Springes over | ✓ (knap: "Lad os se på billedbankerne") |
+| 7.7 Fra inspiration til billeder, du må bruge | Springes over | ✓ | ✓, med indledende sætning |
+| 7.8–7.9 Gren B: søgning, undgå det generiske | Springes over | ✓ | ✓ |
+| 7.10–7.11 Fælles afslutning | ✓ | ✓ | ✓ |
+
+Begge veje mødes i 7.10, hvor brugeren samler 3-5 billeder i en ny samling, **Mine udvalgte billeder**. Det er de billeder, der vises først i kontrasttesten (8.5) og forhåndsvisningen (9.1).
+
+### Boble 7.1 — Hvordan vil du skaffe dine billeder?
+
+- **Hvad brugeren møder på denne skærm:** Nu ved du, hvilken retning dine billeder skal pege i. Næste skridt er at få fat i billeder, du rent faktisk kan bruge. Det kan du gøre på to måder: Du kan selv tage dem, eller du kan finde dem i en billedbank. Ingen af vejene er mere rigtige end den anden. Billeder, du selv tager, viser dig og din praksis, som den er. Billeder fra en billedbank kan give dig stemninger og motiver, som er svære at skabe selv. Mange ender med at bruge lidt af hvert, og det er helt fint. Vælg den vej, der føles mest realistisk for dig lige nu. Du kan altid komme tilbage og prøve den anden.
+- **Eventuel interaktion:** Brugeren vælger mellem: "📱 Jeg vil selv tage billeder" (`selv`) / "🔎 Jeg vil finde billeder i en billedbank" (`find`) / "🌿 Lidt af begge dele" (`begge`).
+- **Hvad der leder videre til næste boble:** Knappen "Videre" leder til 7.2 (`selv`, `begge`) eller 7.7 (`find`).
+- **Gemmes/får betydning senere:** Ja. Valget gemmes som `modul7_vej` og styrer resten af modulet. Går brugeren tilbage og vælger en anden vej, følger navigationslinjen og "Tilbage" den nye vej.
+
+### Boble 7.2 — Din mobil er nok
+
+*Vises ved `selv` og `begge`.*
+
+- **Hvad brugeren møder på denne skærm:** Du behøver ikke et dyrt kamera for at tage gode billeder til din praksis. Den telefon, du har i lommen, kan mere, end de fleste tror. Det handler ikke om at blive fotograf. Det handler om at kende nogle få greb, der gør en stor forskel. Start med de helt små ting, før du tager billedet:
+  - Tør linsen af. Et fingeraftryk kan gøre et ellers fint billede sløret og mat.
+  - Slå gitterlinjerne til i kameraets indstillinger. De hjælper dig med at placere motivet, og vi bruger dem om lidt.
+  - Gå tættere på i stedet for at zoome. Når du zoomer med fingrene, bliver billedet ofte grynet. Brug hellere fødderne.
+  - Tryk på skærmen, der hvor det vigtigste er. Så ved telefonen, hvad den skal stille skarpt på, og du kan ofte justere lyset ved at trække op eller ned.
+
+  Portrættilstand kan være fin til billeder af dig selv, fordi baggrunden bliver blød. Men den kan også give mærkelige kanter omkring hår og hænder, så se billedet efter, før du bruger det.
+- **Hvad der leder videre til næste boble:** Knappen "Hvad med lyset?" leder videre.
+- **Gemmes/får betydning senere:** Nej.
+
+### Boble 7.3 — Lyset gør det meste af arbejdet
+
+*Vises ved `selv` og `begge`.*
+
+- **Hvad brugeren møder på denne skærm:** Hvis du kun tager én ting med herfra, så lad det være lyset. Det er ofte det, der afgør, om et billede føles roligt og indbydende eller fladt og hårdt. Det bedste lys er tit det, du allerede har: dagslys fra et vindue. Stil dig eller dit motiv med siden eller fronten mod vinduet, så lyset falder blødt ind. Undgå at stå med ryggen til vinduet, for så bliver du en mørk skygge mod en lys baggrund. Overskyede dage er faktisk en gave, fordi lyset bliver jævnt og blødt. Prøv også at slukke loftslampen, hvis den giver gule eller hårde skygger.
+
+  Kig derefter på baggrunden. Ting, du ikke lægger mærke til i hverdagen, bliver pludselig tydelige på et billede: en ledning, en stak papirer, en vasketøjskurv i hjørnet. Fjern det, der trækker opmærksomheden væk. Du behøver ikke et perfekt rum. Du skal bare give motivet lidt plads.
+- **Hvad der leder videre til næste boble:** Knappen "Hvordan sætter jeg billedet sammen?" leder videre.
+- **Gemmes/får betydning senere:** Nej.
+
+### Boble 7.4 — Placér motivet med omtanke
+
+*Vises ved `selv` og `begge`.*
+
+- **Hvad brugeren møder på denne skærm:** Kan du huske gitterlinjerne? De deler skærmen i ni felter. Prøv at placere det vigtigste i billedet, fx dit ansigt, en hånd eller en kop te, der hvor linjerne krydser hinanden, i stedet for lige i midten. Det kaldes tredjedelsreglen, og det giver ofte et billede, der føles mere levende og naturligt. Lad også gerne motivet få lidt luft omkring sig. Luft er ikke spildplads. Den giver ro, og den giver plads til tekst, hvis du senere vil skrive noget oven på billedet.
+
+  Når du først er i gang, så tag flere billeder af det samme, men på forskellige måder. Gå tæt på en detalje, tag et billede på mellemafstand, og tag et, hvor man ser hele rummet. Prøv at sætte dig ned, eller tag billedet lidt oppefra. Det giver dig variation at vælge imellem, og det er tit et af de billeder, du ikke regnede med, der bliver det bedste.
+- **Hvad der leder videre til næste boble:** Knappen "Hvad skal jeg tage billeder af?" leder videre.
+- **Gemmes/får betydning senere:** Nej.
+
+### Boble 7.5 — Din billedliste
+
+*Vises ved `selv` og `begge`.*
+
+- **Hvad brugeren møder på denne skærm:** I dit visuelle kompas skrev du, hvad der hører til i dine billeder. Det er din billedliste. Brug den som udgangspunkt, når du skal ud at fotografere, så du ikke står og tænker "hvad skal jeg egentlig tage billeder af?". Herunder er nogle forslag, du kan supplere med. Du behøver ikke tage dem alle på én dag. Sæt flueben, efterhånden som du får dem.
+  - Har brugeren udfyldt "Det her hører til" i 6.3, står det øverst: *Du skrev, at det her hører til: [horer_til]*
+- **Eventuel interaktion:** Tjekliste (Tjekliste-komponenten) med punkterne:
+  - Et billede af dig, hvor du ser ud, som du gør, når du tager imod en klient
+  - Dit rum eller det sted, du arbejder
+  - En detalje: et redskab, en plante, en tekop, noget der fortæller om din praksis
+  - Dine hænder i gang med noget, du gør i dit arbejde
+  - Et stemningsbillede, der rammer de ord, du valgte om, hvordan du vil opleves
+
+  Under listen: Skal der være klienter eller andre genkendelige personer med, så vent med at bruge billederne, til du har læst om samtykke i næste modul.
+- **Hvad der leder videre til næste boble:** Knappen "Videre" leder videre.
+- **Gemmes/får betydning senere:** Afkrydsningerne gemmes lokalt under `gemNoegle: "billeder-modul7-billedliste"`.
+
+### Boble 7.6 — Når en anden holder kameraet
+
+*Vises ved `selv` og `begge`.*
+
+- **Hvad brugeren møder på denne skærm:** Det er svært at tage gode billeder af sig selv. Måske beder du en veninde om hjælp, eller måske vælger du at få en fotograf ud på et tidspunkt. Uanset hvem det er, kan dit visuelle kompas gøre en stor forskel. Vis dem din stil, de ord, du gerne vil give videre, og listen over, hvad der hører til, og hvad der ikke gør. Så skal de ikke gætte, og du får billeder, der ligner dig og ikke bare deres idé om dig. Husk også at aftale, hvem der har rettighederne til billederne, især hvis du betaler en fotograf. Det tjekker vi nærmere i næste modul.
+- **Hvad der leder videre til næste boble:** Ved `selv`: knappen "Jeg er klar til at samle mine billeder" leder til 7.10. Ved `begge`: knappen "Lad os se på billedbankerne" leder til 7.7.
+- **Gemmes/får betydning senere:** Nej.
+
+### Boble 7.7 — Fra inspiration til billeder, du må bruge
+
+*Vises ved `find` og `begge`.*
+
+- **Hvad brugeren møder på denne skærm:** I Modul 4 ledte du efter inspiration, altså billeder, der fik dig til at stoppe op, uanset hvor de kom fra. Nu skal du lede efter noget andet: billeder, du faktisk må bruge i din praksis. Derfor leder vi kun i billedbanker, hvor fotograferne har givet lov til, at andre bruger billederne på bestemte vilkår. Nogle billedbanker er gratis, som Unsplash og Pexels. Andre koster penge, til gengæld har de ofte flere billeder at vælge imellem og mere præcise licenser. Begge dele kan være gode valg. Vilkårene er forskellige fra sted til sted, men det skal du ikke tænke på lige nu. Det tjekker vi sammen i næste modul.
+  - **Variant ved `begge`:** Teksten starter med et ekstra afsnit: "Nu har du set, hvordan du selv kan tage billeder. Lad os se på den anden vej."
+- **Hvad der leder videre til næste boble:** Knappen "Hvordan søger jeg?" leder videre.
+- **Gemmes/får betydning senere:** Nej.
+
+### Boble 7.8 — Søg med dit kompas
+
+*Vises ved `find` og `begge`.*
+
+- **Hvad brugeren møder på denne skærm:** Billedbankerne virker bedst på engelsk, så søgeordene herunder er på engelsk. De er sat sammen ud fra de ord, du valgte om, hvordan du vil opleves, og den stil, du valgte i dit kompas. Prøv at kombinere en stemning med et motiv, fx "calm" sammen med "treatment room" eller "warm" sammen med "hands". Jo mere præcist du søger, jo mindre skal du rode i billeder, der ikke passer. Finder du ikke noget, så prøv et synonym. "Calm" kan også være "peaceful", "quiet" eller "serene".
+
+  Du vil hurtigt opdage, at ikke alle billeder i søgningen er gratis, selvom siderne er kendt for gratis billeder. Der er betalingsbilleder blandet ind imellem, fx markeret som Unsplash+ eller som billeder fra andre billedbanker. Det er helt normalt, og du skal ikke lade dig slå ud af det. Spring dem bare over, eller filtrér søgningen, så du kun ser de gratis billeder. Vil en af siderne ikke åbne, så prøv igen lidt senere, eller brug den anden i mellemtiden. *(tilføjet 2026-11-03)*
+- **Eventuel interaktion:** Søgelinjen fra 4.3, men kun med "Søg på Unsplash" og "Søg på Pexels". Søgeordene er brugerens stil fra 6.2 og ord fra 5.4, oversat til engelsk via den faste liste `oversaettelser` i `js/data/billeder.js` (fx "Rolig" → "calm", "Varmt og nært" → "warm intimate", "Lyst og luftigt" → "bright airy"). Har brugeren ikke valgt ord i 5.4, bruges søgeordene fra 4.2. Egne ord og en selvformuleret stil ("Jeg vil formulere min egen stil") kan ikke oversættes og kommer ikke med.
+- **Hvad der leder videre til næste boble:** Knappen "Hvordan vælger jeg mellem alle billederne?" leder videre.
+- **Gemmes/får betydning senere:** Nej.
+
+### Boble 7.9 — Undgå det generiske
+
+*Vises ved `find` og `begge`.*
+
+- **Hvad brugeren møder på denne skærm:** Du kender dem sikkert: den smilende kvinde med headset, den perfekte sten på stranden, hænderne, der danner et hjerte. De billeder er brugt så mange gange, at øjet glider hen over dem. Det skal dine billeder helst ikke. Se efter billeder, der føles lidt mere ægte. Det kan være naturligt lys i stedet for kunstigt, mennesker, der ikke kigger direkte ind i kameraet, og detaljer frem for store opstillede scener. Bladr gerne lidt længere ned i søgeresultaterne. De mest brugte billeder ligger tit øverst.
+
+  Når du har fundet nogle bud, så hold dem op mod dit kompas. Passer billedet til din stil? Rammer det de ord, du gerne vil give videre? Viser det noget, der hører til, eller noget, du skrev, at du vil undgå? Og kunne billedet give et forkert indtryk af din praksis, fx ved at love et resultat, du ikke kan stå inde for? Er svaret i tvivl, er det som regel ikke det rigtige billede.
+- **Hvad der leder videre til næste boble:** Knappen "Jeg er klar til at samle mine billeder" leder til 7.10.
+- **Gemmes/får betydning senere:** Nej.
+
+### Boble 7.10 — Saml dine udvalgte billeder
+
+*Vises for alle.*
+
+- **Hvad brugeren møder på denne skærm:** Nu er det tid til at samle de billeder, du gerne vil arbejde videre med. Vælg 3-5 billeder, som du har taget selv, fundet i en billedbank eller begge dele. De behøver ikke være perfekte. De skal bare pege i retning af dit kompas. Det er de billeder, vi tjekker for rettigheder og kontrast i næste modul, så du ved, at du trygt kan bruge dem.
+- **Eventuel interaktion:** Upload til "Mine udvalgte billeder". Dine billeder bliver på din enhed. De uploades ikke til en server. Under upload-feltet står knappen "Jeg har ikke billederne endnu", så længe der er færre end 3 billeder.
+- **Eventuel respons eller feedback:** Respons på "Jeg har ikke billederne endnu": Det er helt i orden. Nogle gange tager det lidt tid at få taget eller fundet de rigtige billeder. Du kan fortsætte nu og bruge tjeklisten i næste modul, når du har dem. Du kan altid komme tilbage og tilføje dem her.
+- **Hvad der leder videre til næste boble:** Knappen "Jeg har samlet mine billeder" (låst med hintet "Saml mindst 3 billeder for at gå videre.", indtil der er mindst 3 billeder) eller "Videre" efter udvejen. Begge leder til 7.11.
+- **Gemmes/får betydning senere:** Ja. Billederne gemmes lokalt i den nye samling "Mine udvalgte billeder" og vises først i 8.5 og 9.1. Udvejen gemmer intet og ændrer ingen vej.
+
+### Boble 7.11 — Fra idé til billeder i hånden
+
+*Vises for alle.*
+
+- **Hvad brugeren møder på denne skærm:** Kig på dine udvalgte billeder. For lidt siden var din billedretning noget, du havde sat ord på. Nu er den begyndt at blive til billeder, du kan bruge. Det er et stort skridt, også selvom billederne ikke er færdige eller perfekte. Inden de kommer ud i verden, skal vi lige tjekke to ting: at du må bruge dem, og at de fungerer, der hvor du vil sætte dem ind.
+  - 💬 *Guide:* Du behøver ikke have alle dine billeder i dag. Du skal bare have dem, der får dig i gang.
+- **Eventuel interaktion:** Brugerens "Mine udvalgte billeder" vises.
+- **Hvad der leder videre til næste boble:** Knappen "Videre til rettigheder og kontrol" leder videre til Modul 8.
+- **Gemmes/får betydning senere:** Nej.
+
+## Modul 8 — Tjek rettigheder og kontrast i praksis
 
 *Dette er også det sted, valideringsvejen fra Modul 3 kan lande, hvis den bygges. Kilde: "Billedrettigheder — praktisk oversigt" (Marcus' fulde gennemgang, 2026-09-06) — indholdet holder sig tæt til den, kun formuleret i rummets tone.*
 
-### Boble 7.1 — Nu tjekker vi det i praksis
+### Boble 8.1 — Nu tjekker vi det i praksis
 
-- **Hvad brugeren møder på denne skærm:** Du har nu fundet din billedretning. Før du bruger billederne i praksis, skal vi lige to ting efter: at du må bruge dem, og at de fungerer visuelt, der hvor du sætter dem ind. Det er ikke en ekstra forhindring. Det er den sidste, praktiske del af arbejdet — så du kan bruge dine billeder uden at skulle tvivle bagefter.
+- **Hvad brugeren møder på denne skærm:** **Ny tekst 2026-11-03:** Du har nu billeder, du gerne vil bruge. Før de kommer ud i verden, skal vi lige to ting efter: at du må bruge dem, og at de fungerer visuelt, der hvor du sætter dem ind. Det er ikke en ekstra forhindring. Det er den sidste praktiske del af arbejdet, så du kan bruge dine billeder uden at skulle tvivle bagefter. Tag gerne dine udvalgte billeder med igennem tjeklisten, ét ad gangen.
 - **Eventuel interaktion:** Ingen.
 - **Eventuel respons eller feedback:** Ingen.
 - **Hvad der leder videre til næste boble:** Knappen "Lad os tage rettighederne først" leder videre.
 - **Gemmes/får betydning senere:** Nej.
 
-### Boble 7.2 — Din tjekliste, før du bruger et billede
+### Boble 8.2 — Din tjekliste, før du bruger et billede
 
 - **Hvad brugeren møder på denne skærm:** Uanset hvor billedet kommer fra, kan de samme spørgsmål hjælpe dig med at tjekke, om du er på sikker grund: 1. Hvor kommer billedet fra? 2. Har du selv taget det, fået tilladelse, eller en licens? 3. Dækker tilladelsen den konkrete brug — for eksempel din hjemmeside, sociale medier eller en annonce? 4. Er der personer på billedet, som kan genkendes? 5. Har du et lovligt og dokumenterbart grundlag for at vise dem? 6. Kan billedet afsløre eller antyde følsomme oplysninger — for eksempel om en klients helbred? 7. Skal fotografen eller en anden rettighedshaver krediteres? 8. Har du gemt dokumentation for tilladelsen eller licensen? 9. Kan billedet give et forkert indtryk af din praksis, dine resultater eller en persons situation? Kan du ikke svare sikkert på det hele, er det bedre at vælge et andet billede eller indhente en konkret tilladelse, end at gætte.
 - **Eventuel interaktion:** Brugeren kan afkrydse hvert af de 9 punkter enkeltvis via den genbrugelige **Tjekliste-komponent** (se [[DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)]]) — ét punkt ad gangen, i eget tempo, med en fremdriftsindikator ("X af 9 tjekket"). Siden fejlrettelserne i runde 7 har tjeklisten overskriften "Tjekliste" og knappen "Send listen til mig selv".
@@ -325,7 +470,7 @@
 - **Hvad der leder videre til næste boble:** Knappen "Lad os se nærmere på personer på billeder" leder videre — uafhængigt af, hvor mange punkter der er tjekket af.
 - **Gemmes/får betydning senere:** Afkrydsningerne gemmes lokalt under `gemNoegle: "billeder-modul7-rettigheder"`, så brugeren kan vende tilbage og se, hvor de kom til. Er en selvvurdering, ikke en bekræftelse af, at billederne faktisk er lovlige.
 
-### Boble 7.3 — Når der er mennesker på billedet
+### Boble 8.3 — Når der er mennesker på billedet
 
 - **Hvad brugeren møder på denne skærm:** Er der en genkendelig person på billedet, er det ikke kun et spørgsmål om ophavsret. Et billede af en person er en personoplysning, og du skal have et lovligt grundlag for at gemme, bruge og vise det — også selvom du selv har taget billedet. Den mest sikre og respektfulde løsning er et tydeligt, dokumenteret samtykke. Personen skal vide: hvilket billede du vil bruge, hvad det skal bruges til, hvor det bliver vist, hvor længe du forventer at bruge det, og hvordan samtykket kan trækkes tilbage. Samtykket skal være frivilligt — det må aldrig være en betingelse for at modtage en behandling. Optræder nogen bare tilfældigt i baggrunden, kan vurderingen være en anden. Er du i tvivl, så beskær billedet, slør personen, eller vælg et andet. Har du billeder af en klient, skal du være ekstra opmærksom: de kan afsløre eller antyde noget om en persons helbred. Her bør samtykket altid være skriftligt og knyttet til den konkrete brug — et "ja" til et opslag på Instagram er ikke automatisk et "ja" til en annonce eller en permanent plads på din hjemmeside. Fortæl klienten, hvordan de kan trække samtykket tilbage, og fjern billedet, hvis de gør.
 - **Eventuel interaktion:** Ingen.
@@ -333,21 +478,23 @@
 - **Hvad der leder videre til næste boble:** Knappen "Hvad hvis billedet kommer fra en billedbank eller nettet?" leder videre.
 - **Gemmes/får betydning senere:** Nej.
 
-### Boble 7.4 — Billedbanker og billeder fra nettet
+### Boble 8.4 — Billedbanker og billeder fra nettet
 
 - **Hvad brugeren møder på denne skærm:** Kommer billedet fra en billedbank, betyder "gratis" ikke "uden betingelser". Tjek altid, om billedet må bruges kommercielt, om nogen skal krediteres, om det må redigeres — og vær ekstra opmærksom, hvis der er personer på billedet i en sundheds- eller behandlingssammenhæng. Har du betalt for billedet, giver det kun de rettigheder, licensen faktisk nævner. Gem kvittering, licenstekst og billedets ID, så du kan dokumentere din brugsret senere. Har du fundet billedet et andet sted på nettet, er det som udgangspunkt beskyttet — også uden et synligt copyright-mærke. En kildeangivelse er ikke det samme som en tilladelse. Har billedet en Creative Commons-licens, betyder bogstaverne noget: BY — du skal kreditere ophaveren. NC — må ikke bruges kommercielt. ND — må ikke redigeres. SA — din bearbejdede version skal deles under samme licens. CC0 — fri til brug. Gem et link eller skærmbillede af licensen, mens den stadig gælder, som du hentede billedet under.
+
+  Når du henter et gratis billede på Unsplash eller Pexels, beder siden dig måske om at sige tak til fotografen. Det er ikke et krav, men en venlig gestus. Vil du gøre det, så skriv det i en billedtekst eller i en samlet liste over billedkreditter på din side. Skriv det ikke i alt-teksten. Alt-teksten er til dem, der ikke kan se billedet, og den skal beskrive, hvad billedet viser. *(tilføjet 2026-11-03)*
 - **Eventuel interaktion:** Ingen.
 - **Eventuel respons eller feedback:** Ingen.
 - **Hvad der leder videre til næste boble:** Knappen "Og hvad hvis teksten skal stå oven på billedet?" leder videre.
 - **Gemmes/får betydning senere:** Nej.
 
-### Boble 7.5 — Tjek kontrasten, hvis der skal tekst på billedet
+### Boble 8.5 — Tjek kontrasten, hvis der skal tekst på billedet
 
 *Runde 7: I testen gik brugeren i stå, fordi hun ikke vidste, hvor hun skulle teste kontrasten. Testen kan nu laves direkte i boblen.*
 
 - **Hvad brugeren møder på denne skærm:** **✅ Ny tekst (godkendt af Heidi 2026-09-25):** Skal du have tekst oven på et billede, er det sidste praktiske tjek: kan teksten faktisk læses? Prøv det her. Vælg et af dine billeder, og se, hvordan en kort tekst ser ud oven på det. Du kan skifte farve på teksten og prøve med en boks bag den. Vi kan ikke måle kontrasten for dig på et foto, sådan som vi kan med to flade farver. Men når du ser det, bliver det som regel hurtigt klart.
 - **Eventuel interaktion:** **Nyt i runde 7:**
-  - Brugeren vælger et billede fra "Billeder fra min praksis" eller "Min inspiration" (små billeder at trykke på).
+  - Brugeren vælger et billede fra "Mine udvalgte billeder" (fra 7.10, vises først), "Billeder fra min praksis" eller "Min inspiration" (små billeder at trykke på).
   - Billedet vises med en kort eksempeltekst ovenpå, fx "Book en tid hos mig".
   - Tekstfarven kan skiftes mellem farverne i brugerens gemte palet fra Farver. Har hun ingen palet, kan hun vælge mellem hvid og sort.
   - En knap slår en halvgennemsigtig mørk eller lys boks bag teksten til og fra.
@@ -356,36 +503,36 @@
 - **Hvad der leder videre til næste boble:** Knappen "Er du stadig i tvivl om noget?" leder videre.
 - **Gemmes/får betydning senere:** Nej.
 
-### Boble 7.6 — Er du stadig i tvivl?
+### Boble 8.6 — Er du stadig i tvivl?
 
 - **Hvad brugeren møder på denne skærm:** Nogle situationer er værd at få set efter af en fagperson, fremfor at gætte: hvis nogen protesterer mod din brug af et billede, hvis du modtager et krav eller en klage, hvis du er usikker på, om en licens dækker din brug, hvis billedet viser en klient eller kan afsløre helbredsoplysninger, hvis det skal indgå i en større annoncekampagne, eller hvis du vil bruge et AI-genereret billede, der ligner en virkelig person eller begivenhed. At vælge et andet billede er ofte både enklere og billigere end at løbe en unødvendig risiko. Denne gennemgang er DUF's praktiske vejledning — den erstatter ikke juridisk rådgivning. Er du i tvivl i en konkret situation, særligt med penge, en klage eller en klient involveret, så søg professionel rådgivning.
 - **Eventuel interaktion:** Ingen. *(Parkeret fra brugertest 1: et link til, hvor man finder en fagperson. Kræver først en liste over relevante steder, se P2 i sorteringsdokumentet.)*
 - **Eventuel respons eller feedback:** Ingen.
-- **Hvad der leder videre til næste boble:** Knappen "Jeg har styr på mine billeder" leder videre til Modul 8.
+- **Hvad der leder videre til næste boble:** Knappen "Jeg har styr på mine billeder" leder videre til Modul 9.
 - **Gemmes/får betydning senere:** Nej.
 
-### Boble 7.7 — Du har nu tjekket det, der betyder mest
+### Boble 8.7 — Du har nu tjekket det, der betyder mest
 
 - **Hvad brugeren møder på denne skærm:** Du har nu både en billedretning og et praktisk overblik over rettighederne bag den. Det er den kombination, der gør dine billeder brugbare i virkeligheden — ikke kun noget, du kan lide at se på.
   - 💬 *Guide:* Du behøver ikke kunne det hele udenad. Du skal bare vide, hvor du kan tjekke det, når du er i tvivl.
 - **Eventuel interaktion:** Ingen.
 - **Eventuel respons eller feedback:** Ingen.
-- **Hvad der leder videre til næste boble:** Knappen "Videre til sidste trin" leder videre til Modul 8.
+- **Hvad der leder videre til næste boble:** Knappen "Videre til sidste trin" leder videre til Modul 9.
 - **Gemmes/får betydning senere:** Nej.
 
-## Modul 8 — Afprøv og dokumentér
+## Modul 9 — Afprøv og dokumentér
 
-### Boble 8.1 — Prøv din billedretning af
+### Boble 9.1 — Prøv din billedretning af
 
 *Runde 7: I testen havde brugeren intet at prøve billedretningen af på, og knappen "Jeg har prøvet det" gav ikke plads til det ("jeg trykker bare på linket alligevel"). Boblen viser nu en forhåndsvisning af brugerens valg, så alle kan se det med det samme, og har en knap til den, der ikke har noget at prøve på endnu.*
 
 - **Hvad brugeren møder på denne skærm:** **✅ Ny tekst (godkendt af Heidi 2026-09-25):** Her kan du se, hvordan din billedretning kunne se ud sammen med resten af dit visuelle udtryk. Vælg et billede, så sætter vi det sammen med de farver, skrifttyper og det logo, du har valgt i de andre rum, hvis du har været der. Har du et sted, hvor du kan prøve det af i virkeligheden, fx et opslag, en side på din hjemmeside eller et dokument, så gør det gerne. Det er noget helt andet, når det er noget, andre rent faktisk møder. Har du ikke det endnu, er forhåndsvisningen her et godt sted at starte.
-- **Eventuel interaktion:** **Nyt i runde 7:** En forhåndsvisning ("Sådan kunne det se ud"): et lille kort med det valgte billede øverst og en kort overskrift og tekstlinje under. Brugeren vælger billedet fra "Billeder fra min praksis" eller "Min inspiration". Kortet bruger brugerens gemte palet, skrifttyper og logo, hvis de findes, og udelader det, der ikke findes. Har hun ikke været i de andre rum, vises billedet med neutral tekst.
+- **Eventuel interaktion:** **Nyt i runde 7:** En forhåndsvisning ("Sådan kunne det se ud"): et lille kort med det valgte billede øverst og en kort overskrift og tekstlinje under. Brugeren vælger billedet fra "Mine udvalgte billeder" (fra 7.10, vises først), "Billeder fra min praksis" eller "Min inspiration". Kortet bruger brugerens gemte palet, skrifttyper og logo, hvis de findes, og udelader det, der ikke findes. Har hun ikke været i de andre rum, vises billedet med neutral tekst.
 - **Eventuel respons eller feedback:** Ingen.
-- **Hvad der leder videre til næste boble:** To knapper, begge til 8.2: "Jeg har prøvet det i praksis" / ✅ "Jeg har ingen steder at prøve det af på endnu" *(Heidis formulering, 2026-09-25)*.
+- **Hvad der leder videre til næste boble:** To knapper, begge til 9.2: "Jeg har prøvet det i praksis" / ✅ "Jeg har ingen steder at prøve det af på endnu" *(Heidis formulering, 2026-09-25)*.
 - **Gemmes/får betydning senere:** Nej.
 
-### Boble 8.2 — Skriv det ned, så du kan finde det igen
+### Boble 9.2 — Skriv det ned, så du kan finde det igen
 
 - **Hvad brugeren møder på denne skærm:** Skriv 2-3 sætninger om din billedretning: hvilken stil og hvilke motiver du går efter, hvilke ord du vil have billederne til at give videre — og hvordan du har sikret dig rettighederne til dem. Det er det, der bliver til den del af din visuelle guide, du kan slå op i senere.
 - **Eventuel interaktion:** Brugeren skriver en kort tekst.
@@ -393,23 +540,23 @@
 - **Hvad der leder videre til næste boble:** Knappen "Videre" leder til sidste trin.
 - **Gemmes/får betydning senere:** Ja. Teksten gemmes og indgår i Visuel style guide, sammen med det visuelle kompas fra Modul 6.
 
-### Boble 8.3 — Din billedretning er en prototype, ikke en facitliste
+### Boble 9.3 — Din billedretning er en prototype, ikke en facitliste
 
 - **Hvad brugeren møder på denne skærm:** Din billedretning er ikke hugget i sten. Den er en prototype, ligesom resten af dit visuelle udtryk — og den må gerne udvikle sig, i takt med at din praksis og dit materiale gør det. Du har nu et kompas, en tjekliste og et sted at starte, næste gang du skal vælge et billede. Det er nok til at komme videre.
   - 💬 *Guide:* Du skal ikke ramme den perfekte billedretning i dag. Du skal bare have en, du kan bruge i morgen.
 - **Eventuel interaktion:** Ingen.
 - **Eventuel respons eller feedback:** Ingen.
 - **Hvad der leder videre til næste boble:** Fører brugeren ud af Billeder-rummet, tilbage til rum-vælgeren.
-- **Gemmes/får betydning senere:** Nej — det, der skal gemmes (kompas + dokumentation), er allerede gemt i Modul 6 og 8.2.
+- **Gemmes/får betydning senere:** Nej — det, der skal gemmes (kompas + dokumentation), er allerede gemt i Modul 6 og 9.2.
 
 ## Spørgsmål til jer, inden I bygger videre
 
 - Modulopdelingen er markant finere end den forrige version af dette manuskript (40 bobler fordelt på 8 moduler, mod tidligere ca. 1-2 skærmtekster pr. modul). Bekræft, at `billederEngine.js`/`billederUi.js` kan rumme det uden ændringer i selve motoren — se [[DUF Teknisk - Navigationslinjer (modul og boble)]], som allerede fastslår, at antallet af moduler/bobler ikke er arkitektonisk fastlåst, men det er værd at bekræfte konkret for Billeder.
 - Modul 3.1 og Modul 4.4 bruger to adskilte gemte billedsamlinger: "Billeder fra min praksis" (egne billeder, allerede besluttet 2026-09-06) og en ny "Min inspiration"-samling (eksterne billeder/screenshots). Skal "Min inspiration" bygges som en ny datastruktur, eller kan den genbruge samme IndexedDB-mekanik som "Billeder fra min praksis"?
-- Modul 7.2 bruger den nye, genbrugelige Tjekliste-komponent (se [[DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)]]) — første sted, den tages i brug. Bekræft komponentens data-model og placering (`js/components/tjekliste.js`), før den bygges ind flere steder.
-- Modul 2 (den indledende rettighedsgennemgang) er stadig den lettere, kondenserede version. Kun Modul 7 er opdateret til at matche den fulde "Billedrettigheder — praktisk oversigt". Skal Modul 2 også uddybes til samme dybde, eller er forskellen mellem en kort "teaser" tidligt og en fuld gennemgang i Modul 7 tilsigtet?
+- Modul 8.2 bruger den nye, genbrugelige Tjekliste-komponent (se [[DUF Teknisk - Tjekliste-komponent (afkrydsningspunkter)]]) — første sted, den tages i brug. Bekræft komponentens data-model og placering (`js/components/tjekliste.js`), før den bygges ind flere steder.
+- Modul 2 (den indledende rettighedsgennemgang) er stadig den lettere, kondenserede version. Kun Modul 8 er opdateret til at matche den fulde "Billedrettigheder — praktisk oversigt". Skal Modul 2 også uddybes til samme dybde, eller er forskellen mellem en kort "teaser" tidligt og en fuld gennemgang i Modul 8 tilsigtet?
 - "Dit visuelle kompas" (Modul 5-6) er et nyt begreb. Skal det bruges konsekvent fremover (fx også i Visuel style guide og i andre uddybende rum), eller er det kun en arbejdstitel for denne del af Billeder?
-- **Nyt i runde 7 — billedvisning:** 5.1, 5.3, 7.5 og 8.1 skal nu alle vise brugerens billeder som små billeder, der kan vælges eller forstørres. Byg det som én lille, genbrugelig visning (fx `js/components/billedvaelger.js`) i stedet for fire gange.
-- **Afgjort 2026-09-25 (Heidi) — forhåndsvisningen i 8.1:** Byggestens "Prøv dem sammen" (`js/components/provSammen.js`, se [[DUF Teknisk - Byggesten-forhåndsvisning (Prøv dem sammen)]]) udvides med et valgfrit billede og genbruges i Billeder 8.1. Ingen ny komponent. Erstatter beslutningen fra 2026-09-23 om, at den skulle være selvstændig.
-- **Afgjort 2026-09-25 (Heidi) — hvor billederne kommer fra i 7.5 og 8.1:** Nu: brugerens egne samlinger ("Billeder fra min praksis" og "Min inspiration"). Senere: et lille DUF-arkiv med frie billeder, som alle kan prøve med. Arkivet kræver, at nogen først finder billeder med frie rettigheder (opgave til Marcus), og bygges ikke i denne runde. Byg billedvælgeren, så en ekstra kilde let kan tilføjes.
+- **Nyt i runde 7 — billedvisning:** 5.1, 5.3, 8.5 og 9.1 skal nu alle vise brugerens billeder som små billeder, der kan vælges eller forstørres. Byg det som én lille, genbrugelig visning (fx `js/components/billedvaelger.js`) i stedet for fire gange.
+- **Afgjort 2026-09-25 (Heidi) — forhåndsvisningen i 9.1:** Byggestens "Prøv dem sammen" (`js/components/provSammen.js`, se [[DUF Teknisk - Byggesten-forhåndsvisning (Prøv dem sammen)]]) udvides med et valgfrit billede og genbruges i Billeder 9.1. Ingen ny komponent. Erstatter beslutningen fra 2026-09-23 om, at den skulle være selvstændig.
+- **Afgjort 2026-09-25 (Heidi) — hvor billederne kommer fra i 8.5 og 9.1:** Nu: brugerens egne samlinger ("Billeder fra min praksis" og "Min inspiration"). Senere: et lille DUF-arkiv med frie billeder, som alle kan prøve med. Arkivet kræver, at nogen først finder billeder med frie rettigheder (opgave til Marcus), og bygges ikke i denne runde. Byg billedvælgeren, så en ekstra kilde let kan tilføjes.
 - **Nyt i runde 7 — søge-links i 4.3/4.4:** søgesiderne åbnes med søgeordet i adressen (fx Pinterest, Google Billeder, Unsplash, Pexels). Tjek, at adresserne virker, før de bygges ind, og samle dem ét sted i koden, så de er lette at rette, hvis et site ændrer sig.

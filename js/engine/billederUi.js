@@ -138,7 +138,8 @@ function showExitConfirmation(onStay, onExit) {
  * ----------------------------------------------------------------------------
  */
 
-/*---- topHtml (valgfri): indhold lige under overskriften, fx billederne øverst i 5.1/5.3 eller søgelinjen øverst i 4.4 (runde 7) ----*/
+/*---- topHtml (valgfri): indhold lige under overskriften, fx billederne øverst i 5.1/5.3 eller søgelinjen øverst i 4.4 (runde 7)
+ * `afterList` kan være én tekst eller en liste af afsnit (8.4 har to, 2026-11-03). Gælder kun her - soegesteder og checklist viser stadig kun én tekst ----*/
 function headerHtml(boble, topHtml = "") {
     return `
         <h2 class="section-heading">${boble.heading}</h2>
@@ -146,7 +147,7 @@ function headerHtml(boble, topHtml = "") {
         <div class="section-body">
             ${(boble.paragraphs || []).map((p) => `<p>${p}</p>`).join("")}
             ${boble.list ? `<ul>${boble.list.map((item) => `<li>${item}</li>`).join("")}</ul>` : ""}
-            ${boble.afterList ? `<p>${boble.afterList}</p>` : ""}
+            ${boble.afterList ? [].concat(boble.afterList).map((p) => `<p>${p}</p>`).join("") : ""}
         </div>
         ${boble.guideLine ? `
             <div class="panel guide-line">
@@ -170,7 +171,7 @@ function renderScreen({ bodyHtml, ctaHtml }, onExit, onReference) {
     bindChrome(onExit, onReference);
 }
 
-/*---- type: "text" - ren læseskærm, med valgfri billedgalleri-visning (Modul 3.3/4.5), 💬-guide-linje, og "Gemmer..." på slutknappen (isFinal, Modul 8.3) ----*/
+/*---- type: "text" - ren læseskærm, med valgfri billedgalleri-visning (Modul 3.3/4.5), 💬-guide-linje, og "Gemmer..." på slutknappen (isFinal, Modul 9.3) ----*/
 
 function showTextBoble(boble, images, onNext, onExit, onReference) {
     const galleryHtml = images
@@ -192,14 +193,16 @@ function showTextBoble(boble, images, onNext, onExit, onReference) {
     });
 }
 
-/*---- type: "choice" - envalgskort + eksplicit "Videre"-knap (aktiveres først ved valg). Understøtter valgfrit fritekstfelt for ét bestemt svar (freeTextOptionId, Modul 6.2), og et panel der afsløres for ét bestemt svar (revealOnOptionId, Modul 7.5) ----*/
+/*---- type: "choice" - envalgskort + eksplicit "Videre"-knap (aktiveres først ved valg). Understøtter valgfrit fritekstfelt for ét bestemt svar (freeTextOptionId, Modul 6.2), og et panel der afsløres for ét bestemt svar (revealOnOptionId)
+ * 2026-11-03 (6.2): `taetPaa` er den stil, motoren har fundet ud fra ordene i 5.4 (højst én, se stileTaetPaaOrd i billederEngine.js). Den får boblens `taetPaaTekst` som en lille note under beskrivelsen (klassen .choice-card-note i css/_components.scss). Tom liste = ingen note, så 7.1 er uændret ----*/
 
-function showChoiceBoble(boble, onNext, onExit, onReference) {
+function showChoiceBoble(boble, onNext, onExit, onReference, { taetPaa = [] } = {}) {
     const optionsHtml = boble.options.map((option) => `
         <button type="button" class="choice-card choice-card--poll" aria-pressed="false" data-option-id="${option.id}">
             <span class="choice-card-body">
                 <span class="choice-card-title choice-card-title--plain">${option.text}</span>
                 ${option.description ? `<span class="choice-card-description">${option.description}</span>` : ""}
+                ${taetPaa.includes(option.id) ? `<span class="choice-card-note">${boble.taetPaaTekst}</span>` : ""}
             </span>
         </button>
     `).join("");
@@ -404,7 +407,7 @@ function showMultiChoiceBoble(boble, onNext, onExit, onReference, { billedkilder
     });
 }
 
-/*---- type: "textNote" - ét eller flere fritekstfelter. Modul 8.2 forudfyldes med en tekst bygget af engine ud fra det visuelle kompas (prefillText) ----*/
+/*---- type: "textNote" - ét eller flere fritekstfelter. Modul 9.2 forudfyldes med en tekst bygget af engine ud fra det visuelle kompas (prefillText) ----*/
 
 function showTextNoteBoble(boble, prefillText, onNext, onExit, onReference) {
     const fieldsHtml = boble.fields.map((field) => `
@@ -470,17 +473,19 @@ function bindSoegelinje({ soegesteder }) {
     });
 }
 
-/*---- type: "soegesteder" - Modul 4.3 (runde 7): forklaring af stederne + søgelinjen ----*/
+/*---- type: "soegesteder" - Modul 4.3 (runde 7): forklaring af stederne + søgelinjen. 7.8 (2026-11-03) har hverken `steder` eller `afterList`, så begge er valgfrie ----*/
 
 function showSoegestederBoble(boble, soegeKontekst, onNext, onExit, onReference) {
-    const stederHtml = `<ul class="section-body soegesteder-liste">${boble.steder.map((sted) => `<li><strong>${sted.navn}</strong> — ${sted.tekst}</li>`).join("")}</ul>`;
+    const stederHtml = boble.steder
+        ? `<ul class="section-body soegesteder-liste">${boble.steder.map((sted) => `<li><strong>${sted.navn}</strong> — ${sted.tekst}</li>`).join("")}</ul>`
+        : "";
 
     renderScreen({
         bodyHtml: `
             ${headerHtml({ ...boble, afterList: null })}
             ${stederHtml}
             ${soegelinjeHtml(soegeKontekst)}
-            <div class="section-body"><p>${boble.afterList}</p></div>
+            ${boble.afterList ? `<div class="section-body"><p>${boble.afterList}</p></div>` : ""}
         `,
         ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText}</button>`
     }, onExit, onReference);
@@ -491,22 +496,30 @@ function showSoegestederBoble(boble, soegeKontekst, onNext, onExit, onReference)
 }
 
 /*---- type: "imageUpload" - genbruger det delte billedgalleri-komponent. Understøtter et minimumsantal, før "Videre" aktiveres (minImages, Modul 4.4).
- * Runde 7: `ingenBilleder` (3.1) giver en ekstra knap under upload-feltet med sin egen respons. "Jeg har tilføjet mine billeder" vises først, når mindst ét billede er tilføjet, og ingen-billeder-knappen kun, så længe der ingen er. Motoren får { harEgneBilleder } med. `visSoegelinje` (4.4) viser søgelinjen øverst ----*/
+ * Runde 7: `ingenBilleder` (3.1) giver en ekstra knap under upload-feltet med sin egen respons. "Jeg har tilføjet mine billeder" vises først, når mindst ét billede er tilføjet, og ingen-billeder-knappen kun, så længe der ingen er. Motoren får { harEgneBilleder } med. `visSoegelinje` (4.4) viser søgelinjen øverst.
+ * 2026-11-03 (7.10): `ingenBilleder` og `minImages` sammen. Så er "Videre" synlig, men låst indtil minimummet er nået, og ingen-billeder-knappen vises, så længe der er færre billeder end minimummet. Uden `minImages` er 3.1 uændret
+ * 2026-11-03: alle Billeders upload-bobler sender `multiple: true` til det delte komponent, så brugeren kan vælge flere billeder på én gang ----*/
 
 function showImageUploadBoble(boble, images, onNext, onExit, onReference, imageHandlers, soegeKontekst = null) {
     const minImages = boble.minImages || 0;
     const meetsMin = images.length >= minImages;
     const ingen = boble.ingenBilleder;
+    /*---- Antal billeder, hvor udvejen ikke længere er relevant: 1 i 3.1, minimummet i 7.10 ----*/
+    const udvejGraense = minImages || 1;
 
     const ingenHtml = ingen
         ? `
-            <button id="no-images-button" type="button" class="btn btn--regular btn--outline-green" ${images.length ? "hidden" : ""}>${ingen.knapTekst}</button>
+            <button id="no-images-button" type="button" class="btn btn--regular btn--outline-green" ${images.length >= udvejGraense ? "hidden" : ""}>${ingen.knapTekst}</button>
             <div class="panel boble-respons" id="no-images-response" role="status" hidden><p>${ingen.respons}</p></div>
         `
         : "";
 
+    const ingenNextAttr = minImages
+        ? (meetsMin ? "" : "disabled")
+        : (images.length ? "" : "hidden");
+
     const ctaHtml = ingen
-        ? `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade" ${images.length ? "" : "hidden"}>${boble.nextButtonText}</button>
+        ? `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade" ${ingenNextAttr}>${boble.nextButtonText}</button>
            <button id="no-images-continue" type="button" class="btn btn--regular btn--solid-omraade" hidden>${ingen.videreTekst}</button>`
         : `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade" ${minImages && !meetsMin ? "disabled" : ""}>${boble.nextButtonText}</button>`;
 
@@ -515,7 +528,7 @@ function showImageUploadBoble(boble, images, onNext, onExit, onReference, imageH
     renderScreen({
         bodyHtml: `
             ${headerHtml(boble, soegelinje)}
-            ${renderImageUploadHtml({ label: boble.uploadLabel, hint: boble.uploadHint, images })}
+            ${renderImageUploadHtml({ label: boble.uploadLabel, hint: boble.uploadHint, images, multiple: true })}
             ${ingenHtml}
             ${minImages && !meetsMin ? `<p class="section-body upload-gated-hint">${boble.gatedHint || ""}</p>` : ""}
         `,
@@ -531,9 +544,9 @@ function showImageUploadBoble(boble, images, onNext, onExit, onReference, imageH
 
     function syncIngenBilleder(antal) {
         if (!ingen) return;
-        nextButton.hidden = antal === 0;
-        noImagesButton.hidden = antal > 0;
-        if (antal > 0) {
+        if (!minImages) nextButton.hidden = antal === 0;
+        noImagesButton.hidden = antal >= udvejGraense;
+        if (antal >= udvejGraense) {
             noImagesResponse.hidden = true;
             noImagesContinue.hidden = true;
         }
@@ -546,7 +559,7 @@ function showImageUploadBoble(boble, images, onNext, onExit, onReference, imageH
             const hint = document.querySelector(".upload-gated-hint");
             const nowMeetsMin = updated.length >= minImages;
 
-            if (nextButton && !ingen) nextButton.disabled = minImages > 0 && !nowMeetsMin;
+            if (nextButton && minImages) nextButton.disabled = !nowMeetsMin;
             if (hint) hint.style.display = nowMeetsMin ? "none" : "";
             syncIngenBilleder(updated.length);
 
@@ -605,11 +618,22 @@ function showKeywordPickerBoble(boble, onNext, onExit, onReference) {
     });
 }
 
-/*---- type: "checklist" - Modul 7.2, genbruger den delte Tjekliste-komponent ----*/
+/*---- Brugerens egen tekst sættes ind i siden, så <, > og & vises som tegn og ikke læses som html ----*/
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]));
+}
 
-function showChecklistBoble(boble, onNext, onExit, onReference) {
+/*---- type: "checklist" - Modul 7.5 og 8.2, genbruger den delte Tjekliste-komponent.
+ * 2026-11-03 (7.5): `egetSvar` (fra motoren, ud fra `visEgetSvar`) vises øverst, og `afterList` står under tjeklisten i stedet for over den ----*/
+
+function showChecklistBoble(boble, onNext, onExit, onReference, { egetSvar = "" } = {}) {
+    const egetSvarHtml = egetSvar
+        ? `<div class="panel boble-respons"><p><em>${boble.visEgetSvar.tekst} ${escapeHtml(egetSvar)}</em></p></div>`
+        : "";
+    const efterListeHtml = boble.afterList ? `<div class="section-body"><p>${boble.afterList}</p></div>` : "";
+
     renderScreen({
-        bodyHtml: `${headerHtml(boble)}<div id="tjekliste-container"></div>`,
+        bodyHtml: `${headerHtml({ ...boble, afterList: null })}${egetSvarHtml}<div id="tjekliste-container"></div>${efterListeHtml}`,
         ctaHtml: `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText}</button>`
     }, onExit, onReference);
 
@@ -684,7 +708,7 @@ function showCompassSummaryBoble(boble, summaryItems, onNext, onExit, onReferenc
     document.querySelector("#next-button").addEventListener("click", () => onNext());
 }
 
-/*---- type: "kontrasttest" - Modul 7.5 (runde 7). Brugeren vælger et billede (billedvælgerens vælg-udgave) og ser eksempelteksten ovenpå. Tekstfarven skiftes mellem paletten fra Farver (ellers hvid og sort), og en knap slår en halvgennemsigtig boks bag teksten til og fra - mørk bag lys tekst, lys bag mørk tekst. Intet måles automatisk. Svarer hun "Nej", vises tippet, og boks-knappen fremhæves ----*/
+/*---- type: "kontrasttest" - Modul 8.5 (runde 7, hed 7.5 før 2026-11-03). Brugeren vælger et billede (billedvælgerens vælg-udgave) og ser eksempelteksten ovenpå. Tekstfarven skiftes mellem paletten fra Farver (ellers hvid og sort), og en knap slår en halvgennemsigtig boks bag teksten til og fra - mørk bag lys tekst, lys bag mørk tekst. Intet måles automatisk. Svarer hun "Nej", vises tippet, og boks-knappen fremhæves ----*/
 
 function erLysFarve(hex) {
     const clean = hex.replace("#", "");
@@ -784,7 +808,7 @@ function showKontrasttestBoble(boble, { billedkilder, tekstfarver }, onNext, onE
     nextButton.addEventListener("click", () => onNext(selectedId));
 }
 
-/*---- type: "forhaandsvisning" - Modul 8.1 (runde 7). Brugeren vælger et billede, og Byggestens "Prøv dem sammen" (js/components/provSammen.js) viser det øverst i kortet, med palet/fonte/ikon/logo fra de andre rum, hvis de findes. Begge knapper leder til 8.2 ----*/
+/*---- type: "forhaandsvisning" - Modul 9.1 (runde 7, hed 8.1 før 2026-11-03). Brugeren vælger et billede, og Byggestens "Prøv dem sammen" (js/components/provSammen.js) viser det øverst i kortet, med palet/fonte/ikon/logo fra de andre rum, hvis de findes. Begge knapper leder til 9.2 ----*/
 
 function showForhaandsvisningBoble(boble, { billedkilder, provSammen }, onNext, onExit, onReference) {
     renderScreen({

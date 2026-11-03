@@ -6,7 +6,7 @@ import {
     RENDERERS
 } from "./billederUi.js";
 
-import { bobler, moduler, velkomst, situationer, soegesteder } from "../data/billeder.js";
+import { bobler, moduler, velkomst, situationer, soegesteder, oversaettelser } from "../data/billeder.js";
 import { saveSideOutput, saveImage, deleteImage, getImagesForSide, getSideOutput } from "../storage/storage.js";
 import { hentUdgangspunkt } from "../storage/udgangspunkt.js";
 import { VISUELT_UDTRYK_HUB } from "./exit.js";
@@ -17,18 +17,23 @@ const BILLEDER_ID = "billeder";
 /*---- "Min inspiration" (Modul 4) genbruger den samme billedlagring som "Billeder fra min praksis" (Modul 3), under en anden nøgle - så de to samlinger ikke blandes sammen i IndexedDB (afklaret med Heidi 2026-09-19). ----*/
 const INSPIRATION_BUCKET_ID = "billeder-inspiration";
 
+/*---- "Mine udvalgte billeder" (7.10, nyt 2026-11-03) får sin egen nøgle på samme måde, så de ikke blandes med de to andre samlinger ----*/
+const UDVALGTE_BUCKET_ID = "billeder-udvalgte";
+
 const BUCKET_IDS = {
     praksis: BILLEDER_ID,
-    inspiration: INSPIRATION_BUCKET_ID
+    inspiration: INSPIRATION_BUCKET_ID,
+    udvalgte: UDVALGTE_BUCKET_ID
 };
 
 /*---- Kilder til billedvælgeren (js/components/billedvaelger.js), runde 7. Et DUF-arkiv med frie billeder er besluttet, men ikke bygget - det tilføjes som en kilde mere her, med sin egen `hent` ----*/
 const BILLEDKILDER = {
+    udvalgte: { titel: "Mine udvalgte billeder", hent: () => getImagesForSide(BUCKET_IDS.udvalgte) },
     praksis: { titel: "Billeder fra min praksis", hent: () => getImagesForSide(BUCKET_IDS.praksis) },
     inspiration: { titel: "Min inspiration", hent: () => getImagesForSide(BUCKET_IDS.inspiration) }
 };
 
-/*---- Byggesten og Logo læses kun (til 8.1's forhåndsvisning), aldrig skrevet. Samme nøgler, som Byggesten selv bruger ----*/
+/*---- Byggesten og Logo læses kun (til 9.1's forhåndsvisning), aldrig skrevet. Samme nøgler, som Byggesten selv bruger ----*/
 const BYGGESTEN_ID = "byggesten";
 const LOGO_BUCKET_ID = "logo";
 
@@ -48,6 +53,11 @@ const LOGO_BUCKET_ID = "logo";
  * `kunMedEgneBilleder` over (3.3, 3.5), og bobler med `udenEgneBilleder`
  * (3.4, 6.1) vises i deres variant. 3.1 har desuden en variant, når velkommen-visuelt-udtryk
  * viser, at brugeren starter fra bunden (hentUdgangspunkt()).
+ *
+ * 2026-11-03: endnu en forgrening i det nye Modul 7. Valget i 7.1 gemmes som
+ * `answers.modul7_vej` ("selv", "find" eller "begge"). Bobler med `kunVej`
+ * springes over, når vejen ikke står i listen, og `prVej` giver en variant
+ * pr. vej (fx 7.6's knaptekst og 7.7's indledning). Modul 3-logikken er uændret.
  * ----------------------------------------------------------------------------
  */
 
@@ -74,8 +84,15 @@ export class BilledeEngine {
         });
     }
 
-    /*---- Den version af boblen, brugeren skal se: variant-tekst afhængigt af harEgneBilleder / velkommen-visuelt-udtryk. Selve data-objektet ændres ikke ----*/
+    /*---- Den version af boblen, brugeren skal se: variant-tekst afhængigt af harEgneBilleder / velkommen-visuelt-udtryk / modul7_vej. Selve data-objektet ændres ikke ----*/
     tilpasBoble(boble) {
+        const vejVariant = boble.prVej?.[this.answers.modul7_vej?.id];
+        if (vejVariant) {
+            /*---- `indledning` sættes foran boblens egne afsnit, alt andet (fx nextButtonText) erstatter boblens felt ----*/
+            const { indledning, ...felter } = vejVariant;
+            const paragraphs = indledning ? [indledning, ...(boble.paragraphs || [])] : boble.paragraphs;
+            return { ...boble, ...felter, paragraphs };
+        }
         if (boble.udenEgneBilleder && this.answers.harEgneBilleder === false) {
             return { ...boble, ...boble.udenEgneBilleder };
         }
@@ -86,7 +103,13 @@ export class BilledeEngine {
     }
 
     springesOver(boble) {
-        return Boolean(boble.kunMedEgneBilleder) && this.answers.harEgneBilleder === false;
+        if (boble.kunMedEgneBilleder && this.answers.harEgneBilleder === false) return true;
+
+        /*---- Modul 7: boblen hører kun til nogle af vejene fra 7.1 ----*/
+        const vej = this.answers.modul7_vej?.id;
+        if (boble.kunVej && vej && !boble.kunVej.includes(vej)) return true;
+
+        return false;
     }
 
     async hentBilledkilder(ids) {
@@ -163,6 +186,17 @@ export class BilledeEngine {
                 render(boble, { billedkilder, provSammen }, onNext, onExit, onReference);
                 break;
             }
+            case "checklist": {
+                /*---- 7.5: brugerens eget svar fra en tidligere boble (visEgetSvar), hvis det findes. Tom tekst = vises ikke ----*/
+                const egetSvar = boble.visEgetSvar
+                    ? (this.answers[boble.visEgetSvar.answerKey]?.[boble.visEgetSvar.felt] || "").trim()
+                    : "";
+                render(boble, onNext, onExit, onReference, { egetSvar });
+                break;
+            }
+            case "choice":
+                render(boble, onNext, onExit, onReference, { taetPaa: this.stileTaetPaaOrd(boble) });
+                break;
             case "compassSummary":
                 render(boble, this.buildCompassSummaryItems(), onNext, onExit, onReference);
                 break;
@@ -171,13 +205,46 @@ export class BilledeEngine {
         }
     }
 
-    /*---- Søgeordene fra 4.2 og søgestederne, til 4.3 og søgelinjen øverst i 4.4 ----*/
+    /*---- Søgeordene fra 4.2 og søgestederne, til 4.3 og søgelinjen øverst i 4.4. 7.8 viser kun nogle af stederne (kunSoegesteder) og bygger sine søgeord af kompasset (soegeordFraKompas) ----*/
     soegeKontekst(boble) {
         if (boble.type !== "soegesteder" && !boble.visSoegelinje) return null;
-        return { soegeord: this.answers.valgteSoegeord || [], soegesteder };
+
+        const steder = boble.kunSoegesteder
+            ? soegesteder.filter((sted) => boble.kunSoegesteder.includes(sted.id))
+            : soegesteder;
+        const soegeord = boble.soegeordFraKompas ? this.soegeordFraKompas() : (this.answers.valgteSoegeord || []);
+
+        return { soegeord, soegesteder: steder };
     }
 
-    /*---- 8.1: det, "Prøv dem sammen" (js/components/provSammen.js) skal bruge fra de andre rum - kun læst. Palet og logo læses som i byggestenEngine.js' hentGemtPalet/hentGemtLogo. Fonte og ikon kun, hvis Byggesten har arbejdet med dem (fokusvalg). Mangler det hele, viser kortet DUF's standardfarver og -fonte ----*/
+    /*---- 7.8: stilen fra 6.2 først, så ordene fra 5.4, oversat via `oversaettelser` i js/data/billeder.js. Uden ord fra 5.4 bruges søgeordene fra 4.2 i stedet. Det, der ikke står i oversættelseslisten, springes over ----*/
+    soegeordFraKompas() {
+        const stil = oversaettelser[this.answers.modul6_stil?.id];
+        const ord = (this.answers.modul5_ord?.selected || [])
+            .map((valg) => oversaettelser[valg.id])
+            .filter(Boolean);
+
+        const resten = ord.length ? ord : (this.answers.valgteSoegeord || []);
+        return [...new Set([stil, ...resten].filter(Boolean))];
+    }
+
+    /*---- 6.2: den stil, der deler flest ord med brugerens valg i 5.4 (`stilOrdMatch` i js/data/billeder.js), får noten. Kun når præcis én stil har flest: står to eller flere lige, peger ordene ikke tydeligt ét sted hen, og så vises der ingen note. Det samme gælder, hvis brugeren ingen ord har valgt, eller ingen af dem passer. Egne ord fra 5.4 tælles ikke med. Returnerer en liste (tom eller med ét id), fordi billederUi.js slår op med includes() ----*/
+    stileTaetPaaOrd(boble) {
+        const valgte = (this.answers.modul5_ord?.selected || []).map((valg) => valg.id);
+        if (!boble.stilOrdMatch || !valgte.length) return [];
+
+        const antal = Object.entries(boble.stilOrdMatch).map(([stilId, ord]) => ({
+            stilId,
+            match: valgte.filter((id) => ord.includes(id)).length
+        }));
+        const flest = Math.max(...antal.map((a) => a.match));
+        if (flest === 0) return [];
+
+        const vindere = antal.filter((a) => a.match === flest);
+        return vindere.length === 1 ? [vindere[0].stilId] : [];
+    }
+
+    /*---- 9.1: det, "Prøv dem sammen" (js/components/provSammen.js) skal bruge fra de andre rum - kun læst. Palet og logo læses som i byggestenEngine.js' hentGemtPalet/hentGemtLogo. Fonte og ikon kun, hvis Byggesten har arbejdet med dem (fokusvalg). Mangler det hele, viser kortet DUF's standardfarver og -fonte ----*/
     async hentProvSammenData() {
         const [farverOutput, byggestenOutput, logoBilleder] = await Promise.all([
             getSideOutput("farver"),
@@ -208,8 +275,8 @@ export class BilledeEngine {
     }
 
     async advance(boble, rawAnswer) {
-        if (boble.ingenBilleder) {
-            /*---- 3.1: rawAnswer = { harEgneBilleder: true/false } ----*/
+        if (boble.ingenBilleder?.gemSom === "harEgneBilleder") {
+            /*---- 3.1: rawAnswer = { harEgneBilleder: true/false }. Udvejen i 7.10 har ikke `gemSom` og gemmer derfor intet ----*/
             this.answers.harEgneBilleder = rawAnswer?.harEgneBilleder !== false;
 
             /*---- Hopper brugeren tilbage til 3.1 og vælger vejen uden egne billeder, er svarene fra 3.3/3.5 en forladt gren - de gemmes ikke ----*/

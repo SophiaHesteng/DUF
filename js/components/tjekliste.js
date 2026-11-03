@@ -2,7 +2,7 @@
  * DUF — delt Tjekliste-komponent (afkrydsningspunkter)
  * ----------------------------------------------------------------------------
  * En liste af selvstændige, afkrydsbare punkter - IKKE en formular med
- * rigtige/forkerte svar, og ikke forgrenende. Første brug: Billeder Modul 7.2
+ * rigtige/forkerte svar, og ikke forgrenende. Første brug: Billeder Modul 8.2 (hed 7.2 før 2026-11-03)
  * (9 rettighedspunkter), men bevidst generisk, så den kan genbruges af andre
  * rum senere (fx Byggesten, Logo, Visuel style guide - ikke bygget dertil nu).
  *

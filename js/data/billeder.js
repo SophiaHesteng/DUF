@@ -1,4 +1,4 @@
-/*---- Indhold til rummet "Billeder" (uddybende, hjem: Visuelt udtryk for din praksis) - jf. docs/duf-manuskript-billeder.md (gennemrevideret 2026-09-17 til den fulde, boble-strukturerede form - ca. 8 til 40 bobler, fordelt på de samme 8 moduler) ----*/
+/*---- Indhold til rummet "Billeder" (uddybende, hjem: Visuelt udtryk for din praksis) - jf. docs/duf-manuskript-billeder.md (gennemrevideret 2026-09-17 til den fulde, boble-strukturerede form - ca. 8 til 40 bobler, fordelt på de samme 8 moduler. 2026-11-03: nyt Modul 7 "Find eller skab dine billeder", så der nu er 9 moduler) ----*/
 
 export const velkomst = {
     fraVisueltUdtryk: "Du nævnte tidligere, at du ikke er helt sikker på rettighederne til de billeder, du bruger. Det anbefaler vi altid at få styr på — uanset hvad du ellers vælger at arbejde med. Derfor starter vi der i dette rum.",
@@ -76,7 +76,61 @@ const ordgrupper = [
     { label: "Stil og stemning", words: ["Elegant", "Eksklusiv", "Professionel", "Mystisk", "Poetisk"] }
 ].map((gruppe) => ({ label: gruppe.label, options: gruppe.words.map((ord) => ({ id: ord.toLowerCase(), text: ord })) }));
 
-/*---- Modulernes titler (fra manuskriptets overskrifter) og antal bobler, til navigationslinjerne (js/components/rumRamme.js). Antallet af moduler læses herfra. Modul 3 forgrener sig (3.3 og 3.5 springes over uden egne billeder), så det har intet fast antal bobler ----*/
+/*---- Hvilke ord fra 5.4 (ordgrupper ovenfor) der hører til hvilken stil i 6.2 (2026-11-03). Nøglen er stilens id, ordene skrives med små bogstaver som id'erne i `ordgrupper`. Et ord må gerne stå ved flere stile. "Professionel" står ikke nogen steder, fordi det ikke peger mod en bestemt stil. Bruges til noten "Ligger tæt på de ord, du valgte" i 6.2 ----*/
+const stilOrdMatch = {
+    varmt_naert: ["varm", "nærværende", "personlig", "åben", "imødekommende", "ægte"],
+    roligt_minimalistisk: ["rolig", "tryg", "blød", "enkel", "harmonisk"],
+    naturligt_jordnaert: ["naturlig", "jordnær", "organisk", "sanselig", "rå"],
+    lyst_luftigt: ["let", "frisk", "åben", "enkel", "blød"],
+    levende_farverigt: ["legende", "kreativ", "energisk", "levende", "modig", "farverig", "inspirerende"],
+    stemningsfuldt_poetisk: ["mystisk", "poetisk", "sanselig", "elegant", "eksklusiv"]
+};
+
+/*---- Oversættelser til søgeordene i Boble 7.8 (2026-11-03). Billedbankerne virker bedst på engelsk, så brugerens ord fra 5.4 og stil fra 6.2 slås op her. Nøglen er svarets id (ordet med små bogstaver fra `ordgrupper`, eller stilens id fra 6.2), værdien er det engelske søgeord. Ret gerne i ordene her. Et ord, der ikke står på listen (fx brugerens egne ord eller "Jeg vil formulere min egen stil" i 6.2), kommer ikke med som søgeord ----*/
+
+export const oversaettelser = {
+    /*---- Stilene i 6.2 ----*/
+    varmt_naert: "warm intimate",
+    roligt_minimalistisk: "calm minimal",
+    naturligt_jordnaert: "natural earthy",
+    lyst_luftigt: "bright airy",
+    levende_farverigt: "vibrant colorful",
+    stemningsfuldt_poetisk: "moody poetic",
+
+    /*---- De 30 ord i 5.4 ----*/
+    rolig: "calm",
+    tryg: "safe",
+    blød: "soft",
+    let: "airy",
+    enkel: "simple",
+    harmonisk: "harmonious",
+    varm: "warm",
+    nærværende: "mindful",
+    personlig: "personal",
+    åben: "open",
+    imødekommende: "welcoming",
+    ægte: "authentic",
+    naturlig: "natural",
+    jordnær: "earthy",
+    organisk: "organic",
+    sanselig: "sensory",
+    frisk: "fresh",
+    rå: "raw",
+    legende: "playful",
+    kreativ: "creative",
+    energisk: "energetic",
+    levende: "vibrant",
+    modig: "bold",
+    farverig: "colorful",
+    inspirerende: "inspiring",
+    elegant: "elegant",
+    eksklusiv: "luxury",
+    professionel: "professional",
+    mystisk: "mystical",
+    poetisk: "poetic"
+};
+
+/*---- Modulernes titler (fra manuskriptets overskrifter) og antal bobler, til navigationslinjerne (js/components/rumRamme.js). Antallet af moduler læses herfra. Modul 3 og Modul 7 forgrener sig (i Modul 3 springes 3.3 og 3.5 over uden egne billeder, i Modul 7 afhænger boblerne af valget i 7.1), så de har intet fast antal bobler ----*/
 
 export const moduler = [
     { titel: "Hvorfor billeder betyder noget", antalBobler: 4 },
@@ -85,6 +139,7 @@ export const moduler = [
     { titel: "Find inspiration", antalBobler: 5 },
     { titel: "Se efter mønstre", antalBobler: 4 },
     { titel: "Dit visuelle kompas", antalBobler: 5 },
+    { titel: "Find eller skab dine billeder" },
     { titel: "Tjek rettigheder og kontrast i praksis", antalBobler: 7 },
     { titel: "Afprøv og dokumentér", antalBobler: 3 }
 ];
@@ -113,7 +168,7 @@ export const bobler = [
         id: "1.3", modul: 1, type: "text",
         heading: "Professionelle billeder er ikke målet",
         paragraphs: [
-            "Nej. Du behøver ikke professionelle billeder for at bruge billeder godt. Et godt billede kræver ikke en professionel fotograf, det rigtige kamera eller et perfekt opstillet rum. Det vigtigste er, at billedet passer til dig og den praksis, du gerne vil vise frem. Et billede må gerne være enkelt. Det må gerne være uperfekt. Og det må gerne føles som dig. Det handler ikke om at ligne alle andre. Det handler om at bruge billeder på en måde, der understøtter det, du gerne vil vise og fortælle."
+            "Du behøver ikke professionelle billeder for at bruge billeder godt. Et godt billede kræver ikke en professionel fotograf, det rigtige kamera eller et perfekt opstillet rum. Det vigtigste er, at billedet passer til dig og den praksis, du gerne vil vise frem. Et billede må gerne være enkelt. Det må gerne være uperfekt. Og det må gerne føles som dig. Det handler ikke om at ligne alle andre. Det handler om at bruge billeder på en måde, der understøtter det, du gerne vil vise og fortælle."
         ],
         nextButtonText: "Lad os se på, hvad du allerede har"
     },
@@ -198,8 +253,10 @@ export const bobler = [
         ],
         uploadLabel: "Billeder fra min praksis",
         uploadHint: "Dine billeder bliver på din enhed. De uploades ikke til en server.",
-        /*---- Runde 7: vejen uden egne billeder. Valget gemmes som `harEgneBilleder` og styrer resten af Modul 3 (kunMedEgneBilleder/udenEgneBilleder nedenfor). "Jeg har tilføjet mine billeder" vises først, når mindst ét billede er tilføjet ----*/
+        /*---- Runde 7: vejen uden egne billeder. Valget gemmes som `harEgneBilleder` og styrer resten af Modul 3 (kunMedEgneBilleder/udenEgneBilleder nedenfor). "Jeg har tilføjet mine billeder" vises først, når mindst ét billede er tilføjet.
+         * `gemSom` (2026-11-03): navnet, valget gemmes under. Udvejen i 7.10 har ikke `gemSom`, så den kan ikke komme til at slå Modul 3's forgrening om ----*/
         ingenBilleder: {
+            gemSom: "harEgneBilleder",
             knapTekst: "Jeg har ikke nogen billeder endnu",
             respons: "Det er et fint sted at starte. Så tager vi udgangspunkt i det, du gerne vil vise, i stedet for det, du allerede har. Du kan altid komme tilbage og tilføje billeder senere.",
             videreTekst: "Videre"
@@ -315,7 +372,7 @@ export const bobler = [
             { navn: "Google Billeder", tekst: "godt, hvis du vil se bredt og finde andre virksomheder, profiler eller universer, du bliver inspireret af." },
             { navn: "Stockfotos (Unsplash og Pexels)", tekst: "Stockfotos er billeder, som fotografer lægger ud i en billedbank, så andre kan bruge dem på bestemte vilkår. Nogle er gratis, andre koster penge. De er gode, hvis du vil se forskellige måder at fotografere mennesker, rum, detaljer og stemninger på." }
         ],
-        afterList: "Husk: Lige nu leder vi efter inspiration, ikke efter billeder, du nødvendigvis må bruge. Hvad du må bruge, kigger vi på i Modul 7.",
+        afterList: "Husk: Lige nu leder vi efter inspiration, ikke efter billeder, du nødvendigvis må bruge. Hvad du må bruge, kigger vi på i Modul 8.",
         nextButtonText: "Jeg er klar til at gemme det, jeg har fundet"
     },
     {
@@ -444,13 +501,21 @@ export const bobler = [
         paragraphs: [
             "Ud fra dine ord og mønstre — hvilken stil passer bedst til din praksis? Der er ikke én rigtig stil. Det vigtige er, at du kan svare på, hvorfor den, du vælger, passer til dig."
         ],
+        /*---- 2026-11-03: fire nye stile. Id'erne varmt_naert, roligt_minimalistisk og andet er de samme som før, så gemte svar stadig passer. Hver stil har en kort `description` under navnet ----*/
         options: [
-            { id: "varmt_naert", text: "Varmt og nært" },
-            { id: "roligt_minimalistisk", text: "Roligt og minimalistisk" },
-            { id: "andet", text: "Noget tredje — jeg beskriver det selv" }
+            { id: "varmt_naert", text: "Varmt og nært", description: "Bløde farver, nærvær og mennesker tæt på. Billeder, der føles som et kram." },
+            { id: "roligt_minimalistisk", text: "Roligt og minimalistisk", description: "Meget luft, få elementer og dæmpede farver. Billeder, der giver ro i øjnene." },
+            { id: "naturligt_jordnaert", text: "Naturligt og jordnært", description: "Dagslys, naturmaterialer, planter og jordfarver. Billeder, der føles ægte og uopstillede." },
+            { id: "lyst_luftigt", text: "Lyst og luftigt", description: "Masser af lys, hvide og lyse toner og en let, frisk stemning. Billeder, der føles åbne." },
+            { id: "levende_farverigt", text: "Levende og farverigt", description: "Klare farver, bevægelse og glæde. Billeder med energi og personlighed." },
+            { id: "stemningsfuldt_poetisk", text: "Stemningsfuldt og poetisk", description: "Dybe skygger, varmt lys og detaljer. Billeder, der vækker en følelse eller lidt mystik." },
+            { id: "andet", text: "Jeg vil formulere min egen stil" }
         ],
         freeTextOptionId: "andet",
         freeTextPlaceholder: "Beskriv din stil med dine egne ord",
+        /*---- `stilOrdMatch`: hvilke ord fra 5.4 der passer til hvilken stil. Har præcis én stil flest af brugerens valgte ord, får den `taetPaaTekst` under sig. Står flere lige, vises ingen note (billederEngine.js, stileTaetPaaOrd) ----*/
+        stilOrdMatch,
+        taetPaaTekst: "Ligger tæt på de ord, du valgte",
         answerKey: "modul6_stil",
         nextButtonText: "Videre"
     },
@@ -489,21 +554,183 @@ export const bobler = [
             "Her er dit visuelle kompas for billeder, samlet ud fra det, du har arbejdet med i dette rum. Det er ikke en facitliste, du skal følge slavisk. Det er noget, du kan vende tilbage til, næste gang du er i tvivl om et billede passer til dig."
         ],
         guideLine: "Dit kompas peger ikke på ét rigtigt billede. Det peger på en retning, du kan bruge igen og igen.",
+        nextButtonText: "Find eller skab dine billeder"
+    },
+
+    /*---- Modul 7 — Find eller skab dine billeder (nyt 2026-11-03, jf. docs/duf-manuskript-billeder.md).
+     * Valget i 7.1 gemmes som `modul7_vej` ("selv", "find" eller "begge") og styrer resten af modulet:
+     * - `kunVej`: boblen vises kun, når brugerens vej står i listen. Ellers springes den over (billederEngine.js, springesOver).
+     * - `prVej`: felter, der erstatter boblens egne for en bestemt vej, fx en anden knaptekst. `indledning` sættes ind som første afsnit (billederEngine.js, tilpasBoble) ----*/
+
+    {
+        id: "7.1", modul: 7, type: "choice",
+        heading: "Hvordan vil du skaffe dine billeder?",
+        paragraphs: [
+            "Nu ved du, hvilken retning dine billeder skal pege i. Næste skridt er at få fat i billeder, du rent faktisk kan bruge. Det kan du gøre på to måder: Du kan selv tage dem, eller du kan finde dem i en billedbank. Ingen af vejene er mere rigtige end den anden. Billeder, du selv tager, viser dig og din praksis, som den er. Billeder fra en billedbank kan give dig stemninger og motiver, som er svære at skabe selv. Mange ender med at bruge lidt af hvert, og det er helt fint. Vælg den vej, der føles mest realistisk for dig lige nu. Du kan altid komme tilbage og prøve den anden."
+        ],
+        options: [
+            { id: "selv", text: "📱 Jeg vil selv tage billeder" },
+            { id: "find", text: "🔎 Jeg vil finde billeder i en billedbank" },
+            { id: "begge", text: "🌿 Lidt af begge dele" }
+        ],
+        answerKey: "modul7_vej",
+        nextButtonText: "Videre"
+    },
+
+    /*---- Gren A — Tag dine egne billeder (vises ved "selv" og "begge") ----*/
+
+    {
+        id: "7.2", modul: 7, type: "text",
+        kunVej: ["selv", "begge"],
+        heading: "Din mobil er nok",
+        paragraphs: [
+            "Du behøver ikke et dyrt kamera for at tage gode billeder til din praksis. Den telefon, du har i lommen, kan mere, end de fleste tror. Det handler ikke om at blive fotograf. Det handler om at kende nogle få greb, der gør en stor forskel. Start med de helt små ting, før du tager billedet:"
+        ],
+        list: [
+            "Tør linsen af. Et fingeraftryk kan gøre et ellers fint billede sløret og mat.",
+            "Slå gitterlinjerne til i kameraets indstillinger. De hjælper dig med at placere motivet, og vi bruger dem om lidt.",
+            "Gå tættere på i stedet for at zoome. Når du zoomer med fingrene, bliver billedet ofte grynet. Brug hellere fødderne.",
+            "Tryk på skærmen, der hvor det vigtigste er. Så ved telefonen, hvad den skal stille skarpt på, og du kan ofte justere lyset ved at trække op eller ned."
+        ],
+        afterList: "Portrættilstand kan være fin til billeder af dig selv, fordi baggrunden bliver blød. Men den kan også give mærkelige kanter omkring hår og hænder, så se billedet efter, før du bruger det.",
+        nextButtonText: "Hvad med lyset?"
+    },
+    {
+        id: "7.3", modul: 7, type: "text",
+        kunVej: ["selv", "begge"],
+        heading: "Lyset gør det meste af arbejdet",
+        paragraphs: [
+            "Hvis du kun tager én ting med herfra, så lad det være lyset. Det er ofte det, der afgør, om et billede føles roligt og indbydende eller fladt og hårdt. Det bedste lys er tit det, du allerede har: dagslys fra et vindue. Stil dig eller dit motiv med siden eller fronten mod vinduet, så lyset falder blødt ind. Undgå at stå med ryggen til vinduet, for så bliver du en mørk skygge mod en lys baggrund. Overskyede dage er faktisk en gave, fordi lyset bliver jævnt og blødt. Prøv også at slukke loftslampen, hvis den giver gule eller hårde skygger.",
+            "Kig derefter på baggrunden. Ting, du ikke lægger mærke til i hverdagen, bliver pludselig tydelige på et billede: en ledning, en stak papirer, en vasketøjskurv i hjørnet. Fjern det, der trækker opmærksomheden væk. Du behøver ikke et perfekt rum. Du skal bare give motivet lidt plads."
+        ],
+        nextButtonText: "Hvordan sætter jeg billedet sammen?"
+    },
+    {
+        id: "7.4", modul: 7, type: "text",
+        kunVej: ["selv", "begge"],
+        heading: "Placér motivet med omtanke",
+        paragraphs: [
+            "Kan du huske gitterlinjerne? De deler skærmen i ni felter. Prøv at placere det vigtigste i billedet, fx dit ansigt, en hånd eller en kop te, der hvor linjerne krydser hinanden, i stedet for lige i midten. Det kaldes tredjedelsreglen, og det giver ofte et billede, der føles mere levende og naturligt. Lad også gerne motivet få lidt luft omkring sig. Luft er ikke spildplads. Den giver ro, og den giver plads til tekst, hvis du senere vil skrive noget oven på billedet.",
+            "Når du først er i gang, så tag flere billeder af det samme, men på forskellige måder. Gå tæt på en detalje, tag et billede på mellemafstand, og tag et, hvor man ser hele rummet. Prøv at sætte dig ned, eller tag billedet lidt oppefra. Det giver dig variation at vælge imellem, og det er tit et af de billeder, du ikke regnede med, der bliver det bedste."
+        ],
+        nextButtonText: "Hvad skal jeg tage billeder af?"
+    },
+    {
+        id: "7.5", modul: 7, type: "checklist",
+        kunVej: ["selv", "begge"],
+        heading: "Din billedliste",
+        paragraphs: [
+            "I dit visuelle kompas skrev du, hvad der hører til i dine billeder. Det er din billedliste. Brug den som udgangspunkt, når du skal ud at fotografere, så du ikke står og tænker \"hvad skal jeg egentlig tage billeder af?\". Herunder er nogle forslag, du kan supplere med. Du behøver ikke tage dem alle på én dag. Sæt flueben, efterhånden som du får dem."
+        ],
+        /*---- `visEgetSvar`: viser brugerens eget svar fra en tidligere boble øverst, hvis det findes. Her "Det her hører til" fra 6.3 ----*/
+        visEgetSvar: { answerKey: "modul6_motiver", felt: "horer_til", tekst: "Du skrev, at det her hører til:" },
+        gemNoegle: "billeder-modul7-billedliste",
+        tjeklisteTitel: "Din billedliste",
+        punkter: [
+            { id: "dig", tekst: "Et billede af dig, hvor du ser ud, som du gør, når du tager imod en klient" },
+            { id: "rum", tekst: "Dit rum eller det sted, du arbejder" },
+            { id: "detalje", tekst: "En detalje: et redskab, en plante, en tekop, noget der fortæller om din praksis" },
+            { id: "haender", tekst: "Dine hænder i gang med noget, du gør i dit arbejde" },
+            { id: "stemning", tekst: "Et stemningsbillede, der rammer de ord, du valgte om, hvordan du vil opleves" }
+        ],
+        afterList: "Skal der være klienter eller andre genkendelige personer med, så vent med at bruge billederne, til du har læst om samtykke i næste modul.",
+        nextButtonText: "Videre"
+    },
+    {
+        id: "7.6", modul: 7, type: "text",
+        kunVej: ["selv", "begge"],
+        heading: "Når en anden holder kameraet",
+        paragraphs: [
+            "Det er svært at tage gode billeder af sig selv. Måske beder du en veninde om hjælp, eller måske vælger du at få en fotograf ud på et tidspunkt. Uanset hvem det er, kan dit visuelle kompas gøre en stor forskel. Vis dem din stil, de ord, du gerne vil give videre, og listen over, hvad der hører til, og hvad der ikke gør. Så skal de ikke gætte, og du får billeder, der ligner dig og ikke bare deres idé om dig. Husk også at aftale, hvem der har rettighederne til billederne, især hvis du betaler en fotograf. Det tjekker vi nærmere i næste modul."
+        ],
+        nextButtonText: "Jeg er klar til at samle mine billeder",
+        prVej: {
+            begge: { nextButtonText: "Lad os se på billedbankerne" }
+        }
+    },
+
+    /*---- Gren B — Find billeder i en billedbank (vises ved "find" og "begge") ----*/
+
+    {
+        id: "7.7", modul: 7, type: "text",
+        kunVej: ["find", "begge"],
+        heading: "Fra inspiration til billeder, du må bruge",
+        paragraphs: [
+            "I Modul 4 ledte du efter inspiration, altså billeder, der fik dig til at stoppe op, uanset hvor de kom fra. Nu skal du lede efter noget andet: billeder, du faktisk må bruge i din praksis. Derfor leder vi kun i billedbanker, hvor fotograferne har givet lov til, at andre bruger billederne på bestemte vilkår. Nogle billedbanker er gratis, som Unsplash og Pexels. Andre koster penge, til gengæld har de ofte flere billeder at vælge imellem og mere præcise licenser. Begge dele kan være gode valg. Vilkårene er forskellige fra sted til sted, men det skal du ikke tænke på lige nu. Det tjekker vi sammen i næste modul."
+        ],
+        prVej: {
+            begge: { indledning: "Nu har du set, hvordan du selv kan tage billeder. Lad os se på den anden vej." }
+        },
+        nextButtonText: "Hvordan søger jeg?"
+    },
+    {
+        id: "7.8", modul: 7, type: "soegesteder",
+        kunVej: ["find", "begge"],
+        heading: "Søg med dit kompas",
+        paragraphs: [
+            "Billedbankerne virker bedst på engelsk, så søgeordene herunder er på engelsk. De er sat sammen ud fra de ord, du valgte om, hvordan du vil opleves, og den stil, du valgte i dit kompas. Prøv at kombinere en stemning med et motiv, fx \"calm\" sammen med \"treatment room\" eller \"warm\" sammen med \"hands\". Jo mere præcist du søger, jo mindre skal du rode i billeder, der ikke passer. Finder du ikke noget, så prøv et synonym. \"Calm\" kan også være \"peaceful\", \"quiet\" eller \"serene\".",
+            "Du vil hurtigt opdage, at ikke alle billeder i søgningen er gratis, selvom siderne er kendt for gratis billeder. Der er betalingsbilleder blandet ind imellem, fx markeret som Unsplash+ eller som billeder fra andre billedbanker. Det er helt normalt, og du skal ikke lade dig slå ud af det. Spring dem bare over, eller filtrér søgningen, så du kun ser de gratis billeder. Vil en af siderne ikke åbne, så prøv igen lidt senere, eller brug den anden i mellemtiden."
+        ],
+        /*---- `kunSoegesteder`: viser kun disse søgesteder fra `soegesteder` øverst i filen. `soegeordFraKompas`: søgeordene bygges af 6.2 og 5.4 via `oversaettelser` nedenfor i stedet for at være 4.2's søgeord ----*/
+        kunSoegesteder: ["unsplash", "pexels"],
+        soegeordFraKompas: true,
+        nextButtonText: "Hvordan vælger jeg mellem alle billederne?"
+    },
+    {
+        id: "7.9", modul: 7, type: "text",
+        kunVej: ["find", "begge"],
+        heading: "Undgå det generiske",
+        paragraphs: [
+            "Du kender dem sikkert: den smilende kvinde med headset, den perfekte sten på stranden, hænderne, der danner et hjerte. De billeder er brugt så mange gange, at øjet glider hen over dem. Det skal dine billeder helst ikke. Se efter billeder, der føles lidt mere ægte. Det kan være naturligt lys i stedet for kunstigt, mennesker, der ikke kigger direkte ind i kameraet, og detaljer frem for store opstillede scener. Bladr gerne lidt længere ned i søgeresultaterne. De mest brugte billeder ligger tit øverst.",
+            "Når du har fundet nogle bud, så hold dem op mod dit kompas. Passer billedet til din stil? Rammer det de ord, du gerne vil give videre? Viser det noget, der hører til, eller noget, du skrev, at du vil undgå? Og kunne billedet give et forkert indtryk af din praksis, fx ved at love et resultat, du ikke kan stå inde for? Er svaret i tvivl, er det som regel ikke det rigtige billede."
+        ],
+        nextButtonText: "Jeg er klar til at samle mine billeder"
+    },
+
+    /*---- Fælles afslutning (vises for alle) ----*/
+
+    {
+        id: "7.10", modul: 7, type: "imageUpload",
+        bucket: "udvalgte",
+        heading: "Saml dine udvalgte billeder",
+        paragraphs: [
+            "Nu er det tid til at samle de billeder, du gerne vil arbejde videre med. Vælg 3-5 billeder, som du har taget selv, fundet i en billedbank eller begge dele. De behøver ikke være perfekte. De skal bare pege i retning af dit kompas. Det er de billeder, vi tjekker for rettigheder og kontrast i næste modul, så du ved, at du trygt kan bruge dem."
+        ],
+        uploadLabel: "Mine udvalgte billeder",
+        uploadHint: "Dine billeder bliver på din enhed. De uploades ikke til en server.",
+        minImages: 3,
+        gatedHint: "Saml mindst 3 billeder for at gå videre.",
+        /*---- Udvej som i 3.1, men uden `gemSom`: den gemmer intet og ændrer ingen vej. Knappen vises, så længe der er færre end `minImages` billeder ----*/
+        ingenBilleder: {
+            knapTekst: "Jeg har ikke billederne endnu",
+            respons: "Det er helt i orden. Nogle gange tager det lidt tid at få taget eller fundet de rigtige billeder. Du kan fortsætte nu og bruge tjeklisten i næste modul, når du har dem. Du kan altid komme tilbage og tilføje dem her.",
+            videreTekst: "Videre"
+        },
+        nextButtonText: "Jeg har samlet mine billeder"
+    },
+    {
+        id: "7.11", modul: 7, type: "text",
+        heading: "Fra idé til billeder i hånden",
+        paragraphs: [
+            "Kig på dine udvalgte billeder. For lidt siden var din billedretning noget, du havde sat ord på. Nu er den begyndt at blive til billeder, du kan bruge. Det er et stort skridt, også selvom billederne ikke er færdige eller perfekte. Inden de kommer ud i verden, skal vi lige tjekke to ting: at du må bruge dem, og at de fungerer, der hvor du vil sætte dem ind."
+        ],
+        showImagesBucket: "udvalgte",
+        guideLine: "Du behøver ikke have alle dine billeder i dag. Du skal bare have dem, der får dig i gang.",
         nextButtonText: "Videre til rettigheder og kontrol"
     },
 
-    /*---- Modul 7 — Tjek rettigheder og kontrast i praksis ----*/
+    /*---- Modul 8 — Tjek rettigheder og kontrast i praksis (hed Modul 7 før 2026-11-03. Gemmenøglerne `billeder-modul7-rettigheder` og `modul7_kontrast` har bevidst beholdt deres gamle navne, så brugere, der allerede er i gang, ikke mister deres svar) ----*/
 
     {
-        id: "7.1", modul: 7, type: "text",
+        id: "8.1", modul: 8, type: "text",
         heading: "Nu tjekker vi det i praksis",
         paragraphs: [
-            "Du har nu fundet din billedretning. Før du bruger billederne i praksis, skal vi lige to ting efter: at du må bruge dem, og at de fungerer visuelt, der hvor du sætter dem ind. Det er ikke en ekstra forhindring. Det er den sidste, praktiske del af arbejdet — så du kan bruge dine billeder uden at skulle tvivle bagefter."
+            "Du har nu billeder, du gerne vil bruge. Før de kommer ud i verden, skal vi lige to ting efter: at du må bruge dem, og at de fungerer visuelt, der hvor du sætter dem ind. Det er ikke en ekstra forhindring. Det er den sidste praktiske del af arbejdet, så du kan bruge dine billeder uden at skulle tvivle bagefter. Tag gerne dine udvalgte billeder med igennem tjeklisten, ét ad gangen."
         ],
         nextButtonText: "Lad os tage rettighederne først"
     },
     {
-        id: "7.2", modul: 7, type: "checklist",
+        id: "8.2", modul: 8, type: "checklist",
         heading: "Din tjekliste, før du bruger et billede",
         paragraphs: [
             "Uanset hvor billedet kommer fra, kan de samme spørgsmål hjælpe dig med at tjekke, om du er på sikker grund. Kan du ikke svare sikkert på det hele, er det bedre at vælge et andet billede eller indhente en konkret tilladelse, end at gætte."
@@ -523,7 +750,7 @@ export const bobler = [
         nextButtonText: "Lad os se nærmere på personer på billeder"
     },
     {
-        id: "7.3", modul: 7, type: "text",
+        id: "8.3", modul: 8, type: "text",
         heading: "Når der er mennesker på billedet",
         paragraphs: [
             "Er der en genkendelig person på billedet, er det ikke kun et spørgsmål om ophavsret. Et billede af en person er en personoplysning, og du skal have et lovligt grundlag for at gemme, bruge og vise det — også selvom du selv har taget billedet. Den mest sikre og respektfulde løsning er et tydeligt, dokumenteret samtykke. Personen skal vide: hvilket billede du vil bruge, hvad det skal bruges til, hvor det bliver vist, hvor længe du forventer at bruge det, og hvordan samtykket kan trækkes tilbage. Samtykket skal være frivilligt — det må aldrig være en betingelse for at modtage en behandling. Optræder nogen bare tilfældigt i baggrunden, kan vurderingen være en anden. Er du i tvivl, så beskær billedet, slør personen, eller vælg et andet. Har du billeder af en klient, skal du være ekstra opmærksom: de kan afsløre eller antyde noget om en persons helbred. Her bør samtykket altid være skriftligt og knyttet til den konkrete brug — et \"ja\" til et opslag på Instagram er ikke automatisk et \"ja\" til en annonce eller en permanent plads på din hjemmeside. Fortæl klienten, hvordan de kan trække samtykket tilbage, og fjern billedet, hvis de gør."
@@ -531,7 +758,7 @@ export const bobler = [
         nextButtonText: "Hvad hvis billedet kommer fra en billedbank eller nettet?"
     },
     {
-        id: "7.4", modul: 7, type: "text",
+        id: "8.4", modul: 8, type: "text",
         heading: "Billedbanker og billeder fra nettet",
         paragraphs: [
             "Kommer billedet fra en billedbank, betyder \"gratis\" ikke \"uden betingelser\". Tjek altid, om billedet må bruges kommercielt, om nogen skal krediteres, om det må redigeres — og vær ekstra opmærksom, hvis der er personer på billedet i en sundheds- eller behandlingssammenhæng. Har du betalt for billedet, giver det kun de rettigheder, licensen faktisk nævner. Gem kvittering, licenstekst og billedets ID, så du kan dokumentere din brugsret senere. Har du fundet billedet et andet sted på nettet, er det som udgangspunkt beskyttet — også uden et synligt copyright-mærke. En kildeangivelse er ikke det samme som en tilladelse. Har billedet en Creative Commons-licens, betyder bogstaverne noget:"
@@ -543,17 +770,21 @@ export const bobler = [
             "SA — din bearbejdede version skal deles under samme licens.",
             "CC0 — fri til brug."
         ],
-        afterList: "Gem et link eller skærmbillede af licensen, mens den stadig gælder, som du hentede billedet under.",
+        /*---- To afsnit efter listen (2026-11-03): licensen, og så tak til fotografen som afslutning ----*/
+        afterList: [
+            "Gem et link eller skærmbillede af licensen, mens den stadig gælder, som du hentede billedet under.",
+            "Når du henter et gratis billede på Unsplash eller Pexels, beder siden dig måske om at sige tak til fotografen. Det er ikke et krav, men en venlig gestus. Vil du gøre det, så skriv det i en billedtekst eller i en samlet liste over billedkreditter på din side. Skriv det ikke i alt-teksten. Alt-teksten er til dem, der ikke kan se billedet, og den skal beskrive, hvad billedet viser."
+        ],
         nextButtonText: "Og hvad hvis teksten skal stå oven på billedet?"
     },
     {
-        id: "7.5", modul: 7, type: "kontrasttest",
+        id: "8.5", modul: 8, type: "kontrasttest",
         heading: "Tjek kontrasten, hvis der skal tekst på billedet",
         paragraphs: [
             "Skal du have tekst oven på et billede, er det sidste praktiske tjek: kan teksten faktisk læses? Prøv det her. Vælg et af dine billeder, og se, hvordan en kort tekst ser ud oven på det. Du kan skifte farve på teksten og prøve med en boks bag den. Vi kan ikke måle kontrasten for dig på et foto, sådan som vi kan med to flade farver. Men når du ser det, bliver det som regel hurtigt klart."
         ],
-        /*---- Runde 7: testen laves direkte i boblen. Intet måles automatisk - det er brugerens egen vurdering. Tekstfarverne kommer fra den gemte palet i Farver (samme læsning som 6.4), ellers hvid og sort ----*/
-        billedkilder: ["praksis", "inspiration"],
+        /*---- Runde 7: testen laves direkte i boblen. Intet måles automatisk - det er brugerens egen vurdering. Tekstfarverne kommer fra den gemte palet i Farver (samme læsning som 6.4), ellers hvid og sort. Billederne vises i rækkefølgen i `billedkilder`: "Mine udvalgte billeder" (7.10) først ----*/
+        billedkilder: ["udvalgte", "praksis", "inspiration"],
         eksempeltekst: "Book en tid hos mig",
         standardTekstfarver: [{ hex: "#FFFFFF", role: "Hvid" }, { hex: "#000000", role: "Sort" }],
         options: [
@@ -566,7 +797,7 @@ export const bobler = [
         nextButtonText: "Er du stadig i tvivl om noget?"
     },
     {
-        id: "7.6", modul: 7, type: "text",
+        id: "8.6", modul: 8, type: "text",
         heading: "Er du stadig i tvivl?",
         paragraphs: [
             "Nogle situationer er værd at få set efter af en fagperson, fremfor at gætte: hvis nogen protesterer mod din brug af et billede, hvis du modtager et krav eller en klage, hvis du er usikker på, om en licens dækker din brug, hvis billedet viser en klient eller kan afsløre helbredsoplysninger, hvis det skal indgå i en større annoncekampagne, eller hvis du vil bruge et AI-genereret billede, der ligner en virkelig person eller begivenhed. At vælge et andet billede er ofte både enklere og billigere end at løbe en unødvendig risiko. Denne gennemgang er DUF's praktiske vejledning — den erstatter ikke juridisk rådgivning. Er du i tvivl i en konkret situation, særligt med penge, en klage eller en klient involveret, så søg professionel rådgivning."
@@ -574,7 +805,7 @@ export const bobler = [
         nextButtonText: "Jeg har styr på mine billeder"
     },
     {
-        id: "7.7", modul: 7, type: "text",
+        id: "8.7", modul: 8, type: "text",
         heading: "Du har nu tjekket det, der betyder mest",
         paragraphs: [
             "Du har nu både en billedretning og et praktisk overblik over rettighederne bag den. Det er den kombination, der gør dine billeder brugbare i virkeligheden — ikke kun noget, du kan lide at se på."
@@ -583,22 +814,22 @@ export const bobler = [
         nextButtonText: "Videre til sidste trin"
     },
 
-    /*---- Modul 8 — Afprøv og dokumentér ----*/
+    /*---- Modul 9 — Afprøv og dokumentér (hed Modul 8 før 2026-11-03. Gemmenøglen `modul8_dokumentation` har bevidst beholdt sit gamle navn) ----*/
 
     {
-        id: "8.1", modul: 8, type: "forhaandsvisning",
+        id: "9.1", modul: 9, type: "forhaandsvisning",
         heading: "Prøv din billedretning af",
         paragraphs: [
             "Her kan du se, hvordan din billedretning kunne se ud sammen med resten af dit visuelle udtryk. Vælg et billede, så sætter vi det sammen med de farver, skrifttyper og det logo, du har valgt i de andre rum, hvis du har været der. Har du et sted, hvor du kan prøve det af i virkeligheden, fx et opslag, en side på din hjemmeside eller et dokument, så gør det gerne. Det er noget helt andet, når det er noget, andre rent faktisk møder. Har du ikke det endnu, er forhåndsvisningen her et godt sted at starte."
         ],
-        /*---- Runde 7: forhåndsvisningen er Byggestens "Prøv dem sammen" (js/components/provSammen.js) med et billede øverst, jf. docs/duf-teknisk-prov-sammen.md. Begge knapper leder til 8.2 ----*/
-        billedkilder: ["praksis", "inspiration"],
+        /*---- Runde 7: forhåndsvisningen er Byggestens "Prøv dem sammen" (js/components/provSammen.js) med et billede øverst, jf. docs/duf-teknisk-prov-sammen.md. Begge knapper leder til 9.2. "Mine udvalgte billeder" (7.10) vises først ----*/
+        billedkilder: ["udvalgte", "praksis", "inspiration"],
         forhaandsvisningOverskrift: "Sådan kunne det se ud",
         nextButtonText: "Jeg har prøvet det i praksis",
         altNextButtonText: "Jeg har ingen steder at prøve det af på endnu"
     },
     {
-        id: "8.2", modul: 8, type: "textNote",
+        id: "9.2", modul: 9, type: "textNote",
         heading: "Skriv det ned, så du kan finde det igen",
         paragraphs: [
             "Skriv 2-3 sætninger om din billedretning: hvilken stil og hvilke motiver du går efter, hvilke ord du vil have billederne til at give videre — og hvordan du har sikret dig rettighederne til dem. Det er det, der bliver til den del af din visuelle guide, du kan slå op i senere."
@@ -610,7 +841,7 @@ export const bobler = [
         nextButtonText: "Videre"
     },
     {
-        id: "8.3", modul: 8, type: "text",
+        id: "9.3", modul: 9, type: "text",
         heading: "Din billedretning er en prototype, ikke en facitliste",
         paragraphs: [
             "Din billedretning er ikke hugget i sten. Den er en prototype, ligesom resten af dit visuelle udtryk — og den må gerne udvikle sig, i takt med at din praksis og dit materiale gør det. Du har nu et kompas, en tjekliste og et sted at starte, næste gang du skal vælge et billede. Det er nok til at komme videre."

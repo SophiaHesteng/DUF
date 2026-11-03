@@ -227,6 +227,14 @@
     line-height: normal;
 }
 
+/*---- Lille note under beskrivelsen, fx "Ligger tæt på de ord, du valgte" (Billeder 6.2). Samme skrift som beskrivelsen, men kursiv, så den læses som en bemærkning fra DUF og ikke som en del af valget ----*/
+.choice-card-note {
+    font-weight: 300;
+    font-size: 14px;
+    font-style: italic;
+    line-height: normal;
+}
+
 .choice-card-arrow {
     position: absolute;
     right: 16px;

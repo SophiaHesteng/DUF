@@ -1,6 +1,6 @@
 # TEKNISK — Byggesten-forhåndsvisning ("Prøv dem sammen")
 
-*Status: Spec 2026-09-23. Opstået i forbindelse med [[DUF Manuskript-revision - Byggesten]], Modul 6 ("Prøv dem sammen"), som ikke findes i noget andet rum i dag. **Ændret 2026-09-25 (Heidis beslutning efter brugertest 1):** komponenten udvides med et valgfrit billede og genbruges i Billeder, Boble 8.1, som en fælles forhåndsvisning af brugerens valg. Den oprindelige beslutning fra 2026-09-23 om, at den skulle være helt selvstændig, gælder dermed ikke længere for Billeder. Den deler stadig ikke kode med Farvers levende forhåndsvisning (Modul 6, Boble 6.4), Logos statiske småt/gråtone/baggrund-visning (Modul 7) eller [[DUF Teknisk - Skrifttype-vælger (fontvælger med Google Fonts)]]. **Opdateret 2026-09-23:** ikonets kilde er besluttet (Heidis spørgsmål 3, runde 4) — se nedenfor.*
+*Status: Spec 2026-09-23. Opstået i forbindelse med [[DUF Manuskript-revision - Byggesten]], Modul 6 ("Prøv dem sammen"), som ikke findes i noget andet rum i dag. **Ændret 2026-09-25 (Heidis beslutning efter brugertest 1):** komponenten udvides med et valgfrit billede og genbruges i Billeder, Boble 8.1 (fra 2026-11-03 Boble 9.1), som en fælles forhåndsvisning af brugerens valg. Den oprindelige beslutning fra 2026-09-23 om, at den skulle være helt selvstændig, gælder dermed ikke længere for Billeder. Den deler stadig ikke kode med Farvers levende forhåndsvisning (Modul 6, Boble 6.4), Logos statiske småt/gråtone/baggrund-visning (Modul 7) eller [[DUF Teknisk - Skrifttype-vælger (fontvælger med Google Fonts)]]. **Opdateret 2026-09-23:** ikonets kilde er besluttet (Heidis spørgsmål 3, runde 4) — se nedenfor.*
 
 ## Baggrund
 
@@ -8,7 +8,7 @@ Byggestens nye modulstruktur (se [[DUF Manuskript-revision - Byggesten]]) lader 
 
 Komponenten viser derfor et lille, sammensat eksempel — en overskrift, en kort brødtekst, et ikon, en eventuel anden detalje — bygget udelukkende af de valg, brugeren faktisk har taget. Har hun en gemt palet fra Farver og/eller et logo, vises de også, så sammenhængen med resten af hendes visuelle udtryk bliver synlig her — i stedet for i et selvstændigt "sammenhæng"-modul, som det gamle manuskript havde.
 
-**Tilføjet 2026-09-25:** I brugertest 1 havde brugeren intet at prøve sin billedretning af på (Billeder 8.1). Samme kort, med et billede øverst, giver hende en forhåndsvisning af "sådan kunne det se ud", uden at hun behøver en hjemmeside eller et opslag.
+**Tilføjet 2026-09-25:** I brugertest 1 havde brugeren intet at prøve sin billedretning af på (Billeder 9.1, hed 8.1 før 2026-11-03). Samme kort, med et billede øverst, giver hende en forhåndsvisning af "sådan kunne det se ud", uden at hun behøver en hjemmeside eller et opslag.
 
 ## Ikonet i forhåndsvisningen (besluttet 2026-09-23)
 
@@ -39,7 +39,7 @@ Komponenten er ren visning — den opretter ingen ny data, kun sammensætning af
 - `ikonFoelelse` (fra Byggesten Modul 3, hvis besøgt) — mappes til Material Symbols' stil + fyld-akse, jf. ovenfor
 - `andenDetalje` / `andenRetning` (fra Byggesten Modul 5, hvis besøgt)
 - Gemt palet fra Farver og/eller logo fra Logo, hvis de findes (læses, ændres ikke)
-- **Nyt 2026-09-25:** `billede` (valgfrit) — et billede, brugeren har valgt i Billeder 8.1 fra "Billeder fra min praksis" eller "Min inspiration"
+- **Nyt 2026-09-25:** `billede` (valgfrit) — et billede, brugeren har valgt i Billeder 9.1 fra "Mine udvalgte billeder", "Billeder fra min praksis" eller "Min inspiration"
 - Selve vurderingen (`provetSammenResultat`, `tilbageTil[]`) hører til boble-logikken i Byggesten Modul 6, ikke til visningskomponenten.
 
 ## Visuel opførsel
@@ -60,7 +60,7 @@ renderProvSammen(container, {
   ikon: { foelelse: "..." }, // mappes internt til Material Symbols stil + fyld
   fonte: { overskrift: "...", broedtekst: "..." },
   andenByggesten: { ... }, // valgfri
-  billede: { src: "...", alt: "..." }, // valgfri, nyt 2026-09-25 (Billeder 8.1)
+  billede: { src: "...", alt: "..." }, // valgfri, nyt 2026-09-25 (Billeder 9.1, hed 8.1 før 2026-11-03)
   gemtPalet: hentGemtPalet("farver"), // valgfri
   gemtLogo: hentGemtLogo("logo") // valgfri
 });
@@ -72,7 +72,7 @@ I Billeder hentes fonte og ikon fra Byggestens gemte data, hvis de findes.
 
 - **Byggesten, Modul 6** ("Prøv dem sammen").
 - **Byggesten, Boble 7.1** ("Sådan ser det ud") — samme kort i lille størrelse (CSS-klassen `.prov-sammen-lille` på containeren), fra runde 7, 2026-09-25.
-- **Billeder, Boble 8.1** ("Sådan kunne det se ud") — fra runde 7, 2026-09-25.
+- **Billeder, Boble 9.1** (hed 8.1 før 2026-11-03) ("Sådan kunne det se ud") — fra runde 7, 2026-09-25.
 
 **CSS (runde 7):** Kortets småtekster (noter, "Din palet", ikonteksten) står i rummets brødtekst-skrift, Manrope. Overskrift og brødtekst får stadig brugerens valgte fonte. Paletten ved siden af kortet bruger klassen `.palette-swatches` (før `.palette-preview`, som også var navnet på Farvers store forhåndsvisning i 6.4 og gav en tom ramme her).
 
