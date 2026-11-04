@@ -35,10 +35,63 @@ export const moduler = [
     { titel: "Inspiration og sammenligning" },
     { titel: "Vælg retning" },
     { titel: "Logo og din palet", antalBobler: 2 },
-    { titel: "Skab eller opdatér dit logo" },
+    /*---- `titelBestilling`: Modul 6 hedder "Bestil dit logo", når en anden eller DUF skal lave logoet (svar.bestilling) - valgt i logoEngine.js's modulListe() ----*/
+    { titel: "Skab eller opdatér dit logo", titelBestilling: "Bestil dit logo" },
     { titel: "Tjek i praksis", antalBobler: 5 },
     { titel: "Dokumentér", antalBobler: 3 }
 ];
+
+/*---- Bestillingsgrenen (godkendt af Heidi 2026-11-04): tekster, der står i både Modul 2 (til dem, der allerede er i gang) og Modul 6 (til dem, der først gør sig klar til at bestille). De står her én gang, så en rettelse slår igennem begge steder. Tjeklisten bruger samme gemNoegle begge steder, så hendes afkrydsning følger med ----*/
+
+const BESTIL_AFSNIT = [
+    "Når en anden laver dit logo, er det jeres aftaler, der afgør, hvad du ender med at kunne bruge. Ikke kun, hvordan det ser ud. Her er en tjekliste til samtalen, så du ikke opdager det bagefter. Har du arbejdet med Farver, kan du give din palet med. Bruger du en generator, så læs vilkårene med de samme spørgsmål i baghovedet.",
+    /*---- Flere veje (2026-11-04): Fiverrs og Upworks regler tjekket samme dag ----*/
+    "Finder du en freelancer på en platform som Fiverr eller Upwork, er det platformens regler, der gælder, hvis I ikke aftaler andet. Begge steder bliver logoet som udgangspunkt dit, når det er leveret, og du har betalt det hele. Men på Fiverr kan sælgeren skrive noget andet på sin side, og nogle tager ekstra for fx kildefilerne. Læs derfor sælgerens beskrivelse grundigt, og betal altid gennem platformen, ikke uden om den."
+];
+
+const BESTIL_TJEKLISTE = {
+    gemNoegle: "logo-sporD-aftaler",
+    punkter: [
+        { id: "ejerskab", tekst: "Får jeg ejerskab eller kun en brugsret?" },
+        { id: "medier_formaal", tekst: "Hvilke medier og formål må logoet bruges til, og er det tidsbegrænset?" },
+        { id: "aendre", tekst: "Må jeg ændre eller videreudvikle det?" },
+        { id: "andre_bruge", tekst: "Må andre bruge det samme eller et lignende logo?" },
+        { id: "varemaerke", tekst: "Må det registreres som varemærke?" },
+        { id: "originalfiler", tekst: "Får jeg de originale arbejds- og vektorfiler?" },
+        { id: "lovligt_licenseret", tekst: "Har designeren bekræftet, at alle elementer er originale eller lovligt licenserede?" },
+        { id: "platform_vilkaar", tekst: "Står der noget om rettigheder eller ekstra betaling for filer på freelancerens side?" },
+        { id: "tegnet_til_mig", tekst: "Er symbolet tegnet til mig, eller kommer det fra en skabelon, et billedbibliotek eller et AI-værktøj?" },
+        { id: "flere_udgaver", tekst: "Får jeg både det fulde logo og en lille udgave (fx kun symbolet), også i en udgave, der kan bruges som favicon? Og i sort/hvid og til både lys og mørk baggrund?" }
+    ]
+};
+
+const BESTIL_EFTER_LISTE = "Skal logoet være en central del af din identitet, eller er du i tvivl om en aftale, så søg rådgivning, før du skriver under.";
+
+const KLAR_HEADING = "Er logoet klar nu?";
+
+/*---- Venteskærmene (2d.4/2d.5 og 6.vent/6.vent-se) ----*/
+const VENT = {
+    heading: "Så venter vi",
+    paragraphs: [
+        "Det er helt fint. Din tjekliste ligger klar. Kom tilbage, når logoet er færdigt, så tester vi det sammen, og du får det med i din guide."
+    ],
+    /*---- Variant, når hun har bestilt logoet hos DUF i 6.duf - valgt i logoEngine.js's resolveContent() ----*/
+    paragraphsDuf: [
+        "Tak for din bestilling. Vi svarer dig på mail, så I kan aftale det videre. Kom tilbage hertil, når logoet er færdigt, så tester vi det sammen, og du får det med i din guide."
+    ],
+    seTekst: "Se, hvad der venter, når logoet er her",
+    tilbageTekst: "Tilbage til rum-vælgeren"
+};
+
+const VENT_SE = {
+    heading: "Det venter, når logoet er her",
+    paragraphs: [
+        "Når dit logo er kommet, tester vi det i tre små tjek: om du kan kende det, når det er småt, om det virker uden farve, og om det kan ses på både lys og mørk baggrund. Har du en lille udgave, prøver vi også den, helt ned i størrelsen på et favicon.",
+        "Bagefter skriver du et par sætninger om dit logo: hvor det kommer fra, og hvad du må bruge det til. Så kommer det med i din visuelle guide, sammen med det, du har lavet i de andre rum.",
+        "Din plads er gemt. Når du kommer tilbage, starter vi lige der, ved testen."
+    ],
+    nextButtonText: "Tilbage til rum-vælgeren"
+};
 
 export const BOBLER = {
 
@@ -313,44 +366,40 @@ export const BOBLER = {
         id: "2d.1", modul: 2, type: "choice", ctaButtons: true,
         heading: "Hvem laver det?",
         paragraphs: [],
+        /*---- Bestillingsgrenen (godkendt af Heidi 2026-11-04): "en anden" spørges først, om de allerede er i gang (2d.1b), og DUF går gennem forberedelsen (2d.forbered), så hun ikke bestiller "bare et logo". Hvem der laver det, gemmes som svar.bestilling - logoEngine.js ----*/
         options: [
             { id: "selv", text: "Jeg laver det selv", next: "2b.1" },
-            { id: "anden", text: "En anden laver det for mig", next: "2d.2" },
+            { id: "anden", text: "En anden laver det for mig", next: "2d.1b" },
             /*---- Flere veje (godkendt af Heidi 2026-11-04): DUF laver logoet. Står bevidst sidst - rummet skal ikke skubbe hende mod at købe ----*/
-            { id: "duf", text: "Jeg vil gerne have, at DUF laver det", next: "2d.duf" }
+            { id: "duf", text: "Jeg vil gerne have, at DUF laver det", next: "2d.forbered" }
         ],
         next: null
     },
+    "2d.1b": {
+        id: "2d.1b", modul: 2, type: "choice", ctaButtons: true,
+        heading: "Er I allerede i gang?",
+        paragraphs: [
+            "Er du allerede i gang med nogen, eller skal du først finde den, der skal lave dit logo?"
+        ],
+        options: [
+            { id: "ja", text: "Ja, logoet er på vej", next: "2d.2" },
+            { id: "nej", text: "Nej, jeg skal til at finde én", next: "2d.forbered" }
+        ],
+        next: null
+    },
+    /*---- Til dem, der allerede er i gang med en anden. Dem, der først skal finde én, får samme tjekliste i 6.anden ----*/
     "2d.2": {
         id: "2d.2", modul: 2, type: "text",
         heading: "Sådan får du mest ud af at bestille",
-        paragraphs: [
-            "Når en anden laver dit logo, er det jeres aftaler, der afgør, hvad du ender med at kunne bruge. Ikke kun, hvordan det ser ud. Her er en tjekliste til samtalen, så du ikke opdager det bagefter. Har du arbejdet med Farver, kan du give din palet med. Bruger du en generator, så læs vilkårene med de samme spørgsmål i baghovedet.",
-            /*---- Flere veje (2026-11-04): Fiverrs og Upworks regler tjekket samme dag ----*/
-            "Finder du en freelancer på en platform som Fiverr eller Upwork, er det platformens regler, der gælder, hvis I ikke aftaler andet. Begge steder bliver logoet som udgangspunkt dit, når det er leveret, og du har betalt det hele. Men på Fiverr kan sælgeren skrive noget andet på sin side, og nogle tager ekstra for fx kildefilerne. Læs derfor sælgerens beskrivelse grundigt, og betal altid gennem platformen, ikke uden om den."
-        ],
-        checklist: {
-            gemNoegle: "logo-sporD-aftaler",
-            punkter: [
-                { id: "ejerskab", tekst: "Får jeg ejerskab eller kun en brugsret?" },
-                { id: "medier_formaal", tekst: "Hvilke medier og formål må logoet bruges til, og er det tidsbegrænset?" },
-                { id: "aendre", tekst: "Må jeg ændre eller videreudvikle det?" },
-                { id: "andre_bruge", tekst: "Må andre bruge det samme eller et lignende logo?" },
-                { id: "varemaerke", tekst: "Må det registreres som varemærke?" },
-                { id: "originalfiler", tekst: "Får jeg de originale arbejds- og vektorfiler?" },
-                { id: "lovligt_licenseret", tekst: "Har designeren bekræftet, at alle elementer er originale eller lovligt licenserede?" },
-                { id: "platform_vilkaar", tekst: "Står der noget om rettigheder eller ekstra betaling for filer på freelancerens side?" },
-                { id: "tegnet_til_mig", tekst: "Er symbolet tegnet til mig, eller kommer det fra en skabelon, et billedbibliotek eller et AI-værktøj?" },
-                { id: "flere_udgaver", tekst: "Får jeg både det fulde logo og en lille udgave (fx kun symbolet), også i en udgave, der kan bruges som favicon? Og i sort/hvid og til både lys og mørk baggrund?" }
-            ]
-        },
-        afterList: "Skal logoet være en central del af din identitet, eller er du i tvivl om en aftale, så søg rådgivning, før du skriver under.",
+        paragraphs: BESTIL_AFSNIT,
+        checklist: BESTIL_TJEKLISTE,
+        afterList: BESTIL_EFTER_LISTE,
         nextButtonText: "Næste",
         next: "2d.3"
     },
     "2d.3": {
         id: "2d.3", modul: 2, type: "choice", ctaButtons: true,
-        heading: "Er logoet klar nu?",
+        heading: KLAR_HEADING,
         paragraphs: [],
         options: [
             { id: "ja", text: "Ja, jeg har det", next: "7.1" },
@@ -361,74 +410,30 @@ export const BOBLER = {
     /*---- 2026-11-04: to knapper i stedet for én. "Se, hvad der venter" giver hende et kig ind i resten af rummet uden at miste sin plads; kun "Tilbage til rum-vælgeren" er en udgang (isExit på selve optionen, jf. advance() i logoEngine.js) ----*/
     "2d.4": {
         id: "2d.4", modul: 2, type: "choice", ctaButtons: true,
-        heading: "Så venter vi",
-        paragraphs: [
-            "Det er helt fint. Din tjekliste ligger klar. Kom tilbage, når logoet er færdigt, så tester vi det sammen, og du får det med i din guide."
-        ],
-        /*---- Variant, når hun har bestilt logoet hos DUF i 2d.duf - valgt i logoEngine.js's resolveContent() ----*/
-        paragraphsDuf: [
-            "Tak for din bestilling. Vi svarer dig på mail, så I kan aftale det videre. Kom tilbage hertil, når logoet er færdigt, så tester vi det sammen, og du får det med i din guide."
-        ],
+        heading: VENT.heading,
+        paragraphs: VENT.paragraphs,
         options: [
-            { id: "se", text: "Se, hvad der venter, når logoet er her", next: "2d.5" },
-            { id: "tilbage", text: "Tilbage til rum-vælgeren", isExit: true, onLeave: "saveDPosition" }
+            { id: "se", text: VENT.seTekst, next: "2d.5" },
+            { id: "tilbage", text: VENT.tilbageTekst, isExit: true, onLeave: "saveDPosition" }
         ],
         next: null
     },
     "2d.5": {
         id: "2d.5", modul: 2, type: "text",
-        heading: "Det venter, når logoet er her",
-        paragraphs: [
-            "Når dit logo er kommet, tester vi det i tre små tjek: om du kan kende det, når det er småt, om det virker uden farve, og om det kan ses på både lys og mørk baggrund. Har du en lille udgave, prøver vi også den, helt ned i størrelsen på et favicon.",
-            "Bagefter skriver du et par sætninger om dit logo: hvor det kommer fra, og hvad du må bruge det til. Så kommer det med i din visuelle guide, sammen med det, du har lavet i de andre rum.",
-            "Din plads er gemt. Når du kommer tilbage, starter vi lige der, ved testen."
-        ],
-        nextButtonText: "Tilbage til rum-vælgeren",
+        ...VENT_SE,
         isExit: true,
         onLeave: "saveDPosition"
     },
-
-    /*---- Flere veje (godkendt af Heidi 2026-11-04): DUF laver det endelige logo. Nås fra 2d.1 og 6.2. Formularen (`bestilling`) bliver til en mail til DUF, ligesom billedtjekket i Billeder 8.6, og er udfyldt på forhånd med hendes svar fra rummet (buildBestillingOplaeg() i logoEngine.js) ----*/
-    "2d.duf": {
-        id: "2d.duf", modul: 2, type: "text",
-        heading: "Lad os lave det for dig",
+    "2d.forbered": {
+        id: "2d.forbered", modul: 2, type: "text",
+        heading: "Lad os gøre dig klar til at bestille",
         paragraphs: [
-            "Du har allerede gjort det meste af forarbejdet. Vil du hellere have, at vi laver det endelige logo, så bygger vi videre på det, du har valgt og skrevet her, og ikke på et tomt papir.",
-            "Du får det fulde logo og den lille udgave, klar til favicon. Begge i sort/hvid og til både lys og mørk baggrund, og som vektorfiler, så de kan bruges i alle størrelser. Logoet bliver dit, også rettighederne.",
-            /*---- PLADSHOLDER (Heidi 2026-11-04): pris, antal forslag og rettelser og leveringstid afventer en samlet beslutning om DUF's priser. Ret teksten her, når den ligger fast ----*/
-            "Prisen og det praktiske, fx hvor mange forslag du får, aftaler vi med dig på mail, før vi går i gang.",
-            "Det er helt i orden at vælge noget andet. Du kan stadig gå tilbage og lave det selv."
+            "Et logo bliver bedst, når den, der laver det, ved, hvad du har brug for. Ikke bare \"et logo\", men dit logo. Så inden du bestiller, kigger vi på det, en grafiker alligevel ville spørge dig om: hvilken slags logo du hælder til, hvad du bliver draget af, og hvilke farver det skal spille sammen med.",
+            "Til sidst samler vi det hele i en kort logo-brief, som du kan give videre. Det sparer tid for begge parter, og det gør det meget nemmere at få det, du forestiller dig."
         ],
-        bestilling: {
-            /*---- PLADSHOLDER: mailadressen er ikke bekræftet. Ret den her ----*/
-            mail: "logo@din-uf.dk",
-            emne: "Bestilling af logo fra DUF",
-            oplaegLabel: "Det, vi sender med som oplæg",
-            oplaegHint: "Det er dine svar fra rummet. Ret gerne i dem, eller skriv mere om din praksis.",
-            /*---- 2026-11-04: en tydelig påmindelse lige over mail-knappen, fordi en mail-genvej (mailto:) ikke kan tage billeder med. `vedhaeftAntal` vises kun, hvis hun har lagt billeder ind i rummet; {antal} skiftes ud med tallet. `vedhaeftMail` står i selve mailen, så hun bliver mindet om det igen dér ----*/
-            vedhaeft: "Husk at vedhæfte billeder, når mailen åbner: dit nuværende logo, hvis du har et, og de logoer, du har samlet som inspiration. Mailen kan ikke tage dem med af sig selv.",
-            vedhaeftAntal: "Du har lagt {antal} billeder ind her i rummet. Vedhæft dem fra din computer.",
-            vedhaeftMail: "Vedhæftet (skriv, hvad du sender med, fx mit nuværende logo og de logoer, jeg er inspireret af):",
-            reference: {
-                label: "Må vi vise dit logo som eksempel på, hvem vi har hjulpet?",
-                mailLabel: "Må DUF vise logoet som eksempel",
-                valg: [
-                    { id: "ja", text: "Ja, gerne" },
-                    { id: "nej", text: "Nej, helst ikke" },
-                    { id: "snak", text: "Det vil jeg gerne tale med jer om" }
-                ],
-                hint: "Det er frivilligt og ændrer ikke noget ved din bestilling."
-            },
-            mailKnap: "Skriv bestillingen i en mail",
-            mailIndledning: "Hej DUF\n\nJeg vil gerne have, at I laver mit logo.",
-            mailAfslutning: "Venlig hilsen",
-            kopierTekst: "Åbner der ikke en mail? Så kan du skrive til",
-            kopierKnap: "Kopiér",
-            kopieret: "Mailadressen er kopieret.",
-            kopierFejl: "Den kunne ikke kopieres. Markér adressen, og kopiér den selv."
-        },
-        nextButtonText: "Jeg har sendt bestillingen",
-        next: "2d.4"
+        nextButtonText: "Lad os komme i gang",
+        /*---- Forberedelsen genbruger 2c.2, Modul 3 og Modul 5 og går derfra til 6.b1 (customNext() i logoEngine.js) ----*/
+        next: "2c.2"
     },
 
     /*---- Modul 3 — Inspiration og sammenligning (spor B og C) ----*/
@@ -441,7 +446,12 @@ export const BOBLER = {
             /*---- Runde 7 (brugertest 1, P1): en lille bro, så brugeren kommer tilbage fra Looka ----*/
             "Looka åbner i et nyt vindue. Lad denne side være åben, og kom tilbage hertil, når du har leget lidt. På næste skærm viser vi dig, hvordan du gemmer de logoer, du kan lide, så du har dem med."
         ],
-        /*---- Spor C's fire tip-varianter (efter logoType) tilføjes i logoEngine.js ----*/
+        /*---- Bestillingsgrenen (godkendt af Heidi 2026-11-04): når en anden eller DUF skal lave logoet, passer det ikke, at hun kan bruge et logo fra Looka. De to sætninger om det er skiftet ud - valgt i logoEngine.js's resolveContent(), når svar.bestilling er sat ----*/
+        paragraphsBestilling: [
+            "Nu kigger vi ud over dit eget logo. Åbn Looka (looka.com/logo-maker), og leg med, hvordan forskellige stilarter kan se ud for en praksis som din. Her kan du hente inspiration. Det er gratis at prøve. Du betaler først, hvis du beslutter dig for at hente et logo. Du skal ikke lave noget selv her. Brug det til at finde ud af, hvad du kan lide, så du kan vise det til den, der skal lave dit logo.",
+            "Looka åbner i et nyt vindue. Lad denne side være åben, og kom tilbage hertil, når du har leget lidt. På næste skærm viser vi dig, hvordan du gemmer de logoer, du kan lide, så du har dem med."
+        ],
+        /*---- Spor C's fire tip-varianter (efter logoType) tilføjes i logoEngine.js - også i bestillingsgrenen, hvor hun har valgt logotype i 2c.2 ----*/
         externalLink: { label: "Åbn Looka (åbner i nyt vindue)", url: "https://looka.com/logo-maker" },
         guideLine: "Du skal ikke lede efter det perfekte logo. Du skal lægge mærke til, hvad du bliver draget af.",
         guideAvatar: "Heidi",
@@ -638,7 +648,7 @@ export const BOBLER = {
         ],
         answerKey: "logoFarver",
         nextButtonText: "Næste",
-        next: null /* → 6.1j eller 6.1n, afhængig af retning - logoEngine.js */
+        next: null /* → 6.1j eller 6.1n, afhængig af retning, eller 6.b1 i bestillingsgrenen - logoEngine.js */
     },
     "5.2d": {
         id: "5.2d", modul: 5, type: "choice",
@@ -656,10 +666,10 @@ export const BOBLER = {
         seOgsaa: { maal: "farver", tekst: "Vil du have en fast palet, kan du lave den dér. Du behøver ikke gøre det først." },
         answerKey: "logoFarver",
         nextButtonText: "Næste",
-        next: null /* → 6.1j eller 6.1n - logoEngine.js */
+        next: null /* → 6.1j eller 6.1n, eller 6.b1 i bestillingsgrenen - logoEngine.js */
     },
 
-    /*---- Modul 6 — Skab eller opdatér dit logo (Justér og Nyt) ----*/
+    /*---- Modul 6 — Skab eller opdatér dit logo (Justér og Nyt). Bestillingsgrenens udgave af Modul 6 står længere nede (6.b1 og frem) ----*/
 
     "6.1j": {
         id: "6.1j", modul: 6, type: "text",
@@ -706,12 +716,12 @@ export const BOBLER = {
                 explanation: "Et professionelt tegneprogram fra Adobe. Kun, hvis du kender det i forvejen. Det koster et abonnement."
             },
             {
-                id: "anden", text: "Jeg vil have en grafiker eller en anden til at lave det", jumpTo: "2d.2",
+                id: "anden", text: "Jeg vil have en grafiker eller en anden til at lave det", jumpTo: "6.b1",
                 explanation: "Det kan være en grafiker, du betaler, en bekendt, der er god til det, eller en freelancer, du finder på en platform som Fiverr eller Upwork. Du har allerede gjort det vigtige forarbejde her: Du ved, hvilken slags logo du vil have, hvilke farver det skal have, og hvad der inspirerer dig. Det gør det meget nemmere at forklare, hvad du ønsker, og det kan gøre opgaven hurtigere og potentielt billigere. Vi giver dig en tjekliste med til samtalen."
             },
             /*---- Flere veje (2026-11-04): står bevidst sidst. PLADSHOLDER i forklaringen, indtil prisen ligger fast ----*/
             {
-                id: "duf", text: "Jeg vil gerne have, at DUF laver det", jumpTo: "2d.duf",
+                id: "duf", text: "Jeg vil gerne have, at DUF laver det", jumpTo: "6.b1",
                 explanation: "Vi laver dit endelige logo ud fra det, du har arbejdet med her. Prisen aftaler vi med dig, før vi går i gang."
             }
         ],
@@ -748,6 +758,180 @@ export const BOBLER = {
         ekstraUpload: { bucket: "logo-lille", label: "Din lille udgave (valgfrit)", hint: "Fx kun symbolet eller dit forbogstav. Billedet forlader aldrig din egen enhed." },
         nextButtonText: "Jeg har noget, jeg vil teste",
         next: "7.1"
+    },
+
+    /*---- Modul 6 — Bestil dit logo (bestillingsgrenen, godkendt af Heidi 2026-11-04). Nås fra 6.2 ("en anden"/"DUF") og fra forberedelsen (2d.forbered → 2c.2 → Modul 3 → Modul 5). 6.b1-6.b4 samler det, en grafiker ville spørge om, i en logo-brief, som hun kan give videre ----*/
+
+    "6.b1": {
+        id: "6.b1", modul: 6, type: "multiChoice",
+        heading: "Hvor skal logoet bruges?",
+        paragraphs: [
+            "Hvor skal folk møde dit logo? Det fortæller den, der laver det, hvilke størrelser og filer du får brug for. Vælg gerne flere."
+        ],
+        options: [
+            { id: "hjemmeside", text: "På min hjemmeside" },
+            { id: "sociale_medier", text: "På sociale medier" },
+            { id: "tryk", text: "På visitkort, flyers eller andet, der bliver trykt" },
+            { id: "skilt", text: "På et skilt eller min dør" },
+            { id: "toej", text: "På tøj, tasker eller andre ting" },
+            { id: "ved_ikke", text: "Det ved jeg ikke endnu", eksklusiv: true }
+        ],
+        /*---- `responsVedValg`: én respons for flere valg. Vises, så længe mindst ét af dem er valgt (showMultiChoiceBoble() i logoUi.js) ----*/
+        responsVedValg: {
+            optionIds: ["tryk", "skilt", "toej"],
+            tekst: "Så skal du have logoet som vektorfil. Det er en fil, der kan gøres større uden at blive sløret, og trykkerier spørger næsten altid efter den. Den kommer med på listen i din brief."
+        },
+        allowNote: true,
+        answerKey: "logoBrug",
+        nextButtonText: "Næste",
+        next: "6.b2"
+    },
+    "6.b2": {
+        id: "6.b2", modul: 6, type: "textNote",
+        heading: "Hvordan skal det føles?",
+        paragraphs: [
+            "Et logo er ikke kun noget, man ser. Det er også noget, man fornemmer. Hvordan vil du gerne have, at folk har det, når de møder dit?"
+        ],
+        fields: [
+            { id: "treOrd", label: "Tre ord, der beskriver din praksis", placeholder: "fx rolig, varm, jordnær", rows: 2 },
+            { id: "maaIkke", label: "Det må mit logo ikke være eller ligne", placeholder: "fx for skarpt, for spirituelt, som min nabos", rows: 2 }
+        ],
+        answerKey: "logoFoelelse",
+        nextButtonText: "Næste",
+        next: null /* logoEngine.js: en anden → 6.b3, DUF → 6.b4 */
+    },
+    /*---- Kun når en anden skal lave logoet. Springes over for DUF, indtil DUF's priser ligger fast ----*/
+    "6.b3": {
+        id: "6.b3", modul: 6, type: "textNote",
+        heading: "Budget og tidsramme",
+        paragraphs: [
+            "En grafiker vil næsten altid spørge om to ting: hvad du vil give, og hvornår du skal bruge det. Du behøver ikke have et præcist svar. Et cirka er nok til, at I kan tale om, hvad der kan lade sig gøre."
+        ],
+        fields: [
+            { id: "budget", label: "Det vil jeg gerne give, cirka", rows: 2 },
+            { id: "tidsramme", label: "Det skal jeg bruge det til, fx en dato eller en åbning", rows: 2 }
+        ],
+        answerKey: "logoBudget",
+        nextButtonText: "Næste",
+        next: "6.b4"
+    },
+    "6.b4": {
+        id: "6.b4", modul: 6, type: "text",
+        heading: "Din logo-brief",
+        paragraphs: [
+            "Her er din logo-brief. Det er det, du giver videre til den, der skal lave dit logo. Ret gerne i den, før du sender den."
+        ],
+        /*---- `brief`: selve briefen bygges af buildLogoBrief() i logoEngine.js ud fra hendes svar (tomme svar springes over), og vises i et tekstfelt af briefHtml() i logoUi.js. Overskrifterne i briefen står her. Samme brief bliver oplægget i 6.duf ----*/
+        brief: {
+            label: "Din logo-brief",
+            overskrifter: {
+                praksis: "Min praksis",
+                treOrd: "Tre ord",
+                maaIkke: "Det må det ikke være eller ligne",
+                logoType: "Logotype",
+                farver: "Farver",
+                inspiration: "Inspiration",
+                sammenligning: "Da jeg sammenlignede med andre",
+                nuvaerende: "Mit nuværende logo",
+                fungerer: "Det fungerer",
+                skurrer: "Det skurrer",
+                brug: "Hvor logoet skal bruges",
+                budgetTid: "Budget og tidsramme",
+                medIBrief: "Det skal jeg have med"
+            },
+            /*---- Står altid i briefen ----*/
+            medIBrief: "det fulde logo og en lille udgave (fx kun symbolet), klar til favicon, i sort/hvid og til både lys og mørk baggrund, og som vektorfiler",
+            kopierKnap: "Kopiér din brief",
+            kopieret: "Din brief er kopieret.",
+            kopierFejl: "Den kunne ikke kopieres. Markér teksten, og kopiér den selv.",
+            /*---- Kun når en anden skal lave det: en mail uden modtager, så hun selv kan sende den videre ----*/
+            mailKnap: "Send briefen til dig selv i en mail"
+        },
+        nextButtonText: "Næste",
+        next: null /* logoEngine.js: en anden → 6.anden, DUF → 6.duf */
+    },
+    /*---- Samme tekst og tjekliste som 2d.2 (BESTIL_AFSNIT og BESTIL_TJEKLISTE øverst i filen), plus én linje om briefen ----*/
+    "6.anden": {
+        id: "6.anden", modul: 6, type: "text",
+        heading: "Sådan får du mest ud af at bestille",
+        paragraphs: [
+            "Giv din logo-brief til den, du bestiller hos. Så starter I samme sted.",
+            ...BESTIL_AFSNIT
+        ],
+        checklist: BESTIL_TJEKLISTE,
+        afterList: BESTIL_EFTER_LISTE,
+        nextButtonText: "Næste",
+        next: "6.klar"
+    },
+    "6.klar": {
+        id: "6.klar", modul: 6, type: "choice", ctaButtons: true,
+        heading: KLAR_HEADING,
+        paragraphs: [],
+        options: [
+            { id: "ja", text: "Ja, jeg har det", next: "7.1" },
+            { id: "ikke_endnu", text: "Ikke endnu", next: "6.vent" }
+        ],
+        next: null
+    },
+    /*---- Flere veje (godkendt af Heidi 2026-11-04), flyttet fra 2d.duf til Modul 6 med bestillingsgrenen: DUF laver det endelige logo. Formularen (`bestilling`) bliver til en mail til DUF, ligesom billedtjekket i Billeder 8.6, og oplægget i den er hele logo-briefen fra 6.b4 (buildLogoBrief() i logoEngine.js) ----*/
+    "6.duf": {
+        id: "6.duf", modul: 6, type: "text",
+        heading: "Lad os lave det for dig",
+        paragraphs: [
+            "Du har gjort forarbejdet, og din logo-brief er klar. Den sender vi med, så vi bygger videre på det, du har valgt og skrevet, og ikke på et tomt papir.",
+            "Du får det fulde logo og den lille udgave, klar til favicon. Begge i sort/hvid og til både lys og mørk baggrund, og som vektorfiler, så de kan bruges i alle størrelser. Logoet bliver dit, også rettighederne.",
+            /*---- PLADSHOLDER (Heidi 2026-11-04): pris, antal forslag og rettelser og leveringstid afventer en samlet beslutning om DUF's priser. Ret teksten her, når den ligger fast ----*/
+            "Prisen og det praktiske, fx hvor mange forslag du får, aftaler vi med dig på mail, før vi går i gang.",
+            "Det er helt i orden at vælge noget andet. Du kan stadig gå tilbage og lave det selv."
+        ],
+        bestilling: {
+            /*---- PLADSHOLDER: mailadressen er ikke bekræftet. Ret den her ----*/
+            mail: "logo@din-uf.dk",
+            emne: "Bestilling af logo fra DUF",
+            oplaegLabel: "Det, vi sender med som oplæg",
+            oplaegHint: "Det er dine svar fra rummet. Ret gerne i dem, eller skriv mere om din praksis.",
+            /*---- 2026-11-04: en tydelig påmindelse lige over mail-knappen, fordi en mail-genvej (mailto:) ikke kan tage billeder med. `vedhaeftAntal` vises kun, hvis hun har lagt billeder ind i rummet; {antal} skiftes ud med tallet. `vedhaeftMail` står i selve mailen, så hun bliver mindet om det igen dér ----*/
+            vedhaeft: "Husk at vedhæfte billeder, når mailen åbner: dit nuværende logo, hvis du har et, og de logoer, du har samlet som inspiration. Mailen kan ikke tage dem med af sig selv.",
+            vedhaeftAntal: "Du har lagt {antal} billeder ind her i rummet. Vedhæft dem fra din computer.",
+            vedhaeftMail: "Vedhæftet (skriv, hvad du sender med, fx mit nuværende logo og de logoer, jeg er inspireret af):",
+            reference: {
+                label: "Må vi vise dit logo som eksempel på, hvem vi har hjulpet?",
+                mailLabel: "Må DUF vise logoet som eksempel",
+                valg: [
+                    { id: "ja", text: "Ja, gerne" },
+                    { id: "nej", text: "Nej, helst ikke" },
+                    { id: "snak", text: "Det vil jeg gerne tale med jer om" }
+                ],
+                hint: "Det er frivilligt og ændrer ikke noget ved din bestilling."
+            },
+            mailKnap: "Skriv bestillingen i en mail",
+            mailIndledning: "Hej DUF\n\nJeg vil gerne have, at I laver mit logo.",
+            mailAfslutning: "Venlig hilsen",
+            kopierTekst: "Åbner der ikke en mail? Så kan du skrive til",
+            kopierKnap: "Kopiér",
+            kopieret: "Mailadressen er kopieret.",
+            kopierFejl: "Den kunne ikke kopieres. Markér adressen, og kopiér den selv."
+        },
+        nextButtonText: "Jeg har sendt bestillingen",
+        next: "6.vent"
+    },
+    /*---- Venteskærmene i bestillingsgrenen. Samme tekster som 2d.4/2d.5 (VENT og VENT_SE øverst i filen), men i Modul 6, så prikkerne ikke hopper tilbage til Modul 2. Står i VENTE_BOBLER i logoEngine.js, så de ikke kommer med i den gemte rute ----*/
+    "6.vent": {
+        id: "6.vent", modul: 6, type: "choice", ctaButtons: true,
+        heading: VENT.heading,
+        paragraphs: VENT.paragraphs,
+        paragraphsDuf: VENT.paragraphsDuf,
+        options: [
+            { id: "se", text: VENT.seTekst, next: "6.vent-se" },
+            { id: "tilbage", text: VENT.tilbageTekst, isExit: true, onLeave: "saveDPosition" }
+        ],
+        next: null
+    },
+    "6.vent-se": {
+        id: "6.vent-se", modul: 6, type: "text",
+        ...VENT_SE,
+        isExit: true,
+        onLeave: "saveDPosition"
     },
 
     /*---- Modul 7 — Tjek i praksis (alle spor) ----*/
@@ -836,7 +1020,7 @@ export const BOBLER = {
     },
     "7.5": {
         id: "7.5", modul: 7, type: "choice", ctaButtons: true,
-        /*---- 2026-11-04: når logoet er lavet af DUF (bestiltHosDuf), kan hun skrive til os om det, der ikke går op. Mailen åbnes fra applySideEffects() i logoEngine.js og sendes til samme adresse som bestillingen i 2d.duf ----*/
+        /*---- 2026-11-04: når logoet er lavet af DUF (bestiltHosDuf), kan hun skrive til os om det, der ikke går op. Mailen åbnes fra applySideEffects() i logoEngine.js og sendes til samme adresse som bestillingen i 6.duf ----*/
         dufRettelse: {
             emne: "Mit logo fra DUF: det, der ikke helt går op",
             indledning: "Hej DUF\n\nJeg har testet det logo, I har lavet til mig. Det her går ikke helt op endnu:",

@@ -18,8 +18,8 @@ const LOGO_BUCKET = "logo";
 const INSPIRATION_BUCKET = "logo-inspiration";
 /*---- Manuskriptets `logoUploadLille` (7.2, runde 7): den ekstra, lille udgave af logoet, fx kun symbolet ----*/
 const LOGO_LILLE_BUCKET = "logo-lille";
-/*---- Skærmene, hvor hun venter på et logo fra en anden - de springes over, når ruten gemmes (saveDPosition) ----*/
-const VENTE_BOBLER = ["2d.4", "2d.5"];
+/*---- Skærmene, hvor hun venter på et logo fra en anden - de springes over, når ruten gemmes (saveDPosition). 6.vent og 6.vent-se er bestillingsgrenens udgaver ----*/
+const VENTE_BOBLER = ["2d.4", "2d.5", "6.vent", "6.vent-se"];
 
 /*---- Brugerens egen fritekst sættes ind i siden som HTML (8.2's opsamling, recap af noterne fra 3.2). Uden denne oversættelse ville et "<" i teksten blive læst som kode, og opsamlingen kunne gå i stykker ----*/
 function escapeHtml(tekst) {
@@ -69,7 +69,7 @@ export class LogoEngine {
     _pendingSkurrerGroups = null;
 
     async start() {
-        setRumNavigation(() => this.historik.navigation("Logo", moduler));
+        setRumNavigation(() => this.historik.navigation("Logo", this.modulListe()));
 
         const params = new URLSearchParams(window.location.search);
         this.fraVisueltUdtryk = params.get("fra") === "velkommen-visuelt-udtryk";
@@ -93,6 +93,12 @@ export class LogoEngine {
             document.body.classList.add("in-flow");
             this.showBoble("1.2");
         });
+    }
+
+    /*---- Modulernes titler til navigationslinjerne. I bestillingsgrenen hedder Modul 6 "Bestil dit logo" (`titelBestilling` i js/data/logo.js) ----*/
+    modulListe() {
+        if (!this.svar.bestilling) return moduler;
+        return moduler.map((modul) => (modul.titelBestilling ? { ...modul, titel: modul.titelBestilling } : modul));
     }
 
     /*---- Historikken (js/engine/rumHistorik.js) gemmer svar og myte-/gruppe-køen, som de var, da boblen blev vist. Et hop tilbage til boblen genskaber dem, så svar fra senere bobler - og fra en gren, brugeren forlader ved at svare anderledes - ikke gemmes. Modulet er tallet foran boble-id'et ("2b.4-form" ligger i Modul 2) ----*/
@@ -125,14 +131,15 @@ export class LogoEngine {
                 ];
                 break;
 
-            /*---- Har hun bestilt logoet hos DUF, passer "Din tjekliste ligger klar" ikke - hun har ingen tjekliste fra 2d.2 ----*/
-            case "2d.4":
+            /*---- Har hun bestilt logoet hos DUF, passer "Din tjekliste ligger klar" ikke - hun har ingen tjekliste fra 6.anden ----*/
+            case "6.vent":
                 if (this.svar.bestiltHosDuf) boble.paragraphs = [...base.paragraphsDuf];
                 break;
 
+            /*---- I bestillingsgrenen skal hun ikke selv bruge et logo fra Looka (paragraphsBestilling), men hun har valgt logotype i 2c.2 og får derfor spor C's tip ----*/
             case "3.1": {
-                boble.paragraphs = [...base.paragraphs];
-                if (this.svar.spor === "C") {
+                boble.paragraphs = [...(this.svar.bestilling ? base.paragraphsBestilling : base.paragraphs)];
+                if (this.svar.spor === "C" || this.svar.bestilling) {
                     const tips = {
                         navn: "Kig efter eksempler, hvor navnet står alene. Læg mærke til skrifttypens karakter: rolig, legende, elegant, rå. Hvad passer til dig?",
                         symbol: "Læg mærke til, hvor enkelt symbolet er, og om du stadig kan kende det, når det er småt.",
@@ -251,8 +258,14 @@ export class LogoEngine {
         }
 
         switch (boble.id) {
-            case "2d.duf": {
-                ctx.bestillingOplaeg = this.buildBestillingOplaeg();
+            case "6.b4":
+                ctx.brief = this.buildLogoBrief();
+                ctx.briefMedMail = this.svar.bestilling === "anden";
+                break;
+
+            /*---- Oplægget er briefen, som hun rettede den i 6.b4 - eller bygget på ny, hvis den mangler ----*/
+            case "6.duf": {
+                ctx.bestillingOplaeg = this.svar.logoBrief ?? this.buildLogoBrief();
                 /*---- Hvor mange billeder hun har lagt ind i rummet - mailen kan ikke tage dem med, så påmindelsen nævner antallet ----*/
                 const logoer = await getImagesForSide(LOGO_BUCKET);
                 const inspiration = await getImagesForSide(INSPIRATION_BUCKET);
@@ -551,26 +564,36 @@ export class LogoEngine {
             .map((field) => ({ label: field.label, value: escapeHtml(noter[field.id]) }));
     }
 
-    /*---- Oplægget til DUF-bestillingen (2d.duf): hendes svar fra rummet som almindelig tekst, én linje pr. svar. Tomme svar springes over, så en, der kommer direkte fra 2d.1, kun får de linjer, hun faktisk har svaret på. Hun kan rette i teksten, før mailen sendes ----*/
-    buildBestillingOplaeg() {
-        const linjer = [];
-        const tilfoej = (label, vaerdi) => { if (vaerdi) linjer.push(`${label}: ${vaerdi}`); };
-        const valgte = (svar) => svar?.selected?.map((s) => s.text).join(", ");
-
-        tilfoej("Hvor jeg står i dag", this.svar.logoStatus?.text);
-        tilfoej("Den slags logo, jeg hælder til", this.svar.logoType?.text);
+    /*---- Logo-briefen (6.b4), som også er oplægget i DUF-bestillingen (6.duf). Almindelig tekst, fordi den skal kunne kopieres og sendes i en mail. Tomme svar og tomme afsnit springes over, så briefen kun har det, hun faktisk har svaret på - spor B får fx sit nuværende logo med, forberedelsen gør ikke. Overskrifterne står i `brief` ved 6.b4 i js/data/logo.js. Teksten bliver først til HTML i logoUi.js, hvor den går gennem escapeHtml() ----*/
+    buildLogoBrief() {
+        const brief = BOBLER["6.b4"].brief;
+        const o = brief.overskrifter;
+        /*---- Ender etiketten på "?" (felterne fra 3.2), står svaret lige efter spørgsmålet uden kolon ----*/
+        const linje = (label, vaerdi) => (vaerdi ? `${label}${label.endsWith("?") ? " " : ": "}${vaerdi}` : "");
+        const afsnit = (overskrift, linjer) => {
+            const fyldte = linjer.filter(Boolean);
+            return fyldte.length ? [overskrift, ...fyldte].join("\n") : "";
+        };
+        const valgte = (svar) => [svar?.selected?.map((s) => s.text).join(", "), svar?.note?.trim()].filter(Boolean).join(". ");
+        const felter = (bobleId, svar = {}) => BOBLER[bobleId].fields.map((field) => linje(field.label, svar[field.id]?.trim()));
 
         const farve = this.svar.logoFarver;
-        tilfoej("Farver", farve?.selected?.length ? farve.selected.map((c) => c.role || c.hex).join(", ") : farve?.text);
+        const farveTekst = farve?.selected?.length
+            ? farve.selected.map((c) => c.role || c.hex).join(", ")
+            : [farve?.text, farve?.note?.trim()].filter(Boolean).join(". ");
+        const foelelse = this.svar.logoFoelelse || {};
 
-        tilfoej("Det fungerer ved mit nuværende logo", valgte(this.svar.listeFungerer));
-        tilfoej("Det skurrer ved mit nuværende logo", valgte(this.svar.listeSkurrer));
-        tilfoej("Da jeg sammenlignede med andre", valgte(this.svar.sammenligning));
-
-        const noter = this.svar.minInspirationNoter || {};
-        BOBLER["3.2"].fields.forEach((field) => tilfoej(field.label, noter[field.id]));
-
-        return linjer.join("\n");
+        return [
+            afsnit(o.praksis, [linje(o.treOrd, foelelse.treOrd?.trim()), linje(o.maaIkke, foelelse.maaIkke?.trim())]),
+            linje(o.logoType, this.svar.logoType?.text),
+            linje(o.farver, farveTekst),
+            afsnit(o.inspiration, [...felter("3.2", this.svar.minInspirationNoter), linje(o.sammenligning, valgte(this.svar.sammenligning))]),
+            afsnit(o.nuvaerende, [linje(o.fungerer, valgte(this.svar.listeFungerer)), linje(o.skurrer, valgte(this.svar.listeSkurrer))]),
+            linje(o.brug, valgte(this.svar.logoBrug)),
+            /*---- Budget og tidsramme kun, når en anden skal lave det (6.b3 springes over for DUF) ----*/
+            this.svar.bestilling === "anden" ? afsnit(o.budgetTid, felter("6.b3", this.svar.logoBudget)) : "",
+            linje(o.medIBrief, brief.medIBrief)
+        ].filter(Boolean).join("\n\n");
     }
 
     buildArbejdslistePunkter() {
@@ -635,18 +658,28 @@ export class LogoEngine {
                 /*---- "Nej, jeg vil hellere gennem det hele" betyder det samme som "nej" i 2a.1: hun vil selv arbejde med logoet. Uden sporskiftet blev hun på spor A, sprang Modul 4 over og fik at vide i 7.5, at hun ikke selv kunne justere ----*/
                 if (rawAnswer.optionId === "fuldt") this.svar.spor = "B";
                 break;
-            /*---- Vælger hun at få en anden (6.2 "anden") eller DUF til at lave logoet, er hun fra nu af i samme situation som spor D: Modul 7 og 8 skal ikke tilbyde hende selv at justere ----*/
+            /*---- Vælger hun at få en anden (6.2 "anden") eller DUF til at lave logoet, er hun fra nu af i samme situation som spor D: Modul 7 og 8 skal ikke tilbyde hende selv at justere. svar.bestilling ("anden"/"duf") styrer bestillingsgrenen i Modul 6 (6.b1 og frem) ----*/
             case "6.2":
-                if (rawAnswer.optionId === "anden" || rawAnswer.optionId === "duf") this.svar.spor = "D";
+                if (rawAnswer.optionId === "anden" || rawAnswer.optionId === "duf") {
+                    this.svar.spor = "D";
+                    this.svar.bestilling = rawAnswer.optionId;
+                }
                 break;
-            case "2d.duf":
+            case "6.duf":
                 this.svar.spor = "D";
                 this.svar.bestiltHosDuf = true;
+                break;
+            /*---- Briefen, som hun har rettet den i tekstfeltet, så 6.duf sender det, hun så ----*/
+            case "6.b4":
+                this.svar.logoBrief = rawAnswer?.brief;
                 break;
             case "2d.1":
                 if (rawAnswer.optionId === "selv") {
                     this.svar.spor = "B";
                     this.svar.viaSelvSpor = true;
+                    delete this.svar.bestilling;
+                } else {
+                    this.svar.bestilling = rawAnswer.optionId;
                 }
                 break;
             case "2b.3":
@@ -675,11 +708,11 @@ export class LogoEngine {
                 if (results.udenFarve && results.udenFarve !== "ja") failed.push("At det virker uden farve");
                 if (results.baggrund && results.baggrund !== "begge") failed.push("At det virker på både lys og mørk baggrund");
                 this.svar.aabnePunkter = rawAnswer.optionId === "juster_nu" ? [] : failed;
-                /*---- Logo fra DUF: åbn en mail til os med det, der ikke går op. Samme adresse som bestillingen (2d.duf) ----*/
+                /*---- Logo fra DUF: åbn en mail til os med det, der ikke går op. Samme adresse som bestillingen (6.duf) ----*/
                 if (rawAnswer.optionId === "skriv_til_duf") {
                     const tekst = BOBLER["7.5"].dufRettelse;
                     const krop = [tekst.indledning, failed.map((punkt) => `- ${punkt}`).join("\n"), tekst.afslutning].join("\n\n");
-                    window.location.href = `mailto:${BOBLER["2d.duf"].bestilling.mail}?subject=${encodeURIComponent(tekst.emne)}&body=${encodeURIComponent(krop)}`;
+                    window.location.href = `mailto:${BOBLER["6.duf"].bestilling.mail}?subject=${encodeURIComponent(tekst.emne)}&body=${encodeURIComponent(krop)}`;
                 }
                 /*---- Spor B/C's "juster nu" sender altid til 6.1j (arbejdsliste), uanset om den oprindelige retning var "nyt" - resten af Modul 6 skal derfor også opføre sig som justér herfra ----*/
                 if (rawAnswer.jumpTo === "6.1j") {
@@ -725,9 +758,10 @@ export class LogoEngine {
             case "2.1":
                 return { ja_tilfreds: "2a.1", ja_usikker: "2b.1", nej: "2c.1", under_udvikling: "2d.1" }[rawAnswer.optionId];
 
+            /*---- Forberedelsen (svar.bestilling) har valgt logotype i 2c.2 ligesom spor C, så "ved ikke" får også 3.3c ----*/
             case "3.2":
                 if (this.svar.spor === "B") return "3.3b";
-                if (this.svar.spor === "C" && this.svar.logoType?.id === "ved_ikke") return "3.3c";
+                if ((this.svar.spor === "C" || this.svar.bestilling) && this.svar.logoType?.id === "ved_ikke") return "3.3c";
                 return "3.4";
 
             case "3.4":
@@ -740,9 +774,18 @@ export class LogoEngine {
                 return hasPalette ? "5.2c" : "5.2d";
             }
 
+            /*---- Forberedelsen til en bestilling går fra paletten direkte til briefens spørgsmål, ikke til selv at bygge logoet ----*/
             case "5.2c":
             case "5.2d":
+                if (this.svar.bestilling) return "6.b1";
                 return this.effectiveRetning() === "juster" ? "6.1j" : "6.1n";
+
+            /*---- Budget og tidsramme (6.b3) kun, når en anden skal lave det - DUF's priser ligger ikke fast endnu ----*/
+            case "6.b2":
+                return this.svar.bestilling === "anden" ? "6.b3" : "6.b4";
+
+            case "6.b4":
+                return this.svar.bestilling === "duf" ? "6.duf" : "6.anden";
 
             default:
                 return null;
@@ -820,7 +863,7 @@ export class LogoEngine {
         await clearSidePosition(LOGO_ID);
     }
 
-    /*---- Gemmer pladsen ved 7.1 og ruten hertil. Vente-boblerne (2d.4, 2d.5) tages ikke med, så "Tilbage" fra 7.1 fører til boblen før pausen, ikke til en skærm, der sender hende ud igen ----*/
+    /*---- Gemmer pladsen ved 7.1 og ruten hertil. Vente-boblerne (VENTE_BOBLER: 2d.4/2d.5 og 6.vent/6.vent-se) tages ikke med, så "Tilbage" fra 7.1 fører til boblen før pausen, ikke til en skærm, der sender hende ud igen ----*/
     async saveDPosition() {
         this.svar.venter = true;
         const rute = this.historik.gem().filter((trin) => !VENTE_BOBLER.includes(trin.boble));

@@ -153,7 +153,7 @@ function escapeHtml(tekst) {
     return String(tekst).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 }
 
-/*---- DUF-bestilling (2d.duf, 2026-11-04): en lille formular, der bliver til en mail til DUF - samme mønster som billedtjekket i Billeder 8.6 (billedtjekHtml/bindBilledtjek i billederUi.js). Intet gemmes; svarene ligger kun i felterne. Alle tekster og mailadressen står i `bestilling` ved 2d.duf i js/data/logo.js ----*/
+/*---- DUF-bestilling (6.duf, 2026-11-04): en lille formular, der bliver til en mail til DUF - samme mønster som billedtjekket i Billeder 8.6 (billedtjekHtml/bindBilledtjek i billederUi.js). Intet gemmes; svarene ligger kun i felterne. Alle tekster og mailadressen står i `bestilling` ved 6.duf i js/data/logo.js ----*/
 
 function bestillingHtml(best, oplaeg, antalBilleder) {
     const antalTekst = antalBilleder ? ` ${best.vedhaeftAntal.replace("{antal}", antalBilleder)}` : "";
@@ -213,6 +213,39 @@ function bindBestilling(best) {
     });
 }
 
+/*---- Logo-briefen (6.b4, bestillingsgrenen 2026-11-04): briefen fra buildLogoBrief() i logoEngine.js i et tekstfelt, så hun kan rette i den. "Send til dig selv" findes kun, når en anden skal lave logoet (`medMail`) - en DUF-bestilling sendes fra 6.duf. Alle tekster står i `brief` ved 6.b4 i js/data/logo.js ----*/
+
+function briefHtml(brief, tekst, medMail) {
+    return `
+        <div class="billedtjek">
+            <label class="color-field-label" for="logo-brief">${brief.label}</label>
+            <textarea id="logo-brief" class="text-input" rows="14">${escapeHtml(tekst || "")}</textarea>
+            <button id="logo-brief-kopier" type="button" class="btn btn--slim btn--outline-green">${brief.kopierKnap}</button>
+            ${medMail ? `<button id="logo-brief-mail" type="button" class="btn btn--slim btn--outline-green">${brief.mailKnap}</button>` : ""}
+            <p class="section-body" id="logo-brief-status" role="status"></p>
+        </div>
+    `;
+}
+
+function bindBrief(brief) {
+    const felt = document.querySelector("#logo-brief");
+
+    document.querySelector("#logo-brief-kopier").addEventListener("click", async () => {
+        const status = document.querySelector("#logo-brief-status");
+        try {
+            await navigator.clipboard.writeText(felt.value.trim());
+            status.textContent = brief.kopieret;
+        } catch {
+            status.textContent = brief.kopierFejl;
+        }
+    });
+
+    /*---- "mailto:" uden adresse åbner en tom mail, hvor hun selv vælger, hvem den skal sendes til ----*/
+    document.querySelector("#logo-brief-mail")?.addEventListener("click", () => {
+        window.location.href = `mailto:?body=${encodeURIComponent(felt.value.trim())}`;
+    });
+}
+
 /*---- 💬-linjen: med et navn (guideAvatar) vises den som guide-boble (js/components/guide.js) med pladsholder-avatar; uden navn som det gamle panel ----*/
 
 function guideLineHtml(boble) {
@@ -243,6 +276,7 @@ function headerHtml(boble, ctx = {}) {
         ${boble.logoPreview ? logoPreviewHtml(boble.logoPreview, ctx.images, ctx.responseImages) : ""}
         ${boble.checklist ? `<div id="tjekliste-container"></div>` : ""}
         ${boble.bestilling ? bestillingHtml(boble.bestilling, ctx.bestillingOplaeg, ctx.bestillingAntalBilleder) : ""}
+        ${boble.brief ? briefHtml(boble.brief, ctx.brief, ctx.briefMedMail) : ""}
         <div id="se-ogsaa-slot"></div>
     `;
 }
@@ -279,6 +313,7 @@ function renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit) {
     }
 
     if (boble.bestilling) bindBestilling(boble.bestilling);
+    if (boble.brief) bindBrief(boble.brief);
 
     if (boble.seOgsaa) {
         const maal = SE_OGSAA_MAAL[boble.seOgsaa.maal];
@@ -303,7 +338,7 @@ function showWelcome(text, onStart) {
     document.querySelector("#start-button").addEventListener("click", onStart);
 }
 
-/*---- type: "text" - ren læseskærm (evt. med alle de fælles påhæng ovenfor). Håndterer også de terminale bobler (saveOutput: 8.2, isExit: 2d.4/8.3), hvor "Næste"-knappen viser en kort ventetilstand, mens motoren gemmer/afslutter. ----*/
+/*---- type: "text" - ren læseskærm (evt. med alle de fælles påhæng ovenfor). Håndterer også de terminale bobler (saveOutput: 8.2, isExit: 2d.5/6.vent-se/8.3), hvor "Næste"-knappen viser en kort ventetilstand, mens motoren gemmer/afslutter. ----*/
 
 function showTextBoble(boble, ctx, onNext, onExit) {
     const bodyHtml = headerHtml(boble, ctx);
@@ -319,7 +354,8 @@ function showTextBoble(boble, ctx, onNext, onExit) {
             nextButton.disabled = true;
             nextButton.textContent = "Gemmer...";
         }
-        await onNext();
+        /*---- 6.b4: briefen sendes med, som hun har rettet den, så 6.duf kan bruge den som oplæg ----*/
+        await onNext(boble.brief ? { brief: document.querySelector("#logo-brief").value.trim() } : undefined);
     });
 }
 
@@ -505,12 +541,20 @@ function showMultiChoiceBoble(boble, ctx, onNext, onExit) {
         ? `<textarea id="multichoice-note" class="text-input" rows="2" placeholder="Uddyb gerne (valgfrit)"></textarea>`
         : "";
 
-    const bodyHtml = `${headerHtml(boble, ctx)}${optionsHtml}${noteHtml}`;
+    const bodyHtml = `${headerHtml(boble, ctx)}${optionsHtml}<div id="multichoice-response"></div>${noteHtml}`;
     const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText || "Næste"}</button>`;
 
     renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
 
     const optionButtons = document.querySelectorAll("[data-option-id]");
+
+    /*---- `responsVedValg` (6.b1): én respons, der står fremme, så længe mindst ét af de nævnte valg er valgt. Opdateres efter hvert klik, så den forsvinder igen, hvis hun fravælger dem ----*/
+    const opdaterRespons = () => {
+        const respons = boble.responsVedValg;
+        if (!respons) return;
+        const vis = [...optionButtons].some((button) => button.getAttribute("aria-pressed") === "true" && respons.optionIds.includes(button.dataset.optionId));
+        document.querySelector("#multichoice-response").innerHTML = vis ? `<div class="panel"><p>${respons.tekst}</p></div>` : "";
+    };
     /*---- Et svar med `eksklusiv: true` i data (fx "Ikke noget lige nu" eller "Jeg ved ikke") betyder "ingen af de andre". Vælger hun det, slukkes de andre, og vælger hun et af de andre, slukkes det. Ellers kunne hun sende modstridende svar videre til opsamlingerne ----*/
     const erEksklusiv = (button) => boble.options.find((o) => o.id === button.dataset.optionId)?.eksklusiv === true;
 
@@ -519,12 +563,14 @@ function showMultiChoiceBoble(boble, ctx, onNext, onExit) {
             const isPressed = button.getAttribute("aria-pressed") === "true";
             button.setAttribute("aria-pressed", String(!isPressed));
 
-            if (isPressed) return;
-            optionButtons.forEach((other) => {
-                if (other !== button && (erEksklusiv(button) || erEksklusiv(other))) {
-                    other.setAttribute("aria-pressed", "false");
-                }
-            });
+            if (!isPressed) {
+                optionButtons.forEach((other) => {
+                    if (other !== button && (erEksklusiv(button) || erEksklusiv(other))) {
+                        other.setAttribute("aria-pressed", "false");
+                    }
+                });
+            }
+            opdaterRespons();
         });
     });
 
@@ -549,7 +595,7 @@ function showTextNoteBoble(boble, ctx, onNext, onExit) {
 
     const fieldsHtml = boble.fields.map((field) => `
         ${field.label ? `<p class="section-subheading">${field.label}</p>` : ""}
-        <textarea id="field-${field.id}" class="text-input" rows="${field.rows || 3}">${prefill[field.id] || ""}</textarea>
+        <textarea id="field-${field.id}" class="text-input" rows="${field.rows || 3}"${field.placeholder ? ` placeholder="${field.placeholder}"` : ""}>${prefill[field.id] || ""}</textarea>
     `).join("");
 
     const bodyHtml = `${headerHtml(boble, ctx)}${fieldsHtml}`;

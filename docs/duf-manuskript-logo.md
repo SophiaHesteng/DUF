@@ -10,6 +10,25 @@
 
 *🔧 **Faktatjek og flere veje (godkendt af Heidi 2026-11-04):** Teksterne om rettigheder i 6.2, 6.3 og 6.4 er tjekket mod Canvas, Adobes og Lookas egne sider og rettet (Canvas logo-skabeloner kan ikke registreres som varemærke; Adobe Fonts kan; Lookas fulde ejerskab gælder de større pakker). Freelance-platforme (Fiverr, Upwork) er nævnt i 2D.1, 2D.2 og 6.2, og der er en ny vej, hvor DUF laver det endelige logo (2D.DUF), nået fra 2D.1 og 6.2. Pris, antal forslag og leveringstid er pladsholdere, indtil DUF's priser ligger fast. Mailadressen i 2D.DUF er ikke bekræftet.*
 
+*🔧 **Bestil dit logo (✅ godkendt af Heidi 2026-11-04, bygget samme dag):** Før sendte 2D.1 brugeren direkte til tjeklisten eller til DUF's bestilling, hvis en anden skulle lave logoet. Hun nåede ikke at blive klogere på, hvad hun ville have, og bestilte "bare et logo". Nu går hun først gennem det, rummet allerede har (logotype, inspiration og farver), svarer på det, en grafiker ville spørge om, og får det samlet i en **logo-brief**, som hun kan give videre. Samme gren bruges, uanset om en anden eller DUF skal lave logoet, og uanset om hun kommer fra 2D.1 eller 6.2. Ændringer: 2D.1, ny 2D.1B og 2D.FORBERED, 3.1 (én linje i bestillingsgrenen), 5.2C/5.2D, 6.2 og en ny udgave af Modul 6 ("Bestil dit logo": 6.B1-6.B4, 6.ANDEN, 6.KLAR, 6.DUF og venteskærmene). 2D.DUF er erstattet af 6.DUF.*
+
+```
+2D.1 Hvem laver det?
+ ├─ Jeg laver det selv ............................ → 2B.1
+ ├─ En anden laver det for mig .................... → 2D.1B Er I allerede i gang?
+ │                                                     ├─ Ja, logoet er på vej → 2D.2 → 2D.3
+ │                                                     └─ Nej, jeg skal til at finde én → 2D.FORBERED
+ └─ Jeg vil gerne have, at DUF laver det .......... → 2D.FORBERED
+
+2D.FORBERED → 2C.2 (logotype) → Modul 3 (3.1, 3.2, evt. 3.3C, 3.4) → Modul 5 (5.1, 5.2C/5.2D)
+            → Modul 6 "Bestil dit logo": 6.B1 → 6.B2 → (6.B3 kun "en anden") → 6.B4 Din logo-brief
+                                          ├─ En anden → 6.ANDEN (tjekliste) → 6.KLAR → 7.1 eller vent
+                                          └─ DUF      → 6.DUF (bestilling)  → vent → 7.1
+
+6.2 "Jeg vil have en grafiker eller en anden …" / "Jeg vil gerne have, at DUF laver det"
+            → 6.B1 (spor B og C har allerede været gennem Modul 3 og 5)
+```
+
 **Sådan læses dette dokument:** hvert modul er delt i bobler, den mindste byggeklods, svarende til én skærm. Hver boble har feltet "Hvad brugeren møder på denne skærm" og udfylder kun de øvrige felter, når det er relevant. Et nyt, valgfrit felt er **Se også**: et lille skilt, der viser, at emnet behandles i et andet vækstrum (se [[DUF Teknisk - Se også-skilt (henvisning til andet vækstrum)]]). En 💬-linje er en Guide-bemærkning med avatar (Marcus/Heidi/Sophia), hvor den er tildelt. **Tekster, brugeren ser, henviser aldrig til modul- eller boblenumre** — numrene står kun i felterne "Hvad der leder videre" og i noter til design/udvikling.
 
 ## Fire spor gennem rummet
@@ -21,7 +40,7 @@ Modul 2 sender brugeren ad ét af fire spor. Sporene er reelle forgreninger: bru
 | **A. Validér** | Har logo, tilfreds og professionelt lavet | Test i praksis (Modul 7), dokumentation (Modul 8) | Modul 3-6 |
 | **B. Kig på det** | Har logo, men er usikker (eller laver udkast selv) | Kortlægning, sammenligning, retning (Behold / Justér / Nyt), palet, evt. justering eller nyt logo, test, dokumentation | Intet, men får sin egen liste med |
 | **C. Fra bunden** | Har intet logo | Valg af logotype, inspiration efter type, palet, at bygge, test, dokumentation | Kortlægning af eksisterende, Modul 4 |
-| **D. Bestil hos en anden** | Logo er under udvikling hos grafiker, bekendt eller generator | Tjekliste til aftalen, test når logoet er klar, dokumentation | Modul 3-6 |
+| **D. Bestil hos en anden** | Logo er under udvikling hos grafiker, bekendt eller generator | Allerede i gang: tjekliste til aftalen. Skal først finde én, eller vil have DUF til det: forberedelsen (logotype, inspiration, farver) og logo-briefen. Derefter test, når logoet er klar, og dokumentation | Allerede i gang: Modul 3-6. Forberedelsen: Modul 4 og den del af Modul 6, hvor man selv bygger |
 
 En bruger i spor A møder ca. 15 bobler, en bruger i spor C ca. 26.
 
@@ -37,7 +56,8 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 - "Min logo-inspiration" (billeder/screenshots) + noter (`hvadFungerer`, `hvadInspirerer`) + `sammenligning` (Modul 3)
 - `retning` (behold / justér / nyt)
 - `logoFarver` (fra palet: valgte farver / egen variant, eller foreløbig farveretning + note) og, for Behold, `paletSamspil` (ja / usikker / hverSinRetning)
-- `vaerktoej` (canva / looka / illustrator / anden)
+- `vaerktoej` (canva / looka / illustrator / anden / duf)
+- Bestillingsgrenen (2026-11-04): `bestilling` (anden / duf: hvem der laver logoet, sat i 2D.1 eller 6.2), `logoBrug` (6.B1), `logoFoelelse` (6.B2: `treOrd`, `maaIkke`), `logoBudget` (6.B3: `budget`, `tidsramme`), `logoBrief` (briefen fra 6.B4, som hun har rettet den) og `bestiltHosDuf` (6.DUF)
 - Tjeklister, hver med sin `gemNoegle`: `logo-sporD-aftaler`, `logo-modul6-arbejdsliste`, `logo-modul6-symbol`, `logo-modul6-looka`
 - `testResultater` ({ smaat, udenFarve, baggrund }) og `aabnePunkter[]`
 - `begrundelse` (fri tekst fra Modul 8)
@@ -136,8 +156,17 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 **Boble 2D.1 — Hvem laver det?**
 - **Interaktion:** "Jeg laver det selv" → 2B.1 (udkast-version). "En anden laver det for mig" → 2D.2. *(Parentesen "(en grafiker, en bekendt, en freelancer eller en generator)" fjernet efter Heidis ønske 2026-11-04, fordi knappen blev for lang. 2D.2 forklarer, hvem "en anden" kan være.)* **✅ Flere veje (godkendt af Heidi 2026-11-04):** "en freelancer" tilføjet, og en ny mulighed sidst: "Jeg vil gerne have, at DUF laver det" → 2D.DUF.
+  - **✅ Bestil dit logo (godkendt af Heidi 2026-11-04):** "En anden laver det for mig" → **2D.1B** *(før direkte til 2D.2)*. "Jeg vil gerne have, at DUF laver det" → **2D.FORBERED** *(før direkte til bestillingen)*. Hvem der laver det, gemmes som `bestilling` ("anden" / "duf").
 
-**Boble 2D.2 — Sådan får du mest ud af at bestille**
+**Boble 2D.1B — Er I allerede i gang?** *(ny, ✅ godkendt af Heidi 2026-11-04, kun "en anden")*
+- **Hvad brugeren møder:** Er du allerede i gang med nogen, eller skal du først finde den, der skal lave dit logo?
+- **Interaktion:** "Ja, logoet er på vej" → 2D.2 (tjeklisten, som før). "Nej, jeg skal til at finde én" → 2D.FORBERED.
+
+**Boble 2D.FORBERED — Lad os gøre dig klar til at bestille** *(ny, ✅ godkendt af Heidi 2026-11-04; nås fra 2D.1 "DUF" og 2D.1B "Nej")*
+- **Hvad brugeren møder:** Et logo bliver bedst, når den, der laver det, ved, hvad du har brug for. Ikke bare "et logo", men dit logo. Så inden du bestiller, kigger vi på det, en grafiker alligevel ville spørge dig om: hvilken slags logo du hælder til, hvad du bliver draget af, og hvilke farver det skal spille sammen med. Til sidst samler vi det hele i en kort logo-brief, som du kan give videre. Det sparer tid for begge parter, og det gør det meget nemmere at få det, du forestiller dig.
+- **Hvad der leder videre:** Knappen "Lad os komme i gang" → 2C.2 (genbrugt uændret) → Modul 3 → Modul 5 → 6.B1.
+
+**Boble 2D.2 — Sådan får du mest ud af at bestille** *(fra 2026-11-04 kun til dem, der allerede er i gang. Dem, der først skal finde én, får samme tekst og tjekliste i 6.ANDEN)*
 - **Hvad brugeren møder:** Når en anden laver dit logo, er det jeres aftaler, der afgør, hvad du ender med at kunne bruge. Ikke kun, hvordan det ser ud. Her er en tjekliste til samtalen, så du ikke opdager det bagefter. Har du arbejdet med Farver, kan du give din palet med. Bruger du en generator, så læs vilkårene med de samme spørgsmål i baghovedet.
   - **✅ Flere veje (godkendt af Heidi 2026-11-04):** Nyt afsnit: "Finder du en freelancer på en platform som Fiverr eller Upwork, er det platformens regler, der gælder, hvis I ikke aftaler andet. Begge steder bliver logoet som udgangspunkt dit, når det er leveret, og du har betalt det hele. Men på Fiverr kan sælgeren skrive noget andet på sin side, og nogle tager ekstra for fx kildefilerne. Læs derfor sælgerens beskrivelse grundigt, og betal altid gennem platformen, ikke uden om den."
 - **Interaktion:** Afkrydsning via Tjekliste-komponenten (`gemNoegle: "logo-sporD-aftaler"`). Punkter, tæt på Ikonrettigheder §4: 1. Får jeg ejerskab eller kun en brugsret? 2. Hvilke medier og formål må logoet bruges til, og er det tidsbegrænset? 3. Må jeg ændre eller videreudvikle det? 4. Må andre bruge det samme eller et lignende logo? 5. Må det registreres som varemærke? 6. Får jeg de originale arbejds- og vektorfiler? 7. Har designeren bekræftet, at alle elementer er originale eller lovligt licenserede? **✅ Flere veje (godkendt af Heidi 2026-11-04):** 7a. Står der noget om rettigheder eller ekstra betaling for filer på freelancerens side? 7b. Er symbolet tegnet til mig, eller kommer det fra en skabelon, et billedbibliotek eller et AI-værktøj? 8. **✅ Logo-varianter (godkendt af Heidi 2026-11-04):** Får jeg både det fulde logo og en lille udgave (fx kun symbolet), også i en udgave, der kan bruges som favicon? Og i sort/hvid og til både lys og mørk baggrund?
@@ -149,14 +178,14 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 **Boble 2D.4 — Så venter vi**
 - **Hvad brugeren møder:** Det er helt fint. Din tjekliste ligger klar. Kom tilbage, når logoet er færdigt, så tester vi det sammen, og du får det med i din guide.
-  - **✅ Flere veje (godkendt af Heidi 2026-11-04):** *Har hun bestilt hos DUF (2D.DUF):* "Tak for din bestilling. Vi svarer dig på mail, så I kan aftale det videre. Kom tilbage hertil, når logoet er færdigt, så tester vi det sammen, og du får det med i din guide."
-- **Hvad der leder videre:** ~~Tilbage til rum-vælgeren.~~ **(2026-11-04, Heidis ønske):** to knapper: "Se, hvad der venter, når logoet er her" (→ 2D.5) og "Tilbage til rum-vælgeren". Begge veje gemmer pladsen. Ved næste besøg genoptages rummet ved Modul 7 (`venter: true`), **og ruten hertil genskabes, så modul- og boble-prikkerne og "Tilbage" virker** (før var de inaktive efter en pause). "Tilbage" fra 7.1 fører til boblen før pausen (2D.3 eller 2D.DUF), ikke til 2D.4.
+  - **✅ Flere veje (godkendt af Heidi 2026-11-04):** *Har hun bestilt hos DUF (fra 2026-11-04 i 6.DUF, og teksten står derfor nu på venteskærmen i Modul 6):* "Tak for din bestilling. Vi svarer dig på mail, så I kan aftale det videre. Kom tilbage hertil, når logoet er færdigt, så tester vi det sammen, og du får det med i din guide."
+- **Hvad der leder videre:** ~~Tilbage til rum-vælgeren.~~ **(2026-11-04, Heidis ønske):** to knapper: "Se, hvad der venter, når logoet er her" (→ 2D.5) og "Tilbage til rum-vælgeren". Begge veje gemmer pladsen. Ved næste besøg genoptages rummet ved Modul 7 (`venter: true`), **og ruten hertil genskabes, så modul- og boble-prikkerne og "Tilbage" virker** (før var de inaktive efter en pause). "Tilbage" fra 7.1 fører til boblen før pausen (2D.3, eller 6.KLAR / 6.DUF i bestillingsgrenen), ikke til venteskærmen.
 
 **Boble 2D.5 — Det venter, når logoet er her** *(ny, nås fra 2D.4)*
 - **Hvad brugeren møder:** **✅ (2026-11-04, godkendt af Heidi samme dag):** "Når dit logo er kommet, tester vi det i tre små tjek: om du kan kende det, når det er småt, om det virker uden farve, og om det kan ses på både lys og mørk baggrund. Har du en lille udgave, prøver vi også den, helt ned i størrelsen på et favicon. Bagefter skriver du et par sætninger om dit logo: hvor det kommer fra, og hvad du må bruge det til. Så kommer det med i din visuelle guide, sammen med det, du har lavet i de andre rum. Din plads er gemt. Når du kommer tilbage, starter vi lige der, ved testen."
 - **Hvad der leder videre:** "Tilbage til rum-vælgeren" (gemmer pladsen som 2D.4).
 
-**Boble 2D.DUF — Lad os lave det for dig** *(ny, Flere veje, godkendt af Heidi 2026-11-04; nås fra 2D.1 og 6.2)*
+**~~Boble 2D.DUF — Lad os lave det for dig~~** *(Flere veje, godkendt af Heidi 2026-11-04. **Erstattet af 6.DUF samme dag** (Bestil dit logo): bestillingen ligger nu i Modul 6 efter logo-briefen. Teksten herunder er den gamle udgave, gemt for sporbarhedens skyld)*
 - **Hvad brugeren møder:** Du har allerede gjort det meste af forarbejdet. Vil du hellere have, at vi laver det endelige logo, så bygger vi videre på det, du har valgt og skrevet her, og ikke på et tomt papir. Du får det fulde logo og den lille udgave, klar til favicon. Begge i sort/hvid og til både lys og mørk baggrund, og som vektorfiler, så de kan bruges i alle størrelser. Logoet bliver dit, også rettighederne. *[PLADSHOLDER, afventer DUF's samlede prissætning:]* Prisen og det praktiske, fx hvor mange forslag du får, aftaler vi med dig på mail, før vi går i gang. Det er helt i orden at vælge noget andet. Du kan stadig gå tilbage og lave det selv.
 - **Interaktion:** En formular, der bliver til en mail til DUF (samme mønster som billedtjekket i Billeder 8.6). Oplægget er udfyldt på forhånd med hendes svar fra rummet (hvor hun står, logotype, farver, det, der fungerer og skurrer, sammenligningen og noterne fra 3.2), og hun kan rette i det. Hun bedes vedhæfte screenshots selv. **✅ (2026-11-04, godkendt af Heidi samme dag):** Lige over mail-knappen står en tydelig påmindelse: "Husk at vedhæfte billeder, når mailen åbner: dit nuværende logo, hvis du har et, og de logoer, du har samlet som inspiration. Mailen kan ikke tage dem med af sig selv." Har hun lagt billeder ind i rummet, tilføjes: "Du har lagt {antal} billeder ind her i rummet. Vedhæft dem fra din computer." Selve mailen slutter med linjen "Vedhæftet (skriv, hvad du sender med, fx mit nuværende logo og de logoer, jeg er inspireret af):". Et frivilligt valg: "Må vi vise dit logo som eksempel på, hvem vi har hjulpet?" ("Ja, gerne" / "Nej, helst ikke" / "Det vil jeg gerne tale med jer om") med teksten "Det er frivilligt og ændrer ikke noget ved din bestilling." Mailadresse: *[PLADSHOLDER, ikke bekræftet: logo@din-uf.dk]*.
 - **Hvad der leder videre:** "Jeg har sendt bestillingen" → 2D.4. Hun sættes på spor D (`bestiltHosDuf: true`), så Modul 7 og 8 behandler hende som en, der har fået logoet lavet.
@@ -164,11 +193,12 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 ## Modul 3 — Inspiration og sammenligning *(spor B og C)*
 
-Spor A og D springer modulet over.
+Spor A og D springer modulet over. Undtagelse: forberedelsen til en bestilling (2D.FORBERED) går gennem 3.1, 3.2, evt. 3.3C og 3.4, ligesom spor C.
 
 ### Boble 3.1 — Se, hvad andre gør
 
 - **Hvad brugeren møder på denne skærm:** Nu kigger vi ud over dit eget logo. Åbn Looka (looka.com/logo-maker), og leg med, hvordan forskellige stilarter kan se ud for en praksis som din. Her kan du hente inspiration. Det er gratis at prøve. Du betaler først, hvis du beslutter dig for at hente et logo. Og finder du et logo, du kan lide, kan du også vælge at bruge det, så behøver du ikke bygge det fra bunden senere. Vi kommer tilbage til, hvad du skal være opmærksom på, hvis du gør det.
+  - **✅ Bestil dit logo (godkendt af Heidi 2026-11-04), kun i bestillingsgrenen:** Teksten om, at hun kan bruge et logo fra Looka, passer ikke, når en anden skal lave det. De to sætninger "Og finder du et logo, du kan lide, … hvis du gør det." erstattes af: "Du skal ikke lave noget selv her. Brug det til at finde ud af, hvad du kan lide, så du kan vise det til den, der skal lave dit logo." Sætningerne om, at det er gratis at prøve, bliver stående. Spor C's tip efter logotype vises også i bestillingsgrenen, fordi hun har valgt logotype i 2C.2.
   - **✅ Ny afsluttende linje (runde 7, godkendt af Heidi 2026-09-25):** "Looka åbner i et nyt vindue. Lad denne side være åben, og kom tilbage hertil, når du har leget lidt. På næste skærm viser vi dig, hvordan du gemmer de logoer, du kan lide, så du har dem med."
   - *Spor C, tip efter logotype:*
     - *Navn:* Kig efter eksempler, hvor navnet står alene. Læg mærke til skrifttypens karakter: rolig, legende, elegant, rå. Hvad passer til dig?
@@ -239,7 +269,7 @@ Spor C har ikke noget at beholde eller justere og springer modulet over. Spor A 
 
 ## Modul 5 — Logo og din palet *(spor B og C)*
 
-Spor A og D springer modulet over. To ting bestemmer udgaven: om brugeren har en gemt palet fra Farver, og hvilken retning hun valgte.
+Spor A og D springer modulet over (undtagen forberedelsen til en bestilling, som får 5.1 og 5.2C/5.2D). To ting bestemmer udgaven: om brugeren har en gemt palet fra Farver, og hvilken retning hun valgte.
 
 ### Boble 5.1 — Et logo står sjældent alene
 
@@ -270,7 +300,7 @@ Spor A og D springer modulet over. To ting bestemmer udgaven: om brugeren har en
 - **Se også:** Farver. *Vil du have en fast palet, kan du lave den dér. Du behøver ikke gøre det først.*
 - **Gemmes:** Ja, vises igen, når hun går i gang med at lave logoet.
 
-**Hvad der leder videre:** Behold → Modul 7. Justér og Nyt → Modul 6.
+**Hvad der leder videre:** Behold → Modul 7. Justér og Nyt → Modul 6. **✅ Bestil dit logo (godkendt af Heidi 2026-11-04):** Forberedelsen til en bestilling → 6.B1 *(i stedet for 6.1N)*. 3.4's knap hedder for hende "Lad os tage din palet med", ligesom for spor C.
 
 ## Modul 6 — Skab eller opdatér dit logo *(Justér og Nyt)*
 
@@ -305,8 +335,8 @@ Spor A, D og "Behold" springer modulet over.
   - **Looka:** "Du bygger videre på det, du allerede har leget med. Det er gratis at designe, og du betaler først, når du henter filerne."
   - **Illustrator:** "Et professionelt tegneprogram fra Adobe. Kun, hvis du kender det i forvejen. Det koster et abonnement."
   - **En grafiker eller en anden:** "Det kan være en grafiker, du betaler, en bekendt, der er god til det, eller en freelancer, du finder på en platform som Fiverr eller Upwork. Du har allerede gjort det vigtige forarbejde her: Du ved, hvilken slags logo du vil have, hvilke farver det skal have, og hvad der inspirerer dig. Det gør det meget nemmere at forklare, hvad du ønsker, og det kan gøre opgaven hurtigere og potentielt billigere. Vi giver dig en tjekliste med til samtalen."
-- **"Jeg vil have en grafiker eller en anden til at lave det"** → tjekliste og forløb fra spor D (2D.2 og frem), genbrugt. Springer 6.3-6.5 over. *(2026-11-04: hun sættes nu også på spor D, så 7.5 ikke tilbyder hende selv at justere.)*
-- **✅ Flere veje (godkendt af Heidi 2026-11-04):** **Ny, sidst: "Jeg vil gerne have, at DUF laver det"** → 2D.DUF. Forklaring: "Vi laver dit endelige logo ud fra det, du har arbejdet med her. Prisen aftaler vi med dig, før vi går i gang." *(pladsholder, indtil prisen ligger fast)*
+- **"Jeg vil have en grafiker eller en anden til at lave det"** → ~~tjekliste og forløb fra spor D (2D.2 og frem), genbrugt~~ **✅ Bestil dit logo (godkendt af Heidi 2026-11-04): → 6.B1**. Springer 6.3-6.5 over. *(2026-11-04: hun sættes nu også på spor D, så 7.5 ikke tilbyder hende selv at justere.)*
+- **✅ Flere veje (godkendt af Heidi 2026-11-04):** **Ny, sidst: "Jeg vil gerne have, at DUF laver det"** → ~~2D.DUF~~ **6.B1** *(Bestil dit logo, 2026-11-04)*. Forklaring: "Vi laver dit endelige logo ud fra det, du har arbejdet med her. Prisen aftaler vi med dig, før vi går i gang." *(pladsholder, indtil prisen ligger fast)*
 - **Gemmes:** Ja, `vaerktoej`.
 - *Parkeret fra brugertest 1 (P4): at DUF selv tilbyder at lave logoet mod betaling. Det er en forretningsbeslutning og tages ikke med i denne runde.*
 
@@ -340,6 +370,60 @@ Rettighedsbobler efter, hvad brugeren skal bygge:
   - 💬 *Guide (avatar: Sophia):* Et selvlavet logo er ikke et kompromis. Det er en prototype, ligesom resten af dit visuelle udtryk.
 - **Interaktion:** Valgfri upload (samme mekanik som i Modul 2). **✅ Logo-varianter (godkendt af Heidi 2026-11-04):** to felter: "Dit fulde logo" (som før) og "Din lille udgave (valgfrit)", gemt som `logoUploadLille`, det samme som i 7.2.
 - **Hvad der leder videre:** Knappen "Jeg har noget, jeg vil teste" (→ Modul 7).
+
+## Modul 6 — Bestil dit logo *(bestillingsgrenen, ✅ godkendt af Heidi 2026-11-04)*
+
+En ny udgave af Modul 6 til dem, der skal have en anden eller DUF til at lave logoet. Nås fra 6.2 ("en anden" / "DUF") og fra forberedelsen (2D.FORBERED → 2C.2 → Modul 3 → Modul 5). Modulet hedder "Bestil dit logo" på modul-linjen. Hun sættes på spor D, så Modul 7 og 8 behandler hende som en, der har fået logoet lavet.
+
+### Boble 6.B1 — Hvor skal logoet bruges?
+- **Hvad brugeren møder:** Hvor skal folk møde dit logo? Det fortæller den, der laver det, hvilke størrelser og filer du får brug for. Vælg gerne flere.
+- **Interaktion:** Multivalg + valgfri note: "På min hjemmeside" / "På sociale medier" / "På visitkort, flyers eller andet, der bliver trykt" / "På et skilt eller min dør" / "På tøj, tasker eller andre ting" / "Det ved jeg ikke endnu" *(kan ikke vælges sammen med de andre)*.
+- **Respons** *(når mindst ét af tryk, skilt eller tøj er valgt)*: Så skal du have logoet som vektorfil. Det er en fil, der kan gøres større uden at blive sløret, og trykkerier spørger næsten altid efter den. Den kommer med på listen i din brief.
+- **Gemmes:** Ja, `logoBrug`.
+
+### Boble 6.B2 — Hvordan skal det føles?
+- **Hvad brugeren møder:** Et logo er ikke kun noget, man ser. Det er også noget, man fornemmer. Hvordan vil du gerne have, at folk har det, når de møder dit?
+- **Interaktion:** To tekstfelter: "Tre ord, der beskriver din praksis" *(eksempel i feltet: fx rolig, varm, jordnær)* og "Det må mit logo ikke være eller ligne" *(eksempel i feltet: fx for skarpt, for spirituelt, som min nabos)*.
+- **Hvad der leder videre:** En anden → 6.B3. DUF → 6.B4.
+- **Gemmes:** Ja, `logoFoelelse`.
+
+### Boble 6.B3 — Budget og tidsramme *(kun når en anden skal lave det)*
+- **Hvad brugeren møder:** En grafiker vil næsten altid spørge om to ting: hvad du vil give, og hvornår du skal bruge det. Du behøver ikke have et præcist svar. Et cirka er nok til, at I kan tale om, hvad der kan lade sig gøre.
+- **Interaktion:** To tekstfelter: "Det vil jeg gerne give, cirka" og "Det skal jeg bruge det til, fx en dato eller en åbning".
+- *Springes over for DUF, indtil DUF's priser ligger fast.*
+- **Gemmes:** Ja, `logoBudget`.
+
+### Boble 6.B4 — Din logo-brief
+- **Hvad brugeren møder:** Her er din logo-brief. Det er det, du giver videre til den, der skal lave dit logo. Ret gerne i den, før du sender den.
+- **Interaktion:** Briefen står i et tekstfelt, hvor hun kan rette i den. Den samler (tomme svar og tomme afsnit springes over):
+  - Min praksis: tre ord / det må det ikke være eller ligne *(6.B2)*
+  - Logotype *(2C.2, 3.3C eller 4.4)*
+  - Farver *(5.2C/5.2D)*
+  - Inspiration: noterne fra 3.2, og hvad hun så, da hun sammenlignede *(3.3B, spor B)*
+  - Mit nuværende logo: det, der fungerer, og det, der skurrer *(2B.2/2B.3, spor B)*
+  - Hvor logoet skal bruges *(6.B1)*
+  - Budget og tidsramme *(6.B3, kun en anden)*
+  - Det skal jeg have med: det fulde logo og en lille udgave (fx kun symbolet), klar til favicon, i sort/hvid og til både lys og mørk baggrund, og som vektorfiler *(står altid med)*
+  - *Overskrifterne i briefen (2026-11-04):* "Min praksis", "Tre ord", "Det må det ikke være eller ligne", "Logotype", "Farver", "Inspiration", "Da jeg sammenlignede med andre", "Mit nuværende logo", "Det fungerer", "Det skurrer", "Hvor logoet skal bruges", "Budget og tidsramme", "Det skal jeg have med". Noterne fra 3.2 står med deres egne spørgsmål som overskrift.
+- **Knapper:** "Kopiér din brief" *(som tekst; bagefter: "Din brief er kopieret." eller, hvis det ikke lykkes: "Den kunne ikke kopieres. Markér teksten, og kopiér den selv." ✅ Heidi 2026-11-04)*. Kun en anden: "Send briefen til dig selv i en mail" *(en mail uden modtager, så hun selv kan sende den videre)*.
+- **Hvad der leder videre:** "Næste": en anden → 6.ANDEN, DUF → 6.DUF.
+- **Gemmes:** Briefen, som hun har rettet den (`logoBrief`), så 6.DUF kan bruge den som oplæg.
+
+### Boble 6.ANDEN — Sådan får du mest ud af at bestille *(flyttet fra 2D.2 til Modul 6)*
+- **Hvad brugeren møder:** Én linje øverst: "Giv din logo-brief til den, du bestiller hos. Så starter I samme sted." Derefter samme tekst, tjekliste og afsluttende linje som 2D.2 (teksten står kun ét sted i koden og deles mellem de to). Afkrydsningen deles også (`gemNoegle: "logo-sporD-aftaler"`).
+- **Hvad der leder videre:** "Næste" → 6.KLAR.
+
+### Boble 6.KLAR — Er logoet klar nu?
+- **Interaktion:** Samme som 2D.3: "Ja, jeg har det" → 7.1. "Ikke endnu" → venteskærmen i Modul 6.
+
+### Boble 6.DUF — Lad os lave det for dig *(flyttet fra 2D.DUF til Modul 6)*
+- **Hvad brugeren møder:** Du har gjort forarbejdet, og din logo-brief er klar. Den sender vi med, så vi bygger videre på det, du har valgt og skrevet, og ikke på et tomt papir. Du får det fulde logo og den lille udgave, klar til favicon. Begge i sort/hvid og til både lys og mørk baggrund, og som vektorfiler, så de kan bruges i alle størrelser. Logoet bliver dit, også rettighederne. *[PLADSHOLDER, afventer DUF's samlede prissætning:]* Prisen og det praktiske, fx hvor mange forslag du får, aftaler vi med dig på mail, før vi går i gang. Det er helt i orden at vælge noget andet. Du kan stadig gå tilbage og lave det selv.
+- **Interaktion:** Samme formular, påmindelse om vedhæftning og frivillige referencevalg som 2D.DUF (se dér). Oplægget i formularen er nu hele logo-briefen, som hun rettede den i 6.B4. Mailadresse: *[PLADSHOLDER, ikke bekræftet: logo@din-uf.dk]*.
+- **Hvad der leder videre:** "Jeg har sendt bestillingen" → venteskærmen i Modul 6. Hun sættes på spor D (`bestiltHosDuf: true`).
+- **Gemmes:** Kun at hun har bestilt hos DUF. Selve formularen gemmes ikke.
+
+### Venteskærmene i Modul 6
+- Samme tekster og knapper som 2D.4 og 2D.5 (også DUF-udgaven af "Så venter vi"), men i Modul 6, så prikkerne ikke hopper tilbage til Modul 2. Begge gemmer pladsen, og rummet genoptages ved 7.1 med ruten hertil. Venteskærmene tages ikke med i den gemte rute.
 
 ## Modul 7 — Tjek i praksis *(alle spor)*
 
