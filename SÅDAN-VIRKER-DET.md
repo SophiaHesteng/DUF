@@ -66,6 +66,17 @@ Byggestens tekster står i `js/data/byggesten.js` (boblerne i `BOBLER`, overgang
 
 Skærmene bygges i `js/engine/byggestenUi.js`, én funktion pr. boble-type (fx `showChoiceBoble()`, `showSaetBoble()`).
 
+## Logo: spor og retning
+
+Logos tekster står i `js/data/logo.js` (`BOBLER`, keyet på boble-id). Logikken ligger i `js/engine/logoEngine.js`, skærmene i `js/engine/logoUi.js`.
+
+- **Spor (A-D)**: sættes i 2.1 og kan skifte undervejs i `applySideEffects()`. Spor A skifter til B, hvis hun vælger at arbejde med logoet selv (2a.1 "Nej" og 2a.2 "fuldt"); spor D skifter til B ved "Jeg laver det selv" (2d.1).
+- **Retning (behold/justér/nyt)**: læs den altid via `effectiveRetning()`, ikke direkte fra `svar.retning`. En retning, hun selv har valgt, vinder; spor C får "nyt" som standard, fordi hun aldrig kommer gennem Modul 4.
+- **Hvor flowet går hen**: et fast `next` på boblen eller optionen, ellers `customNext()`.
+- **Svar, der betyder "ingen" eller "ved ikke"**: giv optionen `eksklusiv: true` i data. Så kan den ikke vælges sammen med de andre (styres i `showMultiChoiceBoble()` i `logoUi.js`).
+- **Logo og inspiration side om side**: `sideOmSide: true` på boblen (bruges i 3.3b). Billederne hentes i `gatherContext()` og tegnes af `sideOmSideHtml()`.
+- **Brugerens egen tekst i HTML** (8.2's opsamling, noterne fra 3.2): send den gennem `escapeHtml()` øverst i `logoEngine.js`, så et "<" i teksten ikke bliver læst som kode.
+
 ## Live
 
 Push til `main` går direkte live hos Simply (`.github/workflows/deploy.yml`). Arbejd altid på en branch (`kort-<nr>-<navn>`).

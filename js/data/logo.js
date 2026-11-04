@@ -57,7 +57,7 @@ export const BOBLER = {
             { id: "trovaerdighed", text: "Et flot logo giver troværdighed" },
             { id: "unikt", text: "Det skal være helt unikt" },
             { id: "perfekt", text: "Det skal være perfekt, før det tæller" },
-            { id: "ingen", text: "Ingen af dem, jeg vil bare høre, hvad et logo skal" }
+            { id: "ingen", text: "Ingen af dem, jeg vil bare høre, hvad et logo skal", eksklusiv: true }
         ],
         answerKey: "valgteMyter",
         nextButtonText: "Vis mig",
@@ -77,7 +77,7 @@ export const BOBLER = {
         id: "1.3-trovaerdighed", modul: 1, type: "text",
         heading: "Et flot logo giver ikke automatisk tillid",
         paragraphs: [
-            "Et flot logo giver ikke automatisk tillid. Et dyrt logo heller ikke. Tillid vokser, når tingene hænger sammen og bliver brugt på samme måde, hver gang. Et enkelt logo, du bruger konsekvent, slår et avanceret logo i tre forskellige udgaver."
+            "Et flot logo giver ikke automatisk tillid. Et dyrt logo heller ikke. Tillid vokser, når tingene hænger sammen og bliver brugt på samme måde, hver gang. Et enkelt logo, du bruger konsekvent, slår tre forskellige logoer, der skifter fra sted til sted."
         ],
         nextButtonText: "Videre",
         next: null
@@ -86,7 +86,7 @@ export const BOBLER = {
         id: "1.3-unikt", modul: 1, type: "text",
         heading: "Det behøver ikke være unikt",
         paragraphs: [
-            "Det behøver ikke være set før. Ofte er det det enkle, der bliver husket. Kreativitet for kreativitetens skyld gør sjældent et logo lettere at genkende."
+            "Det behøver ikke være noget, ingen har set før. Ofte er det det enkle, der bliver husket. Kreativitet for kreativitetens skyld gør sjældent et logo lettere at genkende."
         ],
         nextButtonText: "Videre",
         next: null
@@ -184,7 +184,7 @@ export const BOBLER = {
             { id: "laesbart", text: "Det er let at læse" },
             { id: "genkendeligt", text: "Det er let at kende igen" },
             { id: "farver", text: "Farverne føles rigtige" },
-            { id: "ingen", text: "Ikke noget lige nu" }
+            { id: "ingen", text: "Ikke noget lige nu", eksklusiv: true }
         ],
         allowNote: true,
         answerKey: "listeFungerer",
@@ -195,7 +195,7 @@ export const BOBLER = {
         id: "2b.3", modul: 2, type: "multiChoice",
         heading: "Hvad føles ikke helt rigtigt?",
         paragraphs: [
-            "Nu den anden side. Hvad skurrer? Ingen ting er for småt at nævne. Og \"jeg ved det ikke\" er også et svar."
+            "Nu den anden side. Hvad skurrer? Intet er for småt at nævne. Og \"jeg ved det ikke\" er også et svar."
         ],
         options: [
             { id: "detaljeret", text: "Det er for detaljeret eller rodet", group: "form" },
@@ -204,7 +204,7 @@ export const BOBLER = {
             { id: "ikke_mig", text: "Det føles ikke som mig og min praksis", group: "identitet" },
             { id: "ligner_andre", text: "Det ligner en masse andre logoer", group: "oprindelse" },
             { id: "lavet_hurtigt", text: "Det blev lavet hurtigt, uden at jeg rigtig tænkte over det", group: "oprindelse" },
-            { id: "ved_ikke", text: "Jeg ved ikke, hvad det er. Det føles bare ikke rigtigt." }
+            { id: "ved_ikke", text: "Jeg ved ikke, hvad det er. Det føles bare ikke rigtigt.", eksklusiv: true }
         ],
         allowNote: true,
         answerKey: "listeSkurrer",
@@ -401,7 +401,8 @@ export const BOBLER = {
         paragraphs: [
             "Kig på dem, du fandt, og på dit eget logo. Hvad ser du, når de står side om side?"
         ],
-        /*---- Brugerens uploadede logo vises ved siden af screenshotsene - logoEngine.js sender billeder med som kontekst ----*/
+        /*---- `sideOmSide`: brugerens uploadede logo og screenshotsene fra 3.2 vises side om side - logoEngine.js henter billederne, logoUi.js's sideOmSideHtml() tegner dem ----*/
+        sideOmSide: true,
         options: [
             { id: "godt_ved_siden_af", text: "Mit står godt ved siden af" },
             { id: "savner_noget", text: "Jeg savner noget i mit" },
@@ -624,7 +625,7 @@ export const BOBLER = {
         /*---- Looka-muligheden vises kun for retning "nyt" - logoEngine.js filtrerer options. `explanation` er runde 7's korte forklaring, der foldes ud med pilen ved siden af valget (brugertest 1, T4/U2) - at folde ud vælger IKKE muligheden, jf. logoUi.js ----*/
         options: [
             {
-                id: "canva", text: "I Canva (anbefalet)",
+                id: "canva", text: "I Canva (godt at starte med)",
                 explanation: "Et gratis program i din browser, hvor du bygger logoet selv ud fra enkle skabeloner. Godt, hvis du vil prøve dig frem og have det hele i egne hænder."
             },
             {

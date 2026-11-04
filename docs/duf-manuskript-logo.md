@@ -4,6 +4,8 @@
 
 *⚠️ **Runde 7 (2026-09-25, efter brugertest 1):** se [[DUF Brugertest 1 - Visuelt vækstområde (sortering)]]. Fejlene i 5.1 (paletten blev ikke vist) og 8.1/6.1N (noter sat sammen) er allerede rettet i koden, og tjeklisterne har fået overskrift og mail-knap. Testbrugeren var glad for rummet ("ej, det er sjovt det her"), men: hun forstod ikke, hvem "en anden" var i 6.2 (T4), og valgmulighederne trænger til en kort forklaring (U2); logoet virkede ikke i lille størrelse, og hun vidste ikke, at man kan have en udgave med kun symbolet (T6); og vi mistede lidt rollen som guide, da hun gik over i Looka (P1, stadig parkeret som Biblioteks-artikel, men 3.1 får en lille bro). Ændringer: 1.4, 2C.2, 3.1, 6.2, 6.4 og 7.2. Alle nye tekster er godkendt af Heidi 2026-09-25. Klar til implementering, se [[DUF Prompt - Logo (runde 7)]].*
 
+*🔧 **Logo-gennemgang (2026-11-04, branch `logo-gennemgang`):** Rettet efter en gennemgang af rummet. Flow: "Nej, jeg vil hellere gennem det hele" i 2A.2 skifter nu til spor B; "Jeg vil justere logoet nu" i 7.5 slår nu igennem for spor C (Modul 6 opfører sig som justér, som manuskriptet allerede siger); 3.3B viser nu logo og screenshots side om side. Svar, der betyder "ingen" eller "ved ikke", kan ikke længere vælges sammen med andre (1.2, 2B.2, 2B.3). Tekst: 1.3b, 1.3c, 2B.3 og 6.2 ("Canva (godt at starte med)" i stedet for "anbefalet"). Ikke ændret endnu: skrifttype-teksten i 6.3 og Looka-teksten i 6.4 skal faktatjekkes mod de aktuelle vilkår, og et forslag om logo-varianter ligger til godkendelse i `docs/udkast-logo-varianter.md`.*
+
 **Sådan læses dette dokument:** hvert modul er delt i bobler, den mindste byggeklods, svarende til én skærm. Hver boble har feltet "Hvad brugeren møder på denne skærm" og udfylder kun de øvrige felter, når det er relevant. Et nyt, valgfrit felt er **Se også**: et lille skilt, der viser, at emnet behandles i et andet vækstrum (se [[DUF Teknisk - Se også-skilt (henvisning til andet vækstrum)]]). En 💬-linje er en Guide-bemærkning med avatar (Marcus/Heidi/Sophia), hvor den er tildelt. **Tekster, brugeren ser, henviser aldrig til modul- eller boblenumre** — numrene står kun i felterne "Hvad der leder videre" og i noter til design/udvikling.
 
 ## Fire spor gennem rummet
@@ -49,15 +51,15 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 ### Boble 1.2 — Hvad har du hørt om logoer?
 
 - **Hvad brugeren møder på denne skærm:** Om logoer findes der mange historier. Nogle er sande. Andre fylder mere, end de fortjener. Hvilke af dem kender du? Vælg dem, der ringer en klokke.
-- **Eventuel interaktion:** Brugeren vælger ingen, én eller flere: "Et logo er min identitet" / "Et flot logo giver troværdighed" / "Det skal være helt unikt" / "Det skal være perfekt, før det tæller" / "Ingen af dem, jeg vil bare høre, hvad et logo skal".
+- **Eventuel interaktion:** Brugeren vælger ingen, én eller flere: "Et logo er min identitet" / "Et flot logo giver troværdighed" / "Det skal være helt unikt" / "Det skal være perfekt, før det tæller" / "Ingen af dem, jeg vil bare høre, hvad et logo skal". *(Logo-gennemgang 2026-11-04: "Ingen af dem" kan ikke vælges sammen med en myte. Vælges den ene, slukkes den anden.)*
 - **Hvad der leder videre:** Knappen "Vis mig". Brugeren ser kun de myte-bobler (1.3a-d), hun har valgt, og går derefter videre til 1.4. Ingen valgt betyder direkte til 1.4.
 
 ### Boble 1.3a-d — Myte-bobler *(vises kun for valgte myter)*
 
 - **1.3a, identitet:** Et logo er ikke din identitet. Din identitet er dig, dine ord, dit rum og måden, du møder mennesker på. Logoet er ét af de steder, den viser sig. Et genkendelsespunkt, ikke hele kortet. Det tager presset af.
   - **Se også:** Din identitet (Branding). *Hvem du er, hvad du står for, og hvordan du viser det frem.*
-- **1.3b, troværdighed:** Et flot logo giver ikke automatisk tillid. Et dyrt logo heller ikke. Tillid vokser, når tingene hænger sammen og bliver brugt på samme måde, hver gang. Et enkelt logo, du bruger konsekvent, slår et avanceret logo i tre forskellige udgaver.
-- **1.3c, unikt:** Det behøver ikke være set før. Ofte er det det enkle, der bliver husket. Kreativitet for kreativitetens skyld gør sjældent et logo lettere at genkende.
+- **1.3b, troværdighed:** Et flot logo giver ikke automatisk tillid. Et dyrt logo heller ikke. Tillid vokser, når tingene hænger sammen og bliver brugt på samme måde, hver gang. Et enkelt logo, du bruger konsekvent, slår tre forskellige logoer, der skifter fra sted til sted.
+- **1.3c, unikt:** Det behøver ikke være noget, ingen har set før. Ofte er det det enkle, der bliver husket. Kreativitet for kreativitetens skyld gør sjældent et logo lettere at genkende.
 - **1.3d, perfekt:** Nej. Et logo behøver ikke være færdigt for at tælle. Ligesom resten af dit visuelle udtryk er det en prototype. Du bruger det, lærer af det og justerer det, når din praksis ændrer sig.
 - **Hvad der leder videre:** "Videre" til næste valgte myte eller 1.4.
 
@@ -84,7 +86,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 **Boble 2A.2 — Så tester vi det bare**
 - **Hvad brugeren møder:** Så behøver du ikke bygge noget nyt. Vi går direkte til at teste, om dit logo fungerer i praksis, og bagefter tilføjer vi det til din visuelle guide. Har du en fil af logoet, kan du lægge den her, så har du den ved hånden under testen. Den bliver på din enhed.
-- **Interaktion:** Valgfri upload af logoet. Knapper: "Test mit logo i praksis" (→ Modul 7) og "Nej, jeg vil hellere gennem det hele" (→ 2B.1).
+- **Interaktion:** Valgfri upload af logoet. Knapper: "Test mit logo i praksis" (→ Modul 7) og "Nej, jeg vil hellere gennem det hele" (→ 2B.1, og hun skifter til spor B, ligesom ved "Nej" i 2A.1). *(Logo-gennemgang 2026-11-04: før blev hun på spor A og sprang Modul 4 over.)*
 - **Gemmes:** Ja, uploaden gemmes lokalt. Modul 8 kræver stadig en begrundelse, ikke kun et "godkendt".
 
 ### Spor B — Kig på det, du har
@@ -95,11 +97,11 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 **Boble 2B.2 — Hvad fungerer?**
 - **Hvad brugeren møder:** Vi begynder med det gode. Hvad synes du bedst om ved dit valgte logo, selvom du kan være i tvivl om resten? Vælg gerne flere. Er der ikke meget at vælge imellem, er det helt okay. *(For udkast-varianten: "dit udkast".)*
-- **Interaktion:** Multivalg + valgfri note: "Jeg kan godt lide, hvordan det ser ud" / "Det føles som mig og min praksis" / "Det er let at læse" / "Det er let at kende igen" / "Farverne føles rigtige" / "Ikke noget lige nu".
+- **Interaktion:** Multivalg + valgfri note: "Jeg kan godt lide, hvordan det ser ud" / "Det føles som mig og min praksis" / "Det er let at læse" / "Det er let at kende igen" / "Farverne føles rigtige" / "Ikke noget lige nu". *(Logo-gennemgang 2026-11-04: "Ikke noget lige nu" kan ikke vælges sammen med de andre.)*
 
 **Boble 2B.3 — Hvad føles ikke helt rigtigt?**
-- **Hvad brugeren møder:** Nu den anden side. Hvad skurrer? Ingen ting er for småt at nævne. Og "jeg ved det ikke" er også et svar.
-- **Interaktion:** Multivalg + valgfri note, i grupper. *Form:* "Det er for detaljeret eller rodet" / "Det er svært at læse, især når det er småt" / "Farverne passer ikke til mig". *Identitet:* "Det føles ikke som mig og min praksis". *Oprindelse:* "Det ligner en masse andre logoer" / "Det blev lavet hurtigt, uden at jeg rigtig tænkte over det". Samt: "Jeg ved ikke, hvad det er. Det føles bare ikke rigtigt."
+- **Hvad brugeren møder:** Nu den anden side. Hvad skurrer? Intet er for småt at nævne. Og "jeg ved det ikke" er også et svar.
+- **Interaktion:** Multivalg + valgfri note, i grupper. *Form:* "Det er for detaljeret eller rodet" / "Det er svært at læse, især når det er småt" / "Farverne passer ikke til mig". *Identitet:* "Det føles ikke som mig og min praksis". *Oprindelse:* "Det ligner en masse andre logoer" / "Det blev lavet hurtigt, uden at jeg rigtig tænkte over det". Samt: "Jeg ved ikke, hvad det er. Det føles bare ikke rigtigt." *(Logo-gennemgang 2026-11-04: "Jeg ved ikke" kan ikke vælges sammen med de andre.)*
 
 **Boble 2B.4 — Det, du lægger mærke til** *(kun de valgte gruppers bobler vises)*
 - **Form:** Det her er ofte de ting, man kan justere uden at starte forfra. Skrifttype, størrelse, farve, mængden af detaljer. Det er gode nyheder.
@@ -171,7 +173,7 @@ Spor A og D springer modulet over.
 ### Boble 3.3 — *Kun én af to, afhængigt af spor*
 
 **3.3B — Sæt dem op mod dit eget** *(kun spor B)*
-- **Hvad brugeren møder:** Kig på dem, du fandt, og på dit eget logo. Hvad ser du, når de står side om side? *(Brugerens uploadede logo vises ved siden af screenshotsene.)*
+- **Hvad brugeren møder:** Kig på dem, du fandt, og på dit eget logo. Hvad ser du, når de står side om side? *(Brugerens uploadede logo vises ved siden af screenshotsene. Logo-gennemgang 2026-11-04: det blev ikke vist før, nu gør det. Mangler et af dem, står der en kort linje i stedet.)*
 - **Interaktion:** Multivalg + valgfri note: "Mit står godt ved siden af" / "Jeg savner noget i mit" / "Jeg kan se, hvad jeg vil væk fra".
 - **Gemmes:** Ja, og vises i Modul 4 sammen med de to lister fra Modul 2.
 
@@ -281,7 +283,7 @@ Spor A, D og "Behold" springer modulet over.
 *Runde 7: I testen forstod brugeren ikke, hvem "en anden" var ("hvem skulle lave det?"). Hver valgmulighed får nu en kort forklaring, der kan foldes ud, og "en anden" bliver konkret.*
 
 - **Hvad brugeren møder:** Vælg den vej, der giver mest mening for dig. *(ændret efter Heidis kommentar 2026-09-25, før: "føles mest overkommelig")* **✅ Ny linje (runde 7, godkendt 2026-09-25):** "Tryk på pilen ved en mulighed for at læse lidt mere om den."
-- **Interaktion:** *Nyt:* "I Canva (anbefalet)" / "I Looka, ud fra det, jeg allerede har leget med" / "I Illustrator, hvis jeg har erfaring med Adobe" / **✅ Ny formulering (godkendt 2026-09-25):** "Jeg vil have en grafiker eller en anden til at lave det" *(før: "Jeg vil have en anden til at lave det")*. *Justér:* de samme, uden Looka.
+- **Interaktion:** *Nyt:* "I Canva (godt at starte med)" / "I Looka, ud fra det, jeg allerede har leget med" / "I Illustrator, hvis jeg har erfaring med Adobe" / **✅ Ny formulering (godkendt 2026-09-25):** "Jeg vil have en grafiker eller en anden til at lave det" *(før: "Jeg vil have en anden til at lave det")*. *Justér:* de samme, uden Looka.
 - **✅ Nyt i runde 7 (godkendt af Heidi 2026-09-25) — kort forklaring, der kan foldes ud, ved hver mulighed:**
   - **Canva:** "Et gratis program i din browser, hvor du bygger logoet selv ud fra enkle skabeloner. Godt, hvis du vil prøve dig frem og have det hele i egne hænder."
   - **Looka:** "Du bygger videre på det, du allerede har leget med. Det er gratis at designe, og du betaler først, når du henter filerne."

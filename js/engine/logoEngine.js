@@ -19,6 +19,15 @@ const INSPIRATION_BUCKET = "logo-inspiration";
 /*---- Manuskriptets `logoUploadLille` (7.2, runde 7): den ekstra, lille udgave af logoet, fx kun symbolet ----*/
 const LOGO_LILLE_BUCKET = "logo-lille";
 
+/*---- Brugerens egen fritekst sættes ind i siden som HTML (8.2's opsamling, recap af noterne fra 3.2). Uden denne oversættelse ville et "<" i teksten blive læst som kode, og opsamlingen kunne gå i stykker ----*/
+function escapeHtml(tekst) {
+    return String(tekst)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+}
+
 /*---- 2B.3 → 6.1J: manuskriptets faste oversættelse fra "det skurrer"-svar til arbejdsliste-punkter (stabile id'er, så afkrydsning ikke går tabt, selvom listen udvides efter et besøg i Modul 7) ----*/
 const ARBEJDSLISTE_FRA_SKURRER = {
     detaljeret: { id: "rodet", tekst: "Rodet → Forenkl: fjern noget, indtil kernen står tilbage." },
@@ -198,6 +207,11 @@ export class LogoEngine {
             ctx.images = await getImagesForSide(LOGO_BUCKET);
         }
 
+        /*---- 3.3b lover, at hendes eget logo og screenshotsene fra 3.2 står side om side. Før blev kun logoet hentet, og intet af det blev vist ----*/
+        if (boble.sideOmSide) {
+            ctx.inspirationImages = await getImagesForSide(INSPIRATION_BUCKET);
+        }
+
         if (boble.responseUpload) {
             const bucket = boble.responseUpload.bucket;
             ctx.responseImages = await getImagesForSide(bucket);
@@ -271,7 +285,7 @@ export class LogoEngine {
                 const imageHtml = logoImgHtml || smallImgHtml
                     ? `<div style="display:flex;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:16px;">${logoImgHtml}${smallImgHtml}</div>`
                     : "";
-                const begrundelseHtml = this.svar.begrundelse?.begrundelse ? `<p>${this.svar.begrundelse.begrundelse}</p>` : "";
+                const begrundelseHtml = this.svar.begrundelse?.begrundelse ? `<p>${escapeHtml(this.svar.begrundelse.begrundelse)}</p>` : "";
                 const testHtml = `<ul>${checkLine("Kan kendes, når det er småt", results.smaat === "ja")}${checkLine("Virker uden farve", results.udenFarve === "ja")}${checkLine("Virker på både lys og mørk baggrund", results.baggrund === "begge")}</ul>`;
                 const openHtml = this.svar.aabnePunkter?.length
                     ? `<p><strong>Åbne punkter, du tager med:</strong> ${this.svar.aabnePunkter.join(", ")}</p>`
@@ -482,7 +496,7 @@ export class LogoEngine {
         const noter = this.svar.minInspirationNoter || {};
         return BOBLER["3.2"].fields
             .filter((field) => noter[field.id])
-            .map((field) => ({ label: field.label, value: noter[field.id] }));
+            .map((field) => ({ label: field.label, value: escapeHtml(noter[field.id]) }));
     }
 
     buildArbejdslistePunkter() {
@@ -506,9 +520,10 @@ export class LogoEngine {
         return punkter;
     }
 
+    /*---- En retning, brugeren selv har valgt (4.2, eller sat af 5.2a/7.5), vinder altid. Spor C kommer aldrig gennem Modul 4, så for hende er "nyt" kun standarden, indtil hun fx vælger "Jeg vil justere logoet nu" i 7.5. Før stod spor C-tjekket først, så det valg blev ignoreret ----*/
     effectiveRetning() {
-        if (this.svar.spor === "C") return "nyt";
-        return this.svar.retning?.id || null;
+        if (this.svar.retning?.id) return this.svar.retning.id;
+        return this.svar.spor === "C" ? "nyt" : null;
     }
 
     async getFarverPalette() {
@@ -543,6 +558,8 @@ export class LogoEngine {
                 break;
             case "2a.2":
                 if (rawAnswer.optionId === "test") this.svar.valideringsvej = true;
+                /*---- "Nej, jeg vil hellere gennem det hele" betyder det samme som "nej" i 2a.1: hun vil selv arbejde med logoet. Uden sporskiftet blev hun på spor A, sprang Modul 4 over og fik at vide i 7.5, at hun ikke selv kunne justere ----*/
+                if (rawAnswer.optionId === "fuldt") this.svar.spor = "B";
                 break;
             case "2d.1":
                 if (rawAnswer.optionId === "selv") {

@@ -127,6 +127,24 @@ function paletteBesideHtml(images, palette) {
         </div>`;
 }
 
+/*---- Eget logo + inspirationen fra 3.2 side om side (3.3b). Genbruger miniaturerne fra imageGallery.js, så screenshotsene ser ud som dér, hvor hun lagde dem ind ----*/
+
+function sideOmSideHtml(images, inspirationImages) {
+    const logoHtml = images?.length
+        ? `<img src="${URL.createObjectURL(images[0].blob)}" alt="Dit logo" style="max-width:160px;max-height:160px;object-fit:contain;">`
+        : `<p class="logo-preview-empty-hint">Intet logo uploadet endnu.</p>`;
+
+    const inspirationHtml = inspirationImages?.length
+        ? imageGalleryHtml(inspirationImages)
+        : `<p class="logo-preview-empty-hint">Ingen screenshots lagt ind i 3.2. Brug dem, du har i hovedet.</p>`;
+
+    return `
+        <div class="logo-preview-backgrounds">
+            <div class="logo-preview-background logo-preview-background--light"><p class="section-subheading">Dit logo</p>${logoHtml}</div>
+            <div class="logo-preview-background logo-preview-background--light"><p class="section-subheading">Det, du fandt</p>${inspirationHtml}</div>
+        </div>`;
+}
+
 /*---- 💬-linjen: med et navn (guideAvatar) vises den som guide-boble (js/components/guide.js) med pladsholder-avatar; uden navn som det gamle panel ----*/
 
 function guideLineHtml(boble) {
@@ -149,6 +167,7 @@ function headerHtml(boble, ctx = {}) {
         ${ctx.recap?.length ? `<dl class="compass-summary">${ctx.recap.map((item) => `<dt>${item.label}</dt><dd>${item.value}</dd>`).join("")}</dl>` : ""}
         ${boble.paletteSwatches && ctx.palette?.length ? paletteSwatchesHtml(ctx.palette) : ""}
         ${boble.paletteBeside ? paletteBesideHtml(ctx.images, ctx.palette) : ""}
+        ${boble.sideOmSide ? sideOmSideHtml(ctx.images, ctx.inspirationImages) : ""}
         ${boble.externalLink ? externalLinkHtml(boble.externalLink) : ""}
         ${guideLineHtml(boble)}
         ${boble.imageUpload ? renderImageUploadHtml({ label: boble.imageUpload.label, hint: boble.imageUpload.hint, images: ctx.images || [] }) : ""}
@@ -393,10 +412,20 @@ function showMultiChoiceBoble(boble, ctx, onNext, onExit) {
     renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
 
     const optionButtons = document.querySelectorAll("[data-option-id]");
+    /*---- Et svar med `eksklusiv: true` i data (fx "Ikke noget lige nu" eller "Jeg ved ikke") betyder "ingen af de andre". Vælger hun det, slukkes de andre, og vælger hun et af de andre, slukkes det. Ellers kunne hun sende modstridende svar videre til opsamlingerne ----*/
+    const erEksklusiv = (button) => boble.options.find((o) => o.id === button.dataset.optionId)?.eksklusiv === true;
+
     optionButtons.forEach((button) => {
         button.addEventListener("click", () => {
             const isPressed = button.getAttribute("aria-pressed") === "true";
             button.setAttribute("aria-pressed", String(!isPressed));
+
+            if (isPressed) return;
+            optionButtons.forEach((other) => {
+                if (other !== button && (erEksklusiv(button) || erEksklusiv(other))) {
+                    other.setAttribute("aria-pressed", "false");
+                }
+            });
         });
     });
 
