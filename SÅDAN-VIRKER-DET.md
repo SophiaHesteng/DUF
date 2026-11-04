@@ -75,6 +75,8 @@ Logos tekster står i `js/data/logo.js` (`BOBLER`, keyet på boble-id). Logikken
 - **Hvor flowet går hen**: et fast `next` på boblen eller optionen, ellers `customNext()`.
 - **Svar, der betyder "ingen" eller "ved ikke"**: giv optionen `eksklusiv: true` i data. Så kan den ikke vælges sammen med de andre (styres i `showMultiChoiceBoble()` i `logoUi.js`).
 - **Logo og inspiration side om side**: `sideOmSide: true` på boblen (bruges i 3.3b). Billederne hentes i `gatherContext()` og tegnes af `sideOmSideHtml()`.
+- **Logo-varianter** (det fulde logo og den lille udgave): det fulde logo ligger i billed-bucket `logo`, den lille udgave i `logo-lille`. 6.5 har to upload-felter: det andet sættes med `ekstraUpload` i data og får id-præfikset `lille-` (`EKSTRA_UPLOAD_PREFIX` i `logoUi.js`), så de to felter ikke blander sig. `renderImageUploadHtml()` og `bindImageUpload()` i `js/components/imageGallery.js` tager derfor et valgfrit `idPrefix`. 8.2 laver åbent punkt, hvis den lille udgave mangler.
+- **DUF laver logoet** (2d.duf): teksterne og mailadressen står i `bestilling` ved 2d.duf i `js/data/logo.js`. Formularen bygges af `bestillingHtml()` og `bindBestilling()` i `logoUi.js` (samme mønster som billedtjekket i Billeder 8.6), og oplægget i den af `buildBestillingOplaeg()` i `logoEngine.js`. Pris og mailadresse er pladsholdere, markeret med PLADSHOLDER i kommentarerne. Når hun bestiller, sættes `spor = "D"` og `bestiltHosDuf = true`, og det ændrer teksten i 2d.4, 7.1 og 7.5.
 - **Brugerens egen tekst i HTML** (8.2's opsamling, noterne fra 3.2): send den gennem `escapeHtml()` øverst i `logoEngine.js`, så et "<" i teksten ikke bliver læst som kode.
 
 ## Live

@@ -4,7 +4,11 @@
 
 *⚠️ **Runde 7 (2026-09-25, efter brugertest 1):** se [[DUF Brugertest 1 - Visuelt vækstområde (sortering)]]. Fejlene i 5.1 (paletten blev ikke vist) og 8.1/6.1N (noter sat sammen) er allerede rettet i koden, og tjeklisterne har fået overskrift og mail-knap. Testbrugeren var glad for rummet ("ej, det er sjovt det her"), men: hun forstod ikke, hvem "en anden" var i 6.2 (T4), og valgmulighederne trænger til en kort forklaring (U2); logoet virkede ikke i lille størrelse, og hun vidste ikke, at man kan have en udgave med kun symbolet (T6); og vi mistede lidt rollen som guide, da hun gik over i Looka (P1, stadig parkeret som Biblioteks-artikel, men 3.1 får en lille bro). Ændringer: 1.4, 2C.2, 3.1, 6.2, 6.4 og 7.2. Alle nye tekster er godkendt af Heidi 2026-09-25. Klar til implementering, se [[DUF Prompt - Logo (runde 7)]].*
 
-*🔧 **Logo-gennemgang (2026-11-04, branch `logo-gennemgang`):** Rettet efter en gennemgang af rummet. Flow: "Nej, jeg vil hellere gennem det hele" i 2A.2 skifter nu til spor B; "Jeg vil justere logoet nu" i 7.5 slår nu igennem for spor C (Modul 6 opfører sig som justér, som manuskriptet allerede siger); 3.3B viser nu logo og screenshots side om side. Svar, der betyder "ingen" eller "ved ikke", kan ikke længere vælges sammen med andre (1.2, 2B.2, 2B.3). Tekst: 1.3b, 1.3c, 2B.3 og 6.2 ("Canva (godt at starte med)" i stedet for "anbefalet"). Ikke ændret endnu: skrifttype-teksten i 6.3 og Looka-teksten i 6.4 skal faktatjekkes mod de aktuelle vilkår, og et forslag om logo-varianter ligger til godkendelse i `docs/udkast-logo-varianter.md`.*
+*🔧 **Logo-gennemgang (2026-11-04, branch `logo-gennemgang`):** Rettet efter en gennemgang af rummet. Flow: "Nej, jeg vil hellere gennem det hele" i 2A.2 skifter nu til spor B; "Jeg vil justere logoet nu" i 7.5 slår nu igennem for spor C (Modul 6 opfører sig som justér, som manuskriptet allerede siger); 3.3B viser nu logo og screenshots side om side. Svar, der betyder "ingen" eller "ved ikke", kan ikke længere vælges sammen med andre (1.2, 2B.2, 2B.3). Tekst: 1.3b, 1.3c, 2B.3 og 6.2 ("Canva (godt at starte med)" i stedet for "anbefalet"). Ikke ændret endnu: skrifttype-teksten i 6.3 og Looka-teksten i 6.4 skal faktatjekkes mod de aktuelle vilkår, *
+
+*🔧 **Logo-varianter (godkendt af Heidi 2026-11-04):** Rummet arbejder nu med to udgaver af samme logo, navngivet efter brug: **det fulde logo** (navn og symbol, eller navnet alene) og **den lille udgave** (kun symbolet eller forbogstavet). Favicon er ikke en tredje tegning, men den lille udgave testet i favicon-størrelse i 7.2. Farvevarianter (sort/hvid, lys og mørk baggrund) er bevidst holdt uden for og forbliver åbne punkter fra 7.3 og 7.4. Ændringer: 1.4, 2D.2, 6.4, 6.5, 7.2 og 8.2.*
+
+*🔧 **Faktatjek og flere veje (godkendt af Heidi 2026-11-04):** Teksterne om rettigheder i 6.2, 6.3 og 6.4 er tjekket mod Canvas, Adobes og Lookas egne sider og rettet (Canvas logo-skabeloner kan ikke registreres som varemærke; Adobe Fonts kan; Lookas fulde ejerskab gælder de større pakker). Freelance-platforme (Fiverr, Upwork) er nævnt i 2D.1, 2D.2 og 6.2, og der er en ny vej, hvor DUF laver det endelige logo (2D.DUF), nået fra 2D.1 og 6.2. Pris, antal forslag og leveringstid er pladsholdere, indtil DUF's priser ligger fast. Mailadressen i 2D.DUF er ikke bekræftet.*
 
 **Sådan læses dette dokument:** hvert modul er delt i bobler, den mindste byggeklods, svarende til én skærm. Hver boble har feltet "Hvad brugeren møder på denne skærm" og udfylder kun de øvrige felter, når det er relevant. Et nyt, valgfrit felt er **Se også**: et lille skilt, der viser, at emnet behandles i et andet vækstrum (se [[DUF Teknisk - Se også-skilt (henvisning til andet vækstrum)]]). En 💬-linje er en Guide-bemærkning med avatar (Marcus/Heidi/Sophia), hvor den er tildelt. **Tekster, brugeren ser, henviser aldrig til modul- eller boblenumre** — numrene står kun i felterne "Hvad der leder videre" og i noter til design/udvikling.
 
@@ -27,7 +31,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 - `logoStatus` (tilfreds / usikker / ingen / underUdvikling) og `spor` (A–D)
 - `logoUpload` (billede af logoet; valgfrit, kan opdateres senere i rummet)
-- `logoUploadLille` (runde 7: den ekstra, lille udgave fra 7.2, fx kun symbolet; valgfri. Gemmes i billed-bucket `logo-lille` og vises på logo-siden i 8.2 og i Visuel style guide)
+- `logoUploadLille` (runde 7: den ekstra, lille udgave fra 7.2, og fra 2026-11-04 også fra 6.5, fx kun symbolet; valgfri. Gemmes i billed-bucket `logo-lille` og vises på logo-siden i 8.2 og i Visuel style guide)
 - Fra Modul 2B: `listeFungerer[]`, `listeSkurrer[]` (gruppe: form / identitet / oprindelse / ved-ikke), noter, `retningForslag` (behold / justér / nyt / ingen)
 - `logoType` (navn / symbol / begge / ingen)
 - "Min logo-inspiration" (billeder/screenshots) + noter (`hvadFungerer`, `hvadInspirerer`) + `sammenligning` (Modul 3)
@@ -66,7 +70,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 ### Boble 1.4 — Hvad et logo faktisk skal
 
 - **Hvad brugeren møder på denne skærm:** Så hvad skal et logo? Tre ting. Være til at genkende. Fungere mange steder, stort og småt, i farve og i sort/hvid, på lyse og mørke baggrunde. Og spille sammen med resten af dit visuelle udtryk. Det er det hele. Vi begynder ikke med at gøre det smukt. Vi begynder med at gøre det brugbart.
-  - **✅ Ny linje til sidst i boblen, lige før guide-citatet (runde 7, godkendt af Heidi 2026-09-25; placeringen afgjort af Heidi samme dag, før: "efter 'på lyse og mørke baggrunde'"):** "Derfor har mange flere udgaver af det samme logo: fx en med navn og symbol til hjemmesiden og en med kun symbolet til de små steder. Det kan være dit profilbillede eller det lille ikon, der står i fanen øverst i browseren, når nogen besøger din hjemmeside. Det lille ikon kaldes et favicon, og der er kun plads til et symbol." *(favicon tilføjet efter Heidis kommentar 2026-09-25)*
+  - **✅ Ny linje til sidst i boblen, lige før guide-citatet (runde 7, godkendt af Heidi 2026-09-25; placeringen afgjort af Heidi samme dag, før: "efter 'på lyse og mørke baggrunde'"):** ~~"Derfor har mange flere udgaver …"~~ **✅ Logo-varianter (godkendt af Heidi 2026-11-04):** "Derfor har de fleste flere udgaver af det samme logo. Det fulde logo bruger du der, hvor der er plads, fx på hjemmesiden. Den lille udgave, fx kun symbolet eller dit forbogstav, bruger du de små steder, som dit profilbillede. Og den allermindste er det lille ikon i fanen øverst i browseren, når nogen besøger din hjemmeside. Det kaldes et favicon. Det er stadig ét logo. Det har bare tøj på til forskellige anledninger."
   - 💬 *Guide (avatar: Marcus):* Et logo skal ikke fortælle hele din historie. Det skal hjælpe folk med at kende dig igen.
 - **Hvad der leder videre:** Knappen "Lad os se, hvor du står".
 
@@ -131,11 +135,12 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 ### Spor D — Bestil hos en anden
 
 **Boble 2D.1 — Hvem laver det?**
-- **Interaktion:** "Jeg laver det selv" → 2B.1 (udkast-version). "En anden laver det for mig (en grafiker, en bekendt eller en generator)" → 2D.2.
+- **Interaktion:** "Jeg laver det selv" → 2B.1 (udkast-version). "En anden laver det for mig (en grafiker, en bekendt, en freelancer eller en generator)" → 2D.2. **✅ Flere veje (godkendt af Heidi 2026-11-04):** "en freelancer" tilføjet, og en ny mulighed sidst: "Jeg vil gerne have, at DUF laver det" → 2D.DUF.
 
 **Boble 2D.2 — Sådan får du mest ud af at bestille**
 - **Hvad brugeren møder:** Når en anden laver dit logo, er det jeres aftaler, der afgør, hvad du ender med at kunne bruge. Ikke kun, hvordan det ser ud. Her er en tjekliste til samtalen, så du ikke opdager det bagefter. Har du arbejdet med Farver, kan du give din palet med. Bruger du en generator, så læs vilkårene med de samme spørgsmål i baghovedet.
-- **Interaktion:** Afkrydsning via Tjekliste-komponenten (`gemNoegle: "logo-sporD-aftaler"`). Punkter, tæt på Ikonrettigheder §4: 1. Får jeg ejerskab eller kun en brugsret? 2. Hvilke medier og formål må logoet bruges til, og er det tidsbegrænset? 3. Må jeg ændre eller videreudvikle det? 4. Må andre bruge det samme eller et lignende logo? 5. Må det registreres som varemærke? 6. Får jeg de originale arbejds- og vektorfiler? 7. Har designeren bekræftet, at alle elementer er originale eller lovligt licenserede? 8. Får jeg logoet i flere udgaver: småt, i sort/hvid og til både lys og mørk baggrund?
+  - **✅ Flere veje (godkendt af Heidi 2026-11-04):** Nyt afsnit: "Finder du en freelancer på en platform som Fiverr eller Upwork, er det platformens regler, der gælder, hvis I ikke aftaler andet. Begge steder bliver logoet som udgangspunkt dit, når det er leveret, og du har betalt det hele. Men på Fiverr kan sælgeren skrive noget andet på sin side, og nogle tager ekstra for fx kildefilerne. Læs derfor sælgerens beskrivelse grundigt, og betal altid gennem platformen, ikke uden om den."
+- **Interaktion:** Afkrydsning via Tjekliste-komponenten (`gemNoegle: "logo-sporD-aftaler"`). Punkter, tæt på Ikonrettigheder §4: 1. Får jeg ejerskab eller kun en brugsret? 2. Hvilke medier og formål må logoet bruges til, og er det tidsbegrænset? 3. Må jeg ændre eller videreudvikle det? 4. Må andre bruge det samme eller et lignende logo? 5. Må det registreres som varemærke? 6. Får jeg de originale arbejds- og vektorfiler? 7. Har designeren bekræftet, at alle elementer er originale eller lovligt licenserede? **✅ Flere veje (godkendt af Heidi 2026-11-04):** 7a. Står der noget om rettigheder eller ekstra betaling for filer på freelancerens side? 7b. Er symbolet tegnet til mig, eller kommer det fra en skabelon, et billedbibliotek eller et AI-værktøj? 8. **✅ Logo-varianter (godkendt af Heidi 2026-11-04):** Får jeg både det fulde logo og en lille udgave (fx kun symbolet), også i en udgave, der kan bruges som favicon? Og i sort/hvid og til både lys og mørk baggrund?
 - **Afsluttende linje:** Skal logoet være en central del af din identitet, eller er du i tvivl om en aftale, så søg rådgivning, før du skriver under.
 - **Gemmes:** Ja, lokalt.
 
@@ -144,7 +149,14 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 **Boble 2D.4 — Så venter vi**
 - **Hvad brugeren møder:** Det er helt fint. Din tjekliste ligger klar. Kom tilbage, når logoet er færdigt, så tester vi det sammen, og du får det med i din guide.
+  - **✅ Flere veje (godkendt af Heidi 2026-11-04):** *Har hun bestilt hos DUF (2D.DUF):* "Tak for din bestilling. Vi svarer dig på mail, så I kan aftale det videre. Kom tilbage hertil, når logoet er færdigt, så tester vi det sammen, og du får det med i din guide."
 - **Hvad der leder videre:** Tilbage til rum-vælgeren. Ved næste besøg genoptages rummet ved Modul 7 (`venter: true`).
+
+**Boble 2D.DUF — Lad os lave det for dig** *(ny, Flere veje, godkendt af Heidi 2026-11-04; nås fra 2D.1 og 6.2)*
+- **Hvad brugeren møder:** Du har allerede gjort det meste af forarbejdet. Vil du hellere have, at vi laver det endelige logo, så bygger vi videre på det, du har valgt og skrevet her, og ikke på et tomt papir. Du får det fulde logo og den lille udgave, klar til favicon. Begge i sort/hvid og til både lys og mørk baggrund, og som vektorfiler, så de kan bruges i alle størrelser. Logoet bliver dit, også rettighederne. *[PLADSHOLDER, afventer DUF's samlede prissætning:]* Prisen og det praktiske, fx hvor mange forslag du får, aftaler vi med dig på mail, før vi går i gang. Det er helt i orden at vælge noget andet. Du kan stadig gå tilbage og lave det selv.
+- **Interaktion:** En formular, der bliver til en mail til DUF (samme mønster som billedtjekket i Billeder 8.6). Oplægget er udfyldt på forhånd med hendes svar fra rummet (hvor hun står, logotype, farver, det, der fungerer og skurrer, sammenligningen og noterne fra 3.2), og hun kan rette i det. Hun bedes vedhæfte screenshots selv. Et frivilligt valg: "Må vi vise dit logo som eksempel på, hvem vi har hjulpet?" ("Ja, gerne" / "Nej, helst ikke" / "Det vil jeg gerne tale med jer om") med teksten "Det er frivilligt og ændrer ikke noget ved din bestilling." Mailadresse: *[PLADSHOLDER, ikke bekræftet: logo@din-uf.dk]*.
+- **Hvad der leder videre:** "Jeg har sendt bestillingen" → 2D.4. Hun sættes på spor D (`bestiltHosDuf: true`), så Modul 7 og 8 behandler hende som en, der har fået logoet lavet.
+- **Gemmes:** Kun at hun har bestilt hos DUF. Selve formularen gemmes ikke.
 
 ## Modul 3 — Inspiration og sammenligning *(spor B og C)*
 
@@ -285,11 +297,12 @@ Spor A, D og "Behold" springer modulet over.
 - **Hvad brugeren møder:** Vælg den vej, der giver mest mening for dig. *(ændret efter Heidis kommentar 2026-09-25, før: "føles mest overkommelig")* **✅ Ny linje (runde 7, godkendt 2026-09-25):** "Tryk på pilen ved en mulighed for at læse lidt mere om den."
 - **Interaktion:** *Nyt:* "I Canva (godt at starte med)" / "I Looka, ud fra det, jeg allerede har leget med" / "I Illustrator, hvis jeg har erfaring med Adobe" / **✅ Ny formulering (godkendt 2026-09-25):** "Jeg vil have en grafiker eller en anden til at lave det" *(før: "Jeg vil have en anden til at lave det")*. *Justér:* de samme, uden Looka.
 - **✅ Nyt i runde 7 (godkendt af Heidi 2026-09-25) — kort forklaring, der kan foldes ud, ved hver mulighed:**
-  - **Canva:** "Et gratis program i din browser, hvor du bygger logoet selv ud fra enkle skabeloner. Godt, hvis du vil prøve dig frem og have det hele i egne hænder."
+  - **Canva:** "Et gratis program i din browser, hvor du bygger logoet selv med skrifttyper og enkle former. Godt, hvis du vil prøve dig frem og have det hele i egne hænder."
   - **Looka:** "Du bygger videre på det, du allerede har leget med. Det er gratis at designe, og du betaler først, når du henter filerne."
   - **Illustrator:** "Et professionelt tegneprogram fra Adobe. Kun, hvis du kender det i forvejen. Det koster et abonnement."
-  - **En grafiker eller en anden:** "Det kan være en grafiker, du betaler, eller en bekendt, der er god til det. Du har allerede gjort det vigtige forarbejde her: Du ved, hvilken slags logo du vil have, hvilke farver det skal have, og hvad der inspirerer dig. Det gør det meget nemmere at forklare, hvad du ønsker, og det kan gøre opgaven hurtigere og potentielt billigere. Vi giver dig en tjekliste med til samtalen."
-- **"Jeg vil have en grafiker eller en anden til at lave det"** → tjekliste og forløb fra spor D (2D.2 og frem), genbrugt. Springer 6.3-6.5 over.
+  - **En grafiker eller en anden:** "Det kan være en grafiker, du betaler, en bekendt, der er god til det, eller en freelancer, du finder på en platform som Fiverr eller Upwork. Du har allerede gjort det vigtige forarbejde her: Du ved, hvilken slags logo du vil have, hvilke farver det skal have, og hvad der inspirerer dig. Det gør det meget nemmere at forklare, hvad du ønsker, og det kan gøre opgaven hurtigere og potentielt billigere. Vi giver dig en tjekliste med til samtalen."
+- **"Jeg vil have en grafiker eller en anden til at lave det"** → tjekliste og forløb fra spor D (2D.2 og frem), genbrugt. Springer 6.3-6.5 over. *(2026-11-04: hun sættes nu også på spor D, så 7.5 ikke tilbyder hende selv at justere.)*
+- **✅ Flere veje (godkendt af Heidi 2026-11-04):** **Ny, sidst: "Jeg vil gerne have, at DUF laver det"** → 2D.DUF. Forklaring: "Vi laver dit endelige logo ud fra det, du har arbejdet med her. Prisen aftaler vi med dig, før vi går i gang." *(pladsholder, indtil prisen ligger fast)*
 - **Gemmes:** Ja, `vaerktoej`.
 - *Parkeret fra brugertest 1 (P4): at DUF selv tilbyder at lave logoet mod betaling. Det er en forretningsbeslutning og tages ikke med i denne runde.*
 
@@ -297,31 +310,31 @@ Spor A, D og "Behold" springer modulet over.
 
 Rettighedsbobler efter, hvad brugeren skal bygge:
 
-- **Nyt + symbol eller begge:** Har du tænkt dig at bruge et ikon eller en form fra et bibliotek eller et program? Så tjek, før du bygger videre. Mange biblioteker og designprogrammer tillader ikke, at deres ikoner bruges som logo eller varemærke, og de samme ikoner kan andre kunder bruge. Er symbolet det, folk skal kende dig på, er et symbol, du selv har tegnet, tryggest.
+- **Nyt + symbol eller begge:** Har du tænkt dig at bruge et ikon eller en form fra et bibliotek eller et program? Så tjek, før du bygger videre. **✅ Faktatjek (godkendt af Heidi 2026-11-04):** Mange biblioteker og designprogrammer tillader ikke, at deres ikoner indgår i et varemærke, og nogle tillader dem slet ikke i et logo. De samme ikoner kan andre bruge. Er symbolet det, folk skal kende dig på, er et symbol, du selv har tegnet, tryggest.
   - Tjekliste (`gemNoegle: "logo-modul6-symbol"`): 1. Hvor kommer symbolet fra? 2. Må det bruges i et logo eller varemærke? 3. Må jeg ændre det? 4. Kan det forveksles med et eksisterende logo eller symbol? 5. Har jeg gemt dokumentation for licens eller vilkår? Kan du ikke svare sikkert, så vælg et andet eller tegn det selv. Skal symbolet være central for din identitet, så søg rådgivning.
   - **Se også:** Byggesten. *Ikoner og andre grafiske byggesten.*
-- **Nyt + navn i logoet (kun navn, eller begge):** Skrifttyper er sjældent noget at bekymre sig om. Dem, der følger med Canva eller Illustrator, kan du normalt bruge uden at tænke over det. Licensspørgsmålet opstår som regel først, når du vælger en skrifttype uden for dem, fx en, du har hentet et andet sted fra. Så tjek, at den må bruges til erhverv og i et logo, før du vælger den.
+- **Nyt + navn i logoet (kun navn, eller begge):** Skrifttyper er sjældent noget at bekymre sig om. **✅ Faktatjek (godkendt af Heidi 2026-11-04):** Dem, der følger med Canva eller Illustrator, må du bruge i et logo, også hvis du senere vil registrere det som varemærke. Licensspørgsmålet opstår som regel først, når du vælger en skrifttype uden for dem, fx en, du har hentet et andet sted fra. Så tjek, at den må bruges til erhverv og i et logo, før du vælger den.
   - **Se også:** Byggesten. *Skrifttyper og andre grafiske byggesten.*
 - **Justér:** Skifter du skrifttype, eller tilføjer du noget nyt, fx et ikon eller en form fra et bibliotek eller uden for det, dit program leverer, så tjek, om det må indgå i et logo.
 - *(Siden fejlrettelserne i runde 7 har alle tjeklister overskriften "Tjekliste" og knappen "Send listen til mig selv".)*
 
 ### Boble 6.4 — Vejledning til dit værktøj *(én pr. valg)*
 
-- **Canva:** Åbn Canva (åbner i nyt vindue). Begynd enkelt: én farve og få elementer. Tjek logoet småt undervejs, fx ved at zoome ud eller se det på din telefon. Gem dine udgaver undervejs, så du kan gå tilbage. **✅ Ny sætning (runde 7, godkendt af Heidi 2026-09-25):** "Har dit logo både navn og symbol, så gem også en udgave med kun symbolet. Den skal du bruge de små steder, fx som profilbillede."
+- **Canva:** Åbn Canva (åbner i nyt vindue). Begynd enkelt: én farve og få elementer. Tjek logoet småt undervejs, fx ved at zoome ud eller se det på din telefon. Gem dine udgaver undervejs, så du kan gå tilbage. **✅ Faktatjek (godkendt af Heidi 2026-11-04):** "Bruger du en af Canvas logo-skabeloner, kan andre bruge præcis den samme. Så er logoet ikke kun dit, og det kan ikke registreres som varemærke. Brug gerne skabelonerne som inspiration, og byg dit eget med Canvas skrifttyper, enkle former og linjer." **✅ Ny sætning (runde 7, godkendt af Heidi 2026-09-25):** ~~"Har dit logo både navn og symbol …"~~ **✅ Logo-varianter (godkendt af Heidi 2026-11-04):** "Når du er tilfreds med det fulde logo, så lav også den lille udgave. Har dit logo et symbol, er det symbolet alene. Er det kun dit navn, kan det være dit forbogstav. Den lille udgave skal du bruge de små steder, og den bliver også til dit favicon senere."
 - **Looka:** Du har allerede leget med Looka. Det er gratis at designe der. Du betaler først, når du er tilfreds og vil hente filerne. Det er en helt fin måde at få et logo på, bare med åbne øjne. Fire ting er værd at vide, før du køber:
-  - *Hvad du får:* Den billigste pakke giver typisk kun én billedfil. Vil du have logoet i flere filtyper (fx vektor) og i farvevarianter med gennemsigtig baggrund, skal du højere op. Der findes også et abonnement med et helt brand kit. Priser og indhold ændrer sig, så tjek dem hos Looka.
-  - *Ejerskab:* Looka skriver, at du får fuldt ejerskab af det færdige logo. Men de henter ikoner og skrifttyper fra en database, og de kan ikke garantere rettighederne til enkeltdelene. De fjerner heller ikke elementerne fra databasen, så andre kan få et lignende logo.
+  - *Hvad du får:* **✅ Faktatjek (godkendt af Heidi 2026-11-04):** Den billigste pakke giver én billedfil (en PNG) med farvet baggrund. Vil du have logoet i flere filtyper (fx vektor), med gennemsigtig baggrund og i sort/hvid, skal du højere op. Der findes også et abonnement med et helt brand kit. Priser og indhold ændrer sig, så tjek dem hos Looka.
+  - *Ejerskab:* **✅ Faktatjek (godkendt af Heidi 2026-11-04):** Looka skriver, at du får fuldt ejerskab af det færdige logo, når du køber en af de større pakker. Ved den billigste står det ikke, så tjek det, før du køber. Og ejerskabet gælder logoet som helhed. Looka henter ikoner og skrifttyper fra en database og kan ikke garantere rettighederne til enkeltdelene. De fjerner heller ikke elementerne fra databasen, så andre kan få et lignende logo.
   - *Varemærke:* Looka giver ikke juridisk rådgivning om varemærkeregistrering. Vil du registrere logoet, så tal med en fagperson. *(Parkeret fra brugertest 1 (P2): en henvisning til, hvor man finder en fagperson.)*
   - *Forveksling:* Tjek, om logoet ligner et eksisterende (fx med Google Lens).
-  - Tjekliste (`gemNoegle: "logo-modul6-looka"`): 1. Har jeg set, hvad pakken indeholder (filtyper og versioner)? 2. Får jeg udgaver i sort/hvid og til både lys og mørk baggrund? 3. Har jeg forstået, at jeg ikke får eksklusive rettigheder til enkeltdelene? 4. Har jeg tjekket, om det ligner et eksisterende logo? 5. Har jeg gemt kvittering og vilkår? Skal logoet være en central del af din identitet, eller vil du varemærkeregistrere det, så søg rådgivning først.
+  - Tjekliste (`gemNoegle: "logo-modul6-looka"`): 1. Har jeg set, hvad pakken indeholder (filtyper og versioner), og får jeg en lille udgave med? Og står der fuldt ejerskab? *(lille udgave og ejerskab tilføjet 2026-11-04)* 2. Får jeg udgaver i sort/hvid og til både lys og mørk baggrund? 3. Har jeg forstået, at jeg ikke får eksklusive rettigheder til enkeltdelene? 4. Har jeg tjekket, om det ligner et eksisterende logo? 5. Har jeg gemt kvittering og vilkår? Skal logoet være en central del af din identitet, eller vil du varemærkeregistrere det, så søg rådgivning først.
   - *Note til design/udvikling:* indholdet er tjekket mod Looka's egne sider 2026-09-21 (copyright-/ejerskabsartikel, varemærkeartikel og prissiden). Priser er bevidst ikke skrevet ind. Tjek igen, før teksten bygges.
-- **Illustrator:** Du kender værktøjet, så kun en påmindelse: begynd enkelt, i én farve, tjek det småt undervejs, og gem en vektorfil sammen med de billedfiler, du eksporterer. **✅ Ny sætning (runde 7, godkendt af Heidi 2026-09-25):** "Lav også en udgave med kun symbolet, hvis dit logo har et."
+- **Illustrator:** Du kender værktøjet, så kun en påmindelse: begynd enkelt, i én farve, tjek det småt undervejs, og gem en vektorfil sammen med de billedfiler, du eksporterer. **✅ Faktatjek (godkendt af Heidi 2026-11-04):** "Lav teksten om til konturer (outlines) i den endelige fil. Så ser logoet rigtigt ud hos andre, også dem, der ikke har din skrifttype." **✅ Ny sætning (runde 7, godkendt af Heidi 2026-09-25):** ~~"Lav også en udgave med kun symbolet …"~~ **✅ Logo-varianter (godkendt af Heidi 2026-11-04):** "Når du er tilfreds med det fulde logo, så lav også den lille udgave. Har dit logo et symbol, er det symbolet alene. Er det kun dit navn, kan det være dit forbogstav. Den lille udgave skal du bruge de små steder, og den bliver også til dit favicon senere."
 
 ### Boble 6.5 — Læg dit logo her
 
-- **Hvad brugeren møder:** Er du nået til noget, du kan lide? Læg det her. Det er ikke en færdig version, bare den, du står med lige nu. Det bliver på din enhed.
+- **Hvad brugeren møder:** **✅ Logo-varianter (godkendt af Heidi 2026-11-04):** Er du nået til noget, du kan lide? Læg det her. Det er ikke en færdig version, bare den, du står med lige nu. Har du også en lille udgave, så læg den ved siden af. Har du den ikke endnu, går det også fint. Den kommer vi tilbage til i testen. Det bliver på din enhed.
   - 💬 *Guide (avatar: Sophia):* Et selvlavet logo er ikke et kompromis. Det er en prototype, ligesom resten af dit visuelle udtryk.
-- **Interaktion:** Valgfri upload (samme mekanik som i Modul 2).
+- **Interaktion:** Valgfri upload (samme mekanik som i Modul 2). **✅ Logo-varianter (godkendt af Heidi 2026-11-04):** to felter: "Dit fulde logo" (som før) og "Din lille udgave (valgfrit)", gemt som `logoUploadLille`, det samme som i 7.2.
 - **Hvad der leder videre:** Knappen "Jeg har noget, jeg vil teste" (→ Modul 7).
 
 ## Modul 7 — Tjek i praksis *(alle spor)*
@@ -332,16 +345,16 @@ Her samles sporene igen, og testresultaterne bestemmer, hvad brugeren gør bagef
 
 - **Hvad brugeren møder på denne skærm:** Nu tester vi, om logoet fungerer i virkeligheden. Ikke kun, om det ser godt ud på din skærm lige nu. Der er tre små tjek: småt, uden farve og på forskellige baggrunde.
   - *Spor A:* Du er glad for dit logo. Nu ser vi, om det også klarer sig i hverdagen.
-  - *Spor D:* Nu er logoet kommet. Aftalte I flere udgaver, så prøv dem i tjekkene.
+  - *Spor D:* Nu er logoet kommet. Aftalte I flere udgaver, så prøv dem i tjekkene. **✅ Flere veje (godkendt af Heidi 2026-11-04):** *Bestilt hos DUF:* "Nu er dit logo fra os kommet. Lad os teste det sammen, både det fulde logo og den lille udgave."
 - **Eventuel interaktion:** Har hun ikke lagt logoet ind, kan hun gøre det her (valgfrit).
 
 ### Boble 7.2 — Tjek 1: Kan du kende det, når det er småt?
 
-- **Hvad brugeren møder:** Kig på logoet i lille størrelse, som på et ikon eller i en profil. Kan du stadig kende det? *(Logoet vises i tre små størrelser.)*
+- **Hvad brugeren møder:** Kig på logoet i lille størrelse, som på et ikon eller i en profil. **✅ Logo-varianter (godkendt af Heidi 2026-11-04):** Har du en lille udgave, ser du den her også, helt nede i størrelsen på et favicon. Kan du stadig kende det? *(Logoet vises i tre små størrelser, og den lille udgave ved siden af, hvis hun har lagt en ind.)*
   - **✅ Nyt i runde 7 (godkendt af Heidi 2026-09-25):** De tre størrelser får hver en lille etiket, så brugeren kan se, hvor hun vil møde logoet i den størrelse: "Profilbillede" (ca. 64 px), "Lille profilbillede" (ca. 32 px) og "Favicon, ikonet i browserfanen" (16 px). Den mindste vises gerne i en lille tegnet browserfane, så det er tydeligt, hvad et favicon er.
 - **Interaktion:** "Ja, det kan jeg stadig kende" / "Næsten, men noget forsvinder" / "Nej, det bliver utydeligt".
 - **Respons (kun hvis ikke "Ja"):** Det er ofte detaljerne, der forsvinder først. Prøv at fjerne det, der ikke er helt nødvendigt, gøre streger og bogstaver kraftigere og give mere luft. Mange har også en lille udgave til de små steder, fx kun symbolet eller kun forbogstavet.
-  - **✅ Nyt i runde 7 (godkendt af Heidi 2026-09-25):** Under responsen kan brugeren uploade en ekstra, lille udgave af sit logo ("Har du en udgave med kun symbolet? Læg den her, og se den i de små størrelser"). Den vises i de tre små størrelser ved siden af. Den gemmes som `logoUploadLille` og kommer med på logo-siden i guiden (8.2).
+  - **✅ Nyt i runde 7 (godkendt af Heidi 2026-09-25):** Under responsen kan brugeren uploade en ekstra, lille udgave af sit logo ("Har du en udgave med kun symbolet? Læg den her, og se den i de små størrelser"). Den vises i de tre små størrelser ved siden af. Den gemmes som `logoUploadLille` og kommer med på logo-siden i guiden (8.2). **✅ Logo-varianter (godkendt af Heidi 2026-11-04):** Har hun ikke lagt en lille udgave ind endnu, vises feltet fra start, ikke kun under responsen.
 
 ### Boble 7.3 — Tjek 2: Virker det uden farve?
 
@@ -361,7 +374,7 @@ Her samles sporene igen, og testresultaterne bestemmer, hvad brugeren gør bagef
 - **Alle tre tjek er "Ja":** Dit logo klarer sig. Det er ikke småt at kunne sige. → Modul 8.
 - **Ikke alle "Ja":** Det er helt normalt, at noget først viser sig her. Det betyder ikke, at du har gjort noget forkert. *(De tjek, der ikke gik godt, listes.)* Hvad vil du gøre med dem?
   - *Spor B og C:* Knapper: "Jeg vil justere logoet nu" (→ Modul 6 i justér-version, hvor de tjek, der ikke gik godt, er blevet punkter på arbejdslisten) / "Jeg tager det senere" (→ Modul 8, med en note om, hvad der mangler).
-  - *Spor A og D:* Du kan ikke justere det her, men du kan tage listen med til den, der lavede logoet. Det er en helt legitim bestilling. Knapper: "Jeg tager det med" (→ Modul 8, listen gemmes som note) / "Jeg går videre uden".
+  - *Spor A og D:* Du kan ikke justere det her, men du kan tage listen med til den, der lavede logoet. Det er en helt legitim bestilling. **✅ Flere veje (godkendt af Heidi 2026-11-04):** *Bestilt hos DUF:* "Du kan ikke justere det her, men du kan sende listen til os, så kigger vi på det sammen. Det er en helt legitim bestilling." Knapper: "Jeg tager det med" (→ Modul 8, listen gemmes som note) / "Jeg går videre uden".
 - **Gemmes:** Ja, `testResultater`, og hvad hun valgte at gøre (`aabnePunkter`).
 
 ## Modul 8 — Dokumentér *(alle spor)*
@@ -379,7 +392,7 @@ Her samles sporene igen, og testresultaterne bestemmer, hvad brugeren gør bagef
 
 ### Boble 8.2 — Din logo-side i guiden
 
-- **Hvad brugeren møder:** Her er din side i din visuelle guide. *(Vises: logoet, hvis uploadet, **✅ (godkendt 2026-09-25) og den lille udgave, hvis hun lagde en ind i 7.2,** hendes tekst, resultatet af de tre tjek med ✓ og noter, og evt. åbne punkter, hun valgte at tage med.)* Tilføj den til din guide, når den ser rigtig ud.
+- **Hvad brugeren møder:** Her er din side i din visuelle guide. *(Vises: logoet, hvis uploadet, **✅ (godkendt 2026-09-25) og den lille udgave, hvis hun lagde en ind i 7.2,** hendes tekst, resultatet af de tre tjek med ✓ og noter, og evt. åbne punkter, hun valgte at tage med.)* **✅ Logo-varianter (godkendt af Heidi 2026-11-04):** Det fulde logo og den lille udgave står med hver sin overskrift. Har hun et logo, men ingen lille udgave, kommer "Den lille udgave mangler endnu" med som åbent punkt. Tilføj den til din guide, når den ser rigtig ud.
 - **Interaktion:** Knappen "Tilføj til min visuelle guide" (den delte gem-funktion).
 - **Gemmes:** Ja, i Visuel style guide.
 

@@ -121,6 +121,11 @@ export class LogoEngine {
                 ];
                 break;
 
+            /*---- Har hun bestilt logoet hos DUF, passer "Din tjekliste ligger klar" ikke - hun har ingen tjekliste fra 2d.2 ----*/
+            case "2d.4":
+                if (this.svar.bestiltHosDuf) boble.paragraphs = [...base.paragraphsDuf];
+                break;
+
             case "3.1": {
                 boble.paragraphs = [...base.paragraphs];
                 if (this.svar.spor === "C") {
@@ -162,7 +167,11 @@ export class LogoEngine {
             case "7.1": {
                 boble.paragraphs = [...base.paragraphs];
                 if (this.svar.spor === "A") boble.paragraphs.push("Du er glad for dit logo. Nu ser vi, om det også klarer sig i hverdagen.");
-                if (this.svar.spor === "D") boble.paragraphs.push("Nu er logoet kommet. Aftalte I flere udgaver, så prøv dem i tjekkene.");
+                if (this.svar.spor === "D") {
+                    boble.paragraphs.push(this.svar.bestiltHosDuf
+                        ? "Nu er dit logo fra os kommet. Lad os teste det sammen, både det fulde logo og den lille udgave."
+                        : "Nu er logoet kommet. Aftalte I flere udgaver, så prøv dem i tjekkene.");
+                }
                 break;
             }
 
@@ -207,6 +216,17 @@ export class LogoEngine {
             ctx.images = await getImagesForSide(LOGO_BUCKET);
         }
 
+        /*---- Et andet upload-felt på samme skærm (6.5: den lille udgave ved siden af det fulde logo) - samme mønster som imageUpload, bare sin egen bucket ----*/
+        if (boble.ekstraUpload) {
+            const bucket = boble.ekstraUpload.bucket;
+            ctx.ekstraImages = await getImagesForSide(bucket);
+            ctx.ekstraImageHandlers = {
+                upload: (file) => saveImage(bucket, file),
+                remove: (imageId) => deleteImage(imageId),
+                refresh: () => getImagesForSide(bucket)
+            };
+        }
+
         /*---- 3.3b lover, at hendes eget logo og screenshotsene fra 3.2 står side om side. Før blev kun logoet hentet, og intet af det blev vist ----*/
         if (boble.sideOmSide) {
             ctx.inspirationImages = await getImagesForSide(INSPIRATION_BUCKET);
@@ -227,6 +247,10 @@ export class LogoEngine {
         }
 
         switch (boble.id) {
+            case "2d.duf":
+                ctx.bestillingOplaeg = this.buildBestillingOplaeg();
+                break;
+
             case "2b.5":
                 ctx.recap = this.buildModul25Recap();
                 break;
@@ -275,13 +299,20 @@ export class LogoEngine {
                 const smallImages = await getImagesForSide(LOGO_LILLE_BUCKET);
                 const results = this.svar.testResultater || {};
                 const checkLine = (label, ok) => `<li>${ok ? "✓" : "…"} ${label}</li>`;
-                /*---- Den lille udgave fra 7.2 (runde 7) står ved siden af hovedlogoet, hvis hun lagde en ind ----*/
+                /*---- Logo-varianterne (6.5/7.2) står ved siden af hinanden, hver med sin overskrift ----*/
+                const varianteHtml = (overskrift, src, alt, maks) => `<figure style="margin:0;"><figcaption class="section-subheading">${overskrift}</figcaption><img src="${src}" alt="${alt}" style="max-width:${maks}px;max-height:${maks}px;object-fit:contain;display:block;"></figure>`;
                 const logoImgHtml = images.length
-                    ? `<img src="${URL.createObjectURL(images[0].blob)}" alt="Dit logo" style="max-width:200px;max-height:200px;object-fit:contain;display:block;">`
+                    ? varianteHtml("Det fulde logo", URL.createObjectURL(images[0].blob), "Dit fulde logo", 200)
                     : "";
                 const smallImgHtml = smallImages.length
-                    ? `<img src="${URL.createObjectURL(smallImages[0].blob)}" alt="Den lille udgave af dit logo" style="max-width:96px;max-height:96px;object-fit:contain;display:block;">`
+                    ? varianteHtml("Den lille udgave", URL.createObjectURL(smallImages[0].blob), "Den lille udgave af dit logo", 96)
                     : "";
+
+                /*---- Har hun et logo, men ingen lille udgave, bliver det et åbent punkt - også i det, der gemmes til guiden. Lægger hun den ind senere og kommer tilbage, forsvinder punktet igen ----*/
+                const MANGLER_LILLE = "Den lille udgave mangler endnu";
+                const aabne = (this.svar.aabnePunkter || []).filter((p) => p !== MANGLER_LILLE);
+                if (images.length && !smallImages.length) aabne.push(MANGLER_LILLE);
+                this.svar.aabnePunkter = aabne;
                 const imageHtml = logoImgHtml || smallImgHtml
                     ? `<div style="display:flex;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:16px;">${logoImgHtml}${smallImgHtml}</div>`
                     : "";
@@ -315,7 +346,7 @@ export class LogoEngine {
             paragraphs.push("Skifter du skrifttype, eller tilføjer du noget nyt, fx et ikon eller en form fra et bibliotek eller uden for det, dit program leverer, så tjek, om det må indgå i et logo.");
         } else {
             if (logoType === "symbol" || logoType === "begge") {
-                paragraphs.push("Har du tænkt dig at bruge et ikon eller en form fra et bibliotek eller et program? Så tjek, før du bygger videre. Mange biblioteker og designprogrammer tillader ikke, at deres ikoner bruges som logo eller varemærke, og de samme ikoner kan andre kunder bruge. Er symbolet det, folk skal kende dig på, er et symbol, du selv har tegnet, tryggest.");
+                paragraphs.push("Har du tænkt dig at bruge et ikon eller en form fra et bibliotek eller et program? Så tjek, før du bygger videre. Mange biblioteker og designprogrammer tillader ikke, at deres ikoner indgår i et varemærke, og nogle tillader dem slet ikke i et logo. De samme ikoner kan andre bruge. Er symbolet det, folk skal kende dig på, er et symbol, du selv har tegnet, tryggest.");
                 checklist = {
                     gemNoegle: "logo-modul6-symbol",
                     punkter: [
@@ -332,7 +363,7 @@ export class LogoEngine {
             }
 
             if (logoType === "navn" || logoType === "begge") {
-                paragraphs.push("Skrifttyper er sjældent noget at bekymre sig om. Dem, der følger med Canva eller Illustrator, kan du normalt bruge uden at tænke over det. Licensspørgsmålet opstår som regel først, når du vælger en skrifttype uden for dem, fx en, du har hentet et andet sted fra. Så tjek, at den må bruges til erhverv og i et logo, før du vælger den.");
+                paragraphs.push("Skrifttyper er sjældent noget at bekymre sig om. Dem, der følger med Canva eller Illustrator, må du bruge i et logo, også hvis du senere vil registrere det som varemærke. Licensspørgsmålet opstår som regel først, når du vælger en skrifttype uden for dem, fx en, du har hentet et andet sted fra. Så tjek, at den må bruges til erhverv og i et logo, før du vælger den.");
                 seOgsaa = seOgsaa || { maal: "byggesten", tekst: "Skrifttyper og andre grafiske byggesten." };
             }
         }
@@ -347,8 +378,8 @@ export class LogoEngine {
             return {
                 paragraphs: [
                     "Du har allerede leget med Looka. Det er gratis at designe der. Du betaler først, når du er tilfreds og vil hente filerne. Det er en helt fin måde at få et logo på, bare med åbne øjne. Fire ting er værd at vide, før du køber:",
-                    "Hvad du får: Den billigste pakke giver typisk kun én billedfil. Vil du have logoet i flere filtyper (fx vektor) og i farvevarianter med gennemsigtig baggrund, skal du højere op. Der findes også et abonnement med et helt brand kit. Priser og indhold ændrer sig, så tjek dem hos Looka.",
-                    "Ejerskab: Looka skriver, at du får fuldt ejerskab af det færdige logo. Men de henter ikoner og skrifttyper fra en database, og de kan ikke garantere rettighederne til enkeltdelene. De fjerner heller ikke elementerne fra databasen, så andre kan få et lignende logo.",
+                    "Hvad du får: Den billigste pakke giver én billedfil (en PNG) med farvet baggrund. Vil du have logoet i flere filtyper (fx vektor), med gennemsigtig baggrund og i sort/hvid, skal du højere op. Der findes også et abonnement med et helt brand kit. Priser og indhold ændrer sig, så tjek dem hos Looka.",
+                    "Ejerskab: Looka skriver, at du får fuldt ejerskab af det færdige logo, når du køber en af de større pakker. Ved den billigste står det ikke, så tjek det, før du køber. Og ejerskabet gælder logoet som helhed. Looka henter ikoner og skrifttyper fra en database og kan ikke garantere rettighederne til enkeltdelene. De fjerner heller ikke elementerne fra databasen, så andre kan få et lignende logo.",
                     "Varemærke: Looka giver ikke juridisk rådgivning om varemærkeregistrering. Vil du registrere logoet, så tal med en fagperson.",
                     "Forveksling: Tjek, om logoet ligner et eksisterende (fx med Google Lens)."
                 ],
@@ -356,7 +387,7 @@ export class LogoEngine {
                 checklist: {
                     gemNoegle: "logo-modul6-looka",
                     punkter: [
-                        { id: "pakke", tekst: "Har jeg set, hvad pakken indeholder (filtyper og versioner)?" },
+                        { id: "pakke", tekst: "Har jeg set, hvad pakken indeholder (filtyper og versioner), og får jeg en lille udgave med? Og står der fuldt ejerskab?" },
                         { id: "udgaver", tekst: "Får jeg udgaver i sort/hvid og til både lys og mørk baggrund?" },
                         { id: "ikke_eksklusiv", tekst: "Har jeg forstået, at jeg ikke får eksklusive rettigheder til enkeltdelene?" },
                         { id: "ligner", tekst: "Har jeg tjekket, om det ligner et eksisterende logo?" },
@@ -371,7 +402,9 @@ export class LogoEngine {
             return {
                 paragraphs: [
                     "Du kender værktøjet, så kun en påmindelse: begynd enkelt, i én farve, tjek det småt undervejs, og gem en vektorfil sammen med de billedfiler, du eksporterer.",
-                    "Lav også en udgave med kun symbolet, hvis dit logo har et."
+                    /*---- Faktatjek 2026-11-04: Adobe Fonts må ikke gives videre, så teksten skal være konturer i den fil, andre får ----*/
+                    "Lav teksten om til konturer (outlines) i den endelige fil. Så ser logoet rigtigt ud hos andre, også dem, der ikke har din skrifttype.",
+                    "Når du er tilfreds med det fulde logo, så lav også den lille udgave. Har dit logo et symbol, er det symbolet alene. Er det kun dit navn, kan det være dit forbogstav. Den lille udgave skal du bruge de små steder, og den bliver også til dit favicon senere."
                 ],
                 externalLink: { label: "Åbn Illustrator (åbner i nyt vindue)", url: "https://www.adobe.com/products/illustrator.html" }
             };
@@ -380,7 +413,9 @@ export class LogoEngine {
         return {
             paragraphs: [
                 "Åbn Canva (åbner i nyt vindue). Begynd enkelt: én farve og få elementer. Tjek logoet småt undervejs, fx ved at zoome ud eller se det på din telefon. Gem dine udgaver undervejs, så du kan gå tilbage.",
-                "Har dit logo både navn og symbol, så gem også en udgave med kun symbolet. Den skal du bruge de små steder, fx som profilbillede."
+                /*---- Faktatjek 2026-11-04: Canvas logo-skabeloner kan bruges af alle og kan ikke registreres som varemærke ----*/
+                "Bruger du en af Canvas logo-skabeloner, kan andre bruge præcis den samme. Så er logoet ikke kun dit, og det kan ikke registreres som varemærke. Brug gerne skabelonerne som inspiration, og byg dit eget med Canvas skrifttyper, enkle former og linjer.",
+                "Når du er tilfreds med det fulde logo, så lav også den lille udgave. Har dit logo et symbol, er det symbolet alene. Er det kun dit navn, kan det være dit forbogstav. Den lille udgave skal du bruge de små steder, og den bliver også til dit favicon senere."
             ],
             externalLink: { label: "Åbn Canva (åbner i nyt vindue)", url: "https://www.canva.com/" }
         };
@@ -411,7 +446,9 @@ export class LogoEngine {
         const isAorD = this.svar.spor === "A" || this.svar.spor === "D";
 
         if (isAorD) {
-            boble.paragraphs.push("Du kan ikke justere det her, men du kan tage listen med til den, der lavede logoet. Det er en helt legitim bestilling.");
+            boble.paragraphs.push(this.svar.bestiltHosDuf
+                ? "Du kan ikke justere det her, men du kan sende listen til os, så kigger vi på det sammen. Det er en helt legitim bestilling."
+                : "Du kan ikke justere det her, men du kan tage listen med til den, der lavede logoet. Det er en helt legitim bestilling.");
             boble.options = [
                 { id: "tager_med", text: "Jeg tager det med", next: "8.1" },
                 { id: "gaar_videre", text: "Jeg går videre uden", next: "8.1" }
@@ -499,6 +536,28 @@ export class LogoEngine {
             .map((field) => ({ label: field.label, value: escapeHtml(noter[field.id]) }));
     }
 
+    /*---- Oplægget til DUF-bestillingen (2d.duf): hendes svar fra rummet som almindelig tekst, én linje pr. svar. Tomme svar springes over, så en, der kommer direkte fra 2d.1, kun får de linjer, hun faktisk har svaret på. Hun kan rette i teksten, før mailen sendes ----*/
+    buildBestillingOplaeg() {
+        const linjer = [];
+        const tilfoej = (label, vaerdi) => { if (vaerdi) linjer.push(`${label}: ${vaerdi}`); };
+        const valgte = (svar) => svar?.selected?.map((s) => s.text).join(", ");
+
+        tilfoej("Hvor jeg står i dag", this.svar.logoStatus?.text);
+        tilfoej("Den slags logo, jeg hælder til", this.svar.logoType?.text);
+
+        const farve = this.svar.logoFarver;
+        tilfoej("Farver", farve?.selected?.length ? farve.selected.map((c) => c.role || c.hex).join(", ") : farve?.text);
+
+        tilfoej("Det fungerer ved mit nuværende logo", valgte(this.svar.listeFungerer));
+        tilfoej("Det skurrer ved mit nuværende logo", valgte(this.svar.listeSkurrer));
+        tilfoej("Da jeg sammenlignede med andre", valgte(this.svar.sammenligning));
+
+        const noter = this.svar.minInspirationNoter || {};
+        BOBLER["3.2"].fields.forEach((field) => tilfoej(field.label, noter[field.id]));
+
+        return linjer.join("\n");
+    }
+
     buildArbejdslistePunkter() {
         const punkter = [];
         const selected = this.svar.listeSkurrer?.selected || [];
@@ -560,6 +619,14 @@ export class LogoEngine {
                 if (rawAnswer.optionId === "test") this.svar.valideringsvej = true;
                 /*---- "Nej, jeg vil hellere gennem det hele" betyder det samme som "nej" i 2a.1: hun vil selv arbejde med logoet. Uden sporskiftet blev hun på spor A, sprang Modul 4 over og fik at vide i 7.5, at hun ikke selv kunne justere ----*/
                 if (rawAnswer.optionId === "fuldt") this.svar.spor = "B";
+                break;
+            /*---- Vælger hun at få en anden (6.2 "anden") eller DUF til at lave logoet, er hun fra nu af i samme situation som spor D: Modul 7 og 8 skal ikke tilbyde hende selv at justere ----*/
+            case "6.2":
+                if (rawAnswer.optionId === "anden" || rawAnswer.optionId === "duf") this.svar.spor = "D";
+                break;
+            case "2d.duf":
+                this.svar.spor = "D";
+                this.svar.bestiltHosDuf = true;
                 break;
             case "2d.1":
                 if (rawAnswer.optionId === "selv") {

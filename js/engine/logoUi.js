@@ -9,6 +9,9 @@ import { guideHtml } from "../components/guide.js";
 
 const app = document.querySelector("#app");
 
+/*---- Præfiks til id'erne på et ekstra upload-felt (`ekstraUpload`), så det ikke støder sammen med boblens første felt ----*/
+const EKSTRA_UPLOAD_PREFIX = "lille-";
+
 const GROUP_LABELS = {
     form: "Form",
     identitet: "Identitet",
@@ -145,6 +148,68 @@ function sideOmSideHtml(images, inspirationImages) {
         </div>`;
 }
 
+/*---- Brugerens egen tekst, der sættes ind i et tekstfelt (bestillingens oplæg). Uden oversættelsen kunne et "<" i hendes svar bryde feltet ----*/
+function escapeHtml(tekst) {
+    return String(tekst).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+
+/*---- DUF-bestilling (2d.duf, 2026-11-04): en lille formular, der bliver til en mail til DUF - samme mønster som billedtjekket i Billeder 8.6 (billedtjekHtml/bindBilledtjek i billederUi.js). Intet gemmes; svarene ligger kun i felterne. Alle tekster og mailadressen står i `bestilling` ved 2d.duf i js/data/logo.js ----*/
+
+function bestillingHtml(best, oplaeg) {
+    return `
+        <div class="billedtjek">
+            <label class="color-field-label" for="bestilling-oplaeg">${best.oplaegLabel}</label>
+            <p class="section-body" style="font-size:14px;opacity:0.8;">${best.oplaegHint}</p>
+            <textarea id="bestilling-oplaeg" class="text-input" rows="8">${escapeHtml(oplaeg || "")}</textarea>
+            <p class="color-field-label" id="bestilling-reference-label">${best.reference.label}</p>
+            <p class="section-body" style="font-size:14px;opacity:0.8;">${best.reference.hint}</p>
+            <div class="keyword-list" role="group" aria-labelledby="bestilling-reference-label">
+                ${best.reference.valg.map((valg) => `<button type="button" class="keyword-chip ord-chip" aria-pressed="false" data-bestilling-reference="${valg.id}">${valg.text}</button>`).join("")}
+            </div>
+            <button id="bestilling-mail" type="button" class="btn btn--regular btn--solid-omraade">${best.mailKnap}</button>
+            <p class="section-body">${best.kopierTekst} <strong>${best.mail}</strong></p>
+            <button id="bestilling-kopier" type="button" class="btn btn--slim btn--outline-green">${best.kopierKnap}</button>
+            <p class="section-body" id="bestilling-kopier-status" role="status"></p>
+        </div>
+    `;
+}
+
+function bindBestilling(best) {
+    let reference = null;
+
+    /*---- Referencevalget virker som radioknapper: ét valg, et nyt klik skifter. Det er frivilligt, så mailen kan sendes uden ----*/
+    const knapper = [...document.querySelectorAll("[data-bestilling-reference]")];
+    knapper.forEach((knap) => knap.addEventListener("click", () => {
+        knapper.forEach((anden) => anden.setAttribute("aria-pressed", String(anden === knap)));
+        reference = knap.dataset.bestillingReference;
+    }));
+
+    /*---- Mailen bygges først ved klik, så den har det, hun har rettet i oplægget. encodeURIComponent gør linjeskift og fx & sikre i linket ----*/
+    document.querySelector("#bestilling-mail").addEventListener("click", () => {
+        const oplaeg = document.querySelector("#bestilling-oplaeg").value.trim();
+        const referenceTekst = best.reference.valg.find((valg) => valg.id === reference)?.text;
+        const krop = [
+            best.mailIndledning,
+            oplaeg,
+            referenceTekst ? `${best.reference.mailLabel}: ${referenceTekst}` : "",
+            best.mailAfslutning
+        ].filter(Boolean).join("\n\n");
+
+        window.location.href = `mailto:${best.mail}?subject=${encodeURIComponent(best.emne)}&body=${encodeURIComponent(krop)}`;
+    });
+
+    /*---- Til brugere, hvor mailto: ikke åbner et mailprogram ----*/
+    document.querySelector("#bestilling-kopier").addEventListener("click", async () => {
+        const status = document.querySelector("#bestilling-kopier-status");
+        try {
+            await navigator.clipboard.writeText(best.mail);
+            status.textContent = best.kopieret;
+        } catch {
+            status.textContent = best.kopierFejl;
+        }
+    });
+}
+
 /*---- 💬-linjen: med et navn (guideAvatar) vises den som guide-boble (js/components/guide.js) med pladsholder-avatar; uden navn som det gamle panel ----*/
 
 function guideLineHtml(boble) {
@@ -171,8 +236,10 @@ function headerHtml(boble, ctx = {}) {
         ${boble.externalLink ? externalLinkHtml(boble.externalLink) : ""}
         ${guideLineHtml(boble)}
         ${boble.imageUpload ? renderImageUploadHtml({ label: boble.imageUpload.label, hint: boble.imageUpload.hint, images: ctx.images || [] }) : ""}
+        ${boble.ekstraUpload ? renderImageUploadHtml({ label: boble.ekstraUpload.label, hint: boble.ekstraUpload.hint, images: ctx.ekstraImages || [], idPrefix: EKSTRA_UPLOAD_PREFIX }) : ""}
         ${boble.logoPreview ? logoPreviewHtml(boble.logoPreview, ctx.images, ctx.responseImages) : ""}
         ${boble.checklist ? `<div id="tjekliste-container"></div>` : ""}
+        ${boble.bestilling ? bestillingHtml(boble.bestilling, ctx.bestillingOplaeg) : ""}
         <div id="se-ogsaa-slot"></div>
     `;
 }
@@ -193,6 +260,11 @@ function renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit) {
         bindImageUpload(ctx.imageHandlers);
     }
 
+    /*---- Det ekstra felt (6.5's lille udgave) tager ikke imod Ctrl + V - det gør kun det første felt, så et skærmklip ikke havner det forkerte sted ----*/
+    if (boble.ekstraUpload && ctx?.ekstraImageHandlers) {
+        bindImageUpload({ ...ctx.ekstraImageHandlers, idPrefix: EKSTRA_UPLOAD_PREFIX, paste: false });
+    }
+
     if (boble.checklist) {
         renderTjekliste(document.querySelector("#tjekliste-container"), {
             gemNoegle: boble.checklist.gemNoegle,
@@ -202,6 +274,8 @@ function renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit) {
             afslutning: boble.checklist.afslutning || boble.afterList
         });
     }
+
+    if (boble.bestilling) bindBestilling(boble.bestilling);
 
     if (boble.seOgsaa) {
         const maal = SE_OGSAA_MAAL[boble.seOgsaa.maal];
@@ -230,7 +304,9 @@ function showWelcome(text, onStart) {
 
 function showTextBoble(boble, ctx, onNext, onExit) {
     const bodyHtml = headerHtml(boble, ctx);
-    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular btn--solid-omraade">${boble.nextButtonText || "Næste"}</button>`;
+    /*---- Med en bestillingsformular er mailen hovedhandlingen, så "Videre" bliver den sekundære knap - som i Billeder 8.6 ----*/
+    const nextKlasse = boble.bestilling ? "btn--outline-green" : "btn--solid-omraade";
+    const ctaHtml = `<button id="next-button" type="button" class="btn btn--regular ${nextKlasse}">${boble.nextButtonText || "Næste"}</button>`;
 
     renderScreen(boble, ctx, { bodyHtml, ctaHtml }, onExit);
 
@@ -306,8 +382,10 @@ function showChoiceBoble(boble, ctx, onNext, onExit) {
         });
     });
 
-    /*---- 7.2's lille udgave: uploades under responsen og vises straks i de små størrelser ved siden af hovedlogoet ----*/
-    const renderResponseUpload = () => {
+    /*---- 7.2's lille udgave: vises straks i de små størrelser ved siden af hovedlogoet. Har hun ikke lagt en lille udgave ind endnu, står feltet fremme fra start (logo-varianter, 2026-11-04), så hun ikke først skal svare "Næsten" eller "Nej" for at finde det. Har hun en, dukker feltet op under responsen som før, så hun kan skifte den ud ----*/
+    const uploadFraStart = Boolean(boble.responseUpload) && !ctx?.responseImages?.length;
+
+    const renderResponseUpload = (container = responseContainer) => {
         if (!boble.responseUpload || !ctx?.responseImageHandlers) return;
 
         const handlers = ctx.responseImageHandlers;
@@ -319,13 +397,18 @@ function showChoiceBoble(boble, ctx, onNext, onExit) {
             return smallImages;
         };
 
-        responseContainer.insertAdjacentHTML("beforeend", `<div class="logo-response-upload">${renderImageUploadHtml({
+        container.insertAdjacentHTML("beforeend", `<div class="logo-response-upload">${renderImageUploadHtml({
             label: boble.responseUpload.label,
             hint: boble.responseUpload.hint,
             images: ctx.responseImages || []
         })}</div>`);
         bindImageUpload({ upload: handlers.upload, remove: handlers.remove, refresh: refreshAndPreview });
     };
+
+    if (uploadFraStart) {
+        responseContainer.insertAdjacentHTML("beforebegin", `<div id="logo-upload-fra-start"></div>`);
+        renderResponseUpload(document.querySelector("#logo-upload-fra-start"));
+    }
 
     const answerFor = (option) => ({
         optionId: option.id,
@@ -345,7 +428,7 @@ function showChoiceBoble(boble, ctx, onNext, onExit) {
             }
 
             responseContainer.innerHTML = selectedOption.response ? `<div class="panel"><p>${selectedOption.response}</p></div>` : "";
-            if (selectedOption.response) renderResponseUpload();
+            if (selectedOption.response && !uploadFraStart) renderResponseUpload();
 
             if (selectedOption.followUpOptions) {
                 nextButton.hidden = true;

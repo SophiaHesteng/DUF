@@ -106,7 +106,7 @@ export const BOBLER = {
         paragraphs: [
             "Så hvad skal et logo? Tre ting. Være til at genkende. Fungere mange steder, stort og småt, i farve og i sort/hvid, på lyse og mørke baggrunde. Og spille sammen med resten af dit visuelle udtryk. Det er det hele. Vi begynder ikke med at gøre det smukt. Vi begynder med at gøre det brugbart.",
             /*---- Runde 7 (brugertest 1, T6): flere udgaver af logoet og favicon - står til sidst, lige før guide-citatet (Heidi, 2026-09-25) ----*/
-            "Derfor har mange flere udgaver af det samme logo: fx en med navn og symbol til hjemmesiden og en med kun symbolet til de små steder. Det kan være dit profilbillede eller det lille ikon, der står i fanen øverst i browseren, når nogen besøger din hjemmeside. Det lille ikon kaldes et favicon, og der er kun plads til et symbol."
+            "Derfor har de fleste flere udgaver af det samme logo. Det fulde logo bruger du der, hvor der er plads, fx på hjemmesiden. Den lille udgave, fx kun symbolet eller dit forbogstav, bruger du de små steder, som dit profilbillede. Og den allermindste er det lille ikon i fanen øverst i browseren, når nogen besøger din hjemmeside. Det kaldes et favicon. Det er stadig ét logo. Det har bare tøj på til forskellige anledninger."
         ],
         guideLine: "Et logo skal ikke fortælle hele din historie. Det skal hjælpe folk med at kende dig igen.",
         guideAvatar: "Marcus",
@@ -315,7 +315,9 @@ export const BOBLER = {
         paragraphs: [],
         options: [
             { id: "selv", text: "Jeg laver det selv", next: "2b.1" },
-            { id: "anden", text: "En anden laver det for mig (en grafiker, en bekendt eller en generator)", next: "2d.2" }
+            { id: "anden", text: "En anden laver det for mig (en grafiker, en bekendt, en freelancer eller en generator)", next: "2d.2" },
+            /*---- Flere veje (godkendt af Heidi 2026-11-04): DUF laver logoet. Står bevidst sidst - rummet skal ikke skubbe hende mod at købe ----*/
+            { id: "duf", text: "Jeg vil gerne have, at DUF laver det", next: "2d.duf" }
         ],
         next: null
     },
@@ -323,7 +325,9 @@ export const BOBLER = {
         id: "2d.2", modul: 2, type: "text",
         heading: "Sådan får du mest ud af at bestille",
         paragraphs: [
-            "Når en anden laver dit logo, er det jeres aftaler, der afgør, hvad du ender med at kunne bruge. Ikke kun, hvordan det ser ud. Her er en tjekliste til samtalen, så du ikke opdager det bagefter. Har du arbejdet med Farver, kan du give din palet med. Bruger du en generator, så læs vilkårene med de samme spørgsmål i baghovedet."
+            "Når en anden laver dit logo, er det jeres aftaler, der afgør, hvad du ender med at kunne bruge. Ikke kun, hvordan det ser ud. Her er en tjekliste til samtalen, så du ikke opdager det bagefter. Har du arbejdet med Farver, kan du give din palet med. Bruger du en generator, så læs vilkårene med de samme spørgsmål i baghovedet.",
+            /*---- Flere veje (2026-11-04): Fiverrs og Upworks regler tjekket samme dag ----*/
+            "Finder du en freelancer på en platform som Fiverr eller Upwork, er det platformens regler, der gælder, hvis I ikke aftaler andet. Begge steder bliver logoet som udgangspunkt dit, når det er leveret, og du har betalt det hele. Men på Fiverr kan sælgeren skrive noget andet på sin side, og nogle tager ekstra for fx kildefilerne. Læs derfor sælgerens beskrivelse grundigt, og betal altid gennem platformen, ikke uden om den."
         ],
         checklist: {
             gemNoegle: "logo-sporD-aftaler",
@@ -335,7 +339,9 @@ export const BOBLER = {
                 { id: "varemaerke", tekst: "Må det registreres som varemærke?" },
                 { id: "originalfiler", tekst: "Får jeg de originale arbejds- og vektorfiler?" },
                 { id: "lovligt_licenseret", tekst: "Har designeren bekræftet, at alle elementer er originale eller lovligt licenserede?" },
-                { id: "flere_udgaver", tekst: "Får jeg logoet i flere udgaver: småt, i sort/hvid og til både lys og mørk baggrund?" }
+                { id: "platform_vilkaar", tekst: "Står der noget om rettigheder eller ekstra betaling for filer på freelancerens side?" },
+                { id: "tegnet_til_mig", tekst: "Er symbolet tegnet til mig, eller kommer det fra en skabelon, et billedbibliotek eller et AI-værktøj?" },
+                { id: "flere_udgaver", tekst: "Får jeg både det fulde logo og en lille udgave (fx kun symbolet), også i en udgave, der kan bruges som favicon? Og i sort/hvid og til både lys og mørk baggrund?" }
             ]
         },
         afterList: "Skal logoet være en central del af din identitet, eller er du i tvivl om en aftale, så søg rådgivning, før du skriver under.",
@@ -358,9 +364,52 @@ export const BOBLER = {
         paragraphs: [
             "Det er helt fint. Din tjekliste ligger klar. Kom tilbage, når logoet er færdigt, så tester vi det sammen, og du får det med i din guide."
         ],
+        /*---- Variant, når hun har bestilt logoet hos DUF i 2d.duf - valgt i logoEngine.js's resolveContent() ----*/
+        paragraphsDuf: [
+            "Tak for din bestilling. Vi svarer dig på mail, så I kan aftale det videre. Kom tilbage hertil, når logoet er færdigt, så tester vi det sammen, og du får det med i din guide."
+        ],
         nextButtonText: "Tilbage til rum-vælgeren",
         isExit: true,
         onLeave: "saveDPosition"
+    },
+
+    /*---- Flere veje (godkendt af Heidi 2026-11-04): DUF laver det endelige logo. Nås fra 2d.1 og 6.2. Formularen (`bestilling`) bliver til en mail til DUF, ligesom billedtjekket i Billeder 8.6, og er udfyldt på forhånd med hendes svar fra rummet (buildBestillingOplaeg() i logoEngine.js) ----*/
+    "2d.duf": {
+        id: "2d.duf", modul: 2, type: "text",
+        heading: "Lad os lave det for dig",
+        paragraphs: [
+            "Du har allerede gjort det meste af forarbejdet. Vil du hellere have, at vi laver det endelige logo, så bygger vi videre på det, du har valgt og skrevet her, og ikke på et tomt papir.",
+            "Du får det fulde logo og den lille udgave, klar til favicon. Begge i sort/hvid og til både lys og mørk baggrund, og som vektorfiler, så de kan bruges i alle størrelser. Logoet bliver dit, også rettighederne.",
+            /*---- PLADSHOLDER (Heidi 2026-11-04): pris, antal forslag og rettelser og leveringstid afventer en samlet beslutning om DUF's priser. Ret teksten her, når den ligger fast ----*/
+            "Prisen og det praktiske, fx hvor mange forslag du får, aftaler vi med dig på mail, før vi går i gang.",
+            "Det er helt i orden at vælge noget andet. Du kan stadig gå tilbage og lave det selv."
+        ],
+        bestilling: {
+            /*---- PLADSHOLDER: mailadressen er ikke bekræftet. Ret den her ----*/
+            mail: "logo@din-uf.dk",
+            emne: "Bestilling af logo fra DUF",
+            oplaegLabel: "Det, vi sender med som oplæg",
+            oplaegHint: "Det er dine svar fra rummet. Ret gerne i dem, eller skriv mere om din praksis. Har du screenshots af logoer, du kan lide, så vedhæft dem selv i mailen.",
+            reference: {
+                label: "Må vi vise dit logo som eksempel på, hvem vi har hjulpet?",
+                mailLabel: "Må DUF vise logoet som eksempel",
+                valg: [
+                    { id: "ja", text: "Ja, gerne" },
+                    { id: "nej", text: "Nej, helst ikke" },
+                    { id: "snak", text: "Det vil jeg gerne tale med jer om" }
+                ],
+                hint: "Det er frivilligt og ændrer ikke noget ved din bestilling."
+            },
+            mailKnap: "Skriv bestillingen i en mail",
+            mailIndledning: "Hej DUF\n\nJeg vil gerne have, at I laver mit logo.",
+            mailAfslutning: "Venlig hilsen",
+            kopierTekst: "Åbner der ikke en mail? Så kan du skrive til",
+            kopierKnap: "Kopiér",
+            kopieret: "Mailadressen er kopieret.",
+            kopierFejl: "Den kunne ikke kopieres. Markér adressen, og kopiér den selv."
+        },
+        nextButtonText: "Jeg har sendt bestillingen",
+        next: "2d.4"
     },
 
     /*---- Modul 3 — Inspiration og sammenligning (spor B og C) ----*/
@@ -626,7 +675,7 @@ export const BOBLER = {
         options: [
             {
                 id: "canva", text: "I Canva (godt at starte med)",
-                explanation: "Et gratis program i din browser, hvor du bygger logoet selv ud fra enkle skabeloner. Godt, hvis du vil prøve dig frem og have det hele i egne hænder."
+                explanation: "Et gratis program i din browser, hvor du bygger logoet selv med skrifttyper og enkle former. Godt, hvis du vil prøve dig frem og have det hele i egne hænder."
             },
             {
                 id: "looka", text: "I Looka, ud fra det, jeg allerede har leget med", nytOnly: true,
@@ -638,7 +687,12 @@ export const BOBLER = {
             },
             {
                 id: "anden", text: "Jeg vil have en grafiker eller en anden til at lave det", jumpTo: "2d.2",
-                explanation: "Det kan være en grafiker, du betaler, eller en bekendt, der er god til det. Du har allerede gjort det vigtige forarbejde her: Du ved, hvilken slags logo du vil have, hvilke farver det skal have, og hvad der inspirerer dig. Det gør det meget nemmere at forklare, hvad du ønsker, og det kan gøre opgaven hurtigere og potentielt billigere. Vi giver dig en tjekliste med til samtalen."
+                explanation: "Det kan være en grafiker, du betaler, en bekendt, der er god til det, eller en freelancer, du finder på en platform som Fiverr eller Upwork. Du har allerede gjort det vigtige forarbejde her: Du ved, hvilken slags logo du vil have, hvilke farver det skal have, og hvad der inspirerer dig. Det gør det meget nemmere at forklare, hvad du ønsker, og det kan gøre opgaven hurtigere og potentielt billigere. Vi giver dig en tjekliste med til samtalen."
+            },
+            /*---- Flere veje (2026-11-04): står bevidst sidst. PLADSHOLDER i forklaringen, indtil prisen ligger fast ----*/
+            {
+                id: "duf", text: "Jeg vil gerne have, at DUF laver det", jumpTo: "2d.duf",
+                explanation: "Vi laver dit endelige logo ud fra det, du har arbejdet med her. Prisen aftaler vi med dig, før vi går i gang."
             }
         ],
         answerKey: "vaerktoej",
@@ -665,11 +719,13 @@ export const BOBLER = {
         id: "6.5", modul: 6, type: "text",
         heading: "Læg dit logo her",
         paragraphs: [
-            "Er du nået til noget, du kan lide? Læg det her. Det er ikke en færdig version, bare den, du står med lige nu. Det bliver på din enhed."
+            "Er du nået til noget, du kan lide? Læg det her. Det er ikke en færdig version, bare den, du står med lige nu. Har du også en lille udgave, så læg den ved siden af. Har du den ikke endnu, går det også fint. Den kommer vi tilbage til i testen. Det bliver på din enhed."
         ],
         guideLine: "Et selvlavet logo er ikke et kompromis. Det er en prototype, ligesom resten af dit visuelle udtryk.",
         guideAvatar: "Sophia",
-        imageUpload: { bucket: "logo", label: "Upload et billede af logoet (valgfrit)", hint: "Billedet forlader aldrig din egen enhed." },
+        imageUpload: { bucket: "logo", label: "Dit fulde logo", hint: "Billedet forlader aldrig din egen enhed." },
+        /*---- Logo-varianter (godkendt af Heidi 2026-11-04): et andet upload-felt til den lille udgave, i samme bucket som 7.2 bruger - logoUi.js tegner det med idPrefix "lille-" ----*/
+        ekstraUpload: { bucket: "logo-lille", label: "Din lille udgave (valgfrit)", hint: "Fx kun symbolet eller dit forbogstav. Billedet forlader aldrig din egen enhed." },
         nextButtonText: "Jeg har noget, jeg vil teste",
         next: "7.1"
     },
@@ -691,7 +747,7 @@ export const BOBLER = {
         id: "7.2", modul: 7, type: "choice",
         heading: "Tjek 1: Kan du kende det, når det er småt?",
         paragraphs: [
-            "Kig på logoet i lille størrelse, som på et ikon eller i en profil. Kan du stadig kende det?"
+            "Kig på logoet i lille størrelse, som på et ikon eller i en profil. Har du en lille udgave, ser du den her også, helt nede i størrelsen på et favicon. Kan du stadig kende det?"
         ],
         logoPreview: "small",
         /*---- Runde 7 (brugertest 1, T6): vises under responsen, kun når svaret ikke er "Ja". Det er manuskriptets `logoUploadLille`, gemt i bucket "logo-lille", og vises ved siden af hovedlogoet i de tre små størrelser - logoUi.js ----*/

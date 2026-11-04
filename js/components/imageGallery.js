@@ -38,13 +38,17 @@ export function imageGalleryHtml(images, { removable = false } = {}) {
  * i filvælgeren. Slået til i Billeders upload-bobler (3.1, 4.4, 7.10), hvor der skal
  * samles mange billeder. Farver og Logo sender den ikke med og har ét billede ad gangen
  * som før. ----*/
-export function renderImageUploadHtml({ label, hint, images, multiple = false }) {
+/*---- `idPrefix` (valgfri, standard ""): sættes foran feltets id'er, så der kan stå to
+ * upload-felter på samme skærm uden at blande sig i hinanden (Logo 6.5: det fulde logo
+ * og den lille udgave). Det første felt bruger stadig de gamle id'er uden præfiks. Samme
+ * præfiks skal gives til bindImageUpload. ----*/
+export function renderImageUploadHtml({ label, hint, images, multiple = false, idPrefix = "" }) {
     return `
         <p class="section-subheading">${label}</p>
         <p class="section-body" style="font-size:14px;opacity:0.8;">${hint}</p>
-        <input id="image-upload-input" type="file" accept="image/*" class="text-input"${multiple ? " multiple" : ""}>
-        <p id="image-upload-status" class="section-body" style="font-size:14px;"></p>
-        <div id="image-gallery">${imageGalleryHtml(images, { removable: true })}</div>
+        <input id="${idPrefix}image-upload-input" type="file" accept="image/*" class="text-input"${multiple ? " multiple" : ""}>
+        <p id="${idPrefix}image-upload-status" class="section-body" style="font-size:14px;"></p>
+        <div id="${idPrefix}image-gallery">${imageGalleryHtml(images, { removable: true })}</div>
     `;
 }
 
@@ -123,10 +127,12 @@ function bindPaste({ upload, refresh }) {
     app.addEventListener("paste", activePasteHandler);
 }
 
-export function bindImageUpload({ upload, remove, refresh }) {
-    const input = document.querySelector("#image-upload-input");
-    const gallery = document.querySelector("#image-gallery");
-    const status = document.querySelector("#image-upload-status");
+/*---- `paste` (valgfri, standard true): om Ctrl + V skal lægge et skærmklip i netop dette
+ * felt. Kun ét felt pr. skærm kan modtage indsæt, så et ekstra felt sætter den til false. ----*/
+export function bindImageUpload({ upload, remove, refresh, idPrefix = "", paste = true }) {
+    const input = document.querySelector(`#${idPrefix}image-upload-input`);
+    const gallery = document.querySelector(`#${idPrefix}image-gallery`);
+    const status = document.querySelector(`#${idPrefix}image-upload-status`);
     if (!input || !upload) return;
 
     /*---- Gemmer alle valgte filer én ad gangen (ikke samtidig), så status kan sige
@@ -169,5 +175,5 @@ export function bindImageUpload({ upload, remove, refresh }) {
         gallery.innerHTML = imageGalleryHtml(await refresh(), { removable: true });
     });
 
-    bindPaste({ upload, refresh });
+    if (paste) bindPaste({ upload, refresh });
 }
