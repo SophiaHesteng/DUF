@@ -442,22 +442,28 @@ export class LogoEngine {
         }
 
         const failedLabels = [];
-        if (results.smaat && results.smaat !== "ja") failedLabels.push("kan kendes, når det er småt");
-        if (results.udenFarve && results.udenFarve !== "ja") failedLabels.push("virker uden farve");
-        if (results.baggrund && results.baggrund !== "begge") failedLabels.push("virker på både lys og mørk baggrund");
+        /*---- 2026-11-04: formuleret som det, der skal gå op ("at kunne kende det …"). Før stod der "går op: kan kendes, når det er småt", som læste som det modsatte ----*/
+        if (results.smaat && results.smaat !== "ja") failedLabels.push("at kunne kende det, når det er småt");
+        if (results.udenFarve && results.udenFarve !== "ja") failedLabels.push("at det virker uden farve");
+        if (results.baggrund && results.baggrund !== "begge") failedLabels.push("at det virker på både lys og mørk baggrund");
 
         boble.paragraphs = [
             "Det er helt normalt, at noget først viser sig her. Det betyder ikke, at du har gjort noget forkert.",
             failedLabels.length ? `Det, der endnu ikke helt går op: ${failedLabels.join(", ")}.` : "",
-            "Hvad vil du gøre med dem?"
+            failedLabels.length === 1 ? "Hvad vil du gøre med det?" : "Hvad vil du gøre med dem?"
         ].filter(Boolean);
 
         const isAorD = this.svar.spor === "A" || this.svar.spor === "D";
 
-        if (isAorD) {
-            boble.paragraphs.push(this.svar.bestiltHosDuf
-                ? "Du kan ikke justere det her, men du kan sende listen til os, så kigger vi på det sammen. Det er en helt legitim bestilling."
-                : "Du kan ikke justere det her, men du kan tage listen med til den, der lavede logoet. Det er en helt legitim bestilling.");
+        /*---- Logoet er lavet af DUF: hun skal ikke selv rette i det, men kan skrive til os med det, der ikke går op (mailen åbnes i applySideEffects, case "7.5") ----*/
+        if (this.svar.bestiltHosDuf) {
+            boble.paragraphs.push("Logoet er lavet af os, så du skal ikke selv rette i det. Fortæl os, hvad der ikke helt går op, så kigger vi på det sammen med dig.");
+            boble.options = [
+                { id: "skriv_til_duf", text: "Skriv til os om det", next: "8.1" },
+                { id: "gaar_videre", text: "Jeg går videre uden", next: "8.1" }
+            ];
+        } else if (isAorD) {
+            boble.paragraphs.push("Logoet er lavet af en anden, så du skal ikke selv rette i det. Tag det, der ikke helt går op, med til den, der lavede det. Det er helt i orden at bede om at få det rettet.");
             boble.options = [
                 { id: "tager_med", text: "Jeg tager det med", next: "8.1" },
                 { id: "gaar_videre", text: "Jeg går videre uden", next: "8.1" }
@@ -665,10 +671,16 @@ export class LogoEngine {
             case "7.5": {
                 const results = this.svar.testResultater || {};
                 const failed = [];
-                if (results.smaat && results.smaat !== "ja") failed.push("Kan kendes, når det er småt");
-                if (results.udenFarve && results.udenFarve !== "ja") failed.push("Virker uden farve");
-                if (results.baggrund && results.baggrund !== "begge") failed.push("Virker på både lys og mørk baggrund");
+                if (results.smaat && results.smaat !== "ja") failed.push("At kunne kende det, når det er småt");
+                if (results.udenFarve && results.udenFarve !== "ja") failed.push("At det virker uden farve");
+                if (results.baggrund && results.baggrund !== "begge") failed.push("At det virker på både lys og mørk baggrund");
                 this.svar.aabnePunkter = rawAnswer.optionId === "juster_nu" ? [] : failed;
+                /*---- Logo fra DUF: åbn en mail til os med det, der ikke går op. Samme adresse som bestillingen (2d.duf) ----*/
+                if (rawAnswer.optionId === "skriv_til_duf") {
+                    const tekst = BOBLER["7.5"].dufRettelse;
+                    const krop = [tekst.indledning, failed.map((punkt) => `- ${punkt}`).join("\n"), tekst.afslutning].join("\n\n");
+                    window.location.href = `mailto:${BOBLER["2d.duf"].bestilling.mail}?subject=${encodeURIComponent(tekst.emne)}&body=${encodeURIComponent(krop)}`;
+                }
                 /*---- Spor B/C's "juster nu" sender altid til 6.1j (arbejdsliste), uanset om den oprindelige retning var "nyt" - resten af Modul 6 skal derfor også opføre sig som justér herfra ----*/
                 if (rawAnswer.jumpTo === "6.1j") {
                     this.svar.retning = { id: "juster", text: "Justér mit nuværende logo" };

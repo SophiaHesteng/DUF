@@ -393,10 +393,20 @@ function showChoiceBoble(boble, ctx, onNext, onExit) {
 
         const handlers = ctx.responseImageHandlers;
         const refreshAndPreview = async () => {
+            const foer = ctx.responseImages?.length || 0;
             const smallImages = await handlers.refresh();
             ctx.responseImages = smallImages;
             const previewSlot = document.querySelector("#logo-preview-small-slot");
             if (previewSlot) previewSlot.innerHTML = smallPreviewHtml(ctx.images, smallImages);
+
+            /*---- En ny lille udgave ændrer, hvad hun skal vurdere: hendes svar fra før nulstilles, og hun bedes svare igen. Ellers blev et "Nej", givet før uploadet, stående som en fejl i 7.5 ----*/
+            if (smallImages.length > foer && boble.genvurderTekst) {
+                optionButtons.forEach((knap) => knap.setAttribute("aria-pressed", "false"));
+                selectedOption = null;
+                nextButton.disabled = true;
+                container.querySelector(".logo-genvurder")?.remove();
+                container.insertAdjacentHTML("beforeend", `<div class="panel logo-genvurder" role="status"><p>${boble.genvurderTekst}</p></div>`);
+            }
             return smallImages;
         };
 

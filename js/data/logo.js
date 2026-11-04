@@ -771,6 +771,8 @@ export const BOBLER = {
         ],
         logoPreview: "small",
         /*---- Runde 7 (brugertest 1, T6): vises under responsen, kun når svaret ikke er "Ja". Det er manuskriptets `logoUploadLille`, gemt i bucket "logo-lille", og vises ved siden af hovedlogoet i de tre små størrelser - logoUi.js ----*/
+        /*---- 2026-11-04: lægger hun en lille udgave ind, nulstilles hendes svar, og denne linje beder hende svare igen - ellers stod et "Nej" fra før uploadet tilbage som en fejl i 7.5 ----*/
+        genvurderTekst: "Du har lagt en lille udgave ind. Kig på den i de små størrelser ovenfor, og svar igen ud fra den udgave, du vil bruge de små steder.",
         responseUpload: { bucket: "logo-lille", label: "Har du en udgave med kun symbolet? Læg den her, og se den i de små størrelser", hint: "Billedet forlader aldrig din egen enhed." },
         options: [
             { id: "ja", text: "Ja, det kan jeg stadig kende" },
@@ -834,6 +836,12 @@ export const BOBLER = {
     },
     "7.5": {
         id: "7.5", modul: 7, type: "choice", ctaButtons: true,
+        /*---- 2026-11-04: når logoet er lavet af DUF (bestiltHosDuf), kan hun skrive til os om det, der ikke går op. Mailen åbnes fra applySideEffects() i logoEngine.js og sendes til samme adresse som bestillingen i 2d.duf ----*/
+        dufRettelse: {
+            emne: "Mit logo fra DUF: det, der ikke helt går op",
+            indledning: "Hej DUF\n\nJeg har testet det logo, I har lavet til mig. Det her går ikke helt op endnu:",
+            afslutning: "Venlig hilsen"
+        },
         heading: "Sådan gik det",
         /*---- Indhold (alt "ja" vs. liste over tjek, der ikke gik godt) og de rigtige knapper for spor/resultat sammensættes i logoEngine.js ----*/
         paragraphs: [],
