@@ -37,7 +37,7 @@
 
 export class RumHistorik {
 
-    #trin = []; // { modul, boble, vis }
+    #trin = []; // { modul, boble, vis, data }
     #genviser = false;
     #afkortVedGenbesoeg;
 
@@ -45,7 +45,8 @@ export class RumHistorik {
         this.#afkortVedGenbesoeg = afkortVedGenbesoeg;
     }
 
-    besoeg(modul, boble, vis) {
+    /*---- `data` (valgfri): det, en engine skal bruge for at genskabe skærmen senere - fx svarene, som de var, da boblen blev vist. Bruges kun af gem()/genskab() ----*/
+    besoeg(modul, boble, vis, data) {
         if (this.#genviser) return;
 
         const sidste = this.#trin.at(-1);
@@ -55,7 +56,17 @@ export class RumHistorik {
             if (tidligere !== -1) this.#trin.length = tidligere;
         }
 
-        this.#trin.push({ modul, boble, vis });
+        this.#trin.push({ modul, boble, vis, data });
+    }
+
+    /*---- Ruten som ren data (uden funktioner), så den kan gemmes i browseren, når brugeren forlader rummet midt i et forløb (fx Logos "Så venter vi"). Kun trin med `data` kan genskabes ----*/
+    gem() {
+        return this.#trin.map(({ modul, boble, data }) => ({ modul, boble, data }));
+    }
+
+    /*---- Bygger ruten op igen fra gem(). `lavVis(trin)` skal returnere den funktion, der viser trinnets skærm, og laves af engine'en, fordi kun den ved, hvordan svarene sættes tilbage ----*/
+    genskab(gemteTrin, lavVis) {
+        this.#trin = (gemteTrin || []).map((trin) => ({ ...trin, vis: lavVis(trin) }));
     }
 
     hopTil(index) {

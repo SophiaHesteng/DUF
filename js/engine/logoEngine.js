@@ -18,6 +18,8 @@ const LOGO_BUCKET = "logo";
 const INSPIRATION_BUCKET = "logo-inspiration";
 /*---- Manuskriptets `logoUploadLille` (7.2, runde 7): den ekstra, lille udgave af logoet, fx kun symbolet ----*/
 const LOGO_LILLE_BUCKET = "logo-lille";
+/*---- Skærmene, hvor hun venter på et logo fra en anden - de springes over, når ruten gemmes (saveDPosition) ----*/
+const VENTE_BOBLER = ["2d.4", "2d.5"];
 
 /*---- Brugerens egen fritekst sættes ind i siden som HTML (8.2's opsamling, recap af noterne fra 3.2). Uden denne oversættelse ville et "<" i teksten blive læst som kode, og opsamlingen kunne gå i stykker ----*/
 function escapeHtml(tekst) {
@@ -76,6 +78,8 @@ export class LogoEngine {
 
         if (savedPosition?.position?.bobleId) {
             this.svar = { ...savedPosition.position.svar, venter: false };
+            /*---- Ruten fra før pausen sættes ind igen, så modul- og boble-prikkerne og "Tilbage" virker, når hun kommer tilbage (før var historikken tom). Gemte positioner fra før denne ændring har ingen rute og starter som før ----*/
+            this.historik.genskab(savedPosition.position.rute, (trin) => () => this.genvisTrin(trin));
             await clearSidePosition(LOGO_ID);
             document.body.classList.add("in-flow");
             this.showBoble(savedPosition.position.bobleId);
@@ -98,7 +102,7 @@ export class LogoEngine {
             this.svar = structuredClone(tilstand.svar);
             this.sequenceQueue = structuredClone(tilstand.sequenceQueue);
             this.showBoble(id);
-        });
+        }, tilstand);
 
         const boble = this.resolveContent(id);
 
@@ -247,9 +251,14 @@ export class LogoEngine {
         }
 
         switch (boble.id) {
-            case "2d.duf":
+            case "2d.duf": {
                 ctx.bestillingOplaeg = this.buildBestillingOplaeg();
+                /*---- Hvor mange billeder hun har lagt ind i rummet - mailen kan ikke tage dem med, så påmindelsen nævner antallet ----*/
+                const logoer = await getImagesForSide(LOGO_BUCKET);
+                const inspiration = await getImagesForSide(INSPIRATION_BUCKET);
+                ctx.bestillingAntalBilleder = logoer.length + inspiration.length;
                 break;
+            }
 
             case "2b.5":
                 ctx.recap = this.buildModul25Recap();
@@ -760,8 +769,10 @@ export class LogoEngine {
             await this.saveOutput();
         }
 
-        if (boble.isExit) {
-            if (boble.onLeave === "saveDPosition") {
+        /*---- En boble kan være en udgang i sig selv (isExit), eller kun én af dens knapper kan være det (2d.4: "Tilbage til rum-vælgeren" ved siden af "Se, hvad der venter") ----*/
+        const valgtOption = boble.options?.find((o) => o.id === rawAnswer?.optionId);
+        if (boble.isExit || valgtOption?.isExit) {
+            if ((valgtOption?.onLeave || boble.onLeave) === "saveDPosition") {
                 await this.saveDPosition();
             } else {
                 await clearSidePosition(LOGO_ID);
@@ -797,9 +808,18 @@ export class LogoEngine {
         await clearSidePosition(LOGO_ID);
     }
 
+    /*---- Gemmer pladsen ved 7.1 og ruten hertil. Vente-boblerne (2d.4, 2d.5) tages ikke med, så "Tilbage" fra 7.1 fører til boblen før pausen, ikke til en skærm, der sender hende ud igen ----*/
     async saveDPosition() {
         this.svar.venter = true;
-        await saveSidePosition(LOGO_ID, { bobleId: "7.1", svar: this.svar });
+        const rute = this.historik.gem().filter((trin) => !VENTE_BOBLER.includes(trin.boble));
+        await saveSidePosition(LOGO_ID, { bobleId: "7.1", svar: this.svar, rute });
+    }
+
+    /*---- Et trin fra en genskabt rute: sæt svarene tilbage, som de var dengang, og vis boblen ----*/
+    genvisTrin(trin) {
+        this.svar = structuredClone(trin.data?.svar || this.svar);
+        this.sequenceQueue = structuredClone(trin.data?.sequenceQueue ?? null);
+        this.showBoble(trin.boble);
     }
 
     exitRoom() {

@@ -155,7 +155,8 @@ function escapeHtml(tekst) {
 
 /*---- DUF-bestilling (2d.duf, 2026-11-04): en lille formular, der bliver til en mail til DUF - samme mønster som billedtjekket i Billeder 8.6 (billedtjekHtml/bindBilledtjek i billederUi.js). Intet gemmes; svarene ligger kun i felterne. Alle tekster og mailadressen står i `bestilling` ved 2d.duf i js/data/logo.js ----*/
 
-function bestillingHtml(best, oplaeg) {
+function bestillingHtml(best, oplaeg, antalBilleder) {
+    const antalTekst = antalBilleder ? ` ${best.vedhaeftAntal.replace("{antal}", antalBilleder)}` : "";
     return `
         <div class="billedtjek">
             <label class="color-field-label" for="bestilling-oplaeg">${best.oplaegLabel}</label>
@@ -166,6 +167,7 @@ function bestillingHtml(best, oplaeg) {
             <div class="keyword-list" role="group" aria-labelledby="bestilling-reference-label">
                 ${best.reference.valg.map((valg) => `<button type="button" class="keyword-chip ord-chip" aria-pressed="false" data-bestilling-reference="${valg.id}">${valg.text}</button>`).join("")}
             </div>
+            <div class="panel"><p>${best.vedhaeft}${antalTekst}</p></div>
             <button id="bestilling-mail" type="button" class="btn btn--regular btn--solid-omraade">${best.mailKnap}</button>
             <p class="section-body">${best.kopierTekst} <strong>${best.mail}</strong></p>
             <button id="bestilling-kopier" type="button" class="btn btn--slim btn--outline-green">${best.kopierKnap}</button>
@@ -192,6 +194,7 @@ function bindBestilling(best) {
             best.mailIndledning,
             oplaeg,
             referenceTekst ? `${best.reference.mailLabel}: ${referenceTekst}` : "",
+            best.vedhaeftMail,
             best.mailAfslutning
         ].filter(Boolean).join("\n\n");
 
@@ -235,11 +238,11 @@ function headerHtml(boble, ctx = {}) {
         ${boble.sideOmSide ? sideOmSideHtml(ctx.images, ctx.inspirationImages) : ""}
         ${boble.externalLink ? externalLinkHtml(boble.externalLink) : ""}
         ${guideLineHtml(boble)}
-        ${boble.imageUpload ? renderImageUploadHtml({ label: boble.imageUpload.label, hint: boble.imageUpload.hint, images: ctx.images || [] }) : ""}
+        ${boble.imageUpload ? renderImageUploadHtml({ label: boble.imageUpload.label, hint: boble.imageUpload.hint, images: ctx.images || [], multiple: Boolean(boble.imageUpload.multiple) }) : ""}
         ${boble.ekstraUpload ? renderImageUploadHtml({ label: boble.ekstraUpload.label, hint: boble.ekstraUpload.hint, images: ctx.ekstraImages || [], idPrefix: EKSTRA_UPLOAD_PREFIX }) : ""}
         ${boble.logoPreview ? logoPreviewHtml(boble.logoPreview, ctx.images, ctx.responseImages) : ""}
         ${boble.checklist ? `<div id="tjekliste-container"></div>` : ""}
-        ${boble.bestilling ? bestillingHtml(boble.bestilling, ctx.bestillingOplaeg) : ""}
+        ${boble.bestilling ? bestillingHtml(boble.bestilling, ctx.bestillingOplaeg, ctx.bestillingAntalBilleder) : ""}
         <div id="se-ogsaa-slot"></div>
     `;
 }
@@ -426,6 +429,9 @@ function showChoiceBoble(boble, ctx, onNext, onExit) {
             if (!isCta) {
                 optionButtons.forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
             }
+
+            /*---- Svaret flyttes ind lige under den knap, hun trykkede på (fx 4.4 og 2c.2), i stedet for altid at stå under den nederste. Med en forklarings-pil (6.2) står det under hele rækken ----*/
+            (button.closest(".choice-option") || button).after(responseContainer);
 
             responseContainer.innerHTML = selectedOption.response ? `<div class="panel"><p>${selectedOption.response}</p></div>` : "";
             if (selectedOption.response && !uploadFraStart) renderResponseUpload();

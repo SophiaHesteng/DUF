@@ -315,7 +315,7 @@ export const BOBLER = {
         paragraphs: [],
         options: [
             { id: "selv", text: "Jeg laver det selv", next: "2b.1" },
-            { id: "anden", text: "En anden laver det for mig (en grafiker, en bekendt, en freelancer eller en generator)", next: "2d.2" },
+            { id: "anden", text: "En anden laver det for mig", next: "2d.2" },
             /*---- Flere veje (godkendt af Heidi 2026-11-04): DUF laver logoet. Står bevidst sidst - rummet skal ikke skubbe hende mod at købe ----*/
             { id: "duf", text: "Jeg vil gerne have, at DUF laver det", next: "2d.duf" }
         ],
@@ -358,8 +358,9 @@ export const BOBLER = {
         ],
         next: null
     },
+    /*---- 2026-11-04: to knapper i stedet for én. "Se, hvad der venter" giver hende et kig ind i resten af rummet uden at miste sin plads; kun "Tilbage til rum-vælgeren" er en udgang (isExit på selve optionen, jf. advance() i logoEngine.js) ----*/
     "2d.4": {
-        id: "2d.4", modul: 2, type: "text",
+        id: "2d.4", modul: 2, type: "choice", ctaButtons: true,
         heading: "Så venter vi",
         paragraphs: [
             "Det er helt fint. Din tjekliste ligger klar. Kom tilbage, når logoet er færdigt, så tester vi det sammen, og du får det med i din guide."
@@ -367,6 +368,20 @@ export const BOBLER = {
         /*---- Variant, når hun har bestilt logoet hos DUF i 2d.duf - valgt i logoEngine.js's resolveContent() ----*/
         paragraphsDuf: [
             "Tak for din bestilling. Vi svarer dig på mail, så I kan aftale det videre. Kom tilbage hertil, når logoet er færdigt, så tester vi det sammen, og du får det med i din guide."
+        ],
+        options: [
+            { id: "se", text: "Se, hvad der venter, når logoet er her", next: "2d.5" },
+            { id: "tilbage", text: "Tilbage til rum-vælgeren", isExit: true, onLeave: "saveDPosition" }
+        ],
+        next: null
+    },
+    "2d.5": {
+        id: "2d.5", modul: 2, type: "text",
+        heading: "Det venter, når logoet er her",
+        paragraphs: [
+            "Når dit logo er kommet, tester vi det i tre små tjek: om du kan kende det, når det er småt, om det virker uden farve, og om det kan ses på både lys og mørk baggrund. Har du en lille udgave, prøver vi også den, helt ned i størrelsen på et favicon.",
+            "Bagefter skriver du et par sætninger om dit logo: hvor det kommer fra, og hvad du må bruge det til. Så kommer det med i din visuelle guide, sammen med det, du har lavet i de andre rum.",
+            "Din plads er gemt. Når du kommer tilbage, starter vi lige der, ved testen."
         ],
         nextButtonText: "Tilbage til rum-vælgeren",
         isExit: true,
@@ -389,7 +404,11 @@ export const BOBLER = {
             mail: "logo@din-uf.dk",
             emne: "Bestilling af logo fra DUF",
             oplaegLabel: "Det, vi sender med som oplæg",
-            oplaegHint: "Det er dine svar fra rummet. Ret gerne i dem, eller skriv mere om din praksis. Har du screenshots af logoer, du kan lide, så vedhæft dem selv i mailen.",
+            oplaegHint: "Det er dine svar fra rummet. Ret gerne i dem, eller skriv mere om din praksis.",
+            /*---- 2026-11-04: en tydelig påmindelse lige over mail-knappen, fordi en mail-genvej (mailto:) ikke kan tage billeder med. `vedhaeftAntal` vises kun, hvis hun har lagt billeder ind i rummet; {antal} skiftes ud med tallet. `vedhaeftMail` står i selve mailen, så hun bliver mindet om det igen dér ----*/
+            vedhaeft: "Husk at vedhæfte billeder, når mailen åbner: dit nuværende logo, hvis du har et, og de logoer, du har samlet som inspiration. Mailen kan ikke tage dem med af sig selv.",
+            vedhaeftAntal: "Du har lagt {antal} billeder ind her i rummet. Vedhæft dem fra din computer.",
+            vedhaeftMail: "Vedhæftet (skriv, hvad du sender med, fx mit nuværende logo og de logoer, jeg er inspireret af):",
             reference: {
                 label: "Må vi vise dit logo som eksempel på, hvem vi har hjulpet?",
                 mailLabel: "Må DUF vise logoet som eksempel",
@@ -435,7 +454,8 @@ export const BOBLER = {
         paragraphs: [
             "Find 2-3 logoer, som du synes fungerer godt. Tag et screenshot af dem, så du har dem foran dig. Windows: Tryk Windows-tasten + Shift + S, og træk et felt rundt om logoet. Tryk derefter Ctrl + V her. Mac: Tryk Cmd + Shift + 4, og vælg filen her. Telefon eller tablet: Brug enhedens egen screenshot-funktion. Hvad gør, at de virker? Og hvad kan du lade dig inspirere af, uden at kopiere det direkte?"
         ],
-        imageUpload: { bucket: "logo-inspiration", label: "Min logo-inspiration", hint: "Upload, eller indsæt et skærmklip med Ctrl + V. Billederne forlader aldrig din egen enhed." },
+        /*---- `multiple` (2026-11-04): hun bliver bedt om 2-3 logoer, så hun skal kunne vælge dem alle på én gang i filvælgeren, som i Billeder ----*/
+        imageUpload: { bucket: "logo-inspiration", label: "Min logo-inspiration", hint: "Upload, eller indsæt et skærmklip med Ctrl + V. Du kan vælge flere billeder på én gang. Billederne forlader aldrig din egen enhed.", multiple: true },
         fields: [
             { id: "hvadFungerer", label: "Hvad gør, at de fungerer?", rows: 2 },
             { id: "hvadInspirerer", label: "Hvad kan jeg lade mig inspirere af?", rows: 2 }
