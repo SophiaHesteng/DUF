@@ -4,6 +4,8 @@
 
 *⚠️ **Runde 7 (2026-09-25, efter brugertest 1):** se [[DUF Brugertest 1 - Visuelt vækstområde (sortering)]]. Byggesten var det rum, hvor det var sværest for testbrugeren, der ikke har noget endnu: "Jamen hvad er ikoner, er det punktummer og kommaer?" Fontvælgeren (F3) og det automatiske skift i 6.2 (F5) er allerede rettet. Ændringer i denne runde: en ny boble 1.2, der viser, hvad ikoner, fonte og små detaljer er, med små eksempler; en vej for brugeren, der starter fra bunden (1.3 og 1.4 springes over); ikon-stilene vises som rigtige ikoner (U9); knappen "Skift fokus" omdøbes og forklares (T10); tydelige overgange mellem emnerne (T9); Modul 4 handler mere om udtryk og læsbarhed og kobles til brugerens kanaler fra Det visuelle udtryk for din praksis (T11); læsbarhedstesten handler ikke længere om mobilen (T12); oversigten i 7.1 samler de tekniske oplysninger og kan rettes (U10); og tommelfingerreglen forklares med eksempler (T13). Boble 6.2's ordlyd er testet og bliver, som den er. Alle nye tekster er godkendt af Heidi 2026-09-25. Klar til implementering, se [[DUF Prompt - Byggesten (runde 7)]].*
 
+*✏️ **Gennemlæsning (Trello #95, 2026-11-04):** Formuleringer rettet i 1.2, 3.2 (et svar pr. valg), 3.4-Tegn, 4.1, 4.2, 4.6, 5.2a, 7.3, overgangen til Fonte og 7.2's eksempler. Flowet er rettet tre steder: ved et genbesøg (Ret i 7.1, 6.3 eller modul-linjen) står de tidligere valg markeret (undtagen 6.2, som vurderes forfra); "Ingen af dem - jeg finder selv på noget" i 5.2b fører nu til 5.2a, hvor idéen kan beskrives; og "Det ved jeg ikke endnu" i 4.2 får sin egen påmindelse i 4.6. Ikoner → Fonte → Andre byggesten er nu den samme rækkefølge overalt i Modul 7.*
+
 **Sådan læses dette dokument:** hvert modul er delt i bobler, den mindste byggeklods, svarende til én skærm. Hver boble har feltet "Hvad brugeren møder på denne skærm" og udfylder kun de øvrige felter, når det er relevant. Et valgfrit felt er **Se også**: et lille skilt, der viser, at emnet behandles i et andet vækstrum (se [[DUF Teknisk - Se også-skilt (henvisning til andet vækstrum)]]). En 💬-linje er en Guide-bemærkning med avatar (Marcus/Heidi/Sophia), hvor den er tildelt. **Tekster, brugeren ser, henviser aldrig til modul- eller boblenumre** — numrene står kun i felterne "Hvad der leder videre" og i noter til design/udvikling.
 
 ## Rejsen gennem rummet
@@ -25,8 +27,8 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 - Modul 1: `udgangspunkt` (allerede-udtryk / hist-og-her / fra-bunden), `eksempler[]`, `iagttagelser[]`
 - Modul 2: `fokusvalg[]` (ikoner / fonte / andreByggesten — "Det hele" sætter alle tre). Kan altid ændres via modul-navigationslinjen. **Eksplicit regel:** `fokusvalg[]` styrer kun, hvilke af Modul 3-5 der *vises* — ikke hvilke data der findes. Fjerner brugeren et emne fra sit fokus, efter hun allerede har svaret i det tilhørende modul, slettes svarene ikke; de bliver liggende og vises igen, hvis hun senere tilføjer emnet til `fokusvalg` igen. Modul 6's forhåndsvisning følger samme regel: den viser det, det *aktuelle* `fokusvalg` peger på, ikke alt, der historisk er gemt.
 - Modul 3 (Ikoner): `ikonFoelelse`, `ikonFunktion`, `ikonKilde` (fri / tegnSelv / betaler / **ingenEndnu**, ny i runde 7)
-- Modul 4 (Fonte): `arbejdsVaerktoej`, `googleFontsDirekte` (bool, afledt af `arbejdsVaerktoej`), `fontOverskrift`, `fontBroedtekst`, `laesbarhedOk`
-- Modul 5 (Andre byggesten): `andenDetalje` (upload/beskrivelse) eller `andenRetning` eller `ikkeBesluttet`
+- Modul 4 (Fonte): `arbejdsVaerktoej`, `googleFontsDirekte` (true / false / **null** = "Det ved jeg ikke endnu", #95; afledt af `arbejdsVaerktoej`), `fontOverskrift`, `fontBroedtekst`, `laesbarhedOk`
+- Modul 5 (Andre byggesten): `andenStart` (valget i 5.1, #95), og `andenDetalje` (upload/beskrivelse) eller `andenRetning` eller `ikkeBesluttet`. 5.1 sletter ikke noget. Den 5.2-boble, brugeren vælger, rydder de to andre svar væk, så kun det senest valgte gælder. Undtagelse: via "egen" i 5.2b gemmes både `andenRetning` ("egen") og `andenDetalje` (beskrivelsen fra 5.2a)
 - Modul 6: `provetSammenResultat` (fungerer / tætPå / virkerIkke), `tilbageTil[]` (hvilke(t) valg der skal justeres)
 - Modul 7: `tommelfingerregel` (fri tekst), `begrundelse` (samlet, til Visuel style guide)
 - **Læses fra Det visuelle udtryk for din praksis (ny i runde 7):** `hentUdgangspunkt()` → `{ udgangspunkt, kanaler, starterFraBunden }`. Bruges i 1.3 (se nedenfor) og 4.2. Har brugeren ikke været i Det visuelle udtryk for din praksis, opfører rummet sig som før.
@@ -55,7 +57,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 *Runde 7: Testbrugeren vidste ikke, hvad der mentes med ikoner ("er det punktummer og kommaer?"). Boblen viser de tre emner med små, konkrete eksempler, før brugeren skal tage stilling til noget. Den vises for alle. De følgende bobler i Modul 1 rykker ét nummer op.*
 
-- **Hvad brugeren møder på denne skærm:** "Før vi går i gang, lad os lige se, hvad vi taler om. Byggesten er de små ting, der går igen, hver gang du laver noget til din praksis. Der er tre slags:"
+- **Hvad brugeren møder på denne skærm:** "Før vi går i gang, lad os lige se, hvad vi taler om. Byggesten er de grafiske elementer, du bruger igen og igen, hver gang du laver noget til din praksis. Der er tre slags:" *(#95, før: "de små ting, der går igen")*
   - **Ikoner** — "Små, enkle tegn, der viser noget hurtigt. Fx en telefon ved dit telefonnummer, en kalender ved 'Book tid' eller et lille blad ved en behandling."
   - **Fonte** — "Bogstavernes udseende, også kaldet skrifttyper. Den samme sætning kan føles rolig, legende eller professionel, alt efter hvilken skrifttype den står i."
   - **Små detaljer** — "Alt det andet, der går igen: en tynd streg, der deler teksten op, en bestemt form på dine knapper eller en ramme om dine billeder."
@@ -78,7 +80,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 ### Boble 1.4 — Find tre steder, hvor dit udtryk allerede dukker op *(tidligere 1.3; vises ikke ved "Fra bunden")*
 
 - **Hvad brugeren møder på denne skærm:** Åbn din hjemmeside, et opslag, eller et dokument, du sender til klienter. Kig ikke efter det perfekte - find bare tre steder, hvor du allerede bruger tekst, ikoner eller andre grafiske detaljer.
-- **Eventuel interaktion:** Tre valgfrie felter (beskrivelse eller skærmbillede/upload). Har hun intet: "Helt fint - så starter vi fra et rent bord."
+- **Eventuel interaktion:** Tre valgfrie felter (beskrivelse eller skærmbillede/upload). Har hun intet: "Helt fint - så starter vi fra et rent bord." Knappen "Jeg har ikke noget endnu" tømmer de tre felter (#95).
 - **Gemmes/får betydning senere:** Ja, `eksempler[]` — vises igen i Modul 6 og 7.
 
 ### Boble 1.5 — Hvad lægger du mærke til? *(tidligere 1.4; vises ikke ved "Fra bunden")*
@@ -103,8 +105,8 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 *Runde 7: Testbrugeren oplevede skiftet fra ikoner til fonte som brat ("nu snakker vi om fonte"). Når brugeren går fra ét emne til det næste, afslutter det første emne med en kort bro, og knappen siger, hvor hun skal hen.*
 
-- **Slutningen af 3.5 og 4.6** får en kort overgangslinje, afhængigt af hvad der kommer næst:
-  - *Videre til Fonte:* "Dine ikoner er på plads. Nu går vi videre til dine fonte, altså bogstavernes udseende. Hvor ikonerne viser noget hurtigt, er det bogstaverne, der bærer alt det, du skriver." Knap: "Videre til fonte".
+- **Slutningen af 3.5, 4.6 og 5.2** får en kort overgangslinje, afhængigt af hvad der kommer næst:
+  - *Videre til Fonte (#95):* "Nu har du en retning for dine ikoner. Lad os se på dine skrifttyper. De er med til at give alt det, du skriver, sit eget udtryk." Knap: "Videre til fonte".
   - *Videre til Andre byggesten:* "Nu går vi videre til de små detaljer, der binder det hele sammen, fx en streg eller en bestemt form på dine knapper." Knap: "Videre til de små detaljer".
   - *Videre til Modul 6:* "Så har du taget stilling til det, du valgte. Nu ser vi, hvordan det ser ud i praksis." Knap: "Lad os se det samlet".
 - Øverst i Modul 3, 4 og 5 står en lille linje, der viser, hvor brugeren er, fx "Emne 2 af 3: Fonte". Den vises kun, hvis brugeren har valgt mere end ét emne.
@@ -126,8 +128,11 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 - **Hvad brugeren møder på denne skærm:** Hvad er ikonernes vigtigste opgave hos dig?
 - **Eventuel interaktion:** Vælg ét: "Hjælpe folk med at finde vej (navigation, funktioner)" / "Give mit materiale lidt mere personlighed (dekorative elementer)" / "Forklare noget, sammen med tekst".
-- **Eventuel respons eller feedback:** Et ikon behøver ikke forklare det hele. Skal det hjælpe med at forstå noget, skal teksten stadig kunne gøre arbejdet. Ikonet er hjælpen på vejen, ikke hele forklaringen.
-- **Gemmes/får betydning senere:** Ja, `ikonFunktion`.
+- **Eventuel respons eller feedback (#95: et svar pr. valg):**
+  - *Finde vej:* "Godt. Når et ikon skal hjælpe folk med at finde vej, skal det kunne forstås med det samme. Sæt gerne en kort tekst ved, så ingen skal gætte."
+  - *Personlighed:* "Fint. Dekorative ikoner må gerne have personlighed. De skal bare ikke bære vigtig information alene."
+  - *Forklare:* "Et ikon behøver ikke forklare det hele. Skal det hjælpe med at forstå noget, skal teksten stadig kunne gøre arbejdet. Ikonet er hjælpen på vejen, ikke hele forklaringen."
+- **Gemmes/får betydning senere:** Ja, `ikonFunktion`. Styrer ikon-eksemplet i 7.2.
 
 ### Boble 3.3 — Hvor kommer dine ikoner fra?
 
@@ -151,7 +156,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 - **Eventuel interaktion:** Knappen "Åbn Material Symbols" (nyt vindue).
 
 **3.4-Tegn, tegner selv**
-- **Hvad brugeren møder:** Vi skal ikke lære dig at tegne. Men uanset hvordan du gør det, er der fire ting, der gør et ikon, du selv tegner, til et godt ikon:
+- **Hvad brugeren møder:** Hvordan du tegner, er op til dig. Men fire ting gør et ikon, du selv tegner, til et godt ikon: *(#95)*
   - **Genkendelighed** - det skal kunne genkendes med et hurtigt blik, uden at nogen skal tænke sig om.
   - **Konsistens** - samme stregtykkelse, samme hjørner, samme størrelsesforhold, på tværs af hele dit sæt.
   - **Simplicitet** - fjern det, der ikke er nødvendigt for at forstå det. Færre streger er som regel bedre end flere.
@@ -183,7 +188,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 ### Boble 4.1 — Din tekst har også en stemme
 
 - **Hvad brugeren møder på denne skærm:** Du behøver ikke finde den perfekte skrifttype. Du skal finde en, der fungerer for dig - og som du kan bruge igen og igen.
-  - **✅ Nyt i runde 7 (godkendt af Heidi 2026-09-25):** "En skrifttype gør to ting på én gang. Den giver din tekst en stemning: rolig, varm, klar eller legende. Og den afgør, hvor let din tekst er at læse, både på en skærm og på papir. Derfor bruger mange to skrifttyper: én til overskrifter, som gerne må have personlighed, og én til den almindelige tekst, som først og fremmest skal være let at læse."
+  - **✅ Nyt i runde 7 (godkendt af Heidi 2026-09-25):** "En skrifttype gør to ting på én gang. Den giver din tekst en stemning: rolig, varm, klar eller legende. Og den afgør, hvor let din tekst er at læse, både på en skærm og på papir. Derfor bruger mange to skrifttyper: én til overskrifter, som gerne må have personlighed, og én til den almindelige tekst, som først og fremmest skal være let at læse. Du kan også sagtens bruge den samme skrifttype til begge dele." *(sidste sætning tilføjet i #95. Fontvælgeren tillader samme font i 4.3 og 4.4)*
 - **Visuelt (✅ nyt i runde 7, godkendt af Heidi 2026-09-25):** Tre små eksempler på den samme overskrift, "Velkommen til min praksis", sat i tre forskellige typer skrifttyper fra fontvælgerens liste, med en kort etiket under hver:
   - *Med fødder (serif):* "Klassisk og rolig. Minder om bøger."
   - *Uden fødder (sans-serif):* "Ren og klar. Let at læse på skærmen."
@@ -195,11 +200,11 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 - **Hvad brugeren møder på denne skærm:** Hvor bruger du dem oftest?
   - **✅ Variant ved "Fra bunden" (runde 7, godkendt 2026-09-25):** "Hvor forestiller du dig at bruge dem?"
-- **Eventuel interaktion:** Vælg ét: "På min egen hjemmeside" (→ `googleFontsDirekte: true`) / "I Canva" (→ `googleFontsDirekte: false`) / "I Word eller Google Docs" (→ `googleFontsDirekte: false`) / **✅ Ny i runde 7:** "På sociale medier" (→ `googleFontsDirekte: false`) / "Et andet sted" (→ ét kort, uformelt opfølgende spørgsmål om, hvorvidt hun selv kan vælge skrifttyper der; svaret sætter `googleFontsDirekte`, uden at det bliver en synlig teknisk beslutning for hende) / **✅ Ny i runde 7 (kun ved "Fra bunden"):** "Det ved jeg ikke endnu" (→ `googleFontsDirekte: true`).
+- **Eventuel interaktion:** Vælg ét: "På min egen hjemmeside" (→ `googleFontsDirekte: true`) / "I Canva" (→ `googleFontsDirekte: false`) / "I Word eller Google Docs" (→ `googleFontsDirekte: false`) / **✅ Ny i runde 7:** "På sociale medier" (→ `googleFontsDirekte: false`) / "Et andet sted" (→ ét kort, uformelt opfølgende spørgsmål om, hvorvidt hun selv kan vælge skrifttyper der; svaret sætter `googleFontsDirekte`, uden at det bliver en synlig teknisk beslutning for hende) / **✅ Ny i runde 7 (kun ved "Fra bunden"):** "Det ved jeg ikke endnu" (→ `googleFontsDirekte: null`, #95; før `true`).
   - **✅ Kobling til Det visuelle udtryk for din praksis (runde 7, godkendt 2026-09-25):** Har brugeren i Det visuelle udtryk for din praksis fortalt, hvilke kanaler hun har, står de tilsvarende valgmuligheder øverst (hjemmeside → "På min egen hjemmeside"; Facebook, Instagram, LinkedIn eller andre sociale medier → "På sociale medier"), med en lille note: "Du nævnte tidligere, at du har …". Hun kan stadig vælge frit.
 - **Eventuel respons eller feedback:**
   - *`googleFontsDirekte: true`:* Godt - så kan du sandsynligvis bruge den skrifttype, du vælger her, direkte.
-  - *`googleFontsDirekte: false`:* I [Canva / Word / det værktøj, hun nævnte] vælger du blandt et fast sæt skrifttyper. Brug vælgeren her som inspiration - find noget, du kan lide, og kig derefter efter noget, der ligner, i dit eget værktøj.
+  - *`googleFontsDirekte: false` (#95):* "Måske findes den skrifttype, du vælger her, også i [Canva / Word eller Google Docs / dit værktøj], eller du kan selv tilføje den. Ellers kan du bruge vælgeren som inspiration og finde noget, der ligner."
   - **✅ Ny i runde 7 — "På sociale medier" (godkendt 2026-09-25):** "På Facebook, Instagram og LinkedIn bestemmer platformen selv skrifttypen i dine opslag. Dine egne skrifttyper kommer kun med, når du laver billeder med tekst på, fx i Canva. Brug vælgeren her til at finde en stil, du kan genbruge på dine billeder."
   - **✅ Ny i runde 7 — "Det ved jeg ikke endnu" (godkendt 2026-09-25):** "Det er helt fint. Så vælger du bare det, du kan lide. Når du ved, hvor du skal bruge dem, kan du altid se, om du kan bruge dem direkte, eller om du skal finde noget, der ligner."
 - **Gemmes/får betydning senere:** Ja, `arbejdsVaerktoej`, `googleFontsDirekte`.
@@ -231,7 +236,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 ### Boble 4.6 — Dine fonte, samlet
 
-- **Hvad brugeren møder på denne skærm:** Kort opsummering: overskriftsfont og brødtekstfont. *(Var `googleFontsDirekte: false`, gentages kort: "Husk at kigge efter noget, der ligner, i [dit værktøj].")* **✅ (godkendt 2026-09-25):** Derefter overgangslinjen til næste emne (se "Overgange mellem emnerne").
+- **Hvad brugeren møder på denne skærm:** Kort opsummering: overskriftsfont og brødtekstfont. *(Var `googleFontsDirekte: false`, gentages kort: "Husk at kigge efter noget, der ligner, i [dit værktøj]." Var den `null` ("Det ved jeg ikke endnu", #95): "Når du ved, hvor du skal bruge dine fonte, så tjek, om de findes dér, eller find noget, der ligner.")* **✅ (godkendt 2026-09-25):** Derefter overgangslinjen til næste emne (se "Overgange mellem emnerne").
 - **Hvad der leder videre:** Er Andre byggesten valgt i `fokusvalg` → Modul 5. Ellers → Modul 6.
 
 ## Modul 5 — Andre byggesten *(kun hvis valgt i Modul 2)*
@@ -243,8 +248,9 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 ### Boble 5.2 — *(tre varianter afhængigt af 5.1)*
 
-**5.2a — Vis mig den**
-- **Hvad brugeren møder:** Godt. Vis os den, eller beskriv den kort.
+**5.2a — Vis os den** *(#95, før: "Vis mig den")*
+- **Hvad brugeren møder:** Fortæl os kort om den, eller vis os et billede af den.
+  - *Kommer hun fra "Ingen af dem - jeg finder selv på noget" i 5.2b (#95):* overskriften er "Beskriv din idé", og teksten er "Beskriv kort den detalje, du har i tankerne. Har du en skitse eller et eksempel, må du også gerne vise os den."
 - **Eventuel interaktion:** Upload eller fritekstbeskrivelse.
 - **Gemmes:** `andenDetalje`.
 
@@ -252,7 +258,8 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 - **Hvad brugeren møder:** Her er nogle steder at starte: "En tynd streg til at dele indhold op" / "En bestemt rammeform om billeder eller citater" / "En fast stil på knapper, fx runde hjørner eller en let skygge" / "Et gentaget mønster eller en tekstur" / "Ingen af dem - jeg finder selv på noget".
 - **Visuelt (✅ nyt i runde 7, godkendt af Heidi 2026-09-25):** Hver retning vises med et lille eksempel i HTML/CSS (en streg under en overskrift, et citat i en ramme, en knap med runde hjørner, et lille mønster), af samme grund som ikon-stilene i 3.1.
 - **Eventuel interaktion:** Vælg ét.
-- **Gemmes:** `andenRetning`.
+- **Hvad der leder videre (#95):** "Ingen af dem - jeg finder selv på noget" → 5.2a. Når det valg er markeret, hedder knappen "Beskriv din idé", og overgangslinjen skjules (den kommer i 5.2a i stedet). De andre retninger → Modul 6 som før.
+- **Gemmes:** `andenRetning`. Hver retning har en kort frase til 7.2's eksempel: "en tynd streg til at dele indhold op" / "en fast rammeform om billeder eller citater" / "den samme stil på alle mine knapper" / "et gentaget mønster".
 
 **5.2c — Det behøver du heller ikke beslutte nu**
 - **Hvad brugeren møder:** Det er helt fint. Nogle af de små detaljer viser sig først, når du har brugt dit materiale et stykke tid. Du kan altid komme tilbage.
@@ -285,6 +292,7 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 - **Eventuel interaktion:** Vælg ét eller flere.
 - **Gemmes/får betydning senere:** Ja, `tilbageTil[]`.
 - **Hvad der leder videre:** Sender brugeren tilbage til det/de relevante trin i Modul 3-5. Når hun er færdig dér, lander hun automatisk tilbage i 6.1 med det opdaterede eksempel.
+- **Note til design/udvikling (#95):** Ved genbesøget står hendes tidligere valg markeret i alle valg-bobler (og 5.2a's beskrivelse står i feltet), så hun kun skal ændre det, hun vil justere. Undtagelse: 6.2 er ikke markeret, fordi hun skal vurdere det samlede udtryk forfra. Det samme gælder "Ret" i 7.1 og modul-linjen.
 
 ## Modul 7 — Dit lille byggestens-sæt *(alle)*
 
@@ -292,10 +300,10 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 *Runde 7: Testbrugeren var glad for opsamlingen ("ej, det ser da meget fint ud"), men foreslog at samle de tekniske oplysninger, man skal bruge, ét sted, og at man kan rette i dem.*
 
-- **Hvad brugeren møder på denne skærm:** En samlet oversigt over det, hun har valgt — kun de emner, hun faktisk arbejdede med: fonte (overskrift/brødtekst), ikonstil og -kilde, og en eventuel anden detalje.
+- **Hvad brugeren møder på denne skærm:** En samlet oversigt over det, hun har valgt — kun de emner, hun faktisk arbejdede med: ikonstil og -kilde, fonte (overskrift/brødtekst), og en eventuel anden detalje. *(#95: altid i rækkefølgen Ikoner → Fonte → Andre byggesten, også i "Det skal du bruge", i 7.2's eksempler og i teksten til Visuel style guide.)*
 - **✅ Nyt i runde 7 — to dele (godkendt af Heidi 2026-09-25):**
   - **"Sådan ser det ud":** forhåndsvisningen fra 6.1 i lille størrelse.
-  - **"Det skal du bruge":** en lille, overskuelig liste med de oplysninger, hun skal bruge, når hun selv laver noget: navnet på overskriftsfonten og brødtekstfonten (med link til dem på Google Fonts, hvis de kommer derfra), ikonstilen med navnet på stilen i Material Symbols (fx "Rounded"), og, hvis hun har en gemt palet fra Farver, farvekoderne (fx #0C3A2D). Hver linje har en lille "Kopiér"-knap.
+  - **"Det skal du bruge":** en lille, overskuelig liste med de oplysninger, hun skal bruge, når hun selv laver noget: navnet på overskriftsfonten og brødtekstfonten (med link til dem på Google Fonts, hvis de kommer derfra), ikonstilen med navnet på stilen i Material Symbols (fx "Rounded"), og, hvis hun har en gemt palet fra Farver, farvekoderne (fx #0C3A2D). Hver linje har en lille "Kopiér"-knap. Kan browseren ikke kopiere, står der "Markér og kopiér selv" på knappen i et par sekunder (#95). Kan fontene ikke bruges direkte i hendes værktøj (`googleFontsDirekte: false`), hedder linjerne "Overskriftsfont (inspiration)" og "Brødtekstfont (inspiration)" (#95).
 - **✅ Nyt i runde 7 — ret (godkendt 2026-09-25):** Ved hvert emne er et lille link, "Ret", som sender hende til det relevante trin (samme mekanisme som 6.3). Når hun er færdig, lander hun tilbage i 7.1.
 - **Hvad der leder videre:** Knappen "Skriv min tommelfingerregel".
 
@@ -305,13 +313,16 @@ Alt gemmes lokalt på brugerens enhed (samme princip som resten af DUF).
 
 - **Hvad brugeren møder på denne skærm (✅ ny tekst, godkendt af Heidi 2026-09-25):** "En tommelfingerregel er en lille huskeregel for, hvordan og hvornår du bruger dine byggesten. Den hjælper dig, næste gang du skal lave et opslag eller en side, så du ikke skal tænke over det fra bunden hver gang. Skriv én sætning, du kan huske det på: 'Jeg bruger ______, fordi ______.'"
   - **Påmindelse:** Over feltet står brugerens egne valg i én kort linje, fx "Du har valgt: runde og bløde ikoner · Lora til overskrifter · en tynd streg til at dele teksten op".
-  - **Eksempler:** Under feltet står to-tre eksempler, bygget ud fra det, hun har valgt, som hun kan trykke på for at få dem ind i feltet og rette i. Fx: "Jeg bruger en tynd streg under mine overskrifter, fordi den giver ro og gør det let at se, hvor et nyt afsnit starter." / "Jeg bruger kun ikoner sammen med tekst, fordi de skal hjælpe og ikke stå alene." / "Jeg bruger Lora til overskrifter og en enkel skrift til teksten, fordi det føles varmt og er let at læse."
+  - **Eksempler:** Under feltet står to-tre eksempler, bygget ud fra det, hun har valgt, som hun kan trykke på for at få dem ind i feltet og rette i. Rækkefølge: Ikoner → Fonte → Andre byggesten. Skabelonerne (#95):
+    - *Ikoner, efter svaret i 3.2:* Finde vej: "Jeg bruger [ikonstil] til at vise vej, fx ved kontakt og booking, så folk hurtigt finder det, de leder efter." · Personlighed: "Jeg bruger [ikonstil] som små dekorationer, fordi ______." · Forklare: "Jeg bruger kun [ikonstil] sammen med tekst, fordi de skal hjælpe og ikke stå alene." · Uden svar: "Jeg bruger [ikonstil], fordi ______."
+    - *Fonte:* "Jeg bruger [overskriftsfont] til overskrifter og [brødtekstfont] til teksten, fordi ______."
+    - *Andre byggesten:* tynd streg: "Jeg bruger en tynd streg under mine overskrifter, fordi den giver ro og gør det let at se, hvor et nyt afsnit starter." · de andre retninger: "Jeg bruger [frasen fra 5.2b], fordi ______."
 - **Eventuel interaktion:** Fritekstfelt, med eksempler, der kan trykkes ind.
 - **Gemmes/får betydning senere:** Ja, `tommelfingerregel`.
 
 ### Boble 7.3 — Gem det, du lige har fundet
 
-- **Hvad brugeren møder på denne skærm:** Du har nu et lille sæt byggesten, du kan tage med dig videre. Gem dem i din visuelle guide, så du ikke skal starte forfra næste gang. Dette er en prototype, ligesom resten af dit visuelle udtryk. Det må gerne udvikle sig, i takt med at din praksis gør det.
+- **Hvad brugeren møder på denne skærm:** Du har nu et lille sæt byggesten, du kan tage med dig videre. Gem dem i din visuelle guide, så du ikke skal starte forfra næste gang. Det er dit første samlede udgangspunkt, og det må gerne udvikle sig, i takt med at din praksis gør det. *(#95)*
   - 💬 *Guide (avatar: Heidi):* Det vigtigste er ikke, at det er færdigt. Det er, at du ved, hvor du skal kigge, næste gang.
 - **Eventuel interaktion:** Knappen "Tilføj til min visuelle guide".
 - **Gemmes/får betydning senere:** Ja, `begrundelse` (opsummering + tommelfingerregel **+ listen "Det skal du bruge"**, runde 7), til Visuel style guide.

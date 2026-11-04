@@ -208,7 +208,7 @@ function showTextBoble(boble, ctx, onNext, onExit) {
     });
 }
 
-/*---- type: "choice" - envalgskort (eller ctaButtons: stakkede knapper, der handler med det samme). Understøtter pr.-option `response` og `next`, en fælles boble-`response` (3.2), en opfølgende mini-forgrening (`followUp`, 4.2 "Et andet værktøj"), et lille eksempel på kortet (`ikonStil` i 3.1, `detaljeEksempel` i 5.2b - runde 7) og et forvalgt svar (ctx.prefill.optionId, 1.3 - runde 7) ----*/
+/*---- type: "choice" - envalgskort (eller ctaButtons: stakkede knapper, der handler med det samme). Understøtter pr.-option `response`, `next` og `nextButtonText` (5.2b "egen" - kort #95), en fælles boble-`response`, en opfølgende mini-forgrening (`followUp`, 4.2 "Et andet værktøj"), et lille eksempel på kortet (`ikonStil` i 3.1, `detaljeEksempel` i 5.2b - runde 7) og et forvalgt svar (ctx.prefill.optionId, 1.3 - runde 7) ----*/
 
 function showChoiceBoble(boble, ctx, onNext, onExit) {
     const isCta = Boolean(boble.ctaButtons);
@@ -241,6 +241,8 @@ function showChoiceBoble(boble, ctx, onNext, onExit) {
     const nextButton = document.querySelector("#next-button");
     const responseContainer = document.querySelector("#choice-response");
     const followUpContainer = document.querySelector("#choice-followup");
+    const overgang = document.querySelector(".byggesten-overgang");
+    const standardKnapTekst = nextButton.textContent;
     let selectedOption = null;
     let selectedFollowUp = null;
 
@@ -268,6 +270,10 @@ function showChoiceBoble(boble, ctx, onNext, onExit) {
 
             optionButtons.forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
             followUpContainer.innerHTML = "";
+
+            /*---- Et valg med egen knaptekst fører ikke videre til næste emne endnu, så overgangsteksten skjules, indtil et andet valg markeres ----*/
+            nextButton.textContent = selectedOption.nextButtonText || standardKnapTekst;
+            if (overgang) overgang.hidden = Boolean(selectedOption.nextButtonText);
 
             if (selectedOption.followUp) {
                 showResponse("");
@@ -420,6 +426,8 @@ function showEksemplerBoble(boble, ctx, onNext, onExit) {
 
     const ingenButton = document.querySelector("#ingen-button");
     ingenButton.addEventListener("click", () => {
+        /*---- Felterne tømmes, så gamle svar ikke kommer med, når brugeren har sagt, at hun ikke har noget ----*/
+        for (let i = 0; i < boble.antalFelter; i++) document.querySelector(`#eksempel-${i}`).value = "";
         document.querySelector("#ingen-response").innerHTML = `<div class="panel"><p>${boble.tomTekst}</p></div>`;
         ingenButton.hidden = true;
         document.querySelector("#next-button").textContent = "Videre";
@@ -569,7 +577,9 @@ function showSaetBoble(boble, ctx, onNext, onExit) {
             try {
                 await navigator.clipboard.writeText(ctx.detSkalDuBruge[Number(knap.dataset.kopi)].kopi);
             } catch {
-                /*---- Udklipsholderen kan være utilgængelig (fx uden for en sikker kontekst) - teksten står stadig på skærmen ----*/
+                /*---- Udklipsholderen kan være utilgængelig (fx uden for en sikker kontekst eller i nogle mobilbrowsere). Teksten står stadig på skærmen, så knappen beder brugeren kopiere den selv ----*/
+                knap.textContent = t.kopiFejl;
+                setTimeout(() => { knap.textContent = t.kopier; }, 2500);
                 return;
             }
             knap.textContent = t.kopieret;

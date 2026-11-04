@@ -34,7 +34,7 @@ export const velkomst = {
 /*---- Overgange mellem emnerne (runde 7). Vises i slutningen af 3.5, 4.6 og 5.2a/b/c - hvilken, afgøres af byggestenEngine.js ud fra, hvad der kommer næst ----*/
 export const OVERGANGE = {
     fonte: {
-        tekst: "Dine ikoner er på plads. Nu går vi videre til dine fonte, altså bogstavernes udseende. Hvor ikonerne viser noget hurtigt, er det bogstaverne, der bærer alt det, du skriver.",
+        tekst: "Nu har du en retning for dine ikoner. Lad os se på dine skrifttyper. De er med til at give alt det, du skriver, sit eget udtryk.",
         knap: "Videre til fonte"
     },
     andreByggesten: {
@@ -57,13 +57,19 @@ export const saetTekster = {
     detSkalDuBruge: "Det skal du bruge",
     kopier: "Kopiér",
     kopieret: "Kopieret",
+    /*---- Vises på knappen, hvis browseren ikke lader os skrive til udklipsholderen ----*/
+    kopiFejl: "Markér og kopiér selv",
     ret: "Ret",
     paamindelse: "Du har valgt: ",
+    /*---- Ikon-eksemplet vælges ud fra svaret i 3.2 (ikonFunktion). {detalje} er `frase` fra 5.2b ----*/
     eksempler: {
         streg: "Jeg bruger en tynd streg under mine overskrifter, fordi den giver ro og gør det let at se, hvor et nyt afsnit starter.",
         andenRetning: "Jeg bruger {detalje}, fordi ______.",
-        ikoner: "Jeg bruger kun {ikonstil} sammen med tekst, fordi de skal hjælpe og ikke stå alene.",
-        fonte: "Jeg bruger {overskrift} til overskrifter og {broedtekst} til teksten, fordi det føles varmt og er let at læse."
+        ikonerNavigation: "Jeg bruger {ikonstil} til at vise vej, fx ved kontakt og booking, så folk hurtigt finder det, de leder efter.",
+        ikonerPersonlighed: "Jeg bruger {ikonstil} som små dekorationer, fordi ______.",
+        ikonerForklare: "Jeg bruger kun {ikonstil} sammen med tekst, fordi de skal hjælpe og ikke stå alene.",
+        ikonerUdenFunktion: "Jeg bruger {ikonstil}, fordi ______.",
+        fonte: "Jeg bruger {overskrift} til overskrifter og {broedtekst} til teksten, fordi ______."
     }
 };
 
@@ -102,7 +108,7 @@ export const BOBLER = {
         id: "1.2", modul: 1, type: "text",
         heading: "Hvilke elementer består byggesten af?",
         paragraphs: [
-            "Før vi går i gang, lad os lige se, hvad vi taler om. Byggesten er de små ting, der går igen, hver gang du laver noget til din praksis. Der er tre slags:"
+            "Før vi går i gang, lad os lige se, hvad vi taler om. Byggesten er de grafiske elementer, du bruger igen og igen, hver gang du laver noget til din praksis. Der er tre slags:"
         ],
         /*---- Hvert emne vises med et lille eksempel i HTML/CSS (byggestenUi.js, visuelt "byggestenIntro") ----*/
         visuelt: {
@@ -207,13 +213,21 @@ export const BOBLER = {
         id: "3.2", modul: 3, type: "choice",
         heading: "Hvad skal ikonerne gøre?",
         paragraphs: ["Hvad er ikonernes vigtigste opgave hos dig?"],
+        /*---- Hvert valg har sit eget svar (kort #95), fordi rådet er forskelligt for de tre opgaver ----*/
         options: [
-            { id: "navigation", text: "Hjælpe folk med at finde vej (navigation, funktioner)" },
-            { id: "personlighed", text: "Give mit materiale lidt mere personlighed (dekorative elementer)" },
-            { id: "forklare", text: "Forklare noget, sammen med tekst" }
+            {
+                id: "navigation", text: "Hjælpe folk med at finde vej (navigation, funktioner)",
+                response: "Godt. Når et ikon skal hjælpe folk med at finde vej, skal det kunne forstås med det samme. Sæt gerne en kort tekst ved, så ingen skal gætte."
+            },
+            {
+                id: "personlighed", text: "Give mit materiale lidt mere personlighed (dekorative elementer)",
+                response: "Fint. Dekorative ikoner må gerne have personlighed. De skal bare ikke bære vigtig information alene."
+            },
+            {
+                id: "forklare", text: "Forklare noget, sammen med tekst",
+                response: "Et ikon behøver ikke forklare det hele. Skal det hjælpe med at forstå noget, skal teksten stadig kunne gøre arbejdet. Ikonet er hjælpen på vejen, ikke hele forklaringen."
+            }
         ],
-        /*---- Samme respons uanset valg ----*/
-        response: "Et ikon behøver ikke forklare det hele. Skal det hjælpe med at forstå noget, skal teksten stadig kunne gøre arbejdet. Ikonet er hjælpen på vejen, ikke hele forklaringen.",
         answerKey: "ikonFunktion",
         next: "3.3"
     },
@@ -262,7 +276,7 @@ export const BOBLER = {
         id: "3.4-tegn", modul: 3, type: "text",
         heading: "Du tegner selv",
         paragraphs: [
-            "Vi skal ikke lære dig at tegne. Men uanset hvordan du gør det, er der fire ting, der gør et ikon, du selv tegner, til et godt ikon:"
+            "Hvordan du tegner, er op til dig. Men fire ting gør et ikon, du selv tegner, til et godt ikon:"
         ],
         list: [
             "<strong>Genkendelighed</strong> - det skal kunne genkendes med et hurtigt blik, uden at nogen skal tænke sig om.",
@@ -308,7 +322,7 @@ export const BOBLER = {
         heading: "Din tekst har også en stemme",
         paragraphs: [
             "Du behøver ikke finde den perfekte skrifttype. Du skal finde en, der fungerer for dig - og som du kan bruge igen og igen.",
-            "En skrifttype gør to ting på én gang. Den giver din tekst en stemning: rolig, varm, klar eller legende. Og den afgør, hvor let din tekst er at læse, både på en skærm og på papir. Derfor bruger mange to skrifttyper: én til overskrifter, som gerne må have personlighed, og én til den almindelige tekst, som først og fremmest skal være let at læse."
+            "En skrifttype gør to ting på én gang. Den giver din tekst en stemning: rolig, varm, klar eller legende. Og den afgør, hvor let din tekst er at læse, både på en skærm og på papir. Derfor bruger mange to skrifttyper: én til overskrifter, som gerne må have personlighed, og én til den almindelige tekst, som først og fremmest skal være let at læse. Du kan også sagtens bruge den samme skrifttype til begge dele."
         ],
         /*---- Runde 7: samme overskrift i tre typer skrifttyper fra fontvælgerens liste + én linje brødtekst i en let læselig skrifttype ----*/
         visuelt: {
@@ -354,7 +368,8 @@ export const BOBLER = {
                 }
             },
             {
-                id: "vedIkkeEndnu", text: "Det ved jeg ikke endnu", googleFontsDirekte: true, kunFraBunden: true,
+                /*---- null = "ved ikke endnu": hverken direkte eller kun inspiration. 4.6 viser så sin egen påmindelse (byggestenEngine.js) ----*/
+                id: "vedIkkeEndnu", text: "Det ved jeg ikke endnu", googleFontsDirekte: null, kunFraBunden: true,
                 response: "Det er helt fint. Så vælger du bare det, du kan lide. Når du ved, hvor du skal bruge dem, kan du altid se, om du kan bruge dem direkte, eller om du skal finde noget, der ligner."
             }
         ],
@@ -368,7 +383,7 @@ export const BOBLER = {
             andreSociale: "andre sociale medier"
         },
         responsDirekte: "Godt - så kan du sandsynligvis bruge den skrifttype, du vælger her, direkte.",
-        responsIkkeDirekte: "I {vaerktoej} vælger du blandt et fast sæt skrifttyper. Brug vælgeren her som inspiration - find noget, du kan lide, og kig derefter efter noget, der ligner, i dit eget værktøj.",
+        responsIkkeDirekte: "Måske findes den skrifttype, du vælger her, også i {vaerktoej}, eller du kan selv tilføje den. Ellers kan du bruge vælgeren som inspiration og finde noget, der ligner.",
         answerKey: "arbejdsVaerktoej",
         next: "4.3"
     },
@@ -424,6 +439,8 @@ export const BOBLER = {
         id: "4.6", modul: 4, type: "text",
         heading: "Dine fonte, samlet",
         paragraphs: [], /* recap + evt. værktøjs-påmindelse bygges i byggestenEngine.js */
+        /*---- Sættes ind, når brugeren svarede "Det ved jeg ikke endnu" i 4.2 ----*/
+        paamindelseVedIkkeEndnu: "Når du ved, hvor du skal bruge dine fonte, så tjek, om de findes dér, eller find noget, der ligner.",
         next: null /* afslutter emnet "fonte" */
     },
 
@@ -445,8 +462,11 @@ export const BOBLER = {
     },
     "5.2a": {
         id: "5.2a", modul: 5, type: "textNote",
-        heading: "Vis mig den",
-        paragraphs: ["Godt. Vis os den, eller beskriv den kort."],
+        heading: "Vis os den",
+        paragraphs: ["Fortæl os kort om den, eller vis os et billede af den."],
+        /*---- Bruges i stedet, når brugeren kommer fra 5.2b "Ingen af dem - jeg finder selv på noget" (byggestenEngine.js) ----*/
+        headingEgen: "Beskriv din idé",
+        indledningEgen: "Beskriv kort den detalje, du har i tankerne. Har du en skitse eller et eksempel, må du også gerne vise os den.",
         fields: [{ id: "beskrivelse", label: "", rows: 3 }],
         imageUpload: { bucket: "byggesten-detalje", label: "Upload (valgfrit)", hint: "Billedet bliver på din egen enhed." },
         answerKey: "andenDetalje",
@@ -457,13 +477,14 @@ export const BOBLER = {
         id: "5.2b", modul: 5, type: "choice",
         heading: "Vælg blandt nogle retninger",
         paragraphs: ["Her er nogle steder at starte:"],
-        /*---- Runde 7: `detaljeEksempel` → et lille eksempel i HTML/CSS på kortet (byggestenUi.js), samme udtryk som i "Prøv dem sammen" ----*/
+        /*---- Runde 7: `detaljeEksempel` → et lille eksempel i HTML/CSS på kortet (byggestenUi.js), samme udtryk som i "Prøv dem sammen". `frase` bruges i 7.2's eksempel, ligesom i 3.1 ----*/
+        /*---- "egen" fører videre til 5.2a, hvor idéen kan beskrives. Dens egen `nextButtonText` skifter knapteksten, når valget er markeret (byggestenUi.js) ----*/
         options: [
-            { id: "streg", text: "En tynd streg til at dele indhold op", detaljeEksempel: "streg" },
-            { id: "ramme", text: "En bestemt rammeform om billeder eller citater", detaljeEksempel: "ramme" },
-            { id: "knapper", text: "En fast stil på knapper, fx runde hjørner eller en let skygge", detaljeEksempel: "knapper" },
-            { id: "moenster", text: "Et gentaget mønster eller en tekstur", detaljeEksempel: "moenster" },
-            { id: "egen", text: "Ingen af dem - jeg finder selv på noget" }
+            { id: "streg", text: "En tynd streg til at dele indhold op", detaljeEksempel: "streg", frase: "en tynd streg til at dele indhold op" },
+            { id: "ramme", text: "En bestemt rammeform om billeder eller citater", detaljeEksempel: "ramme", frase: "en fast rammeform om billeder eller citater" },
+            { id: "knapper", text: "En fast stil på knapper, fx runde hjørner eller en let skygge", detaljeEksempel: "knapper", frase: "den samme stil på alle mine knapper" },
+            { id: "moenster", text: "Et gentaget mønster eller en tekstur", detaljeEksempel: "moenster", frase: "et gentaget mønster" },
+            { id: "egen", text: "Ingen af dem - jeg finder selv på noget", next: "5.2a", nextButtonText: "Beskriv din idé" }
         ],
         answerKey: "andenRetning",
         nextButtonText: "Videre",
@@ -542,7 +563,7 @@ export const BOBLER = {
         id: "7.3", modul: 7, type: "text",
         heading: "Gem det, du lige har fundet",
         paragraphs: [
-            "Du har nu et lille sæt byggesten, du kan tage med dig videre. Gem dem i din visuelle guide, så du ikke skal starte forfra næste gang. Dette er en prototype, ligesom resten af dit visuelle udtryk. Det må gerne udvikle sig, i takt med at din praksis gør det."
+            "Du har nu et lille sæt byggesten, du kan tage med dig videre. Gem dem i din visuelle guide, så du ikke skal starte forfra næste gang. Det er dit første samlede udgangspunkt, og det må gerne udvikle sig, i takt med at din praksis gør det."
         ],
         guideAvatar: "Heidi",
         guideLine: "Det vigtigste er ikke, at det er færdigt. Det er, at du ved, hvor du skal kigge, næste gang.",

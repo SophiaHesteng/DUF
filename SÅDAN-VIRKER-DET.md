@@ -54,6 +54,18 @@ Formularen i 8.6, der bliver til en mail til DUF, styres af feltet `billedtjek` 
 
 Udkastet i 9.2 ("Skriv det ned, så du kan finde det igen") bygges af `buildDokumentationsUdkast()` i `js/engine/billederEngine.js`. Sætningsstykkerne står i `udkast` ved 9.2 i `js/data/billeder.js`. Ret ordlyden dér.
 
+## Byggesten: genbesøg og forgreninger
+
+Byggestens tekster står i `js/data/byggesten.js` (boblerne i `BOBLER`, overgangene mellem emnerne i `OVERGANGE`, og teksterne til 7.1 og 7.2 i `saetTekster`). Logikken ligger i `js/engine/byggestenEngine.js`:
+
+- **Tidligere svar ved et genbesøg** (Ret i 7.1, 6.3, modul-linjen): `prefillFor()` sender det gemte svar med til skærmen, så det står markeret eller udfyldt. 6.2 er bevidst undtaget.
+- **Hvor et svar gemmes, og hvad det rydder op i**: `applyAnswer()`. Fx gemmer 5.1 kun sit valg (`andenStart`), og de tre 5.2-bobler sletter hinandens svar, så kun det seneste gælder.
+- **Et valg, der fører et andet sted hen**: giv optionen `next` (og evt. `nextButtonText`, så knappen skifter tekst, når valget er markeret). Eksempel: "Ingen af dem" i 5.2b → 5.2a.
+- **Varianter af en boble**: `resolveContent()` (fx 5.2a's overskrift, når brugeren kommer fra "Ingen af dem", og 4.6's påmindelser).
+- **Rækkefølgen i Modul 7** er altid Ikoner → Fonte → Andre byggesten: `recapGrupper()`, `detSkalDuBruge()`, `tommelfingerEksempler()` og `buildBegrundelse()`.
+
+Skærmene bygges i `js/engine/byggestenUi.js`, én funktion pr. boble-type (fx `showChoiceBoble()`, `showSaetBoble()`).
+
 ## Live
 
 Push til `main` går direkte live hos Simply (`.github/workflows/deploy.yml`). Arbejd altid på en branch (`kort-<nr>-<navn>`).

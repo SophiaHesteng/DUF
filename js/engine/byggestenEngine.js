@@ -118,6 +118,11 @@ export class ByggestenEngine {
         return this.svar.udgangspunkt?.id === "fra-bunden";
     }
 
+    /*---- Kom brugeren til 5.2a via 5.2b "Ingen af dem - jeg finder selv på noget"? 5.1-valget tjekkes også, så et gammelt "egen" ikke hænger ved, hvis hun senere vælger "Jeg har allerede en detalje" ----*/
+    viaEgenIde() {
+        return this.svar.andenStart?.id === "har-ikke" && this.svar.andenRetning?.id === "egen";
+    }
+
     /*---- Statiske indholds-overstyringer pr. boble-id (recaps, filtrerede valg, afledte responser) ----*/
 
     resolveContent(id) {
@@ -152,6 +157,15 @@ export class ByggestenEngine {
                 boble.recap = this.fontRecap();
                 if (this.svar.googleFontsDirekte === false) {
                     boble.paragraphs.push(`Husk at kigge efter noget, der ligner, i ${this.svar.arbejdsVaerktoej?.vaerktoejNavn || "dit værktøj"}.`);
+                }
+                /*---- null = "Det ved jeg ikke endnu" i 4.2 ----*/
+                if (this.svar.googleFontsDirekte === null) boble.paragraphs.push(base.paamindelseVedIkkeEndnu);
+                break;
+
+            case "5.2a":
+                if (this.viaEgenIde()) {
+                    boble.heading = base.headingEgen;
+                    boble.paragraphs = [base.indledningEgen];
                 }
                 break;
 
@@ -308,7 +322,9 @@ export class ByggestenEngine {
             case "choice":
                 /*---- 1.3 (runde 7): "Fra bunden" er valgt på forhånd, hvis velkommen-visuelt-udtryk viser, at brugeren starter fra bunden. Hun kan frit vælge om ----*/
                 if (boble.id === "1.3" && !value && this.visueltUdgangspunkt?.starterFraBunden) return { optionId: "fra-bunden" };
-                return {};
+                /*---- 6.2 skal vurderes forfra efter en justering - det gamle svar gælder ikke længere. Alle andre valg vises igen ved et genbesøg (kort #95) ----*/
+                if (boble.id === "6.2") return {};
+                return value?.id ? { optionId: value.id } : {};
             default:
                 return {};
         }
@@ -317,9 +333,11 @@ export class ByggestenEngine {
     /*---- Svar-håndtering + flow ----*/
 
     applyAnswer(boble, raw) {
-        /*---- 5.2c er en ren tekstboble uden svar - valget ER at være nået hertil ----*/
+        /*---- 5.2c er en ren tekstboble uden svar - valget ER at være nået hertil. De tre 5.2-svar udelukker hinanden, så kun det senest valgte gælder ----*/
         if (boble.id === "5.2c") {
             this.svar.ikkeBesluttet = true;
+            delete this.svar.andenDetalje;
+            delete this.svar.andenRetning;
             return;
         }
 
@@ -346,7 +364,8 @@ export class ByggestenEngine {
                     egneSkrifttyper: raw.followUpId ? raw.followUpId === "ja" : undefined,
                     vaerktoejNavn: valg.vaerktoejNavn
                 };
-                this.svar.googleFontsDirekte = Boolean(valg.googleFontsDirekte);
+                /*---- null ("Det ved jeg ikke endnu") bevares, så 4.6 kan skelne det fra true/false ----*/
+                this.svar.googleFontsDirekte = valg.googleFontsDirekte === null ? null : Boolean(valg.googleFontsDirekte);
                 return;
             }
 
@@ -356,14 +375,22 @@ export class ByggestenEngine {
                 return;
 
             case "5.1":
-                /*---- Et nyt 5.1-valg nulstiller de tre gensidigt udelukkende 5.2-svar, så kun det senest valgte gælder ----*/
-                delete this.svar.andenDetalje;
-                delete this.svar.andenRetning;
-                delete this.svar.ikkeBesluttet;
+                /*---- Kort #95: 5.1 sletter ikke længere 5.2-svarene. Så står de der stadig, hvis brugeren går samme vej igen (Ret i 7.1, 6.3). Oprydningen sker i den 5.2-boble, hun faktisk vælger ----*/
+                this.svar.andenStart = { id: raw.optionId, text: raw.text };
                 return;
 
             case "5.2a":
                 this.svar.andenDetalje = { beskrivelse: raw.beskrivelse || "" };
+                delete this.svar.ikkeBesluttet;
+                /*---- Via "egen" i 5.2b hører valget i 5.2b og beskrivelsen her sammen ----*/
+                if (!this.viaEgenIde()) delete this.svar.andenRetning;
+                return;
+
+            case "5.2b":
+                this.svar.andenRetning = { id: raw.optionId, text: raw.text };
+                delete this.svar.ikkeBesluttet;
+                /*---- "egen" fører videre til 5.2a - beskrivelsen beholdes, så den står der igen ----*/
+                if (raw.optionId !== "egen") delete this.svar.andenDetalje;
                 return;
 
             case "6.3":
@@ -415,7 +442,10 @@ export class ByggestenEngine {
 
         const nextId = raw?.forcedNext || boble.next;
 
-        if (this.aktivtJob && this.aktivtJob.slut.includes(boble.id) && (!this.aktivtJob.kunVed || nextId === this.aktivtJob.kunVed)) {
+        /*---- Sender en slut-boble videre til en ANDEN slut-boble i samme emne (5.2b "egen" → 5.2a), er emnet ikke færdigt endnu ----*/
+        const fortsaetterIJob = Boolean(nextId && nextId !== boble.id && this.aktivtJob?.slut.includes(nextId));
+
+        if (this.aktivtJob && this.aktivtJob.slut.includes(boble.id) && !fortsaetterIJob && (!this.aktivtJob.kunVed || nextId === this.aktivtJob.kunVed)) {
             if (this.aktivtJob.emne && !this.faerdigeEmner.includes(this.aktivtJob.emne)) {
                 this.faerdigeEmner.push(this.aktivtJob.emne);
             }
@@ -510,11 +540,11 @@ export class ByggestenEngine {
         return eksempler.length ? [{ label: "Dine steder", value: eksempler.join(" · ") }] : [];
     }
 
-    /*---- 7.1: oversigten grupperet pr. emne, så hvert emne kan få sit eget "Ret" ----*/
+    /*---- 7.1: oversigten grupperet pr. emne, så hvert emne kan få sit eget "Ret". Samme rækkefølge som rummet: Ikoner → Fonte → Andre ----*/
     recapGrupper() {
         return [
-            { emne: "fonte", items: this.fontRecap() },
             { emne: "ikoner", items: this.ikonRecap() },
+            { emne: "fonte", items: this.fontRecap() },
             { emne: "andreByggesten", items: this.andenRecap() }
         ].filter((gruppe) => this.harEmne(gruppe.emne) && gruppe.items.length);
     }
@@ -529,14 +559,16 @@ export class ByggestenEngine {
             url: kuraterede.includes(navn) ? `https://fonts.google.com/specimen/${navn.replace(/ /g, "+")}` : null
         });
 
-        if (this.harEmne("fonte")) {
-            if (this.svar.fontOverskrift) linjer.push(fontLinje("Overskriftsfont", this.svar.fontOverskrift));
-            if (this.svar.fontBroedtekst) linjer.push(fontLinje("Brødtekstfont", this.svar.fontBroedtekst));
-        }
-
         if (this.harEmne("ikoner") && this.svar.ikonFoelelse) {
             const stil = IKON_STILE[this.svar.ikonFoelelse.id];
             if (stil) linjer.push({ label: "Ikonstil", kopi: `Material Symbols ${stil.navn}`, url: "https://fonts.google.com/icons" });
+        }
+
+        if (this.harEmne("fonte")) {
+            /*---- Kan fontene ikke bruges direkte i brugerens værktøj (4.2), er de kun en retning at lede efter ----*/
+            const tillaeg = this.svar.googleFontsDirekte === false ? " (inspiration)" : "";
+            if (this.svar.fontOverskrift) linjer.push(fontLinje(`Overskriftsfont${tillaeg}`, this.svar.fontOverskrift));
+            if (this.svar.fontBroedtekst) linjer.push(fontLinje(`Brødtekstfont${tillaeg}`, this.svar.fontBroedtekst));
         }
 
         (gemtPalet?.farver || []).forEach((farve) => {
@@ -568,20 +600,27 @@ export class ByggestenEngine {
         const skabeloner = saetTekster.eksempler;
         const eksempler = [];
 
-        if (this.harEmne("andreByggesten") && this.svar.andenRetning && this.svar.andenRetning.id !== "egen") {
-            eksempler.push(this.svar.andenRetning.id === "streg"
-                ? skabeloner.streg
-                : skabeloner.andenRetning.replace("{detalje}", smaaBogstav(this.svar.andenRetning.text)));
-        }
-
         if (this.harEmne("ikoner") && this.svar.ikonFoelelse) {
-            eksempler.push(skabeloner.ikoner.replace("{ikonstil}", this.ikonFrase()));
+            /*---- Eksemplet følger ikonernes opgave fra 3.2 ----*/
+            const ikonSkabelon = {
+                navigation: skabeloner.ikonerNavigation,
+                personlighed: skabeloner.ikonerPersonlighed,
+                forklare: skabeloner.ikonerForklare
+            }[this.svar.ikonFunktion?.id] || skabeloner.ikonerUdenFunktion;
+            eksempler.push(ikonSkabelon.replace("{ikonstil}", this.ikonFrase()));
         }
 
         if (this.harEmne("fonte") && this.svar.fontOverskrift) {
             eksempler.push(skabeloner.fonte
                 .replace("{overskrift}", this.svar.fontOverskrift)
                 .replace("{broedtekst}", this.svar.fontBroedtekst || "en enkel skrift"));
+        }
+
+        if (this.harEmne("andreByggesten") && this.svar.andenRetning && this.svar.andenRetning.id !== "egen") {
+            const option = BOBLER["5.2b"].options.find((o) => o.id === this.svar.andenRetning.id);
+            eksempler.push(this.svar.andenRetning.id === "streg"
+                ? skabeloner.streg
+                : skabeloner.andenRetning.replace("{detalje}", option?.frase || smaaBogstav(this.svar.andenRetning.text)));
         }
 
         return eksempler;
@@ -651,17 +690,17 @@ export class ByggestenEngine {
     buildBegrundelse(detSkalDuBruge = []) {
         const dele = [];
 
+        if (this.harEmne("ikoner") && this.svar.ikonFoelelse) {
+            const kilde = this.svar.ikonKilde ? ` Kilde: ${this.svar.ikonKilde.text.toLowerCase()}.` : "";
+            dele.push(`Ikoner: ${this.svar.ikonFoelelse.text.toLowerCase()}.${kilde}`);
+        }
+
         if (this.harEmne("fonte") && (this.svar.fontOverskrift || this.svar.fontBroedtekst)) {
             const fonte = [
                 this.svar.fontOverskrift ? `${this.svar.fontOverskrift} til overskrifter` : "",
                 this.svar.fontBroedtekst ? `${this.svar.fontBroedtekst} til brødtekst` : ""
             ].filter(Boolean).join(" og ");
             dele.push(`Fonte: ${fonte}.`);
-        }
-
-        if (this.harEmne("ikoner") && this.svar.ikonFoelelse) {
-            const kilde = this.svar.ikonKilde ? ` Kilde: ${this.svar.ikonKilde.text.toLowerCase()}.` : "";
-            dele.push(`Ikoner: ${this.svar.ikonFoelelse.text.toLowerCase()}.${kilde}`);
         }
 
         if (this.harEmne("andreByggesten")) {
