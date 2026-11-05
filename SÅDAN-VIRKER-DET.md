@@ -33,7 +33,7 @@ Alle sider indlæser `js/app.js`. Den viser header og footer og ser derefter på
 - `js/data/`: teksterne til hvert rum (`farver.js`, `visuelt.js` ...), dørene (`doerkarrusel.js`) og teksten til style guiden (`visuel-style-guide.js`).
 - `js/components/`: genbrugelige dele (header, footer, rammen om et rum, dørkarrussel, exit-døren ...).
 - `js/storage/storage.js`: gemmer brugerens svar og billeder i browseren (IndexedDB, databasen `duf-storage`). Funktionerne hedder `saveSideOutput`, `getSideOutput`, `getAllSideOutputs`, `getImagesForSide` osv.; listen står øverst i filen. `udgangspunkt.js` læser svarene fra det første rum, så de andre rum kan tilpasse sig.
-- `js/visuelStyleGuide.js`: bygger siden `visuel-style-guide.html` ud fra det, brugeren har gemt.
+- `js/visuelStyleGuide.js`: bygger siden `visuel-style-guide.html` ud fra det, brugeren har gemt. Hvert rum vises med sin gemte tekst (`documentation`) og sine billeder. Farver er en undtagelse: paletten tegnes som farveprøver ud fra `data.palette` (`paletteHtml()` på siden, `addPalette()` i PDF'en), og "Palette: ..."-sætningen fjernes fra teksten (`documentationText()`). Billeder, et rum gemmer i en anden "bucket" (fx Byggestens detaljebillede), skrives i `EXTRA_IMAGE_BUCKETS` i `js/data/visuel-style-guide.js`. PDF'ens skrift kan ikke tegne alle tegn, så `pdfSafeText()` fjerner fx "✓".
 - `css/`: SCSS-filer, der samles i `css/style.scss` og kompileres til `css/style.css`. Kompilér med teamets sædvanlige Sass-opsætning (den tilføjer browser-præfikser). `_flow.scss` er exit-døren og flow-tilstanden, `_rum.scss` er rammen om et rum, `_colors.scss` er farverne.
 
 ## Forgreninger i Billeder

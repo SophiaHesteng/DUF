@@ -2537,6 +2537,11 @@ h3.contrast-level--stor {
     display: block;
     width: 100%;
 
+    /*---- Større ikoner på valgkortene i 3.1, så forskellen på hjørnerne i de fire stile kan ses ----*/
+    .material-ikon {
+        font-size: 44px;
+    }
+
     .prov-sammen-streg,
     .prov-sammen-ramme,
     .prov-sammen-moenster {

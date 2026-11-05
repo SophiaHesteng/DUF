@@ -319,8 +319,15 @@ function showChoiceBoble(boble, onNext, onExit, onReference, { taetPaa = [] } = 
             selectedId = button.dataset.optionId;
             nextButton.disabled = false;
 
-            if (freeText) freeText.hidden = selectedId !== boble.freeTextOptionId;
-            if (reveal) reveal.hidden = selectedId !== boble.revealOnOptionId;
+            /*---- Fritekstfeltet og det afslørede panel hører til ét bestemt svar, så de flyttes ind lige under den knap, hun trykkede på, i stedet for at stå under den nederste (samme løsning som i Logo, js/engine/logoUi.js) ----*/
+            if (freeText) {
+                freeText.hidden = selectedId !== boble.freeTextOptionId;
+                if (!freeText.hidden) button.after(freeText);
+            }
+            if (reveal) {
+                reveal.hidden = selectedId !== boble.revealOnOptionId;
+                if (!reveal.hidden) button.after(reveal);
+            }
         });
     });
 

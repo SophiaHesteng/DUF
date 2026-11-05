@@ -15,10 +15,10 @@ Fælles samling markerer afslutningen på brugerens aktuelle tur gennem Visuelt 
 Fælles samling trækker på outputtet fra hvert af de vækstrum, brugeren har arbejdet med:
 
 - **Fra fælles åbning (Det visuelle udtryk for din praksis):** brugerens indledende udgangspunktsoverblik og forståelse af sammenhængene mellem de fire elementer.
-- **Fra Farver:** den valgte (eller foreløbige) farvepalet med begrundelse.
+- **Fra Farver:** den valgte (eller foreløbige) farvepalet med begrundelse. *(2026-11-05: paletten vises som farveprøver med hex, rolle og procent, både på siden og i PDF'en.)*
 - **Fra Logo:** et nyt eller vurderet logo, med begrundelse for retning (behold/justér/byg nyt).
 - **Fra Billeder:** kriterier for billedvalg og et afklaret overblik over rettigheder.
-- **Fra Ikoner, fonte & andre grafiske byggesten:** valgt ikonstil, fonte og andre grafiske byggesten med retningslinjer for brug. *(Fra runde 7, 2026-09-25: `begrundelse` indeholder også listen "Det skal du bruge" fra Boble 7.1, dvs. fontnavne, ikonstilens navn i Material Symbols og farvekoderne fra den gemte palet. Listen gemmes desuden som `detSkalDuBruge[]` i Byggestens output.)*
+- **Fra Ikoner, fonte & andre grafiske byggesten:** valgt ikonstil, fonte og andre grafiske byggesten med retningslinjer for brug. *(Fra runde 7, 2026-09-25: `begrundelse` indeholder også listen "Det skal du bruge" fra Boble 7.1, dvs. fontnavne, ikonstilens navn i Material Symbols og farvekoderne fra den gemte palet. Listen gemmes desuden som `detSkalDuBruge[]` i Byggestens output. 2026-11-05: farvekoderne er taget ud af `begrundelse` igen, fordi de allerede står under Farver og fik Byggesten til at ligne en farveliste i style guiden. De vises stadig i rummets egen 7.1 og ligger stadig i `detSkalDuBruge[]`. Billedet af brugerens egen detalje (5.2a) vises nu også i style guiden.)*
 
 Har brugeren kun arbejdet med nogle af de fire uddybende vækstrum, samler fælles samling kun det, der reelt er relevant for dem — ikke et krav om, at alle fire skal være gennemført.
 

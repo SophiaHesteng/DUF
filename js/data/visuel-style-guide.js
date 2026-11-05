@@ -8,8 +8,10 @@ export const ROOM_ORDER = ["farver", "logo", "billeder", "byggesten"];
 export { ROOMS };
 
 /*---- Billeder, et rum gemmer uden for sin egen bucket, men som hører til rummets side i guiden. Logo 7.2 (runde 7): den lille udgave (`logoUploadLille`) vises ved siden af hovedlogoet ----*/
+/*---- Byggesten 5.2a: billedet af brugerens egen detalje (DETALJE_BUCKET i js/engine/byggestenEngine.js) - ellers står der "En detalje, du har vist os", uden at detaljen kan ses ----*/
 export const EXTRA_IMAGE_BUCKETS = {
-    logo: ["logo-lille"]
+    logo: ["logo-lille"],
+    byggesten: ["byggesten-detalje"]
 };
 
 /*---- Genbruger velkommen-visuelt-udtryks egne, allerede godkendte teaser-tekster (Modul 5) for "hvad rummet kan give dig" - ikke ny, opfundet copy ----*/

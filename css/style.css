@@ -2552,6 +2552,9 @@ h3.contrast-level--stor {
   display: block;
   width: 100%;
 }
+.choice-card-eksempel .material-ikon {
+  font-size: 44px;
+}
 .choice-card-eksempel .prov-sammen-streg,
 .choice-card-eksempel .prov-sammen-ramme,
 .choice-card-eksempel .prov-sammen-moenster {

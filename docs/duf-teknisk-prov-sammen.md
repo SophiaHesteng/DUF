@@ -16,12 +16,12 @@ Ikonet skal være et **konkret ikon, hentet fra Material Symbols** (samme kilde,
 
 Material Symbols understøtter heldigvis næsten præcis de fire følelser, Boble 3.1 tilbyder, som indbyggede stil-akser:
 
-- **Enkle streger** → stilen "Outlined", fyld = 0
+- **Enkle streger** → stilen "Outlined", fyld = 0, tynd streg (Weight 200) *(2026-11-05: før normal vægt, men så lignede den "Skarpe" for meget)*
 - **Fyldte ikoner** → fyld = 1 (på den stil, brugeren ellers har valgt, som udgangspunkt "Outlined")
 - **Runde og bløde** → stilen "Rounded"
 - **Skarpe og geometriske** → stilen "Sharp"
 
-**Bygget (Byggesten runde 7, 2026-09-25):** Kortlægningen ligger ét sted, i `js/components/materialIkoner.js` (`IKON_STILE`), og bruges både her og i Byggesten 1.2, 3.1, 3.5 og 7.1, så brugeren ser de samme ikoner hele vejen. Byggesten viser tre eksempel-ikoner (`call`, `calendar_month`, `spa`); forhåndsvisningen bruger ét af dem, `calendar_month`, ved siden af tekstlinjen. Den tidligere pladsholder (en stiplet firkant) er fjernet. Ikonerne hentes fra Google Fonts med `icon_names`, så kun de tre ikoner downloades. Uden internet står ikonets navn som tekst.
+**Bygget (Byggesten runde 7, 2026-09-25):** Kortlægningen ligger ét sted, i `js/components/materialIkoner.js` (`IKON_STILE`), og bruges både her og i Byggesten 1.2, 3.1, 3.5 og 7.1, så brugeren ser de samme ikoner hele vejen. Byggesten viser tre eksempel-ikoner (`call`, `calendar_month`, `spa`) i 1.2. *(2026-11-05: i 3.1, 3.5 og Visuel style guide sammenlignes stilene i stedet med `mail`, `home` og `chat` (`STIL_IKONER`), fordi de har flere hjørner, så forskellen på stilene kan ses. Ikonerne på valgkortene i 3.1 er gjort større, 44 px.)* forhåndsvisningen bruger ét af dem, `calendar_month`, ved siden af tekstlinjen. Den tidligere pladsholder (en stiplet firkant) er fjernet. Ikonerne hentes fra Google Fonts med `icon_names`, så kun de tre ikoner downloades. Uden internet står ikonets navn som tekst.
 
 *Note til design/udvikling:* Material Symbols' egne akser (stil: Outlined/Rounded/Sharp × fyld: 0/1) er strengt taget to uafhængige valg, mens Boble 3.1 kun tilbyder ét samlet valg. Det er en bevidst forenkling for brugeren — hun skal ikke vælge på to akser samtidig. Kortlægningen ovenfor er standardvalget for hver af de fire følelser. Det konkrete ikon-motiv (fx et blad, en snak-boble, et hjerte) vælges af den, der bygger forhåndsvisningen, ud fra hvad der passer til Byggestens egen visuelle stil — det er ikke noget, brugeren selv vælger her.
 

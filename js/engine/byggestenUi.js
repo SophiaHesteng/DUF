@@ -271,6 +271,9 @@ function showChoiceBoble(boble, ctx, onNext, onExit) {
             optionButtons.forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
             followUpContainer.innerHTML = "";
 
+            /*---- Opfølgning og svar flyttes ind lige under den knap, hun trykkede på, i stedet for altid at stå under den nederste (samme løsning som i Logo, js/engine/logoUi.js) ----*/
+            button.after(followUpContainer, responseContainer);
+
             /*---- Et valg med egen knaptekst fører ikke videre til næste emne endnu, så overgangsteksten skjules, indtil et andet valg markeres ----*/
             nextButton.textContent = selectedOption.nextButtonText || standardKnapTekst;
             if (overgang) overgang.hidden = Boolean(selectedOption.nextButtonText);

@@ -713,8 +713,10 @@ export class ByggestenEngine {
         }
 
         /*---- Runde 7: listen "Det skal du bruge" fra 7.1 kommer med til Visuel style guide ----*/
-        if (detSkalDuBruge.length) {
-            dele.push(`${saetTekster.detSkalDuBruge}: ${detSkalDuBruge.map((linje) => `${linje.label}: ${linje.kopi}`).join(" · ")}.`);
+        /*---- Farverne udelades her: de kommer fra Farver og står allerede under Farver i style guiden, så de ville bare gentage sig og få Byggesten til at ligne en farveliste. I rummets egen 7.1 vises de stadig ----*/
+        const egneLinjer = detSkalDuBruge.filter((linje) => !linje.farve);
+        if (egneLinjer.length) {
+            dele.push(`${saetTekster.detSkalDuBruge}: ${egneLinjer.map((linje) => `${linje.label}: ${linje.kopi}`).join(" · ")}.`);
         }
 
         return dele.join(" ");
