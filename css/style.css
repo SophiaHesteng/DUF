@@ -2551,6 +2551,7 @@ h3.contrast-level--stor {
 .choice-card-eksempel {
   display: block;
   width: 100%;
+  /*---- Større ikoner på valgkortene i 3.1, så forskellen på hjørnerne i de fire stile kan ses ----*/
 }
 .choice-card-eksempel .material-ikon {
   font-size: 44px;
